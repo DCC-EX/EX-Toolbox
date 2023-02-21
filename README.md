@@ -1,15 +1,7 @@
-# EX-Toolbox
-<h1>EX-Toolbox for DCC-EX</h1>
-<p><b>Changes for this version include:</b></p>
-<ul>
-    <li>CV Programming on the programming track (Service Mode)</li>
-    <li>CV Programming on the main track (Operation Mode)</li>
-    <li>Track Manger</li>
-    <li>Servo testing</li>
-</ul>
+# EX-Toolbox for DCC-EX
 <p>This free Android application connects to a
     <a href="https://dcc_ex.com" target="_blank">DCC-EX EX-CommandStation</a> using the native DCC-EX command protocol (only).
-    Once connected, you can configure aspects of your EX-CommandStation including programming CVs.
+    Once connected, you can test and configure aspects of your EX-CommandStation including programming CVs in decoders.
 </p>
 
 <h3>Prerequisites <br /> (for DCC-EX EX-CommandStation):</h3>
