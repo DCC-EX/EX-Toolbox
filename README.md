@@ -1,4 +1,4 @@
-# EngineDriver
+# EX-Toolbox
 <h1>EX-Toolbox for DCC-EX</h1>
 <p><b>Changes for this version include:</b></p>
 <ul>
@@ -32,6 +32,7 @@
     <a href="https://developer.android.com/studio/" target="_blank">Android&nbsp;Studio</a>.
     It is based heavily on M.Steve Todd's Engine Driver app source code.
 </p>
-<hr>
-<p><a href="https://enginedriver.mstevetodd.com/privacy-policy" target="_blank">[Privacy Policy]</a>
+<hr> 
+<p>
+<a href="https://enginedriver.mstevetodd.com/privacy-policy" target="_blank">[Privacy Policy]</a>
 </p>
