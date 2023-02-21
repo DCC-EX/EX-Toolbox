@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="ed_loco_label_style" format="reference" />
+    <attr name="floating_text_style" format="reference" />
+    <attr name="edit_label_style" format="reference" />
+    <attr name="edit_func_style" format="reference" />
+    <attr name="list_item_style" format="reference" />
+    <attr name="list_id_style" format="reference" />
+    <attr name="EDListView" format="reference" />
+    <attr name="listSeparatorTextViewStyle" format="reference" />
+
+    <attr name="ed_large_button_style" format="reference" />
+    <attr name="ed_normal_button_style" format="reference" />
+    <attr name="ed_normal_button2_style" format="reference" />
+    <attr name="ed_loco_select_button_style" format="reference" />
+    <attr name="ed_small_button_style" format="reference" />
+    <attr name="ed_hover_button_style" format="reference" />
+    <attr name="ed_stop_button_style" format="reference" />
+    <attr name="ed_fn_button_style" format="reference" />
+    <attr name="ed_list_button_style" format="reference" />
+
+    <attr name="ed_thumb" format="reference" />
+    <attr name="ed_vertical_thumb" format="reference" />
+
+    <attr name="ed_fn_scrollview_style" format="reference" />
+
+    <attr name="ed_toolbar_background" format="reference" />
+
+    <attr name="ed_power_green_button" format="reference" />
+    <attr name="ed_power_yellow_button" format="reference" />
+    <attr name="ed_power_red_button" format="reference" />
+
+    <attr name="ed_folder_icon" format="reference" />
+    <attr name="ed_clock_icon" format="reference" />
+    <attr name="ed_dcc_ex_button" format="reference" />
+    <attr name="ed_background_highlight" format="reference" />
+    <attr name="ed_background_highlight_secondary" format="reference" />
+
+    <attr name="ed_advanced_preferences" format="reference" />
+
+    <attr name="ed_icon" format="reference" />
+</resources>

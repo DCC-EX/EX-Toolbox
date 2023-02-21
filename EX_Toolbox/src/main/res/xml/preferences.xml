@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="ex-toolbox_preference"
+    android:summary="@string/prefSummary"
+    android:title="@string/app_name_preferences" >
+
+    <CheckBoxPreference
+        android:defaultValue="@bool/prefShowAdvancedPreferencesDefaultValue"
+        android:icon="?attr/ed_advanced_preferences"
+        android:key="prefShowAdvancedPreferences"
+        android:layout="@layout/checkbox_icon_left_highlight"
+        android:summary="@string/prefShowAdvancedPreferencesSummary"
+        android:title="@string/prefShowAdvancedPreferencesTitle" />
+
+    <PreferenceCategory
+        android:key="prefCategoryDevice"
+        android:title="@string/prefCategoryDevicePageTitle"
+        android:layout="@layout/category_icon_left"
+        android:icon="@drawable/category_device_black">
+
+        <ListPreference
+            android:defaultValue="@string/prefThemeDefaultValue"
+            android:entries="@array/prefThemeEntries"
+            android:entryValues="@array/prefThemeEntryValues"
+            android:key="prefTheme"
+            android:summary="@string/prefThemeSummary"
+            android:title="@string/prefThemeTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
+        <ListPreference
+            android:defaultValue="@string/prefLocaleDefaultValue"
+            android:entries="@array/prefLocaleEntries"
+            android:entryValues="@array/prefLocaleEntryValues"
+            android:key="prefLocale"
+            android:summary="@string/prefLocaleSummary"
+            android:title="@string/prefLocaleTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
+        <PreferenceScreen
+            android:icon="?attr/ed_folder_icon"
+            android:key="prefLeftRightSwipePreferences"
+            android:layout="@layout/checkbox_icon_left_highlight"
+            android:persistent="false"
+            android:summary="@string/prefLeftRightSwipePreferencesSummary"
+            android:title="@string/prefLeftRightSwipePreferencesTitle">
+
+            <PreferenceCategory
+                android:title="@string/prefLeftRightSwipePreferencesTitle"
+                android:layout="@layout/category_icon_left"
+                android:icon="@drawable/category_swipe_left_right_black">
+
+            </PreferenceCategory>
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="prefCategoryThrottleAppearance"
+        android:title="@string/prefHapticFeedbackPageTitle"
+        android:layout="@layout/category_icon_left"
+        android:icon="@drawable/category_throttle_screen_black" >
+
+        <PreferenceScreen
+            android:icon="?attr/ed_folder_icon"
+            android:key="prefCategoryHapticFeedbackScreen"
+            android:layout="@layout/checkbox_icon_left_highlight"
+            android:persistent="false"
+            android:summary="@string/prefHapticFeedbackSummary"
+            android:title="@string/prefHapticFeedbackTitle" >
+
+            <PreferenceCategory
+                android:key="prefCategoryHapticFeedback"
+                android:title="@string/prefHapticFeedbackTitle"
+                android:layout="@layout/category_icon_left"
+                android:icon="@drawable/category_haptic_black" >
+
+                <EditTextPreference
+                    android:defaultValue="@string/prefHapticFeedbackDurationDefaultValue"
+                    android:dialogTitle="@string/prefHapticFeedbackDurationTitle"
+                    android:digits="0123456789"
+                    android:inputType="number"
+                    android:key="prefHapticFeedbackDuration"
+                    android:maxLength="4"
+                    android:summary="@string/prefHapticFeedbackDurationSummary"
+                    android:title="@string/prefHapticFeedbackDurationTitle"
+                    android:layout="@layout/checkbox_no_icon" />
+
+                <CheckBoxPreference
+                    android:defaultValue="@bool/prefHapticFeedbackButtonsDefaultValue"
+                    android:key="prefHapticFeedbackButtons"
+                    android:summary="@string/prefHapticFeedbackButtonsSummary"
+                    android:title="@string/prefHapticFeedbackButtonsTitle"
+                    android:layout="@layout/checkbox_no_icon" />
+
+            </PreferenceCategory>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:icon="?attr/ed_folder_icon"
+            android:key="throttle_accelerometer_preference"
+            android:layout="@layout/checkbox_icon_left_highlight"
+            android:persistent="false"
+            android:summary="@string/prefAccelerometerSummary"
+            android:title="@string/prefAccelerometerTitle">
+
+            <PreferenceCategory
+                android:title="@string/prefAccelerometerTitle"
+                android:layout="@layout/category_icon_left"
+                android:icon="@drawable/category_shake_black" >
+
+                <ListPreference
+                    android:defaultValue="@string/prefAccelerometerShakeDefaultValue"
+                    android:entries="@array/prefAccelerometerShakeEntries"
+                    android:entryValues="@array/prefAccelerometerShakeEntryValues"
+                    android:key="prefAccelerometerShake"
+                    android:summary="@string/prefAccelerometerShakeSummary"
+                    android:title="@string/prefAccelerometerShakeTitle"
+                    android:layout="@layout/checkbox_no_icon" />
+
+                <EditTextPreference
+                    android:defaultValue="@string/prefAccelerometerShakeThresholdDefaultValue"
+                    android:dialogTitle="@string/prefAccelerometerShakeThresholdTitle"
+                    android:inputType="numberDecimal"
+                    android:key="prefAccelerometerShakeThreshold"
+                    android:maxLength="5"
+                    android:summary="@string/prefAccelerometerShakeThresholdSummary"
+                    android:title="@string/prefAccelerometerShakeThresholdTitle"
+                    android:layout="@layout/checkbox_no_icon" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:icon="?attr/ed_folder_icon"
+            android:key="prefBackgroundImageGroup"
+            android:layout="@layout/checkbox_icon_left_highlight"
+            android:persistent="false"
+            android:summary="@string/prefBackgroundImageSummary"
+            android:title="@string/prefBackgroundImagePreferencesTitle">
+
+            <PreferenceCategory
+                android:title="@string/prefBackgroundImagePreferencesTitle"
+                android:layout="@layout/category_icon_left"
+                android:icon="@drawable/category_background_black" >
+
+                <CheckBoxPreference
+                    android:defaultValue="@bool/prefBackgroundImageDefaultValue"
+                    android:key="prefBackgroundImage"
+                    android:summary="@string/prefBackgroundImageSummary"
+                    android:title="@string/prefBackgroundImageTitle"
+                    android:layout="@layout/checkbox_no_icon" />
+
+                <Preference
+                    android:key="prefBackgroundImageFileNameImagePicker"
+                    android:summary="@string/prefBackgroundImageFileNameSummary"
+                    android:title="@string/prefBackgroundImageFileNameTitle"
+                    android:layout="@layout/checkbox_no_icon" />
+
+                <ListPreference
+                    android:defaultValue="@string/prefBackgroundImagePositionDefaultValue"
+                    android:entries="@array/prefBackgroundImagePositionEntries"
+                    android:entryValues="@array/prefBackgroundImagePositionEntryValues"
+                    android:key="prefBackgroundImagePosition"
+                    android:summary="@string/prefBackgroundImagePositionSummary"
+                    android:title="@string/prefBackgroundImagePositionTitle"
+                    android:layout="@layout/checkbox_no_icon" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="prefCategoryThrottleStatusRow"
+        android:title="@string/prefActionBarPageTitle"
+        android:layout="@layout/category_icon_left"
+        android:icon="@drawable/category_status_row_black">
+
+        <CheckBoxPreference
+            android:icon="?attr/ed_power_green_button"
+            android:defaultValue="@bool/prefLayoutPowerButtonDefaultValue"
+            android:key="show_layout_power_button_preference"
+            android:layout="@layout/checkbox_icon_right"
+            android:summary="@string/prefPowerButtonBarSummary"
+            android:title="@string/prefPowerButtonBarTitle" />
+
+        <ListPreference
+            android:icon="?attr/ed_clock_icon"
+            android:defaultValue="@string/prefDisplayClockDefaultValue"
+            android:entries="@array/DisplayClockEntries"
+            android:entryValues="@array/DisplayClockEntryValues"
+            android:key="ClockDisplayTypePreference"
+            android:layout="@layout/checkbox_icon_right"
+            android:summary="@string/prefDisplayClockSummary"
+            android:title="@string/prefDisplayClockTitle" />
+
+        <CheckBoxPreference
+            android:defaultValue="@bool/prefActionBarShowServerDescriptionDefaultValue"
+            android:key="prefActionBarShowServerDescription"
+            android:summary="@string/prefActionBarShowServerDescriptionSummary"
+            android:title="@string/prefActionBarShowServerDescriptionTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
+        <CheckBoxPreference
+            android:icon="?attr/ed_dcc_ex_button"
+            android:defaultValue="@bool/prefActionBarShowDccExButtonDefaultValue"
+            android:key="prefActionBarShowDccExButton"
+            android:summary="@string/prefActionBarShowDccExButtonSummary"
+            android:title="@string/prefActionBarShowDccExButtonTitle"
+            android:layout="@layout/checkbox_icon_right" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="prefCategoryConnect"
+        android:title="@string/prefConnectTitle"
+        android:layout="@layout/category_icon_left"
+        android:icon="@drawable/category_connect_black" >
+        <EditTextPreference
+            android:defaultValue="@string/prefMaximumRecentConnectionsDefaultValue"
+            android:dialogTitle="@string/prefMaximumRecentConnectionsTitle"
+            android:key="maximum_recent_connections_preference"
+            android:maxLength="2"
+            android:inputType="number"
+            android:digits="0123456789"
+            android:summary="@string/prefMaximumRecentConnectionsSummary"
+            android:title="@string/prefMaximumRecentConnectionsTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
+        <CheckBoxPreference
+            android:defaultValue="@bool/prefConnectToFirstServer"
+            android:key="connect_to_first_server_preference"
+            android:summary="@string/PrefConnectToFirstServerSummary"
+            android:title="@string/PrefConnectToFirstServerTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
+        <EditTextPreference
+            android:defaultValue="@string/prefConnectTimeoutMsDefaultValue"
+            android:key="prefConnectTimeoutMs"
+            android:maxLength="5"
+            android:inputType="number"
+            android:digits="0123456789"
+            android:summary="@string/prefConnectTimeoutMsSummary"
+            android:title="@string/prefConnectTimeoutMsTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
+        <EditTextPreference
+            android:defaultValue="@string/prefSocketTimeoutMsDefaultValue"
+            android:key="prefSocketTimeoutMs"
+            android:maxLength="4"
+            android:inputType="number"
+            android:digits="0123456789"
+            android:summary="@string/prefSocketTimeoutMsSummary"
+            android:title="@string/prefSocketTimeoutMsTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
+        <EditTextPreference
+            android:defaultValue="@string/prefHeartbeatResponseFactorDefaultValue"
+            android:key="prefHeartbeatResponseFactor"
+            android:maxLength="2"
+            android:inputType="number"
+            android:digits="0123456789"
+            android:summary="@string/prefHeartbeatResponseFactorSummary"
+            android:title="@string/prefHeartbeatResponseFactorTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
+        <CheckBoxPreference
+            android:defaultValue="@bool/prefAllowMobileDataDefaultValue"
+            android:key="prefAllowMobileData"
+            android:summary="@string/prefAllowMobileDataSummary"
+            android:title="@string/prefAllowMobileDataTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
+        <CheckBoxPreference
+            android:defaultValue="@bool/prefFeedbackOnDisconnectDefaultValue"
+            android:key="prefFeedbackOnDisconnect"
+            android:summary="@string/prefFeedbackOnDisconnectSummary"
+            android:title="@string/prefFeedbackOnDisconnectTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
+        <CheckBoxPreference
+            android:defaultValue="@bool/prefFeedbackWhenGoingToBackgroundDefaultValue"
+            android:key="prefFeedbackWhenGoingToBackground"
+            android:summary="@string/prefFeedbackWhenGoingToBackgroundSummary"
+            android:title="@string/prefFeedbackWhenGoingToBackgroundTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="prefCategoryImportExport"
+        android:title="@string/prefThrottleImportExportTitle"
+        android:layout="@layout/category_icon_left"
+        android:icon="@drawable/category_import_black" >
+
+    <PreferenceScreen
+            android:layout="@layout/checkbox_icon_left_highlight"
+            android:icon="?attr/ed_folder_icon"
+            android:key="importExport_preferences"
+            android:title="@string/prefThrottleImportExportTitle"
+            android:summary="@string/prefThrottleImportExportSummary"
+            android:persistent="false">
+
+        <PreferenceCategory
+            android:title="@string/prefThrottleImportExportTitle"
+            android:layout="@layout/category_icon_left"
+            android:icon="@drawable/category_import_black">
+
+            <ListPreference
+                    android:defaultValue="@string/prefImportExportDefaultValue"
+                    android:entries="@array/prefImportExportEntries"
+                    android:entryValues="@array/prefImportExportEntryValues"
+                    android:key="prefImportExport"
+                    android:summary="@string/prefImportExportSummary"
+                    android:title="@string/prefImportExportTitle"
+                    android:layout="@layout/checkbox_no_icon" />
+
+              <CheckBoxPreference
+                    android:defaultValue="@bool/prefShowTimeOnLogEntryDefaultValue"
+                    android:key="prefShowTimeOnLogEntry"
+                    android:summary="@string/prefShowTimeOnLogEntrySummary"
+                    android:title="@string/prefShowTimeOnLogEntryTitle"
+                    android:layout="@layout/checkbox_no_icon" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+</PreferenceScreen>
