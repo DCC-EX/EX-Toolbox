@@ -47,7 +47,6 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -75,7 +74,6 @@ import dcc_ex.ex_toolbox.util.PermissionsHelper;
 import dcc_ex.ex_toolbox.util.comm_handler;
 import dcc_ex.ex_toolbox.util.comm_thread;
 import jmri.jmrit.roster.RosterEntry;
-import jmri.jmrit.roster.RosterLoader;
 
 //The application will start up a thread that will handle network communication in order to ensure that the UI is never blocked.
 //This thread will only act upon messages sent to it. The network communication needs to persist across activities, so that is why
@@ -112,7 +110,7 @@ public class threaded_application extends Application {
     public HashMap<String, String> rt_state_names; //if not set, routes are not allowed
     public Map<String, String> roster_entries;  //roster sent by WiThrottle
     public Map<String, String> consist_entries;
-    public static DownloadRosterTask dlRosterTask = null;
+//    public static DownloadRosterTask dlRosterTask = null;
 //    private static DownloadMetaTask dlMetadataTask = null;
     HashMap<String, RosterEntry> roster;  //roster entries retrieved from /roster/?format=xml (null if not retrieved)
 //    public static HashMap<String, String> jmriMetadata = null;  //metadata values (such as JMRIVERSION) retrieved from web server (null if not retrieved)
@@ -156,6 +154,8 @@ public class threaded_application extends Application {
     public HashMap<String, String> knownDCCEXserverIps = new HashMap<>();
     public boolean isDCCEX = true;  // is a DCC-EX EX-CommandStation
     public String DCCEXversion = "";
+    public double DCCEXversionValue = 0.0;
+    public static final double DCCEX_MIN_VERSION_FOR_TRACK_MANAGER = 04.002007;
     public int DCCEXlistsRequested = -1;  // -1=not requested  0=requested  1,2,3= no. of lists received
 
     public boolean DCCEXscreenIsOpen = false;
@@ -170,6 +170,12 @@ public class threaded_application extends Application {
     public String [] rosterLocoNamesDCCEX;  // used to process the roster list
     public String [] rosterLocoFunctionsDCCEX;  // used to process the roster list
     public boolean [] rosterDetailsReceivedDCCEX;  // used to process the roster list
+
+    public final static int DCCEX_MAX_SENSORS = 10;
+    public int sensorDCCEXcount = 0;
+    public int [] sensorIDsDCCEX;  // used to process the sensor list
+    public int [] sensorVpinsDCCEX;  // used to process the sensor list
+    public int [] sensorPullupsDCCEX;  // used to process the sensor list
 
     public int DCCEXpreviousCommandIndex = -1;
     public ArrayList<String> DCCEXpreviousCommandList = new ArrayList<>();
@@ -200,10 +206,13 @@ public class threaded_application extends Application {
     //For communication to each of the activities (set and unset by the activity)
     public volatile Handler connection_msg_handler;
     public volatile Handler power_control_msg_handler;
+
     public volatile Handler dcc_ex_msg_handler;
     public volatile Handler cv_programmer_msg_handler;
     public volatile Handler servos_msg_handler;
     public volatile Handler track_manager_msg_handler;
+    public volatile Handler sensors_msg_handler;
+
     public volatile Handler reconnect_status_msg_handler;
     public volatile Handler preferences_msg_handler;
     public volatile Handler settings_msg_handler;
@@ -243,8 +252,8 @@ public class threaded_application extends Application {
 
     public static final int FORCED_RESTART_REASON_NONE = 0;
     public static final int FORCED_RESTART_REASON_RESET = 1;
-    public static final int FORCED_RESTART_REASON_IMPORT = 2;
-    public static final int FORCED_RESTART_REASON_IMPORT_SERVER_MANUAL = 3;
+//    public static final int FORCED_RESTART_REASON_IMPORT = 2;
+//    public static final int FORCED_RESTART_REASON_IMPORT_SERVER_MANUAL = 3;
     public static final int FORCED_RESTART_REASON_THEME = 4;
 //    public static final int FORCED_RESTART_REASON_THROTTLE_PAGE = 5;
     public static final int FORCED_RESTART_REASON_LOCALE = 6;
@@ -279,9 +288,10 @@ public class threaded_application extends Application {
     /// swipe right sequence
     public static final int SCREEN_SWIPE_INDEX_CV_PROGRAMMER = 0;
     public static final int SCREEN_SWIPE_INDEX_SERVOS = 1;
-    public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 2;
-    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 3;
-    public static final int SCREEN_SWIPE_INDEX_DIAG = 4;
+    public static final int SCREEN_SWIPE_INDEX_SENSORS = 2;
+    public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 3;
+    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 4;
+    public static final int SCREEN_SWIPE_INDEX_DIAG = 5;
 
 
     public boolean prefThrottleViewImmersiveModeHideToolbar = true;
@@ -389,6 +399,14 @@ public class threaded_application extends Application {
 
         haveForcedWiFiConnection = false;
 
+        mainapp.sensorDCCEXcount =0;
+        mainapp.sensorIDsDCCEX = new int[100];
+        mainapp.sensorVpinsDCCEX = new int[100];
+        mainapp.sensorPullupsDCCEX = new int[100];
+
+        //setup some legacy stuff from ED
+        function_states[0] = new boolean[32];
+
         try {
             Map<String, ?> ddd = prefs.getAll();
             String dwr = prefs.getString("TypeThrottle", "false");
@@ -397,7 +415,7 @@ public class threaded_application extends Application {
         }
 
 //        dlMetadataTask = new DownloadMetaTask();
-        dlRosterTask = new DownloadRosterTask();
+//        dlRosterTask = new DownloadRosterTask();
 
         CookieSyncManager.createInstance(this);     //create this here so onPause/onResume for webViews can control it
 
@@ -488,34 +506,34 @@ public class threaded_application extends Application {
         doFinish = false;
     }
 
-    public class DownloadRosterTask extends DownloadDataTask {
-        @SuppressWarnings("unchecked")
-        @Override
-        void runMethod(Download dl) throws IOException {
-            String rosterUrl = createUrl("roster/?format=xml");
-            HashMap<String, RosterEntry> rosterTemp;
-            if (rosterUrl == null || rosterUrl.equals("") || dl.cancel)
-                return;
-            Log.d("EX_Toolbox", "t_a: Background loading roster from " + rosterUrl);
-            int rosterSize;
-            try {
-                RosterLoader rl = new RosterLoader(rosterUrl);
-                if (dl.cancel)
-                    return;
-                rosterTemp = rl.parse();
-                if (rosterTemp == null) {
-                    Log.w("EX_Toolbox", "t_a: Roster parse failed.");
-                    return;
-                }
-                rosterSize = rosterTemp.size();     //throws exception if still null
-                if (!dl.cancel)
-                    roster = (HashMap<String, RosterEntry>) rosterTemp.clone();
-            } catch (Exception e) {
-                throw new IOException();
-            }
-            Log.d("EX_Toolbox", "t_a: Loaded " + rosterSize + " entries from /roster/?format=xml.");
-        }
-    }
+//    public class DownloadRosterTask extends DownloadDataTask {
+//        @SuppressWarnings("unchecked")
+//        @Override
+//        void runMethod(Download dl) throws IOException {
+//            String rosterUrl = createUrl("roster/?format=xml");
+//            HashMap<String, RosterEntry> rosterTemp;
+//            if (rosterUrl == null || rosterUrl.equals("") || dl.cancel)
+//                return;
+//            Log.d("EX_Toolbox", "t_a: Background loading roster from " + rosterUrl);
+//            int rosterSize;
+//            try {
+//                RosterLoader rl = new RosterLoader(rosterUrl);
+//                if (dl.cancel)
+//                    return;
+//                rosterTemp = rl.parse();
+//                if (rosterTemp == null) {
+//                    Log.w("EX_Toolbox", "t_a: Roster parse failed.");
+//                    return;
+//                }
+//                rosterSize = rosterTemp.size();     //throws exception if still null
+//                if (!dl.cancel)
+//                    roster = (HashMap<String, RosterEntry>) rosterTemp.clone();
+//            } catch (Exception e) {
+//                throw new IOException();
+//            }
+//            Log.d("EX_Toolbox", "t_a: Loaded " + rosterSize + " entries from /roster/?format=xml.");
+//        }
+//    }
 
     abstract class DownloadDataTask {
         private Download dl = null;
@@ -686,6 +704,7 @@ public class threaded_application extends Application {
         rt_state_names = null;
 
         DCCEXversion = "";
+        DCCEXversionValue = 0.0;
         DCCEXlistsRequested = -1;
         DCCEXscreenIsOpen = false;
 
@@ -792,6 +811,15 @@ public class threaded_application extends Application {
         }
     }
 
+    public void setTrackmanagerMenuOption(Menu menu) {
+        if (menu != null) {
+            MenuItem item = menu.findItem(R.id.track_manager_mnu);
+            if (item != null) {
+                item.setVisible(mainapp.DCCEXversionValue > mainapp.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER);
+            }
+        }
+    }
+
     public void setMenuItemById(Menu menu, int id, boolean show) {
         if (menu != null) {
             MenuItem item = menu.findItem(id);
@@ -844,6 +872,11 @@ public class threaded_application extends Application {
 
         try {
             sendMsg(servos_msg_handler, msgType, msgBody);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            sendMsg(sensors_msg_handler, msgType, msgBody);
         } catch (Exception ignored) {
         }
 
@@ -1215,7 +1248,6 @@ public class threaded_application extends Application {
 
     }
 
-
     public void vibrate(long[] pattern) {
         //we need vibrate permissions, otherwise do nothing
         PermissionsHelper phi = PermissionsHelper.getInstance();
@@ -1271,12 +1303,9 @@ public class threaded_application extends Application {
         int nextScreen;
         if (deltaX <= 0.0) {
             nextScreen = currentScreen + 1;
-//            if (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) {
-//                nextScreen++;
-//            }
-//            if (nextScreen == SCREEN_SWIPE_INDEX_SERVOS) {
-//                nextScreen++;
-//            }
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DCCEXversionValue <= mainapp.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
+                nextScreen++;
+            }
             if (nextScreen > SCREEN_SWIPE_INDEX_TRACK_MANGER) {
                 nextScreen = SCREEN_SWIPE_INDEX_CV_PROGRAMMER;
             }
@@ -1284,6 +1313,9 @@ public class threaded_application extends Application {
             nextScreen = currentScreen - 1;
             if (nextScreen < SCREEN_SWIPE_INDEX_CV_PROGRAMMER) {
                 nextScreen = SCREEN_SWIPE_INDEX_TRACK_MANGER;
+            }
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DCCEXversionValue <= mainapp.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
+                nextScreen--;
             }
         }
 
@@ -1295,6 +1327,9 @@ public class threaded_application extends Application {
                 break;
             case SCREEN_SWIPE_INDEX_SERVOS:
                 nextIntent = new Intent().setClass(this, servos.class);
+                break;
+            case SCREEN_SWIPE_INDEX_SENSORS:
+                nextIntent = new Intent().setClass(this, sensors.class);
                 break;
             case SCREEN_SWIPE_INDEX_TRACK_MANGER:
                 nextIntent = new Intent().setClass(this, track_manager.class);
@@ -1311,14 +1346,6 @@ public class threaded_application extends Application {
      */
     public boolean prefsForcedRestart(int prefForcedRestartReason) {
         switch (prefForcedRestartReason) {
-            case FORCED_RESTART_REASON_IMPORT: {
-                break;
-            }
-            case FORCED_RESTART_REASON_IMPORT_SERVER_MANUAL: {
-                Toast.makeText(context,
-                        context.getResources().getString(R.string.toastPreferencesImportServerManualSucceeded, prefs.getString("prefPreferencesImportFileName", "")), Toast.LENGTH_LONG).show();
-                break;
-            }
             case FORCED_RESTART_REASON_RESET: {
                 Toast.makeText(context, context.getResources().getString(R.string.toastPreferencesResetSucceeded), Toast.LENGTH_LONG).show();
                 break;
@@ -1349,9 +1376,7 @@ public class threaded_application extends Application {
         }
 
         // include in this list if the Settings Activity should NOT be launched
-        return ((prefForcedRestartReason != FORCED_RESTART_REASON_IMPORT_SERVER_AUTO)
-                && (prefForcedRestartReason != FORCED_RESTART_REASON_BACKGROUND)
-                && (prefForcedRestartReason != FORCED_RESTART_REASON_IMPORT_SERVER_MANUAL)
+        return ((prefForcedRestartReason != FORCED_RESTART_REASON_BACKGROUND)
                 && (prefForcedRestartReason != FORCED_RESTART_REASON_RESET)
                 && (prefForcedRestartReason != FORCED_RESTART_REASON_FORCE_WIFI)
                 && (prefForcedRestartReason != FORCED_RESTART_REASON_SHAKE_THRESHOLD));
@@ -1385,6 +1410,10 @@ public class threaded_application extends Application {
 
     public String getDCCEXVersion() {
         return DCCEXversion;
+    }
+
+    public double getDCCEXVersionValue() {
+        return DCCEXversionValue;
     }
 
     static public int getIntPrefValue(SharedPreferences sharedPreferences, String key, String defaultVal) {
@@ -1502,48 +1531,23 @@ public class threaded_application extends Application {
         return (((1 << k) - 1) & (number >> (p - 1)));
     }
 
-    // for DCC-EX we need to temp store the list of locos so we can remove them individually
-    public void storeThrottleLocosForReleaseDCCEX(int whichThrottle) {
-        if (isDCCEX) {
-            Consist con = mainapp.consists[whichThrottle];
-            throttleLocoReleaseListDCCEX[whichThrottle] = new String [con.size()];
-            int i=0;
-            for (Consist.ConLoco l : con.getLocos()) {
-                throttleLocoReleaseListDCCEX[whichThrottle][i] = l.getAddress();
-                i++;
-            }
-        }
+//    // for DCC-EX we need to temp store the list of locos so we can remove them individually
+//    public void storeThrottleLocosForReleaseDCCEX(int whichThrottle) {
+//        if (isDCCEX) {
+//            Consist con = mainapp.consists[whichThrottle];
+//            throttleLocoReleaseListDCCEX[whichThrottle] = new String [con.size()];
+//            int i=0;
+//            for (Consist.ConLoco l : con.getLocos()) {
+//                throttleLocoReleaseListDCCEX[whichThrottle][i] = l.getAddress();
+//                i++;
+//            }
+//        }
+//    }
+
+    void getCommonPreferences() {
+        prefActionBarShowServerDescription = prefs.getBoolean("prefActionBarShowServerDescription",
+                getResources().getBoolean(R.bool.prefActionBarShowServerDescriptionDefaultValue));
+
     }
-
-    void displayCommands(String msg, boolean inbound) {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
-        String currentTime = sdf.format(new Date());
-
-        if (inbound) {
-            DCCEXresponsesListHtml.add("<small><small>" + currentTime + " </small></small> ◄ : <b>" + Html.escapeHtml(msg) + "</b><br />");
-        } else {
-//            DCCEXsendsListHtml.add("<small><small>" + currentTime + " </small></small> ► : &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <i>" + Html.escapeHtml(msg) + "</i><br />");
-            DCCEXsendsListHtml.add("<small><small>" + currentTime + " </small></small> ► : <i>" + Html.escapeHtml(msg) + "</i><br />");
-        }
-        if (DCCEXresponsesListHtml.size()>80) {
-            DCCEXresponsesListHtml.remove(0);
-        }
-        if (DCCEXsendsListHtml.size()>60) {
-            DCCEXsendsListHtml.remove(0);
-        }
-
-        DCCEXresponsesStr ="<p>";
-        for (int i=0; i<mainapp.DCCEXresponsesListHtml.size(); i++) {
-            DCCEXresponsesStr = DCCEXresponsesListHtml.get(i) + DCCEXresponsesStr;
-        }
-        DCCEXresponsesStr = DCCEXresponsesStr + "</p>";
-
-        DCCEXsendsStr ="<p>";
-        for (int i=0; i<mainapp.DCCEXsendsListHtml.size(); i++) {
-            DCCEXsendsStr = DCCEXsendsListHtml.get(i) + DCCEXsendsStr;
-        }
-        DCCEXsendsStr = DCCEXsendsStr + "</p>";
-    }
-
 
 }

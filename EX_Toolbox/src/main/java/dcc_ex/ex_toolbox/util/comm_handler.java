@@ -231,6 +231,17 @@ public class comm_handler extends Handler {
             break;
          }
 
+         case message_type.REQUEST_SENSOR: { // DCC-EX only
+            String [] args = msg.obj.toString().split(" ");
+            comm_thread.sendSensorRequest(args[0], args[1], args[1]);
+            break;
+         }
+
+         case message_type.REQUEST_ALL_SENSOR_DETAILS: { // DCC-EX only
+            comm_thread.sendAllSensorDetailsRequest();
+            break;
+         }
+
          case message_type.REQUEST_DECODER_ADDRESS: { // DCC-EX only
             comm_thread.sendAcquireLoco("*", -1, 0);
             break;
@@ -248,8 +259,10 @@ public class comm_handler extends Handler {
          }
 
          case message_type.DCCEX_COMMAND_ECHO: { // DCC-EX only
-            if (msg.obj.toString().charAt(1)!='#')
+            if (msg.obj.toString().charAt(1)!='#') {
+               comm_thread.displayCommands(msg.obj.toString(), false);
                mainapp.alert_activities(message_type.DCCEX_COMMAND_ECHO, msg.obj.toString());
+            }
             break;
          }
 

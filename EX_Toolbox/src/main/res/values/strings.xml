@@ -38,6 +38,8 @@
     <string name="app_name_servos_short">Servos</string>
     <string name="app_name_track_manager">Track Manager</string>
     <string name="app_name_track_manager_short">Track Mgr</string>
+    <string name="app_name_sensors">Sensor Status</string>
+    <string name="app_name_sensors_short">Sensors</string>
 
     <string name="app_name_dcc_ex">DCC-EX</string>
 
@@ -357,6 +359,7 @@
     <string name="DCCEXservoIncrementButtonLabel">+</string>
     <string name="DCCEXservoDecrementButtonLabel">-</string>
     <string name="DCCEXservoClosedPositionLabel">Closed Position</string>
+    <string name="DCCEXservoMidPositionLabel">Mid Position</string>
     <string name="DCCEXservoThrownPositionLabel">Thrown Position</string>
 
     <string name="DCCEXservoPositionSwapButtonLabel">Swap</string>
@@ -394,6 +397,11 @@
 
     <string name="DCCEXrouteSet">Set</string>
     <string name="DCCEXrouteHandoff">HandOff</string>
+
+    <string name="DCCEXreadSensorsButtonLabel">Watch</string>
+    <string name="DCCEXincrementSensorsButtonLabel">Increment Ids</string>
+    <string name="DCCEXsensorActive">Active</string>
+    <string name="DCCEXsensorInactive">InActive</string>
 
 </resources>
 

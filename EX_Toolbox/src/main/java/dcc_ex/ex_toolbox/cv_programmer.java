@@ -70,6 +70,8 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     private Menu tMenu;
     private static boolean savedMenuSelected;
 
+    private boolean isRestarting = false;
+
     protected GestureOverlayView ov;
     // these are used for gesture tracking
     private float gestureStartX = 0;
@@ -301,13 +303,15 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                             mainapp.setPowerStateButton(tMenu);
                         }
                     }
-
                     break;
                 }
+                case message_type.RECEIVED_TRACKS:
+                    refreshDCCEXtracksView();
+                    break;
 
                 case message_type.RECEIVED_DECODER_ADDRESS:
                     String response_str = msg.obj.toString();
-                    if ((response_str.length() > 0) && (!response_str.equals("-1"))) {  //refresh address
+                    if ( (response_str.length() > 0) && !(response_str.charAt(0)=='-') ) {  //refresh address
                         DCCEXaddress = response_str;
                         DCCEXinfoStr = getApplicationContext().getResources().getString(R.string.DCCEXSucceeded);
                     } else {
@@ -319,7 +323,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                     String cvResponseStr = msg.obj.toString();
                     if (cvResponseStr.length() > 0) {
                         String[] cvArgs = cvResponseStr.split("(\\|)");
-                        if ((cvArgs[0].equals(DCCEXcv)) && (!cvArgs[1].equals("-1"))) { // response matches what we got back
+                        if ( (cvArgs[0].equals(DCCEXcv)) && !(cvArgs[1].charAt(0)=='-') ) { // response matches what we got back
                             DCCEXcvValue = cvArgs[1];
                             DCCEXinfoStr = getApplicationContext().getResources().getString(R.string.DCCEXSucceeded);
                         } else {
@@ -329,15 +333,11 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                         refreshDCCEXview();
                     }
                     break;
-
                 case message_type.DCCEX_COMMAND_ECHO:  // informational response
-                    mainapp.displayCommands(msg.obj.toString(), false);
 //                    refreshDCCEXview();
                     refreshDCCEXcommandsView();
                     break;
-
                 case message_type.DCCEX_RESPONSE:  // informational response
-                    mainapp.displayCommands(msg.obj.toString(), true);
 //                    refreshDCCEXview();
                     refreshDCCEXcommandsView();
                     break;
@@ -351,6 +351,8 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                     setActivityTitle();
                     break;
                 case message_type.RESTART_APP:
+                    startNewCvProgrammerActivity();
+                    break;
                 case message_type.RELAUNCH_APP:
                 case message_type.DISCONNECT:
                 case message_type.SHUTDOWN:
@@ -539,12 +541,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         dccExCommonCommandsSpinner.setOnItemSelectedListener(new command_spinner_listener());
         dccExCommonCommandsSpinner.setSelection(dccCmdIndex);
 
-        float vn = 4;
-        try {
-            vn = Float.valueOf(mainapp.DCCEXversion);
-        } catch (Exception e) { } // invalid version
-
-        if (vn <= 04.002007) {  /// need to remove the track manager option
+        if (mainapp.DCCEXversionValue <= mainapp.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) {  /// need to remove the track manager option
             dccExActionTypeEntryValuesArray = new String [2];
             dccExActionTypeEntriesArray = new String [2];
             for (int i=0; i<2; i++) {
@@ -645,8 +642,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         }
         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_TRACKS, "");
 
-
-
+        mainapp.getCommonPreferences();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -662,9 +658,12 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         mainapp.applyTheme(this);
         super.onResume();
 
+        mainapp.getCommonPreferences();
+
         setActivityTitle();
         mainapp.DCCEXscreenIsOpen = true;
         refreshDCCEXview();
+        refreshDCCEXtracksView();
 
         if (mainapp.isForcingFinish()) {    //expedite
             this.finish();
@@ -719,13 +718,32 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         mainapp.hideSoftKeyboard(this.getCurrentFocus());
         mainapp.DCCEXscreenIsOpen = false;
 
+        if (!isRestarting) {
+            removeHandlers();
+        }
+        else {
+            isRestarting = false;
+        }
+
         if (mainapp.cv_programmer_msg_handler !=null) {
             mainapp.cv_programmer_msg_handler.removeCallbacksAndMessages(null);
             mainapp.cv_programmer_msg_handler = null;
         } else {
-            Log.d("Engine_Driver", "onDestroy: mainapp.web_msg_handler is null. Unable to removeCallbacksAndMessages");
+            Log.d("EX_Toolbox", "onDestroy: mainapp.web_msg_handler is null. Unable to removeCallbacksAndMessages");
         }
     }
+
+    private void removeHandlers() {
+        if (mainapp.cv_programmer_msg_handler != null) {
+            mainapp.cv_programmer_msg_handler.removeCallbacks(gestureStopped);
+            mainapp.cv_programmer_msg_handler.removeCallbacksAndMessages(null);
+            mainapp.cv_programmer_msg_handler = null;
+        } else {
+            Log.d("EX_Toolbox", "onDestroy: mainapp.throttle_msg_handler is null. Unable to removeCallbacksAndMessages");
+        }
+    }
+
+
 
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -755,6 +773,8 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         inflater.inflate(R.menu.cv_programmer_menu, menu);
         tMenu = menu;
 
+        mainapp.setTrackmanagerMenuOption(menu);
+
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
         mainapp.setPowerStateButton(menu);
@@ -778,6 +798,11 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
             case R.id.track_manager_mnu:
                 navigateAway(true, null);
                 in = new Intent().setClass(this, track_manager.class);
+                startACoreActivity(this, in, false, 0);
+                return true;
+            case R.id.sensors_mnu:
+                navigateAway(true, null);
+                in = new Intent().setClass(this, sensors.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
 
@@ -865,6 +890,28 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 //            overridePendingTransition(mainapp.getFadeIn(swipe, deltaX), mainapp.getFadeOut(swipe, deltaX));
         }
     }
+
+    @SuppressLint("ApplySharedPref")
+    public void forceRestartApp(int forcedRestartReason) {
+        Log.d("EX-Toolbox", "cv_programmer.forceRestartApp() ");
+        Message msg = Message.obtain();
+        msg.what = message_type.RESTART_APP;
+        msg.arg1 = forcedRestartReason;
+        mainapp.comm_msg_handler.sendMessage(msg);
+    }
+
+    private void startNewCvProgrammerActivity() {
+        // remove old handlers since the new Intent will have its own
+        isRestarting = true;        // tell OnDestroy to skip removing handlers since it will run after the new Intent is created
+        removeHandlers();
+
+        //end current Intent then start the new Intent
+        Intent newCvProgrammer = new Intent().setClass(this, cv_programmer.class);
+        this.finish();
+        startActivity(newCvProgrammer);
+        connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
+    }
+
 
 //**************************************************************************************
 
@@ -1152,7 +1199,6 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     }
 
     public void refreshDCCEXview() {
-
         etDCCEXwriteAddressValue.setText(DCCEXaddress);
         DCCEXwriteInfoLabel.setText(DCCEXinfoStr);
         etDCCEXcv.setText(DCCEXcv);

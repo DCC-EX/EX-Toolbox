@@ -51,6 +51,8 @@
         <item>Acceleration Adjustment</item>
         <item>Deceleration Adjustment</item>
 
+        <item>Mode Control</item>
+
         <item>Kick Start</item>
         <item>Forward Trim</item>
         <item>Reverse Trim</item>
@@ -78,6 +80,8 @@
         <item>22</item>
         <item>23</item>
         <item>24</item>
+
+        <item>29</item>
 
         <item>65</item>
         <item>66</item>

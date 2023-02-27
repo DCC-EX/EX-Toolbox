@@ -957,7 +957,7 @@ public class connection_activity extends AppCompatActivity implements Permission
 //                        loadSharedPreferencesFromFileImpl();
 //                        break;
                 case PermissionsHelper.CONNECT_TO_SERVER:
-                    Log.d("EX_Toolbox", "Got permission for READ_PHONE_STATE - navigate to connectImpl()");
+                    Log.d("EX_Toolbox", "Got permission for CONNECT_TO_SERVER - navigate to connectImpl()");
 //                    connectImpl();
                     connect();
                     break;

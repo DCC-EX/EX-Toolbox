@@ -80,26 +80,80 @@
                             style="?attr/floating_text_style"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".35"
-                            android:gravity="end"
+                            android:layout_weight=".25"
                             android:padding="4sp"
-                            android:text="@string/DCCEXservoVpinLabel"
-                            android:textAlignment="viewEnd" />
+                            android:text="@string/DCCEXservoVpinLabel" />
+
+                        <Button
+                            android:id="@+id/dexc_DCCEXservoCloseButton"
+                            style="?attr/ed_small_button_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:padding="4sp"
+                            android:text="@string/DCCEXservoCloseButtonLabel" />
+
+                        <Button
+                            android:id="@+id/dexc_DCCEXservoMidButton"
+                            style="?attr/ed_small_button_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:padding="4sp"
+                            android:text="@string/DCCEXservoMidButtonLabel" />
+
+                        <Button
+                            android:id="@+id/dexc_DCCEXservoThrowButton"
+                            style="?attr/ed_small_button_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:padding="4sp"
+                            android:text="@string/DCCEXservoThrowButtonLabel" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8sp"
+                        android:background="#00000000"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
                         <EditText
                             android:id="@+id/dexc_DCCEXservoVpinValue"
                             style="?attr/edit_label_style"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="8sp"
+                            android:layout_marginStart="8sp"
+                            android:layout_marginEnd="28sp"
                             android:layout_marginRight="8sp"
-                            android:layout_weight=".2"
+                            android:layout_weight=".25"
                             android:inputType="number"
                             android:maxLength="5"
                             android:paddingLeft="5sp"
-                            android:paddingTop="2sp"
-                            android:paddingRight="2sp"
-                            android:paddingBottom="5sp"
+                            android:shadowColor="#FFFFFFFF"
+                            android:shadowDx="1"
+                            android:shadowDy="1"
+                            android:shadowRadius="0.3"
+                            android:singleLine="true"
+                            android:text=""
+                            tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry"
+                            android:layout_marginLeft="8sp" />
+
+                        <EditText
+                            android:id="@+id/dexc_DCCEXservoClosedPositionValue"
+                            style="?attr/edit_label_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="18sp"
+                            android:layout_marginEnd="18sp"
+                            android:layout_marginRight="8sp"
+                            android:layout_weight=".25"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:paddingRight="8sp"
                             android:shadowColor="#FFFFFFFF"
                             android:shadowDx="1"
                             android:shadowDy="1"
@@ -108,32 +162,45 @@
                             android:text=""
                             tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
 
-                        <Button
-                            android:id="@+id/dexc_DCCEXservoThrowButton"
-                            style="?attr/ed_small_button_style"
+                        <EditText
+                            android:id="@+id/dexc_DCCEXservoMidPositionValue"
+                            style="?attr/edit_label_style"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".15"
-                            android:padding="4sp"
-                            android:text="@string/DCCEXservoThrowButtonLabel" />
+                            android:layout_marginStart="18sp"
+                            android:layout_marginEnd="18sp"
+                            android:layout_marginRight="8sp"
+                            android:layout_weight=".25"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:paddingRight="8sp"
+                            android:shadowColor="#FFFFFFFF"
+                            android:shadowDx="1"
+                            android:shadowDy="1"
+                            android:shadowRadius="0.3"
+                            android:singleLine="true"
+                            android:text=""
+                            tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
 
-                        <Button
-                            android:id="@+id/dexc_DCCEXservoMidButton"
-                            style="?attr/ed_small_button_style"
+                        <EditText
+                            android:id="@+id/dexc_DCCEXservoThrownPositionValue"
+                            style="?attr/edit_label_style"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".15"
-                            android:padding="4sp"
-                            android:text="@string/DCCEXservoMidButtonLabel" />
-
-                        <Button
-                            android:id="@+id/dexc_DCCEXservoCloseButton"
-                            style="?attr/ed_small_button_style"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".15"
-                            android:padding="4sp"
-                            android:text="@string/DCCEXservoCloseButtonLabel" />
+                            android:layout_marginStart="18sp"
+                            android:layout_marginEnd="18sp"
+                            android:layout_marginRight="8sp"
+                            android:layout_weight=".25"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:paddingRight="8sp"
+                            android:shadowColor="#FFFFFFFF"
+                            android:shadowDx="1"
+                            android:shadowDy="1"
+                            android:shadowRadius="0.3"
+                            android:singleLine="true"
+                            android:text=""
+                            tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -147,130 +214,136 @@
                         android:weightSum="1">
 
                         <Button
-                            android:id="@+id/dexc_DCCEXservoPositionSwapButton"
-                            style="?attr/ed_small_button_style"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".15"
-                            android:padding="4sp"
-                            android:text="@string/DCCEXservoPositionSwapButtonLabel" />
-
-                        <TextView
-                            style="?attr/floating_text_style"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".35"
-                            android:gravity="end"
-                            android:padding="4sp"
-                            android:text="@string/DCCEXservoClosedPositionLabel"
-                            android:textAlignment="viewEnd" />
-
-                        <EditText
-                            android:id="@+id/dexc_DCCEXservoClosedPositionValue"
-                            style="?attr/edit_label_style"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8sp"
-                            android:layout_marginRight="8sp"
-                            android:layout_weight=".2"
-                            android:inputType="number"
-                            android:maxLength="5"
-                            android:paddingRight="8sp"
-                            android:shadowColor="#FFFFFFFF"
-                            android:shadowDx="1"
-                            android:shadowDy="1"
-                            android:shadowRadius="0.3"
-                            android:singleLine="true"
-                            android:text=""
-                            tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
-
-                        <Button
-                            android:id="@+id/dexc_DCCEXservoClosedPositionIncrementButton"
-                            style="?attr/ed_small_button_style"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".15"
-                            android:padding="4sp"
-                            android:text="@string/DCCEXservoIncrementButtonLabel" />
-
-                        <Button
-                            android:id="@+id/dexc_DCCEXservoClosedPositionDecrementButton"
-                            style="?attr/ed_small_button_style"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".15"
-                            android:padding="4sp"
-                            android:text="@string/DCCEXservoDecrementButtonLabel" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/dexc_ServoThrownPositionLayout"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8sp"
-                        android:background="#00000000"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <Button
                             android:id="@+id/dexc_DCCEXservoResetButton"
                             style="?attr/ed_small_button_style"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="30sp"
                             android:layout_weight=".15"
                             android:padding="4sp"
                             android:text="@string/DCCEXservoResetButtonLabel" />
 
-                        <TextView
-                            style="?attr/floating_text_style"
+                        <Button
+                            android:id="@+id/dexc_DCCEXservoPositionSwapButton"
+                            style="?attr/ed_small_button_style"
+                            android:layout_width="0dp"
+                            android:layout_height="30sp"
+                            android:layout_weight=".15"
+                            android:padding="4sp"
+                            android:layout_marginRight="45sp"
+                            android:layout_marginEnd="45sp"
+                            android:text="@string/DCCEXservoPositionSwapButtonLabel" />
+
+                        <Button
+                            android:id="@+id/dexc_DCCEXservoPositionIncrementButton"
+                            style="?attr/ed_small_button_style"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".35"
-                            android:gravity="end"
                             android:padding="4sp"
-                            android:text="@string/DCCEXservoThrownPositionLabel"
-                            android:textAlignment="viewEnd" />
-
-                        <EditText
-                            android:id="@+id/dexc_DCCEXservoThrownPositionValue"
-                            style="?attr/edit_label_style"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8sp"
-                            android:layout_marginRight="8sp"
-                            android:layout_weight=".2"
-                            android:inputType="number"
-                            android:maxLength="5"
-                            android:paddingRight="8sp"
-                            android:shadowColor="#FFFFFFFF"
-                            android:shadowDx="1"
-                            android:shadowDy="1"
-                            android:shadowRadius="0.3"
-                            android:singleLine="true"
-                            android:text=""
-                            tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+                            android:text="@string/DCCEXservoIncrementButtonLabel"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
 
                         <Button
-                            android:id="@+id/dexc_DCCEXservoThrownPositionIncrementButton"
+                            android:id="@+id/dexc_DCCEXservoPositionDecrementButton"
                             style="?attr/ed_small_button_style"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".15"
+                            android:layout_weight=".35"
                             android:padding="4sp"
-                            android:text="@string/DCCEXservoIncrementButtonLabel" />
-
-                        <Button
-                            android:id="@+id/dexc_DCCEXservoThrownPositionDecrementButton"
-                            style="?attr/ed_small_button_style"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".15"
-                            android:padding="4sp"
-                            android:text="@string/DCCEXservoDecrementButtonLabel" />
-
+                            android:text="@string/DCCEXservoDecrementButtonLabel"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
+
+<!--                    <LinearLayout-->
+<!--                        android:id="@+id/dexc_ServoMidPositionLayout"-->
+<!--                        android:layout_width="fill_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="8sp"-->
+<!--                        android:background="#00000000"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:weightSum="1">-->
+
+<!--                        <TextView-->
+<!--                            style="?attr/floating_text_style"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight=".5"-->
+<!--                            android:gravity="end"-->
+<!--                            android:padding="4sp"-->
+<!--                            android:text="@string/DCCEXservoMidPositionLabel"-->
+<!--                            android:textAlignment="viewEnd" />-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/dexc_DCCEXservoMidPositionValue"-->
+<!--                            style="?attr/edit_label_style"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginEnd="8sp"-->
+<!--                            android:layout_marginRight="8sp"-->
+<!--                            android:layout_weight=".2"-->
+<!--                            android:inputType="number"-->
+<!--                            android:maxLength="5"-->
+<!--                            android:paddingRight="8sp"-->
+<!--                            android:shadowColor="#FFFFFFFF"-->
+<!--                            android:shadowDx="1"-->
+<!--                            android:shadowDy="1"-->
+<!--                            android:shadowRadius="0.3"-->
+<!--                            android:singleLine="true"-->
+<!--                            android:text=""-->
+<!--                            tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:id="@+id/dexc_ServoThrownPositionLayout"-->
+<!--                        android:layout_width="fill_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="8sp"-->
+<!--                        android:background="#00000000"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:weightSum="1">-->
+
+<!--                        <Button-->
+<!--                            android:id="@+id/dexc_DCCEXservoResetButton"-->
+<!--                            style="?attr/ed_small_button_style"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="38sp"-->
+<!--                            android:layout_weight=".15"-->
+<!--                            android:padding="4sp"-->
+<!--                            android:text="@string/DCCEXservoResetButtonLabel" />-->
+
+<!--                        <TextView-->
+<!--                            style="?attr/floating_text_style"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight=".35"-->
+<!--                            android:gravity="end"-->
+<!--                            android:padding="4sp"-->
+<!--                            android:text="@string/DCCEXservoThrownPositionLabel"-->
+<!--                            android:textAlignment="viewEnd" />-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/dexc_DCCEXservoThrownPositionValue"-->
+<!--                            style="?attr/edit_label_style"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginEnd="8sp"-->
+<!--                            android:layout_marginRight="8sp"-->
+<!--                            android:layout_weight=".2"-->
+<!--                            android:inputType="number"-->
+<!--                            android:maxLength="5"-->
+<!--                            android:paddingRight="8sp"-->
+<!--                            android:shadowColor="#FFFFFFFF"-->
+<!--                            android:shadowDx="1"-->
+<!--                            android:shadowDy="1"-->
+<!--                            android:shadowRadius="0.3"-->
+<!--                            android:singleLine="true"-->
+<!--                            android:text=""-->
+<!--                            tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />-->
+
+<!--                    </LinearLayout>-->
 
                     <LinearLayout
                         android:id="@+id/dexc_servoProfilesLayout"

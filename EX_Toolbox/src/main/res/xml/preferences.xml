@@ -28,14 +28,14 @@
             android:title="@string/prefThemeTitle"
             android:layout="@layout/checkbox_no_icon" />
 
-        <ListPreference
-            android:defaultValue="@string/prefLocaleDefaultValue"
-            android:entries="@array/prefLocaleEntries"
-            android:entryValues="@array/prefLocaleEntryValues"
-            android:key="prefLocale"
-            android:summary="@string/prefLocaleSummary"
-            android:title="@string/prefLocaleTitle"
-            android:layout="@layout/checkbox_no_icon" />
+<!--        <ListPreference-->
+<!--            android:defaultValue="@string/prefLocaleDefaultValue"-->
+<!--            android:entries="@array/prefLocaleEntries"-->
+<!--            android:entryValues="@array/prefLocaleEntryValues"-->
+<!--            android:key="prefLocale"-->
+<!--            android:summary="@string/prefLocaleSummary"-->
+<!--            android:title="@string/prefLocaleTitle"-->
+<!--            android:layout="@layout/checkbox_no_icon" />-->
 
         <PreferenceScreen
             android:icon="?attr/ed_folder_icon"
