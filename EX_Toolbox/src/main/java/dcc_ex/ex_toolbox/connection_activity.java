@@ -35,7 +35,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -67,11 +66,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.net.Inet4Address;
 import java.util.ArrayList;
@@ -197,6 +191,7 @@ public class connection_activity extends AppCompatActivity implements Permission
             if (connectionsListSwipeDetector.swipeDetected()) { // check for swipe
                 if (connectionsListSwipeDetector.getAction() == SwipeDetector.Action.LR) {
                     clearConnectionsListItem(v, position, id);
+                    connectionsListSwipeDetector.swipeReset();
 //                } else {
                 }
             } else {  //no swipe
@@ -385,7 +380,6 @@ public class connection_activity extends AppCompatActivity implements Permission
 
                 case message_type.CONNECTED:
                     //use asynctask to save the updated connections list to the connections_list.txt file
-//                        new saveConnectionsList().execute();
                     importExportConnectionList.saveConnectionsListExecute(mainapp, connected_hostip, connected_hostname, connected_port, "");
                     mainapp.connectedHostName = connected_hostname;
                     mainapp.connectedHostip = connected_hostip;
@@ -443,8 +437,6 @@ public class connection_activity extends AppCompatActivity implements Permission
         }
 
         mainapp.applyTheme(this);
-
-        checkForLegacyFiles();
 
         setContentView(R.layout.connection);
 
@@ -558,9 +550,6 @@ public class connection_activity extends AppCompatActivity implements Permission
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             toolbar.showOverflowMenu();
-//                setToolbarTitle(getApplicationContext().getResources().getString(R.string.app_name_connect)
-//                + "\n" + getApplicationContext().getResources().getString(R.string.app_name)
-//                        , "");
             mainapp.setToolbarTitle(toolbar,
                     getApplicationContext().getResources().getString(R.string.app_name),
                     getApplicationContext().getResources().getString(R.string.app_name_connect),
@@ -588,6 +577,8 @@ public class connection_activity extends AppCompatActivity implements Permission
         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SET_LISTENER, "", 1);
         //populate the ListView with the recent connections
         getConnectionsList();
+
+        mainapp.setServerDescription("");
         set_labels();
         mainapp.cancelForcingFinish();            // if fresh start or restart after being killed in the bkg, indicate app is running again
         //start up server discovery listener again (after a 1 second delay)
@@ -598,9 +589,6 @@ public class connection_activity extends AppCompatActivity implements Permission
         if (prefs.getBoolean("connect_to_first_server_preference", false)) {
             connectA();
         }
-
-//        if (CMenu != null) {
-//        }
     }  //end of onResume
 
     @Override
@@ -902,28 +890,6 @@ public class connection_activity extends AppCompatActivity implements Permission
         connection_list_adapter.notifyDataSetChanged();
     }
 
-    //for debugging only
-    /*	private void withrottle_list() {
-		try {
-			JmDNS jmdns = JmDNS.create();
-			ServiceInfo[] infos = jmdns.list("_withrottle._tcp.local.");
-			String fh = "";
-			for (ServiceInfo info : infos) {
-				fh +=  info.getURL() + "\n";
-			}
-			jmdns.close();
-			if (fh != "") {
-				Toast.makeText(getApplicationContext(), "Found withrottle servers:\n" + fh, Toast.LENGTH_LONG).show();
-			} else {
-				Toast.makeText(getApplicationContext(), "No withrottle servers found.", Toast.LENGTH_LONG).show();
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	 */
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base));
@@ -940,25 +906,8 @@ public class connection_activity extends AppCompatActivity implements Permission
             // Go to the correct handler based on the request code.
             // Only need to consider relevant request codes initiated by this Activity
             switch (requestCode) {
-//                    case PermissionsHelper.CLEAR_CONNECTION_LIST:
-//                        Log.d("EX_Toolbox", "Got permission for CLEAR_CONNECTION_LIST - navigate to clearConnectionsListImpl()");
-//                        clearConnectionsListImpl();
-//                        break;
-//                    case PermissionsHelper.READ_CONNECTION_LIST:
-//                        Log.d("EX_Toolbox", "Got permission for READ_CONNECTION_LIST - navigate to getConnectionsListImpl()");
-//                        getConnectionsListImpl("", "");
-//                        break;
-//                    case PermissionsHelper.STORE_PREFERENCES:
-//                        Log.d("EX_Toolbox", "Got permission for STORE_PREFERENCES - navigate to saveSharedPreferencesToFileImpl()");
-//                        saveSharedPreferencesToFileImpl();
-//                        break;
-//                    case PermissionsHelper.READ_PREFERENCES:
-//                        Log.d("EX_Toolbox", "Got permission for READ_PREFERENCES - navigate to loadSharedPreferencesFromFileImpl()");
-//                        loadSharedPreferencesFromFileImpl();
-//                        break;
                 case PermissionsHelper.CONNECT_TO_SERVER:
                     Log.d("EX_Toolbox", "Got permission for CONNECT_TO_SERVER - navigate to connectImpl()");
-//                    connectImpl();
                     connect();
                     break;
                 default:
@@ -975,70 +924,4 @@ public class connection_activity extends AppCompatActivity implements Permission
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
-
-    void checkForLegacyFiles() {
-        if (PermissionsHelper.getInstance().isPermissionGranted(connection_activity.this, PermissionsHelper.READ_LEGACY_FILES)) {
-            checkForLegacyFilesImpl();
-        }
-    }
-
-    protected void checkForLegacyFilesImpl() {
-        File sdcard_path = Environment.getExternalStorageDirectory();
-        File legacy_dir = new File(sdcard_path, "ex_toolbox");
-        if (legacy_dir.isDirectory()) {
-            Log.d("EX_Toolbox", "ca: checkForLegacyFilesImpl - legacy folder found:");
-        }
-
-        File connection_file = new File(context.getExternalFilesDir(null), "connections_list.txt");
-        File legacyConnection_file = new File(sdcard_path, "ex_toolbox/connections_list.txt");
-
-//        if ( (!connection_file.exists()) && (legacy_dir!=null) ) {
-        if ( (!connection_file.exists()) && (legacyConnection_file.exists()) ) {
-
-            String[] childFiles = legacy_dir.list();
-            if (childFiles!=null) {
-                for (int i = 0; i < childFiles.length; i++) {
-                    try {
-//                File legacy_file = new File(sdcard_path, "ex_toolbox/" + filename);
-                        File legacy_file = new File(sdcard_path, "ex_toolbox/" + childFiles[i]);
-                        File new_file = new File(context.getExternalFilesDir(null), childFiles[i]);
-
-                        if (legacy_file.exists()) {
-                            if (!new_file.exists()) {
-                                Log.d("EX_Toolbox", "ca: checkForLegacyFilesImpl - legacy file found:" + childFiles[i]);
-//                    Files.copy(legacy_file.getPath(),new_file.getPath(),REPLACE_EXISTING);
-                                copyFileUsingStream(legacy_file, new_file);
-                            } else {
-                                Log.d("EX_Toolbox", "ca: checkForLegacyFilesImpl - legacy file found but new file exists:" + childFiles[i]);
-                            }
-                        } else {
-                            Log.d("EX_Toolbox", "ca: checkForLegacyFilesImpl - legacy file not found:" + childFiles[i]);
-                        }
-
-                    } catch (Exception e) {
-                        Log.d("EX_Toolbox", "ca: checkForLegacyFilesImpl - copy failed: " + childFiles[i]);
-                    }
-                }
-            }
-        }
-    }
-
-    //source  https://www.journaldev.com/861/java-copy-file
-    void copyFileUsingStream(File source, File dest) throws IOException {
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            is = new FileInputStream(source);
-            os = new FileOutputStream(dest);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = is.read(buffer)) > 0) {
-                os.write(buffer, 0, length);
-            }
-        } finally {
-            is.close();
-            os.close();
-        }
-    }
-
 }

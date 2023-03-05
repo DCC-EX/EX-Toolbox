@@ -40,6 +40,8 @@
     <string name="app_name_track_manager_short">Track Mgr</string>
     <string name="app_name_sensors">Sensor Status</string>
     <string name="app_name_sensors_short">Sensors</string>
+    <string name="app_name_currents">Current Status</string>
+    <string name="app_name_currents_short">Currents</string>
 
     <string name="app_name_dcc_ex">DCC-EX</string>
 
@@ -402,6 +404,14 @@
     <string name="DCCEXincrementSensorsButtonLabel">Increment Ids</string>
     <string name="DCCEXsensorActive">Active</string>
     <string name="DCCEXsensorInactive">InActive</string>
+    <string name="DCCEXsensorUnknown">Unknown</string>
+
+    <string name="DCCEXstartCurrentsButtonLabel">Start</string>
+    <string name="DCCEXstopCurrentsButtonLabel">Stop</string>
+
+    <string name="DCCEXCurrentsColumnLabel">Value</string>
+    <string name="DCCEXCurrentsHighestColumnLabel">Highest</string>
+    <string name="DCCEXCurrentsMaxColumnLabel">Max</string>
 
 </resources>
 

@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
-    <title>Engine Driver Throttle for Android</title>
+    <title><b>EX-Toolbox</b> for Android</title>
     <style type="text/css">
         p {margin-top:0;padding-left:1em;}
         h3 {margin-bottom:0;}
@@ -13,40 +13,54 @@
     </style>
 </head>
 <body>
-<h1>EX-Toolbox for DCC-EX</h1>
+<h1><b>EX-Toolbox</b> for DCC-EX</h1>
 <div style="float:left;padding-right:1em;">
     <img src="file:///android_asset/ex_toolbox_icon.png" height="144" width="144" alt=""/>
 </div>
 <p><b>Changes for this version include:</b></p>
 <ul>
-    <li>CV Programming on the programming track (Service Mode)</li>
-    <li>CV Programming on the main track (Operation Mode)</li>
-    <li>Track Manger</li>
-    <li>Servo testing</li>
+    <li>CV Programming in the programming track (Service Mode)</li>
+    <li>CV Programming in the main track (Operation Mode)</li>
+    <li>Servo motor testing and adjustment</li>
+    <li>Sensor testing</li>
+    <li>Current Meter (Only available when connected to EX-CommandStation version 4.2.20 and above.)</li>
+    <li>Track Manager (Only available when connected to EX-CommandStation version 4.2.7 and above.)</li>
 </ul>
+
 <p>This free Android application connects to a
     <a href="https://dcc-ex.com" target="_blank">DCC-EX EX-CommandStation</a> using the native DCC-EX command protocol (only).
     Once connected, you can configure aspects of your EX-CommandStation including programming CVs.
 </p>
 
-<h3>Prerequisites <br /> (for DCC-EX EX-CommandStation):</h3>
-<p>EX-Toolbox can only connect directly to DCC-EX EX-CommandStations, that are in Station Mode or
-    Access Point Mode, using the native DCC-EX command protocol.
-    If you use the native DCC-EX commands an additional menu item (DCC-EX) will be available for
-    programming CVs and other functions. <br />
+<h3>Prerequisites <br /> - DCC-EX EX-CommandStation:</h3>
+<p><b>EX-Toolbox</b> can only connect directly to DCC-EX <b>EX-CommandStations</b>, that are in Station Mode or
+    Access Point Mode, using the native DCC-EX command protocol.  It cannot connect to JMRI or to a EX-CommandStation which is connected JMRI via USB.
+</p>
+<p>Track Manager is only available  when connected to EX-CommandStation version 4.2.7 and above.
 </p>
 
+<p><b>Current features supported:</b></p>
+<ul>
+    <li>CV Programming in the programming track (Service Mode)</li>
+    <li>CV Programming in the main track (Operation Mode)</li>
+    <li>Servo motor testing and adjustment</li>
+    <li>Sensor testing</li>
+    <li>Current Meter (Only available when connected to EX-CommandStation version 4.2.20 and above.)</li>
+    <li>Track Manager (Only available when connected to EX-CommandStation version 4.2.7 and above.)</li>
+</ul>
+
 <h3>Operation:</h3>
-<p>On your phone, start the EX-Toolbox app and wait for your server's address to show up in
+<p>On your phone, start the <b>EX-Toolbox</b> app and wait for your server's address to show up in
     "Discovered Services".</p>
 <p>Click on the discovered address, or you can enter the address and port of your EX-CommandStation server
-    directly. (Using the values shown on the window.)<br/>
+    directly.<br/>
     There is an "Auto-Connect to First Server?" preference you can enable if desired.
     </p>
+<p>Once connnected the CV Programming screen will open.  Use the drop down the select between Service Mode and Operation Mode. Swipe Left or right to get to the other screens.</p>
 <h3>Development:</h3>
-<p>Engine Driver is free and open source software, part of the
+<p><b>EX-Toolbox</b> is free and open source software, part of the
     <a href="https://dcc-ex" target="_blank">DCC-EX</a> project. It is built in
-    <a href="https://developer.android.com/studio/" target="_blank">Android&nbsp;Studio</a>.
+    <a href="https://developer.android.com/studio/" target="_blank">Android&nbsp;Studio</a>.<br />
     It is based heavily on M.Steve Todd's <b>Engine Driver</b> app source code.
 </p>
 <hr>

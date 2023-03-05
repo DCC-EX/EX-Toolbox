@@ -75,6 +75,8 @@ public class comm_thread extends Thread {
     private static long lastSentMs = System.currentTimeMillis();
     private static long lastQueuedMs = System.currentTimeMillis();
 
+    public static myTimer currentTimer = new myTimer();
+
     protected static threaded_application mainapp;  // hold pointer to mainapp
     protected static SharedPreferences prefs;
 
@@ -343,7 +345,7 @@ public class comm_thread extends Thread {
                 sendRequestRosterLocoDetails(address); // get the CS to resend the Loco details so we can get the functions
             }
 
-            if (heart.getInboundInterval() > 0 && mainapp.withrottle_version > 0.0 && !heart.isHeartbeatSent()) {
+            if (heart.getInboundInterval() > 0 && !heart.isHeartbeatSent()) {
                 mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SEND_HEARTBEAT_START);
             }
             mainapp.sendMsgDelay(mainapp.comm_msg_handler, 1000L, message_type.REFRESH_FUNCTIONS);
@@ -512,6 +514,15 @@ public class comm_thread extends Thread {
         Log.d("EX_Toolbox", "comm_thread.sendMoveServo DCC-EX: " + msgTxt);
     }
 
+    protected static void sendRequestCurrents() {
+        String msgTxt = "<JI>";
+        wifiSend(msgTxt);
+    }
+
+    protected static void sendRequestCurrentsMax() {
+        String msgTxt = "<JG>";
+        wifiSend(msgTxt);
+    }
 
     protected void sendTurnout(String cmd) {
         //DCC-EX
@@ -716,22 +727,25 @@ public class comm_thread extends Thread {
                 String[] args = responseStr.substring(1, responseStr.length() - 1).split(" (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", 999);
 
                 switch (responseStr.charAt(1)) {
-                    case 'i': // Command Station Information
+                    case 'i': // Command Station Information or current information
                         String old_vn = mainapp.DCCEXversion;
-                        String [] vn1 = args[1].split("-");
-                        String [] vn2 = vn1[1].split("\\.");
-                        String vn = String.format("%02d.%03d",Integer.parseInt(vn2[0]),Integer.parseInt(vn2[1]));
-                        if (vn.length()>=3) {
-                            try { vn = vn +String.format("%03d",Integer.parseInt(vn2[2]));
+                        String[] vn1 = args[1].split("-");
+                        String[] vn2 = vn1[1].split("\\.");
+                        String vn = String.format("%02d.%03d", Integer.parseInt(vn2[0]), Integer.parseInt(vn2[1]));
+                        if (vn.length() >= 3) {
+                            try {
+                                vn = vn + String.format("%03d", Integer.parseInt(vn2[2]));
                             } catch (Exception ignored) {
                                 // try to pull a partial number
                                 String pn = "0";
-                                for (int j=0; j<vn2[2].length(); j++ ) {
-                                    if ( (vn2[2].charAt(j)>='0') && (vn2[2].charAt(j)<='9') ) {
+                                for (int j = 0; j < vn2[2].length(); j++) {
+                                    if ((vn2[2].charAt(j) >= '0') && (vn2[2].charAt(j) <= '9')) {
                                         pn = pn + vn2[2].charAt(j);
-                                    } else { break; }
+                                    } else {
+                                        break;
+                                    }
                                 }
-                                vn = vn +String.format("%03d", Integer.parseInt(pn));
+                                vn = vn + String.format("%03d", Integer.parseInt(pn));
                             }
                         }
                         mainapp.DCCEXversion = vn;
@@ -745,7 +759,7 @@ public class comm_thread extends Thread {
                             Log.d("EX_Toolbox", "comm_thread.processWifiResponse: version already set to " + mainapp.DCCEXversion + ", ignoring");
                         }
 
-                        mainapp.withrottle_version = 4.0;  // fudge it
+//                            mainapp.withrottle_version = 4.0;  // fudge it
                         mainapp.setServerType("DCC-EX");
                         mainapp.setServerDescription(responseStr.substring(2, responseStr.length() - 1)); //store the description
 
@@ -753,6 +767,7 @@ public class comm_thread extends Thread {
                         mainapp.heartbeatInterval = 20000; // force a heartbeat period
                         heart.startHeartbeat(mainapp.heartbeatInterval);
                         mainapp.power_state = "2"; // unknown
+
                         break;
 
                     case 'l':
@@ -793,8 +808,13 @@ public class comm_thread extends Thread {
                                 break;
                             case 'C': // fastclock
                                 processDCCEXfastClock(args);
-                                return;
-                        }
+                                break;
+                            case 'I':
+                                processDCCEXcurrents(args);
+                                break;
+                            case 'G':
+                                processDCCEXcurrentsMax(args);
+                                break;                        }
                         break;
 
                     case 'H': //Turnout change
@@ -975,6 +995,28 @@ public class comm_thread extends Thread {
             mainapp.alert_activities(message_type.RECEIVED_DECODER_ADDRESS, args[1]);  //send response to running activities
         }
 
+    }
+
+    static void processDCCEXcurrents(String [] args) {
+        if (args.length>1) {
+            for (int i=1; i<args.length; i++) {
+                mainapp.currentsDCCEX[mainapp.PREVIOUS_VALUE][i-1] = mainapp.currentsDCCEX[mainapp.LATEST_VALUE][i-1];
+                mainapp.currentsDCCEX[mainapp.LATEST_VALUE][i-1] = Integer.parseInt(args[i]);
+                if (mainapp.currentsDCCEX[mainapp.LATEST_VALUE][i-1] > mainapp.currentsHighestDCCEX[i-1]) {
+                    mainapp.currentsHighestDCCEX[i-1] = mainapp.currentsDCCEX[mainapp.LATEST_VALUE][i-1];
+                }
+            }
+            mainapp.alert_activities(message_type.RECEIVED_CURRENTS, "");
+        }
+    }
+
+    static void processDCCEXcurrentsMax(String [] args) {
+        if (args.length>1) {
+            for (int i=1; i<args.length; i++) {
+                mainapp.currentsMaxDCCEX[i-1] = Integer.parseInt(args[i]);
+            }
+            mainapp.alert_activities(message_type.RECEIVED_CURRENTS_MAX, "");
+        }
     }
 
     private static void processDCCEXlocos(String [] args) {
@@ -2109,5 +2151,45 @@ public class comm_thread extends Thread {
         mainapp.DCCEXsendsStr = mainapp.DCCEXsendsStr + "</p>";
     }
 
+    // ------------------------------------------
+
+    static class myTimer {
+        public boolean timerStarted = false;
+
+        void startTimer() {
+            if (!timerStarted) {
+                restartTimerInterval();
+            }
+        }
+
+
+        //restartInterval()
+        void restartTimerInterval() {
+            timerStarted = true;
+            sendRequestCurrentsMax(); /// only need to call this once
+            mainapp.comm_msg_handler.removeCallbacks(currentTimer);                   //remove any pending requests
+            mainapp.comm_msg_handler.postDelayed(currentTimer, 3000);    //restart interval
+        }
+
+        void stopTimer() {
+            mainapp.comm_msg_handler.removeCallbacks(currentTimer);           //remove any pending requests
+            timerStarted = false;
+            Log.d("EX_Toolbox", "comm_thread.stopTimer: timer stopped.");
+        }
+
+        //outboundHeartbeatTimer()
+        //sends a periodic message to WiT
+        private final Runnable currentTimer = new Runnable() {
+            @Override
+            public void run() {
+                mainapp.comm_msg_handler.removeCallbacks(this);             //remove pending requests
+                if (timerStarted) {
+                    sendRequestCurrents();
+                    timerStarted = true;
+                    mainapp.comm_msg_handler.postDelayed(this, 1000);
+                }
+            }
+        };
+    }
 }
 

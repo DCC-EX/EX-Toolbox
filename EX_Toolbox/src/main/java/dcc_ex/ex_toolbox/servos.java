@@ -625,6 +625,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         tMenu = menu;
 
         mainapp.setTrackmanagerMenuOption(menu);
+        mainapp.setCurrentsMenuOption(menu);
 
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
@@ -650,6 +651,11 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
             case R.id.track_manager_mnu:
                 navigateAway(true, null);
                 in = new Intent().setClass(this, track_manager.class);
+                startACoreActivity(this, in, false, 0);
+                return true;
+            case R.id.currents_mnu:
+                navigateAway(true, null);
+                in = new Intent().setClass(this, currents.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
             case R.id.sensors_mnu:

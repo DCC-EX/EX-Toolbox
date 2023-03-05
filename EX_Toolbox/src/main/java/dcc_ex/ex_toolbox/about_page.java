@@ -59,10 +59,10 @@ public class about_page extends AppCompatActivity {
         if (mainapp.getHostIp() != null) {
             // WiT info
             if (!mainapp.isDCCEX) {
-                if (mainapp.getWithrottleVersion() != 0.0) {
-                    s += ", WiThrottle:v" + mainapp.getWithrottleVersion();
+//                if (mainapp.getWithrottleVersion() != 0.0) {
+                    s += ", WiThrottle:v" + mainapp.getDCCEXVersion();
                     s += String.format(", Heartbeat:%dms", mainapp.heartbeatInterval);
-                }
+//                }
             } else {
                 s += ", DCC-EX CS:v" + mainapp.getDCCEXVersion();
                 s += String.format(", Heartbeat:%dms", mainapp.heartbeatInterval);

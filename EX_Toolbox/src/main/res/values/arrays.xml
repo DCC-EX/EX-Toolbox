@@ -103,6 +103,7 @@
         <item>ACK Min {µS}</item>
         <item>ACK Max {µS}</item>
         <item>Reboot/Reset CS</item>
+        <item>Reset HAL Devices</item>
     </string-array>
     <string-array name="dccExCommonCommandsEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
         <item />
@@ -119,6 +120,7 @@
         <item>D ACK MIN</item>
         <item>D ACK MAX</item>
         <item>D RESET</item>
+        <item>D HAL RESET</item>
     </string-array>
     <integer-array name="dccExCommonCommandsHasParameters" translatable="false">  <!-- DO NOT TRANSLATE -->
         <item>0</item>

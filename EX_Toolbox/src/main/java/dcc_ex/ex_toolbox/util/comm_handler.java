@@ -123,7 +123,7 @@ public class comm_handler extends Handler {
                WebView.setSafeBrowsingWhitelist(Collections.singletonList(mainapp.host_ip), null);
             }
 
-            //attempt connection to WiThrottle server
+            //attempt connection to server
             comm_thread.socketWiT = new comm_thread.socketWifi();
             if (comm_thread.socketWiT.connect()) {
 
@@ -233,12 +233,22 @@ public class comm_handler extends Handler {
 
          case message_type.REQUEST_SENSOR: { // DCC-EX only
             String [] args = msg.obj.toString().split(" ");
-            comm_thread.sendSensorRequest(args[0], args[1], args[1]);
+            comm_thread.sendSensorRequest(args[0], args[1], args[2]);
             break;
          }
 
          case message_type.REQUEST_ALL_SENSOR_DETAILS: { // DCC-EX only
             comm_thread.sendAllSensorDetailsRequest();
+            break;
+         }
+
+         case message_type.REQUEST_CURRENTS: {
+            comm_thread.sendRequestCurrents();
+            break;
+         }
+
+         case message_type.REQUEST_CURRENTS_MAX: {
+            comm_thread.sendRequestCurrentsMax();
             break;
          }
 
@@ -404,17 +414,17 @@ public class comm_handler extends Handler {
             commThread.shutdown(false);
             break;
 
-         case message_type.CONNECTION_COMPLETED_CHECK:
-            //if not successfully connected to a 2.0+ server by this time, kill connection
-            if (mainapp.withrottle_version < 2.0) {
-               mainapp.sendMsg(mainapp.comm_msg_handler, message_type.TOAST_MESSAGE,
-                       "timeout waiting for VN message for "
-                               + mainapp.host_ip + ":" + mainapp.port + ", disconnecting");
-               if (comm_thread.socketWiT != null) {
-                  comm_thread.socketWiT.disconnect(true, true);     //just close the socket
-               }
-            }
-            break;
+//         case message_type.CONNECTION_COMPLETED_CHECK:
+//            //if not successfully connected to a 2.0+ server by this time, kill connection
+//            if (mainapp.withrottle_version < 2.0) {
+//               mainapp.sendMsg(mainapp.comm_msg_handler, message_type.TOAST_MESSAGE,
+//                       "timeout waiting for VN message for "
+//                               + mainapp.host_ip + ":" + mainapp.port + ", disconnecting");
+//               if (comm_thread.socketWiT != null) {
+//                  comm_thread.socketWiT.disconnect(true, true);     //just close the socket
+//               }
+//            }
+//            break;
 
          case message_type.REFRESH_FUNCTIONS:
          case message_type.ROSTER_UPDATE: // update of roster-related data completed in background
@@ -445,6 +455,18 @@ public class comm_handler extends Handler {
 
          case message_type.HTTP_SERVER_NAME_RECEIVED:
             String retrievedServerName = msg.obj.toString();
+            break;
+
+         case message_type.START_CURRENTS_TIMER:
+            if (!mainapp.doFinish) {
+               commThread.currentTimer.startTimer();
+            }
+            break;
+
+         case message_type.STOP_CURRENTS_TIMER:
+            if (!mainapp.doFinish) {
+               commThread.currentTimer.stopTimer();
+            }
             break;
 
       }

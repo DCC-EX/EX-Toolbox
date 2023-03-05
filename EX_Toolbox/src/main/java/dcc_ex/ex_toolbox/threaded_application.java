@@ -86,7 +86,7 @@ public class threaded_application extends Application {
     public volatile String host_ip = null; //The IP address of the WiThrottle server.
     volatile String logged_host_ip = null;
     public volatile int port = 0; //The TCP port that the WiThrottle server is running on
-    public Double withrottle_version = 0.0; //version of withrottle server
+//    public Double withrottle_version = 0.0; //version of withrottle server
     public volatile int web_server_port = 0; //default port for jmri web server
     private String serverType = ""; //should be set by server in initial command strings
     private String serverDescription = ""; //may be set by server in initial command strings
@@ -156,6 +156,7 @@ public class threaded_application extends Application {
     public String DCCEXversion = "";
     public double DCCEXversionValue = 0.0;
     public static final double DCCEX_MIN_VERSION_FOR_TRACK_MANAGER = 04.002007;
+    public static final double DCCEX_MIN_VERSION_FOR_CURRENTS = 04.002019;
     public int DCCEXlistsRequested = -1;  // -1=not requested  0=requested  1,2,3= no. of lists received
 
     public boolean DCCEXscreenIsOpen = false;
@@ -176,6 +177,13 @@ public class threaded_application extends Application {
     public int [] sensorIDsDCCEX;  // used to process the sensor list
     public int [] sensorVpinsDCCEX;  // used to process the sensor list
     public int [] sensorPullupsDCCEX;  // used to process the sensor list
+
+    public int [] [] currentsDCCEX = { {0, 0, 0, 0,  0, 0, 0, 0}, {0, 0, 0, 0,  0, 0, 0, 0} };  // used to process the currents list
+    public int [] currentsHighestDCCEX = {0, 0, 0, 0,  0, 0, 0, 0};  // used to process the currents list
+    public int [] currentsMaxDCCEX = {0, 0, 0, 0,  0, 0, 0, 0};  // used to process the currents list
+
+    public static int LATEST_VALUE = 0;
+    public static int PREVIOUS_VALUE = 1;
 
     public int DCCEXpreviousCommandIndex = -1;
     public ArrayList<String> DCCEXpreviousCommandList = new ArrayList<>();
@@ -212,6 +220,7 @@ public class threaded_application extends Application {
     public volatile Handler servos_msg_handler;
     public volatile Handler track_manager_msg_handler;
     public volatile Handler sensors_msg_handler;
+    public volatile Handler currents_msg_handler;
 
     public volatile Handler reconnect_status_msg_handler;
     public volatile Handler preferences_msg_handler;
@@ -289,9 +298,10 @@ public class threaded_application extends Application {
     public static final int SCREEN_SWIPE_INDEX_CV_PROGRAMMER = 0;
     public static final int SCREEN_SWIPE_INDEX_SERVOS = 1;
     public static final int SCREEN_SWIPE_INDEX_SENSORS = 2;
-    public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 3;
-    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 4;
-    public static final int SCREEN_SWIPE_INDEX_DIAG = 5;
+    public static final int SCREEN_SWIPE_INDEX_CURRENTS = 3;
+    public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 4;
+    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 5;
+    public static final int SCREEN_SWIPE_INDEX_DIAG = 6;
 
 
     public boolean prefThrottleViewImmersiveModeHideToolbar = true;
@@ -687,7 +697,7 @@ public class threaded_application extends Application {
 
     //initialize shared variables
     public void initShared() {
-        withrottle_version = 0.0;
+//        withrottle_version = 0.0;
         web_server_port = 0;
         host_ip = null;
         setServerType("");
@@ -820,6 +830,15 @@ public class threaded_application extends Application {
         }
     }
 
+    public void setCurrentsMenuOption(Menu menu) {
+        if (menu != null) {
+            MenuItem item = menu.findItem(R.id.currents_mnu);
+            if (item != null) {
+                item.setVisible(mainapp.DCCEXversionValue > mainapp.DCCEX_MIN_VERSION_FOR_CURRENTS);
+            }
+        }
+    }
+
     public void setMenuItemById(Menu menu, int id, boolean show) {
         if (menu != null) {
             MenuItem item = menu.findItem(id);
@@ -877,6 +896,11 @@ public class threaded_application extends Application {
 
         try {
             sendMsg(sensors_msg_handler, msgType, msgBody);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            sendMsg(currents_msg_handler, msgType, msgBody);
         } catch (Exception ignored) {
         }
 
@@ -1303,6 +1327,9 @@ public class threaded_application extends Application {
         int nextScreen;
         if (deltaX <= 0.0) {
             nextScreen = currentScreen + 1;
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_CURRENTS) && (mainapp.DCCEXversionValue <= mainapp.DCCEX_MIN_VERSION_FOR_CURRENTS) ) {
+                nextScreen++;
+            }
             if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DCCEXversionValue <= mainapp.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen++;
             }
@@ -1315,6 +1342,9 @@ public class threaded_application extends Application {
                 nextScreen = SCREEN_SWIPE_INDEX_TRACK_MANGER;
             }
             if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DCCEXversionValue <= mainapp.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
+                nextScreen--;
+            }
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_CURRENTS) && (mainapp.DCCEXversionValue <= mainapp.DCCEX_MIN_VERSION_FOR_CURRENTS) ) {
                 nextScreen--;
             }
         }
@@ -1330,6 +1360,9 @@ public class threaded_application extends Application {
                 break;
             case SCREEN_SWIPE_INDEX_SENSORS:
                 nextIntent = new Intent().setClass(this, sensors.class);
+                break;
+            case SCREEN_SWIPE_INDEX_CURRENTS:
+                nextIntent = new Intent().setClass(this, currents.class);
                 break;
             case SCREEN_SWIPE_INDEX_TRACK_MANGER:
                 nextIntent = new Intent().setClass(this, track_manager.class);
@@ -1404,9 +1437,9 @@ public class threaded_application extends Application {
         return host_ip;
     }
 
-    public Double getWithrottleVersion() {
-        return withrottle_version;
-    }
+//    public Double getWithrottleVersion() {
+//        return withrottle_version;
+//    }
 
     public String getDCCEXVersion() {
         return DCCEXversion;
@@ -1463,12 +1496,12 @@ public class threaded_application extends Application {
         }
     }
 
-    public class app_icon_button_listener implements View.OnClickListener {
-        public void onClick(View v) {
-            // at the moment there is only the e-stop option, otherwise check the preference to see what to do
-            buttonVibration();
-        }
-    }
+//    public class app_icon_button_listener implements View.OnClickListener {
+//        public void onClick(View v) {
+//            // tba
+//            buttonVibration();
+//        }
+//    }
 
     public void hideSoftKeyboard(View view) {
         // Check if no view has focus:

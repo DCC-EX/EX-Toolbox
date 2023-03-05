@@ -75,4 +75,10 @@ public interface message_type {
     int REQUEST_ALL_SENSOR_DETAILS = 74;
     int REQUEST_SENSOR = 75;
     int RECEIVED_SENSOR = 76;
+    int REQUEST_CURRENTS = 77;
+    int RECEIVED_CURRENTS = 78;
+    int REQUEST_CURRENTS_MAX = 79;
+    int RECEIVED_CURRENTS_MAX = 80;
+    int START_CURRENTS_TIMER = 81;
+    int STOP_CURRENTS_TIMER = 82;
 }

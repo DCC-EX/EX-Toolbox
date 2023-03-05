@@ -603,6 +603,8 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         inflater.inflate(R.menu.track_manager_menu, menu);
         tMenu = menu;
 
+        mainapp.setCurrentsMenuOption(menu);
+
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
         mainapp.setPowerStateButton(menu);
@@ -627,6 +629,11 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
             case R.id.servos_mnu:
                 navigateAway(true, null);
                 in = new Intent().setClass(this, servos.class);
+                startACoreActivity(this, in, false, 0);
+                return true;
+            case R.id.currents_mnu:
+                navigateAway(true, null);
+                in = new Intent().setClass(this, currents.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
             case R.id.sensors_mnu:
