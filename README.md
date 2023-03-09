@@ -18,6 +18,7 @@
     directly. (Using the values shown on the window.)<br/>
     There is an "Auto-Connect to First Server?" preference you can enable if desired.
     </p>
+<p>Additional help is available <a href="https://dcc-ex.com/ex-toolbox/index.html">on the DCC-EX website</a>.</p>
 <h3>Development:</h3>
 <p>EX-Toolbox is free and open source software, part of the
     <a href="http://dcc-ex" target="_blank">DCC-EX</a> project. It is built in
