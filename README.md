@@ -19,12 +19,14 @@
     There is an "Auto-Connect to First Server?" preference you can enable if desired.
     </p>
 <h3>Development:</h3>
-<p>Engine Driver is free and open source software, part of the
+<p>EX-Toolbox is free and open source software, part of the
     <a href="http://dcc-ex" target="_blank">DCC-EX</a> project. It is built in
     <a href="https://developer.android.com/studio/" target="_blank">Android&nbsp;Studio</a>.
     It is based heavily on M.Steve Todd's Engine Driver app source code.
 </p>
+<p>Additional help is available <a href="https://dcc-ex.com/ex-toolbox/index.html">on the DCC-EX website</a>. 
+</p>
 <hr> 
 <p>
-<a href="https://enginedriver.mstevetodd.com/privacy-policy" target="_blank">[Privacy Policy]</a>
+<a href="https://github.com/DCC-EX/EX-Toolbox/blob/master/EX_Toolbox/src/main/assets/privacy_policy.md" target="_blank">[Privacy Policy]</a>
 </p>

@@ -582,6 +582,16 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
                 in = new Intent().setClass(this, servos.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
+            case R.id.currents_mnu:_mnu:
+                navigateAway(true, null);
+                in = new Intent().setClass(this, currents.class);
+                startACoreActivity(this, in, false, 0);
+                return true;
+            case R.id.track_manager_mnu:_mnu:
+                navigateAway(true, null);
+                in = new Intent().setClass(this, track_manager.class);
+                startACoreActivity(this, in, false, 0);
+                return true;
 
             case R.id.exit_mnu:
                 mainapp.checkExit(this);
