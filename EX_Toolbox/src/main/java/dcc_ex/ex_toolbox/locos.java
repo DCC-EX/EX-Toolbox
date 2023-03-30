@@ -45,13 +45,17 @@ import android.view.View;
 import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
 
-public class currents extends AppCompatActivity implements GestureOverlayView.OnGestureListener {
+public class locos extends AppCompatActivity implements GestureOverlayView.OnGestureListener {
 
     private threaded_application mainapp;  // hold pointer to mainapp
     private SharedPreferences prefs;
@@ -81,15 +85,13 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
 
     private boolean DCCEXhideSends = false;
 
-    Button startCurrentsButton;
-    Button stopCurrentsButton;
-    Button clearCommandsButton;
+    private ArrayList<HashMap<String, String>> locos_list;
+    private SimpleAdapter locos_list_adapter;
 
-    private LinearLayout[] dccExCurrentLayouts = {null, null, null, null, null,  null, null, null, null, null};
-    private TextView[] dccExCurrentsTextView = {null, null, null, null, null,  null, null, null, null, null};
-    private TextView[] dccExCurrentsHighestTextView = {null, null, null, null, null,  null, null, null, null, null};
-    private TextView[] dccExCurrentsMaxTextView = {null, null, null, null, null,  null, null, null, null, null};
-    private ProgressBar[] dccExCurrentsMaxProgressView = {null, null, null, null, null,  null, null, null, null, null};
+    String forwardText = "Forward";
+    String reverseText = "Reverse";
+
+    Button clearCommandsButton;
 
     //**************************************
 
@@ -126,15 +128,15 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         mVelocityTracker.clear();
 
         // start the gesture timeout timer
-        if (mainapp.currents_msg_handler != null)
-            mainapp.currents_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
+        if (mainapp.locos_msg_handler != null)
+            mainapp.locos_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
     }
 
     public void gestureMove(MotionEvent event) {
         // Log.d("Engine_Driver", "gestureMove action " + event.getAction());
-        if ( (mainapp != null) && (mainapp.currents_msg_handler != null) && (gestureInProgress) ) {
+        if ( (mainapp != null) && (mainapp.locos_msg_handler != null) && (gestureInProgress) ) {
             // stop the gesture timeout timer
-            mainapp.currents_msg_handler.removeCallbacks(gestureStopped);
+            mainapp.locos_msg_handler.removeCallbacks(gestureStopped);
 
             mVelocityTracker.addMovement(event);
             if ((event.getEventTime() - gestureLastCheckTime) > gestureCheckRate) {
@@ -151,24 +153,23 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
             }
             if (gestureInProgress) {
                 // restart the gesture timeout timer
-                mainapp.currents_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
+                mainapp.locos_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
             }
         }
     }
 
     private void gestureEnd(MotionEvent event) {
         // Log.d("Engine_Driver", "gestureEnd action " + event.getAction() + " inProgress? " + gestureInProgress);
-        if ( (mainapp != null) && (mainapp.currents_msg_handler != null) && (gestureInProgress) ) {
-            mainapp.currents_msg_handler.removeCallbacks(gestureStopped);
+        if ( (mainapp != null) && (mainapp.locos_msg_handler != null) && (gestureInProgress) ) {
+            mainapp.locos_msg_handler.removeCallbacks(gestureStopped);
 
             float deltaX = (event.getX() - gestureStartX);
             float absDeltaX =  Math.abs(deltaX);
             if (absDeltaX > threaded_application.min_fling_distance) { // only process left/right swipes
                 // valid gesture. Change the event action to CANCEL so that it isn't processed by any control below the gesture overlay
                 event.setAction(MotionEvent.ACTION_CANCEL);
-                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.STOP_CURRENTS_TIMER);
                 // process swipe in the direction with the largest change
-                Intent nextScreenIntent = mainapp.getNextIntentInSwipeSequence(threaded_application.SCREEN_SWIPE_INDEX_CURRENTS, deltaX);
+                Intent nextScreenIntent = mainapp.getNextIntentInSwipeSequence(threaded_application.SCREEN_SWIPE_INDEX_LOCOS, deltaX);
                 startACoreActivity(this, nextScreenIntent, true, deltaX);
             } else {
                 // gesture was not long enough
@@ -178,8 +179,8 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
     }
 
     private void gestureCancel(MotionEvent event) {
-        if (mainapp.currents_msg_handler != null)
-            mainapp.currents_msg_handler.removeCallbacks(gestureStopped);
+        if (mainapp.locos_msg_handler != null)
+            mainapp.locos_msg_handler.removeCallbacks(gestureStopped);
         gestureInProgress = false;
     }
 
@@ -205,15 +206,14 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
 
 
     @SuppressLint("HandlerLeak")
-    class currents_handler extends Handler {
+    class locos_handler extends Handler {
 
         public void handleMessage(Message msg) {
-            String s;
             switch (msg.what) {
 
                 case message_type.RESPONSE: {    //handle messages from server
-                    s = msg.obj.toString();
-//                    String response_str = s.substring(0, Math.min(s.length(), 2));
+                    String s = msg.obj.toString();
+                    String response_str = s.substring(0, Math.min(s.length(), 2));
 
                     if (s.length() >= 3) {
                         String com1 = s.substring(0, 3);
@@ -224,15 +224,35 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
                     }
                     break;
                 }
+                case message_type.RECEIVED_LOCO_UPDATE:
+                    String s = msg.obj.toString();
+                    String [] args = s.split(" ");
+                    if (s.length() > 0) {
 
-                case message_type.RECEIVED_CURRENTS_MAX:
-                    setCurrentsFromResponses();
-                    refreshDCCEXcurrentsView();
-                    break;
+                        HashMap<String, String> hm = new HashMap<String, String>();
+                        hm.put("locoId", args[1]);
+                        hm.put("locoSpeed", args[2]);
+                        hm.put("locoDirection", (args[3].equals("1")) ? forwardText: reverseText);
+                        String foundLocoId = hm.get("locoId");
+                        boolean entryExists = false;
 
-                case message_type.RECEIVED_CURRENTS:
-                    setCurrentsFromResponses();
-                    refreshDCCEXcurrentsView();
+                        //stop if new address is already in the list
+                        HashMap<String, String> tm;
+                        for (int index = 0; index < locos_list.size(); index++) {
+                            tm = locos_list.get(index);
+                            if (tm.get("locoId").equals(foundLocoId)) {
+                                entryExists = true;
+                                locos_list.set(index, hm);
+                                break;
+                            }
+                        }
+                        if (!entryExists) {                // if new loco, add to discovered list on screen
+                            locos_list.add(hm);
+                        }
+                        locos_list_adapter.notifyDataSetChanged();
+
+                        refreshDCCEXlocosView();
+                    }
                     break;
 
                 case message_type.DCCEX_COMMAND_ECHO:  // informational response
@@ -267,12 +287,12 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         if (mainapp.getFastClockFormat() > 0)
             mainapp.setToolbarTitle(toolbar,
                     "",
-                    getApplicationContext().getResources().getString(R.string.app_name_currents_short),
+                    getApplicationContext().getResources().getString(R.string.app_name_locos_short),
                     mainapp.getFastClockTime());
         else
             mainapp.setToolbarTitle(toolbar,
                     getApplicationContext().getResources().getString(R.string.app_name),
-                    getApplicationContext().getResources().getString(R.string.app_name_currents),
+                    getApplicationContext().getResources().getString(R.string.app_name_locos),
                     "");
     }
 
@@ -301,12 +321,15 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
             return;
         }
 
-        setContentView(R.layout.currents);
+        forwardText = getApplicationContext().getResources().getString(R.string.forward);
+        reverseText = getApplicationContext().getResources().getString(R.string.reverse);
+
+        setContentView(R.layout.locos);
+
+        mainapp.loadBackgroundImage(findViewById(R.id.locosBackgroundImgView));
 
         //put pointer to this activity's handler in main app's shared variable
-        mainapp.currents_msg_handler = new currents_handler();
-
-        mainapp.loadBackgroundImage(findViewById(R.id.currentsBackgroundImgView));
+        mainapp.locos_msg_handler = new locos_handler();
 
         DCCEXwriteInfoLayout = findViewById(R.id.dexc_DCCEXwriteInfoLayout);
         DCCEXwriteInfoLabel = findViewById(R.id.dexc_DCCEXwriteInfoLabel);
@@ -317,92 +340,24 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         DCCEXsendsLabel = findViewById(R.id.dexc_DCCEXsendsLabel);
         DCCEXsendsLabel.setText("");
 
-        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.START_CURRENTS_TIMER);
-//        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_CURRENTS);
-//        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_CURRENTS_MAX);
+        //Set up a list adapter to allow adding discovered locos to the UI.
+        locos_list = new ArrayList<>();
+        locos_list_adapter = new SimpleAdapter(this, locos_list, R.layout.loco_list_item,
+                new String[]{"locoId", "locoSpeed", "locoDirection"},
+                new int[]{R.id.loco_id_item_label, R.id.loco_speed_item_label, R.id.loco_direction_item_label});
+        ListView locos_list = findViewById(R.id.locos_list);
+        locos_list.setAdapter(locos_list_adapter);
 
-        for (int i=0; i<mainapp.DCCEX_MAX_TRACKS; i++) {
-            switch (i) {
-                default:
-                case 0:
-                    dccExCurrentLayouts[i] = findViewById(R.id.dexc_DCCEXcurrent0layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.dexc_current_0_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.dexc_current_highest_0_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.dexc_current_max_0_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.dexc_current_max_0_progress_bar);
-                    break;
-                case 1:
-                    dccExCurrentLayouts[i] = findViewById(R.id.dexc_DCCEXcurrent1layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.dexc_current_1_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.dexc_current_highest_1_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.dexc_current_max_1_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.dexc_current_max_1_progress_bar);
-                    break;
-                case 2:
-                    dccExCurrentLayouts[i] = findViewById(R.id.dexc_DCCEXcurrent2layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.dexc_current_2_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.dexc_current_highest_2_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.dexc_current_max_2_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.dexc_current_max_2_progress_bar);
-                    break;
-                case 3:
-                    dccExCurrentLayouts[i] = findViewById(R.id.dexc_DCCEXcurrent3layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.dexc_current_3_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.dexc_current_highest_3_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.dexc_current_max_3_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.dexc_current_max_3_progress_bar);
-                    break;
-                case 4:
-                    dccExCurrentLayouts[i] = findViewById(R.id.dexc_DCCEXcurrent4layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.dexc_current_4_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.dexc_current_highest_4_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.dexc_current_max_4_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.dexc_current_max_4_progress_bar);
-                    break;
-                case 5:
-                    dccExCurrentLayouts[i] = findViewById(R.id.dexc_DCCEXcurrent5layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.dexc_current_5_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.dexc_current_highest_5_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.dexc_current_max_5_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.dexc_current_max_5_progress_bar);
-                    break;
-                case 6:
-                    dccExCurrentLayouts[i] = findViewById(R.id.dexc_DCCEXcurrent6layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.dexc_current_6_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.dexc_current_highest_6_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.dexc_current_max_6_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.dexc_current_max_6_progress_bar);
-                    break;
-                case 7:
-                    dccExCurrentLayouts[i] = findViewById(R.id.dexc_DCCEXcurrent7layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.dexc_current_7_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.dexc_current_highest_7_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.dexc_current_max_7_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.dexc_current_max_7_progress_bar);
-                    break;
-            }
+        DCCEXresponsesScrollView = findViewById(R.id.dexc_DCCEXresponsesScrollView);
+        DCCEXsendsScrollView = findViewById(R.id.dexc_DCCEXsendsScrollView);
 
+        clearCommandsButton = findViewById(R.id.dexc_DCCEXclearCommandsButton);
+        clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
+        clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
-            startCurrentsButton = findViewById(R.id.dexc_DCCEXstartCurrentsButton);
-            start_currents_button_listener startCurrentsClickListener = new start_currents_button_listener();
-            startCurrentsButton.setOnClickListener(startCurrentsClickListener);
+        refreshDCCEXlocosView();
 
-            stopCurrentsButton = findViewById(R.id.dexc_DCCEXstopCurrentsButton);
-            stop_currents_button_listener stopCurrentsClickListener = new stop_currents_button_listener();
-            stopCurrentsButton.setOnClickListener(stopCurrentsClickListener);
-
-            DCCEXresponsesScrollView = findViewById(R.id.dexc_DCCEXresponsesScrollView);
-            DCCEXsendsScrollView = findViewById(R.id.dexc_DCCEXsendsScrollView);
-
-            clearCommandsButton = findViewById(R.id.dexc_DCCEXclearCommandsButton);
-            clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
-            clearCommandsButton.setOnClickListener(clearCommandsClickListener);
-        }
-
-        resetCurrentTextFields();
-        refreshDCCEXcurrentsView();
-
-//        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_CURRENTS, "");
+//        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_SENSOR, "");
 //
         mainapp.getCommonPreferences();
 
@@ -416,7 +371,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
 
     @Override
     public void onResume() {
-        Log.d("EX_Toolbox", "currents.onResume() called");
+        Log.d("EX_Toolbox", "locos.onResume() called");
         mainapp.applyTheme(this);
 
         super.onResume();
@@ -424,16 +379,9 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         mainapp.getCommonPreferences();
 
         setActivityTitle();
-
         mainapp.DCCEXscreenIsOpen = true;
-
-
-        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.START_CURRENTS_TIMER);
-        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_CURRENTS);
-        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_CURRENTS_MAX);
-
         refreshDCCEXview();
-        refreshDCCEXcurrentsView();
+        refreshDCCEXlocosView();
 
         if (mainapp.isForcingFinish()) {    //expedite
             this.finish();
@@ -444,7 +392,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         CookieSyncManager.getInstance().startSync();
 
         // enable swipe/fling detection if enabled in Prefs
-        ov = findViewById(R.id.currents_overlay);
+        ov = findViewById(R.id.locos_overlay);
         ov.addOnGestureListener(this);
         ov.setEventsInterceptionEnabled(true);
         if (mVelocityTracker == null) {
@@ -454,19 +402,18 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
 
     @Override
     public void onPause() {
-        Log.d("EX_Toolbox", "currents.onPause() called");
+        Log.d("EX_Toolbox", "locos.onPause() called");
         super.onPause();
         CookieSyncManager.getInstance().stopSync();
-        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.STOP_CURRENTS_TIMER);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("EX_Toolbox", "currents.onStart() called");
+        Log.d("EX_Toolbox", "locos.onStart() called");
         // put pointer to this activity's handler in main app's shared variable
-        if (mainapp.currents_msg_handler == null)
-            mainapp.currents_msg_handler = new currents_handler();
+        if (mainapp.locos_msg_handler == null)
+            mainapp.locos_msg_handler = new locos_handler();
     }
 
     @Override
@@ -484,11 +431,13 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("EX_Toolbox", "currents.onDestroy() called");
+        Log.d("EX_Toolbox", "locos.onDestroy() called");
 
-        if (mainapp.currents_msg_handler !=null) {
-            mainapp.currents_msg_handler.removeCallbacksAndMessages(null);
-            mainapp.currents_msg_handler = null;
+        locos_list_adapter = null;
+
+        if (mainapp.locos_msg_handler !=null) {
+            mainapp.locos_msg_handler.removeCallbacksAndMessages(null);
+            mainapp.locos_msg_handler = null;
         } else {
             Log.d("Engine_Driver", "onDestroy: mainapp.web_msg_handler is null. Unable to removeCallbacksAndMessages");
         }
@@ -506,7 +455,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
     @Override
     public boolean onKeyDown(int key, KeyEvent event) {
         if (key == KeyEvent.KEYCODE_BACK) {
-            if (mainapp.currents_msg_handler!=null) {
+            if (mainapp.locos_msg_handler!=null) {
                 mainapp.checkExit(this);
             } else { // something has gone wrong and the activity did not shut down properly so force it
                 disconnect();
@@ -519,10 +468,12 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.currents_menu, menu);
+        inflater.inflate(R.menu.locos_menu, menu);
         tMenu = menu;
 
+
         mainapp.setTrackmanagerMenuOption(menu);
+        mainapp.setCurrentsMenuOption(menu);
 
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
@@ -550,17 +501,22 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
                 in = new Intent().setClass(this, servos.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
-            case R.id.locos_mnu:
-                navigateAway(true, null);
-                in = new Intent().setClass(this, locos.class);
-                startACoreActivity(this, in, false, 0);
-                return true;
-            case R.id.sensors_mnu:
+            case R.id.sensors_mnu:_mnu:
                 navigateAway(true, null);
                 in = new Intent().setClass(this, sensors.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
-            case R.id.track_manager_mnu:
+            case R.id.locos_mnu:_mnu:
+                navigateAway(true, null);
+                in = new Intent().setClass(this, locos.class);
+                startACoreActivity(this, in, false, 0);
+                return true;
+            case R.id.currents_mnu:_mnu:
+                navigateAway(true, null);
+                in = new Intent().setClass(this, currents.class);
+                startACoreActivity(this, in, false, 0);
+                return true;
+            case R.id.track_manager_mnu:_mnu:
                 navigateAway(true, null);
                 in = new Intent().setClass(this, track_manager.class);
                 startACoreActivity(this, in, false, 0);
@@ -572,9 +528,6 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
             case R.id.power_control_mnu:
                 navigateAway(false, power_control.class);
                 return true;
-/*            case R.id.preferences_mnu:
-                navigateAway(false, SettingsActivity.class);
-                return true;*/
             case R.id.settings_mnu:
                 in = new Intent().setClass(this, SettingsActivity.class);
                 startActivityForResult(in, 0);
@@ -655,7 +608,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
 
     @SuppressLint("ApplySharedPref")
     public void forceRestartApp(int forcedRestartReason) {
-        Log.d("EX-Toolbox", "currents.forceRestartApp() ");
+        Log.d("EX-Toolbox", "locos.forceRestartApp() ");
         Message msg = Message.obtain();
         msg.what = message_type.RESTART_APP;
         msg.arg1 = forcedRestartReason;
@@ -664,45 +617,6 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
 
 //**************************************************************************************
 
-    int progress(int which) {
-        double x = ((double) mainapp.currentsDCCEX[mainapp.LATEST_VALUE][which]) / ((double) mainapp.currentsMaxDCCEX[which]) * 100;
-        return (int) x;
-    }
-
-    void setCurrentsFromResponses() {
-        for (int i=0; i<mainapp.DCCEX_MAX_TRACKS; i++) {
-            int latest = mainapp.currentsDCCEX[mainapp.LATEST_VALUE][i];
-            if ( (latest==0) && (mainapp.currentsDCCEX[mainapp.PREVIOUS_VALUE][i]!=0) ) {
-                latest = mainapp.currentsDCCEX[mainapp.PREVIOUS_VALUE][i];
-            }
-            dccExCurrentsTextView[i].setText(Integer.toString(latest));
-            dccExCurrentsHighestTextView[i].setText(Integer.toString(mainapp.currentsHighestDCCEX[i]));
-            dccExCurrentsMaxTextView[i].setText(Integer.toString(mainapp.currentsMaxDCCEX[i]));
-            dccExCurrentsMaxProgressView[i].setProgress(progress(i));
-        }
-        showHideButtons();
-    }
-
-    int getIntFromString(String str) {
-        int result = 0;
-        try {
-            result = Integer.parseInt(str);
-        } catch (Exception ignored) {}
-        return result;
-    }
-
-    public class start_currents_button_listener implements View.OnClickListener {
-        public void onClick(View v) {
-            resetCurrentTextFields();
-            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.START_CURRENTS_TIMER);
-        }
-    }
-
-    public class stop_currents_button_listener implements View.OnClickListener {
-        public void onClick(View v) {
-            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.STOP_CURRENTS_TIMER);
-        }
-    }
 
     public class clear_commands_button_listener implements View.OnClickListener {
         public void onClick(View v) {
@@ -714,34 +628,9 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         }
     }
 
-    private void resetCurrentTextFields() {
-        for (int i = 0; i < threaded_application.DCCEX_MAX_TRACKS; i++) {
-            mainapp.currentsDCCEX[mainapp.LATEST_VALUE][i] = 0;
-            mainapp.currentsDCCEX[mainapp.PREVIOUS_VALUE][i] = 0;
-            mainapp.currentsHighestDCCEX[i] = 0;
-            mainapp.currentsMaxDCCEX[i] = 0;
-
-            dccExCurrentsTextView[i].setText(Integer.toString(mainapp.currentsDCCEX[mainapp.LATEST_VALUE][i]));
-            dccExCurrentsHighestTextView[i].setText(Integer.toString(mainapp.currentsHighestDCCEX[i]));
-            dccExCurrentsMaxTextView[i].setText(Integer.toString(mainapp.currentsMaxDCCEX[i]));
-        }
-    }
-
-
-    private void showHideButtons() {
-        for (int i = 0; i < threaded_application.DCCEX_MAX_TRACKS; i++) {
-            if ( (mainapp.currentsDCCEX[mainapp.LATEST_VALUE][i] != 0) || (mainapp.currentsMaxDCCEX[i] != 0) ) {
-                dccExCurrentLayouts[i].setVisibility(View.VISIBLE);
-            } else {
-                dccExCurrentLayouts[i].setVisibility(View.GONE);
-            }
-        }
-    }
-
     public void refreshDCCEXview() {
         DCCEXwriteInfoLabel.setText(DCCEXinfoStr);
         refreshDCCEXcommandsView();
-        showHideButtons();
 
     }
 
@@ -750,8 +639,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         DCCEXsendsLabel.setText(Html.fromHtml(mainapp.DCCEXsendsStr));
     }
 
-    public void refreshDCCEXcurrentsView() {
-        showHideButtons();
+    public void refreshDCCEXlocosView() {
     }
 
 }

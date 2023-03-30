@@ -329,6 +329,8 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
         setContentView(R.layout.sensors);
 
+        mainapp.loadBackgroundImage(findViewById(R.id.sensorsBackgroundImgView));
+
         //put pointer to this activity's handler in main app's shared variable
         mainapp.sensors_msg_handler = new sensors_handler();
 
@@ -427,13 +429,14 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 //            increment_sensors_button_listener incrementSensorsClickListener = new increment_sensors_button_listener();
 //            incrementSensorsButton.setOnClickListener(incrementSensorsClickListener);
 //
-            DCCEXresponsesScrollView = findViewById(R.id.dexc_DCCEXresponsesScrollView);
-            DCCEXsendsScrollView = findViewById(R.id.dexc_DCCEXsendsScrollView);
-
-            clearCommandsButton = findViewById(R.id.dexc_DCCEXclearCommandsButton);
-            clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
-            clearCommandsButton.setOnClickListener(clearCommandsClickListener);
         }
+
+        DCCEXresponsesScrollView = findViewById(R.id.dexc_DCCEXresponsesScrollView);
+        DCCEXsendsScrollView = findViewById(R.id.dexc_DCCEXsendsScrollView);
+
+        clearCommandsButton = findViewById(R.id.dexc_DCCEXclearCommandsButton);
+        clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
+        clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
         resetSensorTextFields();
         refreshDCCEXsensorsView();
@@ -575,6 +578,11 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
             case R.id.cv_programmer_mnu:
                 navigateAway(true, null);
                 in = new Intent().setClass(this, cv_programmer.class);
+                startACoreActivity(this, in, false, 0);
+                return true;
+            case R.id.locos_mnu:
+                navigateAway(true, null);
+                in = new Intent().setClass(this, locos.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
             case R.id.servos_mnu:
@@ -770,8 +778,8 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
     }
 
     public void refreshDCCEXsensorsView() {
-        for (int i = 0; i < threaded_application.DCCEX_MAX_SENSORS; i++) {
-        }
+//        for (int i = 0; i < threaded_application.DCCEX_MAX_SENSORS; i++) {
+//        }
         showHideButtons();
 
     }

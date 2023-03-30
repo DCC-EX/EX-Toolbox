@@ -98,40 +98,6 @@
 
         <PreferenceScreen
             android:icon="?attr/ed_folder_icon"
-            android:key="throttle_accelerometer_preference"
-            android:layout="@layout/checkbox_icon_left_highlight"
-            android:persistent="false"
-            android:summary="@string/prefAccelerometerSummary"
-            android:title="@string/prefAccelerometerTitle">
-
-            <PreferenceCategory
-                android:title="@string/prefAccelerometerTitle"
-                android:layout="@layout/category_icon_left"
-                android:icon="@drawable/category_shake_black" >
-
-                <ListPreference
-                    android:defaultValue="@string/prefAccelerometerShakeDefaultValue"
-                    android:entries="@array/prefAccelerometerShakeEntries"
-                    android:entryValues="@array/prefAccelerometerShakeEntryValues"
-                    android:key="prefAccelerometerShake"
-                    android:summary="@string/prefAccelerometerShakeSummary"
-                    android:title="@string/prefAccelerometerShakeTitle"
-                    android:layout="@layout/checkbox_no_icon" />
-
-                <EditTextPreference
-                    android:defaultValue="@string/prefAccelerometerShakeThresholdDefaultValue"
-                    android:dialogTitle="@string/prefAccelerometerShakeThresholdTitle"
-                    android:inputType="numberDecimal"
-                    android:key="prefAccelerometerShakeThreshold"
-                    android:maxLength="5"
-                    android:summary="@string/prefAccelerometerShakeThresholdSummary"
-                    android:title="@string/prefAccelerometerShakeThresholdTitle"
-                    android:layout="@layout/checkbox_no_icon" />
-            </PreferenceCategory>
-        </PreferenceScreen>
-
-        <PreferenceScreen
-            android:icon="?attr/ed_folder_icon"
             android:key="prefBackgroundImageGroup"
             android:layout="@layout/checkbox_icon_left_highlight"
             android:persistent="false"
@@ -200,13 +166,13 @@
             android:title="@string/prefActionBarShowServerDescriptionTitle"
             android:layout="@layout/checkbox_no_icon" />
 
-        <CheckBoxPreference
-            android:icon="?attr/ed_dcc_ex_button"
-            android:defaultValue="@bool/prefActionBarShowDccExButtonDefaultValue"
-            android:key="prefActionBarShowDccExButton"
-            android:summary="@string/prefActionBarShowDccExButtonSummary"
-            android:title="@string/prefActionBarShowDccExButtonTitle"
-            android:layout="@layout/checkbox_icon_right" />
+<!--        <CheckBoxPreference-->
+<!--            android:icon="?attr/ed_dcc_ex_button"-->
+<!--            android:defaultValue="@bool/prefActionBarShowDccExButtonDefaultValue"-->
+<!--            android:key="prefActionBarShowDccExButton"-->
+<!--            android:summary="@string/prefActionBarShowDccExButtonSummary"-->
+<!--            android:title="@string/prefActionBarShowDccExButtonTitle"-->
+<!--            android:layout="@layout/checkbox_icon_right" />-->
     </PreferenceCategory>
 
     <PreferenceCategory

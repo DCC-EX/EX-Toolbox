@@ -24,766 +24,779 @@
 
             <include layout="@layout/toolbar" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:weightSum="1">
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/sensorsBackgroundImgView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight=".94"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:weightSum="1">
 
                     <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0sp"
-                        android:background="?attr/ed_background_highlight"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <TextView
-                            style="?attr/floating_text_style"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="2sp"
-                            android:text="@string/app_name_sensors"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="8sp"
-                        android:background="#888888"
-                        android:orientation="vertical" />
-
-                    <LinearLayout
-                        android:id="@+id/dexc_DCCEXsensorsLinearLayout"
-                        android:layout_width="fill_parent"
-                        android:layout_height="300sp"
-                        android:layout_margin="0sp"
-                        android:padding="5sp"
-                        android:weightSum="1"
-                        android:orientation="horizontal"
-                        tools:ignore="NestedWeights">
-
-                        <ScrollView
-                            android:id="@+id/dexc_DCCEXsensorsScrollView"
-                            android:layout_width="0sp"
-                            android:layout_height="fill_parent"
-                            android:orientation="vertical"
-                            android:layout_weight=".60">
-
-                            <LinearLayout
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="0sp"
-                                android:padding="0sp"
-                                android:orientation="vertical">
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXsensor0layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_id_0_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_vpin_0_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_pullup_0_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_0_status"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
-                                        android:padding="1sp"
-                                        android:text="@string/DCCEXsensorInactive"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXsensor1layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_id_1_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_vpin_1_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_pullup_1_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_1_status"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
-                                        android:padding="1sp"
-                                        android:text="@string/DCCEXsensorInactive"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXsensor2layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_id_2_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_vpin_2_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_pullup_2_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_2_status"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
-                                        android:padding="1sp"
-                                        android:text="@string/DCCEXsensorInactive"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXsensor3layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_id_3_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_vpin_3_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_pullup_3_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_3_status"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
-                                        android:padding="1sp"
-                                        android:text="@string/DCCEXsensorInactive"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXsensor4layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_id_4_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_vpin_4_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_pullup_4_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_4_status"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
-                                        android:padding="1sp"
-                                        android:text="@string/DCCEXsensorInactive"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXsensor5layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_id_5_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_vpin_5_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_pullup_5_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_5_status"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
-                                        android:padding="1sp"
-                                        android:text="@string/DCCEXsensorInactive"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXsensor6layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_id_6_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_vpin_6_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_pullup_6_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_6_status"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
-                                        android:padding="1sp"
-                                        android:text="@string/DCCEXsensorInactive"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXsensor7layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_id_7_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_vpin_7_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_pullup_7_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_7_status"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
-                                        android:padding="1sp"
-                                        android:text="@string/DCCEXsensorInactive"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXsensor8layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_id_8_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_vpin_8_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_pullup_8_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_8_status"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
-                                        android:padding="1sp"
-                                        android:text="@string/DCCEXsensorInactive"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXsensor9layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_id_9_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_vpin_9_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_pullup_9_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_sensor_9_status"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
-                                        android:padding="1sp"
-                                        android:text="@string/DCCEXsensorInactive"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                        </ScrollView>
-
-                        <LinearLayout
-                            android:layout_width="0sp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="0sp"
-                            android:padding="0sp"
-                            android:layout_weight=".4"
-                            android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/dexc_DCCEXreadSensorsButton"
-                            style="?attr/ed_small_button_style"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="0sp"
-                            android:autoSizeMinTextSize="8sp"
-                            android:autoSizeMaxTextSize="20sp"
-                            android:autoSizeStepGranularity="1sp"
-                            android:text="@string/DCCEXreadSensorsButtonLabel"
-                            tools:ignore="UnusedAttribute" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/dexc_DCCEXwriteInfoLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0sp"
-                        android:background="#00000000"
+                        android:layout_height="0dp"
+                        android:layout_weight=".94"
                         android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0sp"
+                            android:background="?attr/ed_background_highlight"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <TextView
+                                style="?attr/floating_text_style"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="2sp"
+                                android:text="@string/app_name_sensors"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
                             android:layout_height="2dp"
-                            android:layout_marginTop="6sp"
+                            android:layout_marginTop="8sp"
                             android:background="#888888"
                             android:orientation="vertical" />
 
-                        <TextView
-                            android:id="@+id/dexc_DCCEXwriteInfoLabel"
-                            style="?attr/floating_text_style"
+                        <LinearLayout
+                            android:id="@+id/dexc_DCCEXsensorsLinearLayout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="300sp"
+                            android:layout_margin="0sp"
+                            android:padding="5sp"
+                            android:weightSum="1"
+                            android:orientation="horizontal"
+                            tools:ignore="NestedWeights">
+
+                            <ScrollView
+                                android:id="@+id/dexc_DCCEXsensorsScrollView"
+                                android:layout_width="0sp"
+                                android:layout_height="fill_parent"
+                                android:orientation="vertical"
+                                android:layout_weight=".60">
+
+                                <LinearLayout
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="0sp"
+                                    android:padding="0sp"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXsensor0layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_id_0_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_vpin_0_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_pullup_0_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_0_status"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".6"
+                                            android:padding="1sp"
+                                            android:text="@string/DCCEXsensorInactive"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXsensor1layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_id_1_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_vpin_1_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_pullup_1_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_1_status"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".6"
+                                            android:padding="1sp"
+                                            android:text="@string/DCCEXsensorInactive"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXsensor2layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_id_2_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_vpin_2_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_pullup_2_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_2_status"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".6"
+                                            android:padding="1sp"
+                                            android:text="@string/DCCEXsensorInactive"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXsensor3layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_id_3_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_vpin_3_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_pullup_3_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_3_status"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".6"
+                                            android:padding="1sp"
+                                            android:text="@string/DCCEXsensorInactive"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXsensor4layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_id_4_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_vpin_4_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_pullup_4_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_4_status"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".6"
+                                            android:padding="1sp"
+                                            android:text="@string/DCCEXsensorInactive"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXsensor5layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_id_5_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_vpin_5_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_pullup_5_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_5_status"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".6"
+                                            android:padding="1sp"
+                                            android:text="@string/DCCEXsensorInactive"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXsensor6layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_id_6_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_vpin_6_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_pullup_6_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_6_status"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".6"
+                                            android:padding="1sp"
+                                            android:text="@string/DCCEXsensorInactive"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXsensor7layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_id_7_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_vpin_7_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_pullup_7_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_7_status"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".6"
+                                            android:padding="1sp"
+                                            android:text="@string/DCCEXsensorInactive"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXsensor8layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_id_8_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_vpin_8_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_pullup_8_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_8_status"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".6"
+                                            android:padding="1sp"
+                                            android:text="@string/DCCEXsensorInactive"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXsensor9layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_id_9_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_vpin_9_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_pullup_9_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_sensor_9_status"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".6"
+                                            android:padding="1sp"
+                                            android:text="@string/DCCEXsensorInactive"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                            </ScrollView>
+
+                            <LinearLayout
+                                android:layout_width="0sp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="0sp"
+                                android:padding="0sp"
+                                android:layout_weight=".4"
+                                android:orientation="vertical">
+
+                            <Button
+                                android:id="@+id/dexc_DCCEXreadSensorsButton"
+                                style="?attr/ed_small_button_style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="0sp"
+                                android:autoSizeMinTextSize="8sp"
+                                android:autoSizeMaxTextSize="20sp"
+                                android:autoSizeStepGranularity="1sp"
+                                android:text="@string/DCCEXreadSensorsButtonLabel"
+                                tools:ignore="UnusedAttribute" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/dexc_DCCEXwriteInfoLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:layout_marginTop="1sp"
-                            android:layout_marginBottom="1sp"
-                            android:padding="2sp"
-                            android:text=""
-                            android:textAlignment="viewEnd"
-                            android:textColor="?android:attr/textColorSecondary" />
+                            android:layout_marginTop="0sp"
+                            android:background="#00000000"
+                            android:orientation="vertical">
 
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="2dp"
-                        android:paddingTop="2dp"
-                        android:background="#888888"
-                        android:orientation="vertical" />
-
-                    <LinearLayout
-                        android:id="@+id/dexc_DCCEXresponsesAndSendsLayout"
-                        android:layout_width="fill_parent"
-                        android:layout_height="0sp"
-                        android:layout_marginTop="0sp"
-                        android:background="#00000000"
-                        android:orientation="vertical"
-                        android:layout_weight=".2"
-                        android:weightSum="1">
-
-                        <ScrollView
-                            android:id="@+id/dexc_DCCEXresponsesScrollView"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight=".7">
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="2dp"
+                                android:layout_marginTop="6sp"
+                                android:background="#888888"
+                                android:orientation="vertical" />
 
                             <TextView
-                                android:id="@+id/dexc_DCCEXresponsesLabel"
+                                android:id="@+id/dexc_DCCEXwriteInfoLabel"
                                 style="?attr/floating_text_style"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8sp"
+                                android:layout_gravity="end"
+                                android:layout_marginTop="1sp"
+                                android:layout_marginBottom="1sp"
+                                android:padding="2sp"
                                 android:text=""
-                                android:textSize="12sp" />
+                                android:textAlignment="viewEnd"
+                                android:textColor="?android:attr/textColorSecondary" />
 
-                        </ScrollView>
+                        </LinearLayout>
 
-                        <ScrollView
-                            android:id="@+id/dexc_DCCEXsendsScrollView"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight=".2">
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="2dp"
+                            android:paddingTop="2dp"
+                            android:background="#888888"
+                            android:orientation="vertical" />
 
-                            <TextView
-                                android:id="@+id/dexc_DCCEXsendsLabel"
-                                style="?attr/floating_text_style"
+                        <LinearLayout
+                            android:id="@+id/dexc_DCCEXresponsesAndSendsLayout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0sp"
+                            android:layout_marginTop="0sp"
+                            android:background="#00000000"
+                            android:orientation="vertical"
+                            android:layout_weight=".2"
+                            android:weightSum="1">
+
+                            <ScrollView
+                                android:id="@+id/dexc_DCCEXresponsesScrollView"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8sp"
-                                android:text=""
-                                android:textSize="12sp" />
+                                android:layout_height="0dp"
+                                android:layout_weight=".7">
 
-                        </ScrollView>
+                                <TextView
+                                    android:id="@+id/dexc_DCCEXresponsesLabel"
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8sp"
+                                    android:text=""
+                                    android:textSize="12sp" />
+
+                            </ScrollView>
+
+                            <ScrollView
+                                android:id="@+id/dexc_DCCEXsendsScrollView"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight=".2">
+
+                                <TextView
+                                    android:id="@+id/dexc_DCCEXsendsLabel"
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8sp"
+                                    android:text=""
+                                    android:textSize="12sp" />
+
+                            </ScrollView>
+                        </LinearLayout>
+
                     </LinearLayout>
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="3dp"
+                        android:layout_weight=".06"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp">
+
+                        <RelativeLayout
+                            android:id="@+id/dcc_ex_bottom_button_layout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0sp"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/dexc_DCCEXclearCommandsButton"
+                                style="?attr/ed_small_button_style"
+                                android:layout_gravity="left"
+                                android:text="@string/DCCEXclearCommands"
+                                tools:ignore="RtlHardcoded"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true" />
+
+                            <!--            <Button-->
+                            <!--                android:id="@+id/dexc_DCCEXhideSendsButton"-->
+                            <!--                style="?attr/ed_normal_button_style"-->
+                            <!--                android:layout_gravity="left"-->
+                            <!--                android:text="@string/DCCEXhideSends"-->
+                            <!--                tools:ignore="RtlHardcoded"-->
+                            <!--                android:layout_alignParentEnd="true"-->
+                            <!--                android:layout_alignParentRight="true" />-->
+
+                        </RelativeLayout>
+
+                    </TableLayout>
 
                 </LinearLayout>
 
-                <TableLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="3dp"
-                    android:layout_weight=".06"
-                    android:paddingLeft="6dp"
-                    android:paddingRight="6dp">
-
-                    <RelativeLayout
-                        android:id="@+id/dcc_ex_bottom_button_layout"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0sp"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/dexc_DCCEXclearCommandsButton"
-                            style="?attr/ed_small_button_style"
-                            android:layout_gravity="left"
-                            android:text="@string/DCCEXclearCommands"
-                            tools:ignore="RtlHardcoded"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true" />
-
-                        <!--            <Button-->
-                        <!--                android:id="@+id/dexc_DCCEXhideSendsButton"-->
-                        <!--                style="?attr/ed_normal_button_style"-->
-                        <!--                android:layout_gravity="left"-->
-                        <!--                android:text="@string/DCCEXhideSends"-->
-                        <!--                tools:ignore="RtlHardcoded"-->
-                        <!--                android:layout_alignParentEnd="true"-->
-                        <!--                android:layout_alignParentRight="true" />-->
-
-                    </RelativeLayout>
-
-                </TableLayout>
-
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 

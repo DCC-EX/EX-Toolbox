@@ -81,4 +81,5 @@ public interface message_type {
     int RECEIVED_CURRENTS_MAX = 80;
     int START_CURRENTS_TIMER = 81;
     int STOP_CURRENTS_TIMER = 82;
+    int RECEIVED_LOCO_UPDATE = 82;
 }

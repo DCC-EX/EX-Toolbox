@@ -129,7 +129,6 @@ public class comm_handler extends Handler {
 
                commThread.sendThrottleName();
                mainapp.sendMsgDelay(mainapp.comm_msg_handler, 5000L, message_type.CONNECTION_COMPLETED_CHECK);
-               commThread.phone = new comm_thread.PhoneListener();
             } else {
                mainapp.host_ip = null;  //clear vars if failed to connect
                mainapp.port = 0;

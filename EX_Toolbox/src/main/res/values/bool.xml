@@ -14,7 +14,7 @@
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 -->
 <resources>
-    <bool name="prefLayoutPowerButtonDefaultValue">false</bool>
+    <bool name="prefLayoutPowerButtonDefaultValue">true</bool>
     <bool name="prefConnectToFirstServer">false</bool>
 
     <bool name="prefShowAdvancedPreferencesDefaultValue">false</bool>
@@ -27,8 +27,8 @@
     <bool name="prefFeedbackOnDisconnectDefaultValue">true</bool>
     <bool name="prefFeedbackWhenGoingToBackgroundDefaultValue">true</bool>
 
-    <bool name="prefActionBarShowServerDescriptionDefaultValue">false</bool>
-    <bool name="prefActionBarShowDccExButtonDefaultValue">false</bool>
+    <bool name="prefActionBarShowServerDescriptionDefaultValue">true</bool>
+<!--    <bool name="prefActionBarShowDccExButtonDefaultValue">false</bool>-->
 
     <bool name="prefTickMarksOnSlidersDefaultValue">true</bool>
 

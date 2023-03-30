@@ -31,8 +31,6 @@ import android.os.Build;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.util.Log;
 import android.widget.Toast;
@@ -70,7 +68,6 @@ public class comm_thread extends Thread {
     withrottle_listener listener;
     android.net.wifi.WifiManager.MulticastLock multicast_lock;
     static socketWifi socketWiT;
-    PhoneListener phone;
     static heartbeat heart = new heartbeat();
     private static long lastSentMs = System.currentTimeMillis();
     private static long lastQueuedMs = System.currentTimeMillis();
@@ -265,10 +262,6 @@ public class comm_thread extends Thread {
 
     protected void stoppingConnection() {
         heart.stopHeartbeat();
-        if (phone != null) {
-            phone.disable();
-            phone = null;
-        }
         endJmdns();
 //            dlMetadataTask.stop();
 //        threaded_application.dlRosterTask.stop();
@@ -1021,12 +1014,17 @@ public class comm_thread extends Thread {
 
     private static void processDCCEXlocos(String [] args) {
         String responseStr="";
-        
+
         int dir = 0;
         int speed = Integer.parseInt(args[3]);
         if (speed >= 128) {
             speed = speed - 128;
             dir = 1;
+        }
+        if (speed>1) {
+            speed = speed - 1; // get round and idiotic design of the speed command
+        } else {
+            speed=0;
         }
 
         String addr_str = args[1];
@@ -1056,6 +1054,10 @@ public class comm_thread extends Thread {
                 throttleIndex = whichThrottle; // skip ahead
             }
         }
+
+        responseStr = "l " + args[1] + " " + speed + " " + dir;
+        mainapp.alert_activities(message_type.RECEIVED_LOCO_UPDATE, responseStr);
+
     } // end processDCCEXlocos()
 
     private static boolean processDCCEXroster(String [] args) {
@@ -2090,31 +2092,6 @@ public class comm_thread extends Thread {
                 }
             }
         };
-    }
-
-    /* ******************************************************************************************** */
-
-    static class PhoneListener extends PhoneStateListener {
-        private final TelephonyManager telMgr;
-
-        PhoneListener() {
-            telMgr = (TelephonyManager) mainapp.getSystemService(Context.TELEPHONY_SERVICE);
-            this.enable();
-        }
-
-        public void disable() {
-            telMgr.listen(this, PhoneStateListener.LISTEN_NONE);
-        }
-
-        public void enable() {
-            telMgr.listen(this, PhoneStateListener.LISTEN_CALL_STATE);
-        }
-
-        @Override
-        public void onCallStateChanged(int state, String incomingNumber) {
-            if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
-            }
-        }
     }
 
     /* ******************************************************************************************** */

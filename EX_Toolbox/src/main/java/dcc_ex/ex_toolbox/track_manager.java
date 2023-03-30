@@ -332,6 +332,8 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
 
         setContentView(R.layout.track_manager);
 
+        mainapp.loadBackgroundImage(findViewById(R.id.trackManagerBackgroundImgView));
+
         //put pointer to this activity's handler in main app's shared variable
         mainapp.track_manager_msg_handler = new track_manager_handler();
 
@@ -629,6 +631,11 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
             case R.id.servos_mnu:
                 navigateAway(true, null);
                 in = new Intent().setClass(this, servos.class);
+                startACoreActivity(this, in, false, 0);
+                return true;
+            case R.id.locos_mnu:
+                navigateAway(true, null);
+                in = new Intent().setClass(this, locos.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
             case R.id.currents_mnu:

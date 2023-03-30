@@ -37,6 +37,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,9 +57,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieSyncManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.text.SimpleDateFormat;
@@ -79,7 +82,7 @@ import jmri.jmrit.roster.RosterEntry;
 //This thread will only act upon messages sent to it. The network communication needs to persist across activities, so that is why
 @SuppressLint("NewApi")
 public class threaded_application extends Application {
-    public static String INTRO_VERSION = "8";  // set this to a different string to force the intro to run on next startup.
+    public static String INTRO_VERSION = "9";  // set this to a different string to force the intro to run on next startup.
 
     private threaded_application mainapp = this;
     public comm_thread commThread;
@@ -221,6 +224,7 @@ public class threaded_application extends Application {
     public volatile Handler track_manager_msg_handler;
     public volatile Handler sensors_msg_handler;
     public volatile Handler currents_msg_handler;
+    public volatile Handler locos_msg_handler;
 
     public volatile Handler reconnect_status_msg_handler;
     public volatile Handler preferences_msg_handler;
@@ -296,13 +300,17 @@ public class threaded_application extends Application {
 
     /// swipe right sequence
     public static final int SCREEN_SWIPE_INDEX_CV_PROGRAMMER = 0;
-    public static final int SCREEN_SWIPE_INDEX_SERVOS = 1;
-    public static final int SCREEN_SWIPE_INDEX_SENSORS = 2;
-    public static final int SCREEN_SWIPE_INDEX_CURRENTS = 3;
-    public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 4;
-    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 5;
-    public static final int SCREEN_SWIPE_INDEX_DIAG = 6;
+    public static final int SCREEN_SWIPE_INDEX_LOCOS = 1;
+    public static final int SCREEN_SWIPE_INDEX_SERVOS = 2;
+    public static final int SCREEN_SWIPE_INDEX_SENSORS = 3;
+    public static final int SCREEN_SWIPE_INDEX_CURRENTS = 4;
+    public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 5;
+    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 6;
+    public static final int SCREEN_SWIPE_INDEX_DIAG = 7;
 
+    public boolean prefBackgroundImage = false;
+    public String prefBackgroundImageFileName = "";
+    public String prefBackgroundImagePosition = "FIT_CENTER";
 
     public boolean prefThrottleViewImmersiveModeHideToolbar = true;
     public boolean prefActionBarShowServerDescription = false;
@@ -317,7 +325,7 @@ public class threaded_application extends Application {
     public String DCCEXresponsesStr = "";
     public String DCCEXsendsStr = "";
 
-    public boolean prefActionBarShowDccExButton = false;
+//    public boolean prefActionBarShowDccExButton = false;
 
     /**
      * Display OnGoing Notification that indicates EngineDriver is Running.
@@ -910,6 +918,11 @@ public class threaded_application extends Application {
         }
 
         try {
+            sendMsg(locos_msg_handler, msgType, msgBody);
+        } catch (Exception ignored) {
+        }
+
+        try {
             sendMsg(settings_msg_handler, msgType, msgBody);
         } catch (Exception ignored) {
         }
@@ -1355,6 +1368,9 @@ public class threaded_application extends Application {
             default:
                 nextIntent = new Intent().setClass(this, cv_programmer.class);
                 break;
+            case SCREEN_SWIPE_INDEX_LOCOS:
+                nextIntent = new Intent().setClass(this, locos.class);
+                break;
             case SCREEN_SWIPE_INDEX_SERVOS:
                 nextIntent = new Intent().setClass(this, servos.class);
                 break;
@@ -1581,6 +1597,46 @@ public class threaded_application extends Application {
         prefActionBarShowServerDescription = prefs.getBoolean("prefActionBarShowServerDescription",
                 getResources().getBoolean(R.bool.prefActionBarShowServerDescriptionDefaultValue));
 
+        prefBackgroundImage = prefs.getBoolean("prefBackgroundImage", getResources().getBoolean(R.bool.prefBackgroundImageDefaultValue));
+        prefBackgroundImageFileName = prefs.getString("prefBackgroundImageFileName", getResources().getString(R.string.prefBackgroundImageFileNameDefaultValue));
+        prefBackgroundImagePosition = prefs.getString("prefBackgroundImagePosition", getResources().getString(R.string.prefBackgroundImagePositionDefaultValue));
+    }
+
+
+    public void loadBackgroundImage(ImageView myImage) {
+        if (prefBackgroundImage) {
+            if (PermissionsHelper.getInstance().isPermissionGranted(this, PermissionsHelper.READ_IMAGES)) {
+                loadBackgroundImageImpl(myImage);
+                myImage.invalidate();
+            }
+        }
+    }
+
+    public void loadBackgroundImageImpl(ImageView myImage) {
+//        ImageView myImage = findViewById(R.id.backgroundImgView);
+        try {
+            File image_file = new File(prefBackgroundImageFileName);
+            myImage.setImageBitmap(BitmapFactory.decodeFile(image_file.getPath()));
+            switch (prefBackgroundImagePosition){
+                case "FIT_CENTER":
+                    myImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    break;
+                case "CENTER_CROP":
+                    myImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    break;
+                case "CENTER":
+                    myImage.setScaleType(ImageView.ScaleType.CENTER);
+                    break;
+                case "FIT_XY":
+                    myImage.setScaleType(ImageView.ScaleType.FIT_XY);
+                    break;
+                case "CENTER_INSIDE":
+                    myImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    break;
+            }
+        } catch (Exception e) {
+            Log.d("ex_toolbox", "Throttle: failed loading background image");
+        }
     }
 
 }

@@ -399,51 +399,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         //put pointer to this activity's handler in main app's shared variable
         mainapp.cv_programmer_msg_handler = new cv_programmer_handler();
 
-//        // enable remote debugging of all webviews
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            if (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)) {
-//                WebView.setWebContentsDebuggingEnabled(true);
-//            }
-//        }
-//
-//        // open all links inside the current view (don't start external web browser)
-//        WebViewClient EDWebClient = new WebViewClient() {
-//            private int loadRetryCnt = 0;
-//            private String currentUrl = null;
-//
-//            @Override
-//            public void onPageFinished(WebView view, String url) {
-//                super.onPageFinished(view, url);
-//            }
-//            @Override
-//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                return handleLoadingErrorRetries();
-//            }
-//
-//            // above form of shouldOverrideUrlloading is deprecated so support the new form if available
-//            @TargetApi(Build.VERSION_CODES.N)
-//            @Override
-//            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-//                return handleLoadingErrorRetries();
-//            }
-//
-//            // stop page from continually reloading when loading errors occur
-//            // (this can happen if the initial web page pref is set to a non-existant url)
-//            private boolean handleLoadingErrorRetries() {
-//                if (++loadRetryCnt >= 3) {   // if same page is reloading (due to errors)
-//                    loadRetryCnt = 0;        // reset count for next url load
-//                    return true;                // don't load the page
-//                }
-//                return false;                   // load in webView
-//            }
-//        };
-
-        //Set the buttons
-//        closeButton = findViewById(R.id.webview_button_close);
-//        web_activity.close_button_listener close_click_listener = new web_activity.close_button_listener();
-//        closeButton.setOnClickListener(close_click_listener);
-
-        Button button;
+        mainapp.loadBackgroundImage(findViewById(R.id.cv_programmerBackgroundImgView));
 
         readAddressButton = findViewById(R.id.dexc_DCCEXreadAddressButton);
         read_address_button_listener read_address_click_listener = new read_address_button_listener();
@@ -811,6 +767,11 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                 in = new Intent().setClass(this, sensors.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
+            case R.id.locos_mnu:_mnu:
+            navigateAway(true, null);
+                in = new Intent().setClass(this, locos.class);
+                startACoreActivity(this, in, false, 0);
+                return true;
 
             case R.id.exit_mnu:
                 mainapp.checkExit(this);
@@ -987,7 +948,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                 try {
                     Integer cv = Integer.decode(cvStr);
                     int cvValue = Integer.decode(cvValueStr);
-                    if ((cv > 0) && (cvValue > 0)) {
+                    if (cv > 0) {
                         DCCEXcv = cv.toString();
                         DCCEXcvValue = Integer.toString(cvValue);
                         mainapp.buttonVibration();

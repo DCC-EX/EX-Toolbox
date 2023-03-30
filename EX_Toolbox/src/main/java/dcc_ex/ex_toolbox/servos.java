@@ -371,6 +371,8 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
 
         setContentView(R.layout.servos);
 
+        mainapp.loadBackgroundImage(findViewById(R.id.servosBackgroundImgView));
+
         //put pointer to this activity's handler in main app's shared variable
         mainapp.servos_msg_handler = new servos_handler();
 
@@ -646,6 +648,11 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
             case R.id.cv_programmer_mnu:
                 navigateAway(true, null);
                 in = new Intent().setClass(this, cv_programmer.class);
+                startACoreActivity(this, in, false, 0);
+                return true;
+            case R.id.locos_mnu:
+                navigateAway(true, null);
+                in = new Intent().setClass(this, locos.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
             case R.id.track_manager_mnu:

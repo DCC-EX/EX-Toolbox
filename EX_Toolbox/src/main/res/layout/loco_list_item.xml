@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="1"
+    android:paddingLeft="3px"
+    android:paddingRight="3px">
+
+    <TextView
+        android:id="@+id/loco_id_item_label"
+        style="?attr/list_item_style"
+        android:layout_width="0sp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".3"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:textAlignment="viewEnd"
+        android:gravity="end"
+        android:text="loco id"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/loco_speed_item_label"
+        style="?attr/list_item_style"
+        android:layout_width="0sp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".3"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:textAlignment="viewEnd"
+        android:gravity="end"
+        android:text="126"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/loco_direction_item_label"
+        style="?attr/list_item_style"
+        android:layout_width="0sp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".4"
+        android:paddingTop="3dp"
+        android:paddingLeft="3dp"
+        android:text="Forward"
+        android:textSize="16sp" />
+</LinearLayout>

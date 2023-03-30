@@ -40,6 +40,8 @@
     <string name="app_name_track_manager_short">Track Mgr</string>
     <string name="app_name_sensors">Sensor Status</string>
     <string name="app_name_sensors_short">Sensors</string>
+    <string name="app_name_locos">Loco Status</string>
+    <string name="app_name_locos_short">Locos</string>
     <string name="app_name_currents">Current Status</string>
     <string name="app_name_currents_short">Currents</string>
 
@@ -145,16 +147,6 @@
     <string name="prefThemeTitle">Theme/Style</string>
     <string name="prefThemeSummary">Select a visual appearance for this app</string>
     <string name="prefThemeDefaultValue" translatable="false">Default</string>  <!-- DO NOT TRANSLATE -->
-
-    <string name="prefAccelerometerTitle">Accelerometer (Shake) Preferences</string>
-    <string name="prefAccelerometerSummary">Options for device motion on the Throttle screen</string>
-    <string name="prefAccelerometerShakeTitle">Shake Action</string>
-    <string name="prefAccelerometerShakeSummary">Options for when you shake the device</string>
-    <string name="prefAccelerometerShakeDefaultValue" translatable="false">None</string>  <!-- DO NOT TRANSLATE -->
-
-    <string name="prefAccelerometerShakeThresholdTitle">Shake Threshold</string>
-    <string name="prefAccelerometerShakeThresholdSummary">Threshold at which the shake will register. (1.5&#8211;3.5) Lower value will respond to a gentle action.\nRequires restart of EX-Toolbox after changing to take effect.</string>
-    <string name="prefAccelerometerShakeThresholdDefaultValue" translatable="false">2.0</string>  <!-- DO NOT TRANSLATE -->
 
     <string name="prefLocaleTitle">Localisation</string>
     <string name="prefLocaleSummary">Language to use for this app</string>
@@ -412,6 +404,13 @@
     <string name="DCCEXCurrentsColumnLabel">Value</string>
     <string name="DCCEXCurrentsHighestColumnLabel">Highest</string>
     <string name="DCCEXCurrentsMaxColumnLabel">Max</string>
+
+    <string name="forward">Forward</string>
+    <string name="reverse">Reverse</string>
+
+    <string name="DCCEXlocoIdColumnLabel">DCC Addr</string>
+    <string name="DCCEXlocoSpeedColumnLabel">Speed (0-126)</string>
+    <string name="DCCEXlocoDirectionColumnLabel">Direction</string>
 
 </resources>
 

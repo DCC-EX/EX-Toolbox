@@ -24,710 +24,709 @@
 
             <include layout="@layout/toolbar" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:weightSum="1">
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/currentsBackgroundImgView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight=".94"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:weightSum="1">
 
                     <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0sp"
-                        android:background="?attr/ed_background_highlight"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
+                        android:layout_height="0dp"
+                        android:layout_weight=".94"
+                        android:orientation="vertical">
 
-                        <TextView
-                            style="?attr/floating_text_style"
+                        <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:padding="2sp"
-                            android:text="@string/app_name_currents"
-                            android:textSize="14sp" />
-                    </LinearLayout>
+                            android:layout_marginTop="0sp"
+                            android:background="?attr/ed_background_highlight"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="8sp"
-                        android:background="#888888"
-                        android:orientation="vertical" />
+                            <TextView
+                                style="?attr/floating_text_style"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="2sp"
+                                android:text="@string/app_name_currents"
+                                android:textSize="14sp" />
+                        </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/dexc_DCCEXcurrentsLinearLayout"
-                        android:layout_width="fill_parent"
-                        android:layout_height="200sp"
-                        android:layout_margin="0sp"
-                        android:padding="5sp"
-                        android:weightSum="1"
-                        android:orientation="horizontal"
-                        tools:ignore="NestedWeights">
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="8sp"
+                            android:background="#888888"
+                            android:orientation="vertical" />
 
-                        <ScrollView
-                            android:id="@+id/dexc_DCCEXcurrentsScrollView"
-                            android:layout_width="0sp"
-                            android:layout_height="fill_parent"
-                            android:orientation="vertical"
-                            android:layout_weight=".75">
+                        <LinearLayout
+                            android:id="@+id/dexc_DCCEXcurrentsLinearLayout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="200sp"
+                            android:layout_margin="0sp"
+                            android:padding="5sp"
+                            android:weightSum="1"
+                            android:orientation="horizontal"
+                            tools:ignore="NestedWeights">
+
+                            <ScrollView
+                                android:id="@+id/dexc_DCCEXcurrentsScrollView"
+                                android:layout_width="0sp"
+                                android:layout_height="fill_parent"
+                                android:orientation="vertical"
+                                android:layout_weight=".75">
+
+                                <LinearLayout
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="0sp"
+                                    android:padding="0sp"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXcurrentTitleslayout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".05"
+                                            android:text=" "
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:textColor="?android:attr/textColorSecondary" />
+
+                                        <TextView
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text="@string/DCCEXCurrentsColumnLabel"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:textColor="?android:attr/textColorSecondary"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text="@string/DCCEXCurrentsHighestColumnLabel"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:textColor="?android:attr/textColorSecondary"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text="@string/DCCEXCurrentsMaxColumnLabel"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:textColor="?android:attr/textColorSecondary"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                    </LinearLayout>
+
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXcurrent0layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".05"
+                                            android:text="A"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_0_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_highest_0_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_max_0_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <ProgressBar
+                                            android:id="@+id/dexc_current_max_0_progress_bar"
+                                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".3"
+                                            android:max="100"
+                                            android:paddingLeft="20px"
+                                            android:paddingRight="20px" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXcurrent1layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".05"
+                                            android:text="B"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_1_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_highest_1_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_max_1_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <ProgressBar
+                                            android:id="@+id/dexc_current_max_1_progress_bar"
+                                            android:layout_width="0sp"
+                                            android:layout_weight=".3"
+                                            android:layout_height="wrap_content"
+                                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                            android:max="100"
+                                            android:paddingLeft="20px"
+                                            android:paddingRight="20px" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXcurrent2layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".05"
+                                            android:text="C"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_2_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_highest_2_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_max_2_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <ProgressBar
+                                            android:id="@+id/dexc_current_max_2_progress_bar"
+                                            android:layout_width="0sp"
+                                            android:layout_weight=".3"
+                                            android:layout_height="wrap_content"
+                                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                            android:max="100"
+                                            android:paddingLeft="20px"
+                                            android:paddingRight="20px" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXcurrent3layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".05"
+                                            android:text="D"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_3_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_highest_3_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_max_3_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <ProgressBar
+                                            android:id="@+id/dexc_current_max_3_progress_bar"
+                                            android:layout_width="0sp"
+                                            android:layout_weight=".3"
+                                            android:layout_height="wrap_content"
+                                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                            android:max="100"
+                                            android:paddingLeft="20px"
+                                            android:paddingRight="20px" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXcurrent4layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".05"
+                                            android:text="E"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_4_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_highest_4_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_max_4_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <ProgressBar
+                                            android:id="@+id/dexc_current_max_4_progress_bar"
+                                            android:layout_width="0sp"
+                                            android:layout_weight=".3"
+                                            android:layout_height="wrap_content"
+                                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                            android:max="100"
+                                            android:paddingLeft="20px"
+                                            android:paddingRight="20px" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXcurrent5layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".05"
+                                            android:text="F"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_5_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_highest_5_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_max_5_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <ProgressBar
+                                            android:id="@+id/dexc_current_max_5_progress_bar"
+                                            android:layout_width="0sp"
+                                            android:layout_weight=".3"
+                                            android:layout_height="wrap_content"
+                                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                            android:max="100"
+                                            android:paddingLeft="20px"
+                                            android:paddingRight="20px" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXcurrent6layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".05"
+                                            android:text="G"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_6_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_highest_6_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_max_6_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <ProgressBar
+                                            android:id="@+id/dexc_current_max_6_progress_bar"
+                                            android:layout_width="0sp"
+                                            android:layout_weight=".3"
+                                            android:layout_height="wrap_content"
+                                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                            android:max="100"
+                                            android:paddingLeft="20px"
+                                            android:paddingRight="20px" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dexc_DCCEXcurrent7layout"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="0sp"
+                                        android:background="#00000000"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1" >
+
+                                        <TextView
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".05"
+                                            android:text="H"
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_7_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_highest_7_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText" />
+
+                                        <TextView
+                                            android:id="@+id/dexc_current_max_7_value"
+                                            style="?attr/floating_text_style"
+                                            android:layout_width="0sp"
+                                            android:layout_height="wrap_content"
+                                            android:padding="1sp"
+                                            android:layout_weight=".2"
+                                            android:text=""
+                                            android:textSize="14sp"
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd" />
+
+                                        <ProgressBar
+                                            android:id="@+id/dexc_current_max_7_progress_bar"
+                                            android:layout_width="0sp"
+                                            android:layout_weight=".3"
+                                            android:layout_height="wrap_content"
+                                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                            android:max="100"
+                                            android:paddingLeft="20px"
+                                            android:paddingRight="20px" />
+
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+
+                            </ScrollView>
 
                             <LinearLayout
-                                android:layout_width="fill_parent"
+                                android:layout_width="0sp"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="0sp"
                                 android:padding="0sp"
+                                android:layout_weight=".25"
                                 android:orientation="vertical">
 
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXcurrentTitleslayout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".05"
-                                        android:text=" "
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:textColor="?android:attr/textColorSecondary" />
-
-                                    <TextView
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text="@string/DCCEXCurrentsColumnLabel"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:textColor="?android:attr/textColorSecondary"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text="@string/DCCEXCurrentsHighestColumnLabel"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:textColor="?android:attr/textColorSecondary"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text="@string/DCCEXCurrentsMaxColumnLabel"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:textColor="?android:attr/textColorSecondary"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                </LinearLayout>
-
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXcurrent0layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".05"
-                                        android:text="A"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_0_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_highest_0_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_max_0_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <ProgressBar
-                                        android:id="@+id/dexc_current_max_0_progress_bar"
-                                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".3"
-                                        android:max="100"
-                                        android:paddingLeft="20px"
-                                        android:paddingRight="20px" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXcurrent1layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".05"
-                                        android:text="B"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_1_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_highest_1_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_max_1_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <ProgressBar
-                                        android:id="@+id/dexc_current_max_1_progress_bar"
-                                        android:layout_width="0sp"
-                                        android:layout_weight=".3"
-                                        android:layout_height="wrap_content"
-                                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                                        android:max="100"
-                                        android:paddingLeft="20px"
-                                        android:paddingRight="20px" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXcurrent2layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".05"
-                                        android:text="C"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_2_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_highest_2_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_max_2_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <ProgressBar
-                                        android:id="@+id/dexc_current_max_2_progress_bar"
-                                        android:layout_width="0sp"
-                                        android:layout_weight=".3"
-                                        android:layout_height="wrap_content"
-                                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                                        android:max="100"
-                                        android:paddingLeft="20px"
-                                        android:paddingRight="20px" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXcurrent3layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".05"
-                                        android:text="D"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_3_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_highest_3_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_max_3_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <ProgressBar
-                                        android:id="@+id/dexc_current_max_3_progress_bar"
-                                        android:layout_width="0sp"
-                                        android:layout_weight=".3"
-                                        android:layout_height="wrap_content"
-                                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                                        android:max="100"
-                                        android:paddingLeft="20px"
-                                        android:paddingRight="20px" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXcurrent4layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".05"
-                                        android:text="E"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_4_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_highest_4_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_max_4_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <ProgressBar
-                                        android:id="@+id/dexc_current_max_4_progress_bar"
-                                        android:layout_width="0sp"
-                                        android:layout_weight=".3"
-                                        android:layout_height="wrap_content"
-                                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                                        android:max="100"
-                                        android:paddingLeft="20px"
-                                        android:paddingRight="20px" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXcurrent5layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".05"
-                                        android:text="F"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_5_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_highest_5_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_max_5_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <ProgressBar
-                                        android:id="@+id/dexc_current_max_5_progress_bar"
-                                        android:layout_width="0sp"
-                                        android:layout_weight=".3"
-                                        android:layout_height="wrap_content"
-                                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                                        android:max="100"
-                                        android:paddingLeft="20px"
-                                        android:paddingRight="20px" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXcurrent6layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".05"
-                                        android:text="G"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_6_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_highest_6_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_max_6_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <ProgressBar
-                                        android:id="@+id/dexc_current_max_6_progress_bar"
-                                        android:layout_width="0sp"
-                                        android:layout_weight=".3"
-                                        android:layout_height="wrap_content"
-                                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                                        android:max="100"
-                                        android:paddingLeft="20px"
-                                        android:paddingRight="20px" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/dexc_DCCEXcurrent7layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="0sp"
-                                    android:background="#00000000"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1" >
-
-                                    <TextView
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".05"
-                                        android:text="H"
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_7_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_highest_7_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText" />
-
-                                    <TextView
-                                        android:id="@+id/dexc_current_max_7_value"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="0sp"
-                                        android:layout_height="wrap_content"
-                                        android:padding="1sp"
-                                        android:layout_weight=".2"
-                                        android:text=""
-                                        android:textSize="14sp"
-                                        tools:ignore="HardcodedText"
-                                        android:gravity="end"
-                                        android:textAlignment="viewEnd" />
-
-                                    <ProgressBar
-                                        android:id="@+id/dexc_current_max_7_progress_bar"
-                                        android:layout_width="0sp"
-                                        android:layout_weight=".3"
-                                        android:layout_height="wrap_content"
-                                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                                        android:max="100"
-                                        android:paddingLeft="20px"
-                                        android:paddingRight="20px" />
-
-                                </LinearLayout>
-
-
-                            </LinearLayout>
-
-                        </ScrollView>
-
-                        <LinearLayout
-                            android:layout_width="0sp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="0sp"
-                            android:padding="0sp"
-                            android:layout_weight=".25"
-                            android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/dexc_DCCEXstartCurrentsButton"
-                            style="?attr/ed_small_button_style"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="0sp"
-                            android:autoSizeMinTextSize="8sp"
-                            android:autoSizeMaxTextSize="20sp"
-                            android:autoSizeStepGranularity="1sp"
-                            android:text="@string/DCCEXstartCurrentsButtonLabel"
-                            tools:ignore="UnusedAttribute" />
-
                             <Button
-                                android:id="@+id/dexc_DCCEXstopCurrentsButton"
+                                android:id="@+id/dexc_DCCEXstartCurrentsButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -735,124 +734,138 @@
                                 android:autoSizeMinTextSize="8sp"
                                 android:autoSizeMaxTextSize="20sp"
                                 android:autoSizeStepGranularity="1sp"
-                                android:text="@string/DCCEXstopCurrentsButtonLabel"
-                                tools:ignore="UnusedAttribute" />                        </LinearLayout>
-                    </LinearLayout>
+                                android:text="@string/DCCEXstartCurrentsButtonLabel"
+                                tools:ignore="UnusedAttribute" />
 
-                    <LinearLayout
-                        android:id="@+id/dexc_DCCEXwriteInfoLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0sp"
-                        android:background="#00000000"
-                        android:orientation="vertical">
+                                <Button
+                                    android:id="@+id/dexc_DCCEXstopCurrentsButton"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="0sp"
+                                    android:autoSizeMinTextSize="8sp"
+                                    android:autoSizeMaxTextSize="20sp"
+                                    android:autoSizeStepGranularity="1sp"
+                                    android:text="@string/DCCEXstopCurrentsButtonLabel"
+                                    tools:ignore="UnusedAttribute" />                        </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/dexc_DCCEXwriteInfoLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0sp"
+                            android:background="#00000000"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="2dp"
+                                android:layout_marginTop="6sp"
+                                android:background="#888888"
+                                android:orientation="vertical" />
+
+                            <TextView
+                                android:id="@+id/dexc_DCCEXwriteInfoLabel"
+                                style="?attr/floating_text_style"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:layout_marginTop="1sp"
+                                android:layout_marginBottom="1sp"
+                                android:padding="2sp"
+                                android:text=""
+                                android:textAlignment="viewEnd"
+                                android:textColor="?android:attr/textColorSecondary" />
+
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="2dp"
-                            android:layout_marginTop="6sp"
+                            android:paddingTop="2dp"
                             android:background="#888888"
                             android:orientation="vertical" />
 
-                        <TextView
-                            android:id="@+id/dexc_DCCEXwriteInfoLabel"
-                            style="?attr/floating_text_style"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:id="@+id/dexc_DCCEXresponsesAndSendsLayout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0sp"
+                            android:layout_marginTop="0sp"
+                            android:background="#00000000"
+                            android:orientation="vertical"
+                            android:layout_weight=".2"
+                            android:weightSum="1">
+
+                            <ScrollView
+                                android:id="@+id/dexc_DCCEXresponsesScrollView"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight=".7">
+
+                                <TextView
+                                    android:id="@+id/dexc_DCCEXresponsesLabel"
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8sp"
+                                    android:text=""
+                                    android:textSize="12sp" />
+
+                            </ScrollView>
+
+                            <ScrollView
+                                android:id="@+id/dexc_DCCEXsendsScrollView"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight=".2">
+
+                                <TextView
+                                    android:id="@+id/dexc_DCCEXsendsLabel"
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8sp"
+                                    android:text=""
+                                    android:textSize="12sp" />
+
+                            </ScrollView>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="3dp"
+                        android:layout_weight=".06"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp">
+
+                        <RelativeLayout
+                            android:id="@+id/dcc_ex_bottom_button_layout"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:layout_marginTop="1sp"
-                            android:layout_marginBottom="1sp"
-                            android:padding="2sp"
-                            android:text=""
-                            android:textAlignment="viewEnd"
-                            android:textColor="?android:attr/textColorSecondary" />
+                            android:layout_margin="0sp"
+                            android:orientation="horizontal">
 
-                    </LinearLayout>
+                            <Button
+                                android:id="@+id/dexc_DCCEXclearCommandsButton"
+                                style="?attr/ed_small_button_style"
+                                android:layout_gravity="left"
+                                android:text="@string/DCCEXclearCommands"
+                                tools:ignore="RtlHardcoded"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true" />
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="2dp"
-                        android:paddingTop="2dp"
-                        android:background="#888888"
-                        android:orientation="vertical" />
+                        </RelativeLayout>
 
-                    <LinearLayout
-                        android:id="@+id/dexc_DCCEXresponsesAndSendsLayout"
-                        android:layout_width="fill_parent"
-                        android:layout_height="0sp"
-                        android:layout_marginTop="0sp"
-                        android:background="#00000000"
-                        android:orientation="vertical"
-                        android:layout_weight=".2"
-                        android:weightSum="1">
-
-                        <ScrollView
-                            android:id="@+id/dexc_DCCEXresponsesScrollView"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight=".7">
-
-                            <TextView
-                                android:id="@+id/dexc_DCCEXresponsesLabel"
-                                style="?attr/floating_text_style"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8sp"
-                                android:text=""
-                                android:textSize="12sp" />
-
-                        </ScrollView>
-
-                        <ScrollView
-                            android:id="@+id/dexc_DCCEXsendsScrollView"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight=".2">
-
-                            <TextView
-                                android:id="@+id/dexc_DCCEXsendsLabel"
-                                style="?attr/floating_text_style"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8sp"
-                                android:text=""
-                                android:textSize="12sp" />
-
-                        </ScrollView>
-                    </LinearLayout>
+                    </TableLayout>
 
                 </LinearLayout>
 
-                <TableLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="3dp"
-                    android:layout_weight=".06"
-                    android:paddingLeft="6dp"
-                    android:paddingRight="6dp">
-
-                    <RelativeLayout
-                        android:id="@+id/dcc_ex_bottom_button_layout"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0sp"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/dexc_DCCEXclearCommandsButton"
-                            style="?attr/ed_small_button_style"
-                            android:layout_gravity="left"
-                            android:text="@string/DCCEXclearCommands"
-                            tools:ignore="RtlHardcoded"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true" />
-
-                    </RelativeLayout>
-
-                </TableLayout>
-
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 
