@@ -57,7 +57,10 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
+import dcc_ex.ex_toolbox.util.ImportExport;
 
 public class servos extends AppCompatActivity implements GestureOverlayView.OnGestureListener {
 
@@ -169,6 +172,10 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     static final int DELTA_INCREMENT = 1;
     static final int DELTA_DECREMENT = -1;
     static final int DELTA_ZERO = 0;
+
+    Spinner dss_servosList;
+    ArrayAdapter<String> servoSpinnerAdapter;
+    public ArrayList<String> servoList;
 
     //**************************************
 
@@ -502,6 +509,19 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
         clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
+
+
+        // Set the options for the saved servos
+        mainapp.importExport.initialiseServoList();
+        mainapp.importExport.readServoListFromFile();
+
+        servoList = new ArrayList<>(mainapp.importExport.servoList);
+        dss_servosList = findViewById(R.id.dexc_ServosList);
+        servoSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, servoList);
+        servoSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dss_servosList.setAdapter(servoSpinnerAdapter);
+        dss_servosList.setOnItemSelectedListener(new servoSpinnerListener());
+        reloadServosSpinner();
 
         //-----------------------------------------
 
@@ -916,6 +936,20 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 break;
         }
         setTextSelection(which);
+        reloadServosSpinner();
+    }
+
+    private void reloadServosSpinner() {
+//        mainapp.importExport.convertServoListToArray();
+        mainapp.importExport.updateServoList(DCCEXservoVpinValue, DCCEXservoClosedPositionValue,DCCEXservoThrownPositionValue,DCCEXservoThrownPositionValue, dccExServoProfile);
+        mainapp.importExport.writeServoListToFile(prefs);
+//        servoSpinnerAdapter.clear();
+        for (int i = servoSpinnerAdapter.getCount()-1; i >= 0; i--) {
+            servoSpinnerAdapter.remove(servoSpinnerAdapter.getItem(i));
+        }
+        servoSpinnerAdapter.addAll(mainapp.importExport.servoList);
+        servoSpinnerAdapter.notifyDataSetChanged();
+        dss_servosList.setSelection(0);
     }
 
     private class servo_position_increment_button_listener implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener {
@@ -1235,7 +1269,39 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         }
     }
 
+    public class servoSpinnerListener implements AdapterView.OnItemSelectedListener {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            Spinner spinner = findViewById(R.id.dexc_ServosList);
+            int index = spinner.getSelectedItemPosition();
+            if (index>0) {
+                DCCEXservoVpin = String.format("%d", mainapp.importExport.servoVpinList.get(index));
+                DCCEXservoVpinValue = mainapp.importExport.servoVpinList.get(index);
+                etDCCEXservoVpinValue.setText(DCCEXservoVpin);
 
+                DCCEXservoThrownPosition = String.format("%d", mainapp.importExport.servoThrownPositionList.get(index));
+                DCCEXservoThrownPositionValue = mainapp.importExport.servoThrownPositionList.get(index);
+                etDCCEXservoThrownPositionValue.setText(DCCEXservoThrownPosition);
+
+                DCCEXservoMidPosition = String.format("%d", mainapp.importExport.servoThrownPositionList.get(index));
+                DCCEXservoMidPositionValue = mainapp.importExport.servoThrownPositionList.get(index);
+                etDCCEXservoMidPositionValue.setText(DCCEXservoMidPosition);
+
+                DCCEXservoClosedPosition = String.format("%d", mainapp.importExport.servoClosedPositionList.get(index));
+                DCCEXservoClosedPositionValue = mainapp.importExport.servoClosedPositionList.get(index);
+                etDCCEXservoClosedPositionValue.setText(DCCEXservoClosedPosition);
+
+                dccExServoProfile = mainapp.importExport.servoProfileList.get(index);
+                dccExServoProfilesSpinner.setSelection(dccExServoProfile);
+
+                refreshDCCEXview();
+                dss_servosList.setSelection(0);
+            }
+        }
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+        }
+    }
 
 
 }

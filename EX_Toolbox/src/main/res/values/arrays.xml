@@ -290,4 +290,7 @@
         <item>prefShowTimeOnLogEntry</item>
     </string-array>
 
+    <string-array name="dccServoListEntries">
+        <item>&lt;select&gt;</item>
+    </string-array>
 </resources>

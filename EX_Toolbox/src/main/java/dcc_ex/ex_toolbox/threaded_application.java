@@ -73,6 +73,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import dcc_ex.ex_toolbox.util.ImportExport;
 import dcc_ex.ex_toolbox.util.PermissionsHelper;
 import dcc_ex.ex_toolbox.util.comm_handler;
 import dcc_ex.ex_toolbox.util.comm_thread;
@@ -324,6 +325,8 @@ public class threaded_application extends Application {
 
     public String DCCEXresponsesStr = "";
     public String DCCEXsendsStr = "";
+
+    public ImportExport importExport = new ImportExport();
 
 //    public boolean prefActionBarShowDccExButton = false;
 

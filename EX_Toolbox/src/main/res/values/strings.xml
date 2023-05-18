@@ -412,5 +412,7 @@
     <string name="DCCEXlocoSpeedColumnLabel">Speed (0-126)</string>
     <string name="DCCEXlocoDirectionColumnLabel">Direction</string>
 
+    <string name="servoListDefaultValue">&lt;select&gt;</string>
+
 </resources>
 
