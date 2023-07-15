@@ -1166,26 +1166,30 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     }
 
     public void refreshDCCEXview() {
-        etDCCEXwriteAddressValue.setText(DCCEXaddress);
-        DCCEXwriteInfoLabel.setText(DCCEXinfoStr);
-        etDCCEXcv.setText(DCCEXcv);
-        etDCCEXcvValue.setText(DCCEXcvValue);
-//        etDCCEXsendCommandValue.setText(DCCEXsendCommandValue);
+        try {
+            etDCCEXwriteAddressValue.setText(DCCEXaddress);
+            DCCEXwriteInfoLabel.setText(DCCEXinfoStr);
+            etDCCEXcv.setText(DCCEXcv);
+            etDCCEXcvValue.setText(DCCEXcvValue);
+    //        etDCCEXsendCommandValue.setText(DCCEXsendCommandValue);
 
-        if (dccExActionTypeIndex == PROGRAMMING_TRACK) {
-            readAddressButton.setVisibility(View.VISIBLE);
-            writeAddressButton.setVisibility(View.VISIBLE);
-            readCvButton.setVisibility(View.VISIBLE);
-        } else {
-            readAddressButton.setVisibility(View.GONE);
-            writeAddressButton.setVisibility(View.GONE);
-            readCvButton.setVisibility(View.GONE);
+            if (dccExActionTypeIndex == PROGRAMMING_TRACK) {
+                readAddressButton.setVisibility(View.VISIBLE);
+                writeAddressButton.setVisibility(View.VISIBLE);
+                readCvButton.setVisibility(View.VISIBLE);
+            } else {
+                readAddressButton.setVisibility(View.GONE);
+                writeAddressButton.setVisibility(View.GONE);
+                readCvButton.setVisibility(View.GONE);
+            }
+
+            refreshDCCEXcommandsView();
+
+        } catch (Exception e) {
+            Log.e("EX_Toolbox", "refreshDCCEXview: object not available on resume, yet");
         }
 
-        refreshDCCEXcommandsView();
-
         showHideButtons();
-
     }
 
     public void refreshDCCEXcommandsView() {

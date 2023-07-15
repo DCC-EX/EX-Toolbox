@@ -45,8 +45,13 @@ import android.view.View;
 import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
 
@@ -83,20 +88,23 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
     Button readSensorsButton;
     Button clearCommandsButton;
 
-    private LinearLayout[] dccExSensorLayouts = {null, null, null, null, null,  null, null, null, null, null};
-    private TextView[] dccExSensorStatusTextView = {null, null, null, null, null,  null, null, null, null, null};
-    private TextView[] dccExSensorIdTextView = {null, null, null, null, null,  null, null, null, null, null};
-    private TextView[] dccExSensorVpinsTextView = {null, null, null, null, null,  null, null, null, null, null};
-    private TextView[] dccExSensorPullupsTextView = {null, null, null, null, null,  null, null, null, null, null};
+//    private LinearLayout[] dccExSensorLayouts = {null, null, null, null, null,  null, null, null, null, null};
+//    private TextView[] dccExSensorStatusTextView = {null, null, null, null, null,  null, null, null, null, null};
+//    private TextView[] dccExSensorIdTextView = {null, null, null, null, null,  null, null, null, null, null};
+//    private TextView[] dccExSensorVpinsTextView = {null, null, null, null, null,  null, null, null, null, null};
+//    private TextView[] dccExSensorPullupsTextView = {null, null, null, null, null,  null, null, null, null, null};
+//
+//    private int[] DCCEXsensorStatus= {-1, -1, -1, -1, -1,  -1, -1, -1, -1, -1};
+//    private int[] DCCEXsensorIds = {0, 0, 0, 0, 0,  0, 0, 0, 0, 0};
+//    private int[] DCCEXsensorVpins = {0, 0, 0, 0, 0,  0, 0, 0, 0, 0};
+//    private int[] DCCEXsensorPullups = {1, 1, 1, 1, 1,  1, 1, 1, 1, 1};
 
-    private int[] DCCEXsensorStatus= {-1, -1, -1, -1, -1,  -1, -1, -1, -1, -1};
-    private int[] DCCEXsensorIds = {0, 0, 0, 0, 0,  0, 0, 0, 0, 0};
-    private int[] DCCEXsensorVpins = {0, 0, 0, 0, 0,  0, 0, 0, 0, 0};
-    private int[] DCCEXsensorPullups = {1, 1, 1, 1, 1,  1, 1, 1, 1, 1};
+    static final String SENSOR_STATUS_UNKNOWN = "-1";
+    static final String SENSOR_STATUS_INACTIVE = "0";
+    static final String SENSOR_STATUS_ACTIVE = "1";
 
-    static final int SENSOR_STATUS_UNKNOWN = -1;
-    static final int SENSOR_STATUS_INACTIVE = 0;
-    static final int SENSOR_STATUS_ACTIVE = 1;
+    private ArrayList<HashMap<String, String>> sensors_list;
+    private SimpleAdapter sensors_list_adapter;
 
     //**************************************
 
@@ -233,30 +241,9 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
                     String s = msg.obj.toString();
                     if (s.length() > 0) {
                         String[] sArgs = s.split("(\\|)");
-                        int id = getIntFromString(sArgs[0]);
-                        int found = -1;
-                        for (int i=0; i<mainapp.DCCEX_MAX_SENSORS; i++) {
-                            if (id == DCCEXsensorIds[i]) {
-                                found=i;
-                                break;
-                            }
-                        }
-                        if (found>-1) {
-                            int status = getIntFromString(sArgs[1]);
-                            DCCEXsensorStatus[found] = status;
-                            switch (status) {
-                                case SENSOR_STATUS_ACTIVE:
-                                    dccExSensorStatusTextView[found].setText(getApplicationContext().getResources().getString(R.string.DCCEXsensorActive));
-                                    break;
-                                case SENSOR_STATUS_INACTIVE:
-                                    dccExSensorStatusTextView[found].setText(getApplicationContext().getResources().getString(R.string.DCCEXsensorInactive));
-                                    break;
-                                default:
-                                case SENSOR_STATUS_UNKNOWN:
-                                    dccExSensorStatusTextView[found].setText(getApplicationContext().getResources().getString(R.string.DCCEXsensorUnknown));
-                                    break;
-                            }
-                        }
+                        updateASensorListItem(sArgs[0], sArgs[1]);
+                        sensors_list_adapter.notifyDataSetChanged();
+
                         refreshDCCEXsensorsView();
                     }
                     break;
@@ -345,91 +332,18 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ALL_SENSOR_DETAILS);
 
-        for (int i=0; i<mainapp.DCCEX_MAX_SENSORS; i++) {
-            switch (i) {
-                default:
-                case 0:
-                    dccExSensorLayouts[i] = findViewById(R.id.dexc_DCCEXsensor0layout);
-                    dccExSensorIdTextView[i] = findViewById(R.id.dexc_sensor_id_0_value);
-                    dccExSensorVpinsTextView[i] = findViewById(R.id.dexc_sensor_vpin_0_value);
-                    dccExSensorPullupsTextView[i] = findViewById(R.id.dexc_sensor_pullup_0_value);
-                    dccExSensorStatusTextView[i] = findViewById(R.id.dexc_sensor_0_status);
-                    break;
-                case 1:
-                    dccExSensorLayouts[i] = findViewById(R.id.dexc_DCCEXsensor1layout);
-                    dccExSensorIdTextView[i] = findViewById(R.id.dexc_sensor_id_1_value);
-                    dccExSensorVpinsTextView[i] = findViewById(R.id.dexc_sensor_vpin_1_value);
-                    dccExSensorPullupsTextView[i] = findViewById(R.id.dexc_sensor_pullup_1_value);
-                    dccExSensorStatusTextView[i] = findViewById(R.id.dexc_sensor_1_status);
-                    break;
-                case 2:
-                    dccExSensorLayouts[i] = findViewById(R.id.dexc_DCCEXsensor2layout);
-                    dccExSensorIdTextView[i] = findViewById(R.id.dexc_sensor_id_2_value);
-                    dccExSensorVpinsTextView[i] = findViewById(R.id.dexc_sensor_vpin_2_value);
-                    dccExSensorPullupsTextView[i] = findViewById(R.id.dexc_sensor_pullup_2_value);
-                    dccExSensorStatusTextView[i] = findViewById(R.id.dexc_sensor_2_status);
-                    break;
-                case 3:
-                    dccExSensorLayouts[i] = findViewById(R.id.dexc_DCCEXsensor3layout);
-                    dccExSensorIdTextView[i] = findViewById(R.id.dexc_sensor_id_3_value);
-                    dccExSensorVpinsTextView[i] = findViewById(R.id.dexc_sensor_vpin_3_value);
-                    dccExSensorPullupsTextView[i] = findViewById(R.id.dexc_sensor_pullup_3_value);
-                    dccExSensorStatusTextView[i] = findViewById(R.id.dexc_sensor_3_status);
-                    break;
-                case 4:
-                    dccExSensorLayouts[i] = findViewById(R.id.dexc_DCCEXsensor4layout);
-                    dccExSensorIdTextView[i] = findViewById(R.id.dexc_sensor_id_4_value);
-                    dccExSensorVpinsTextView[i] = findViewById(R.id.dexc_sensor_vpin_4_value);
-                    dccExSensorPullupsTextView[i] = findViewById(R.id.dexc_sensor_pullup_4_value);
-                    dccExSensorStatusTextView[i] = findViewById(R.id.dexc_sensor_4_status);
-                    break;
-                case 5:
-                    dccExSensorLayouts[i] = findViewById(R.id.dexc_DCCEXsensor5layout);
-                    dccExSensorIdTextView[i] = findViewById(R.id.dexc_sensor_id_5_value);
-                    dccExSensorVpinsTextView[i] = findViewById(R.id.dexc_sensor_vpin_5_value);
-                    dccExSensorPullupsTextView[i] = findViewById(R.id.dexc_sensor_pullup_5_value);
-                    dccExSensorStatusTextView[i] = findViewById(R.id.dexc_sensor_5_status);
-                    break;
-                case 6:
-                    dccExSensorLayouts[i] = findViewById(R.id.dexc_DCCEXsensor6layout);
-                    dccExSensorIdTextView[i] = findViewById(R.id.dexc_sensor_id_6_value);
-                    dccExSensorVpinsTextView[i] = findViewById(R.id.dexc_sensor_vpin_6_value);
-                    dccExSensorPullupsTextView[i] = findViewById(R.id.dexc_sensor_pullup_6_value);
-                    dccExSensorStatusTextView[i] = findViewById(R.id.dexc_sensor_6_status);
-                    break;
-                case 7:
-                    dccExSensorLayouts[i] = findViewById(R.id.dexc_DCCEXsensor7layout);
-                    dccExSensorIdTextView[i] = findViewById(R.id.dexc_sensor_id_7_value);
-                    dccExSensorVpinsTextView[i] = findViewById(R.id.dexc_sensor_vpin_7_value);
-                    dccExSensorPullupsTextView[i] = findViewById(R.id.dexc_sensor_pullup_7_value);
-                    dccExSensorStatusTextView[i] = findViewById(R.id.dexc_sensor_7_status);
-                    break;
-                case 8:
-                    dccExSensorLayouts[i] = findViewById(R.id.dexc_DCCEXsensor8layout);
-                    dccExSensorIdTextView[i] = findViewById(R.id.dexc_sensor_id_8_value);
-                    dccExSensorVpinsTextView[i] = findViewById(R.id.dexc_sensor_vpin_8_value);
-                    dccExSensorPullupsTextView[i] = findViewById(R.id.dexc_sensor_pullup_8_value);
-                    dccExSensorStatusTextView[i] = findViewById(R.id.dexc_sensor_8_status);
-                    break;
-                case 9:
-                    dccExSensorLayouts[i] = findViewById(R.id.dexc_DCCEXsensor9layout);
-                    dccExSensorIdTextView[i] = findViewById(R.id.dexc_sensor_id_9_value);
-                    dccExSensorVpinsTextView[i] = findViewById(R.id.dexc_sensor_vpin_9_value);
-                    dccExSensorPullupsTextView[i] = findViewById(R.id.dexc_sensor_pullup_9_value);
-                    dccExSensorStatusTextView[i] = findViewById(R.id.dexc_sensor_9_status);
-                    break;
-            }
+        //Set up a list adapter to allow adding discovered sensors to the UI.
+        sensors_list = new ArrayList<>();
+        sensors_list_adapter = new SimpleAdapter(this, sensors_list, R.layout.sensors_list_item,
+                new String[]{"sensorId", "vpin", "pullup", "status"},
+                new int[]{R.id.sensor_id_value, R.id.sensor_vpin_value, R.id.sensor_pullup_value, R.id.sensor_status});
+        ListView locos_list = findViewById(R.id.sensors_list);
+        locos_list.setAdapter(sensors_list_adapter);
 
+        readSensorsButton = findViewById(R.id.dexc_DCCEXreadSensorsButton);
+        read_sensors_button_listener readSensorsClickListener = new read_sensors_button_listener();
+        readSensorsButton.setOnClickListener(readSensorsClickListener);
 
-            readSensorsButton = findViewById(R.id.dexc_DCCEXreadSensorsButton);
-            read_sensors_button_listener readSensorsClickListener = new read_sensors_button_listener();
-            readSensorsButton.setOnClickListener(readSensorsClickListener);
-
-//            incrementSensorsButton = findViewById(R.id.dexc_DCCEXincrementSensorsButton);
-//            increment_sensors_button_listener incrementSensorsClickListener = new increment_sensors_button_listener();
-//            incrementSensorsButton.setOnClickListener(incrementSensorsClickListener);
-//
-        }
 
         DCCEXresponsesScrollView = findViewById(R.id.dexc_DCCEXresponsesScrollView);
         DCCEXsendsScrollView = findViewById(R.id.dexc_DCCEXsendsScrollView);
@@ -438,7 +352,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
         clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
-        resetSensorTextFields();
+//        resetSensorTextFields();
         refreshDCCEXsensorsView();
 
 //        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_SENSOR, "");
@@ -699,17 +613,62 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
 //**************************************************************************************
 
+    @SuppressLint("DefaultLocale")
     void setIdsFromResponses() {
-        for (int i=0; i<mainapp.DCCEX_MAX_SENSORS; i++) {
-            DCCEXsensorIds[i] = mainapp.sensorIDsDCCEX[i];
-            DCCEXsensorVpins[i] = mainapp.sensorVpinsDCCEX[i];
-            DCCEXsensorPullups[i] = mainapp.sensorPullupsDCCEX[i];
-
-            dccExSensorIdTextView[i].setText(Integer.toString(DCCEXsensorIds[i]));
-            dccExSensorVpinsTextView[i].setText(Integer.toString(DCCEXsensorVpins[i]));
-            dccExSensorPullupsTextView[i].setText(Integer.toString(DCCEXsensorPullups[i]));
+        for (int i=0; i<mainapp.sensorDCCEXcount; i++) {
+            updateSensorsList(String.format("%d",mainapp.sensorIDsDCCEX[i]),
+                String.format("%d",mainapp.sensorVpinsDCCEX[i]),
+                String.format("%d",mainapp.sensorPullupsDCCEX[i]),
+                SENSOR_STATUS_UNKNOWN);
         }
-        showHideButtons();
+        sensors_list_adapter.notifyDataSetChanged();
+//        showHideButtons();
+    }
+
+    void updateSensorsList(String id, String vpin, String pullup, String status) {
+        HashMap<String, String> hm = new HashMap<String, String>();
+        hm.put("sensorId", id);
+        hm.put("vpin", vpin);
+        hm.put("pullup", pullup);
+        switch (status) {
+            case SENSOR_STATUS_ACTIVE:
+                hm.put("status", getApplicationContext().getResources().getString(R.string.DCCEXsensorActive));
+                break;
+            case SENSOR_STATUS_INACTIVE:
+                hm.put("status", getApplicationContext().getResources().getString(R.string.DCCEXsensorInactive));
+                break;
+            default:
+            case SENSOR_STATUS_UNKNOWN:
+                hm.put("status", getApplicationContext().getResources().getString(R.string.DCCEXsensorUnknown));
+                break;
+        }
+        String foundSensorId = hm.get("sensorId");
+        boolean entryExists = false;
+
+        //stop if new address is already in the list
+        HashMap<String, String> tm;
+        for (int index = 0; index < sensors_list.size(); index++) {
+            tm = sensors_list.get(index);
+            if (tm.get("sensorId").equals(foundSensorId)) {
+                entryExists = true;
+                sensors_list.set(index, hm);
+                break;
+            }
+        }
+        if (!entryExists) {                // if new loco, add to discovered list on screen
+            sensors_list.add(hm);
+        }
+    }
+
+    void updateASensorListItem(String id, String status) {
+        HashMap<String, String> tm;
+        for (int index = 0; index < sensors_list.size(); index++) {
+            tm = sensors_list.get(index);
+            if (tm.get("sensorId").equals(id)) {
+                updateSensorsList(id, tm.get("vpin"), tm.get("pullup"), status);
+                break;
+            }
+        }
     }
 
     int getIntFromString(String str) {
@@ -722,10 +681,10 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
     public class read_sensors_button_listener implements View.OnClickListener {
         public void onClick(View v) {
-            for (int i = 0; i < threaded_application.DCCEX_MAX_SENSORS; i++) {
-                if (DCCEXsensorIds[i]!=0) {
+            for (int i=0; i<mainapp.sensorDCCEXcount; i++) {
+                if (mainapp.sensorIDsDCCEX[i]!=0) {
                     mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_SENSOR,
-                            DCCEXsensorIds[i] + " " + Integer.toString(DCCEXsensorVpins[i]) + " " + Integer.toString(DCCEXsensorPullups[i]));
+                            mainapp.sensorIDsDCCEX[i] + " " + Integer.toString(mainapp.sensorVpinsDCCEX[i]) + " " + Integer.toString(mainapp.sensorPullupsDCCEX[i]));
                 }
             }
             mainapp.hideSoftKeyboard(v);
@@ -742,33 +701,33 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         }
     }
 
-    private void resetSensorTextFields() {
-        for (int i = 0; i < threaded_application.DCCEX_MAX_SENSORS; i++) {
-            DCCEXsensorIds[i] = 0;
-            DCCEXsensorVpins[i] = 0;
-            DCCEXsensorPullups[i] = 0;
-
-            dccExSensorIdTextView[i].setText(Integer.toString(DCCEXsensorIds[i]));
-            dccExSensorVpinsTextView[i].setText(Integer.toString(DCCEXsensorVpins[i]));
-            dccExSensorPullupsTextView[i].setText(Integer.toString(DCCEXsensorPullups[i]));
-        }
-    }
-
-
-    private void showHideButtons() {
-        for (int i = 0; i < threaded_application.DCCEX_MAX_SENSORS; i++) {
-            if (DCCEXsensorIds[i] != 0) {
-                dccExSensorLayouts[i].setVisibility(View.VISIBLE);
-            } else {
-                dccExSensorLayouts[i].setVisibility(View.GONE);
-            }
-        }
-    }
+//    private void resetSensorTextFields() {
+//        for (int i = 0; i < threaded_application.DCCEX_MAX_SENSORS; i++) {
+//            DCCEXsensorIds[i] = 0;
+//            DCCEXsensorVpins[i] = 0;
+//            DCCEXsensorPullups[i] = 0;
+//
+//            dccExSensorIdTextView[i].setText(Integer.toString(DCCEXsensorIds[i]));
+//            dccExSensorVpinsTextView[i].setText(Integer.toString(DCCEXsensorVpins[i]));
+//            dccExSensorPullupsTextView[i].setText(Integer.toString(DCCEXsensorPullups[i]));
+//        }
+//    }
+//
+//
+//    private void showHideButtons() {
+//        for (int i = 0; i < threaded_application.DCCEX_MAX_SENSORS; i++) {
+//            if (DCCEXsensorIds[i] != 0) {
+//                dccExSensorLayouts[i].setVisibility(View.VISIBLE);
+//            } else {
+//                dccExSensorLayouts[i].setVisibility(View.GONE);
+//            }
+//        }
+//    }
 
     public void refreshDCCEXview() {
         DCCEXwriteInfoLabel.setText(DCCEXinfoStr);
         refreshDCCEXcommandsView();
-        showHideButtons();
+//        showHideButtons();
 
     }
 
@@ -780,7 +739,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
     public void refreshDCCEXsensorsView() {
 //        for (int i = 0; i < threaded_application.DCCEX_MAX_SENSORS; i++) {
 //        }
-        showHideButtons();
+//        showHideButtons();
 
     }
 

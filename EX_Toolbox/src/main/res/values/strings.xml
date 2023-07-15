@@ -129,8 +129,8 @@
     <string name="prefPowerButtonBarTitle">Layout Power button?</string>
     <string name="prefPowerButtonBarSummary">Show Layout Power button in action bar</string>
 
-    <string name="PrefConnectToFirstServerTitle">Auto-Connect to WiThrottle Server?</string>
-    <string name="PrefConnectToFirstServerSummary">Connect automatically to \'first\' WiThrottle Server discovered</string>
+    <string name="PrefConnectToFirstServerTitle">Auto-Connect to Server?</string>
+    <string name="PrefConnectToFirstServerSummary">Connect automatically to \'first\' Server discovered</string>
     <string name="prefDisplayClockTitle">Fast Clock Display</string>
     <string name="prefDisplayClockSummary">Set format for Fast Clock display in action bar</string>
     <string name="prefDisplayClockDefaultValue" translatable="false">0</string>  <!-- DO NOT TRANSLATE -->

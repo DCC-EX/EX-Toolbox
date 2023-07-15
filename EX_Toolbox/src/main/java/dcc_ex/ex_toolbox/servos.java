@@ -460,7 +460,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dccExServoProfilesSpinner.setAdapter(spinner_adapter);
         dccExServoProfilesSpinner.setOnItemSelectedListener(new servo_profiles_spinner_listener());
-        dccExServoProfilesSpinner.setSelection(0);
+        dccExServoProfilesSpinner.setSelection(3);
 
         //-----------------------------------------
 

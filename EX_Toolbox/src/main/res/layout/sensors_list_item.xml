@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:weightSum="1"
+    android:paddingLeft="3px"
+    android:paddingRight="3px">
+
+    <TextView
+        android:id="@+id/sensor_id_value"
+        style="?attr/list_item_style"
+        android:layout_width="0sp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".2"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:textAlignment="viewEnd"
+        android:gravity="end"
+        android:text=""
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText"  />
+
+    <TextView
+        android:id="@+id/sensor_vpin_value"
+        style="?attr/list_item_style"
+        android:layout_width="0sp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".2"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:textAlignment="viewEnd"
+        android:gravity="end"
+        android:text=""
+        android:textSize="16sp"
+        tools:ignore="HardcodedText"  />
+
+    <TextView
+        android:id="@+id/sensor_pullup_value"
+        style="?attr/list_item_style"
+        android:layout_width="0sp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".2"
+        android:paddingTop="3dp"
+        android:paddingLeft="3dp"
+        android:text=""
+        android:textSize="16sp"
+        tools:ignore="HardcodedText"  />
+
+    <TextView
+        android:id="@+id/sensor_status"
+        style="?attr/list_item_style"
+        android:layout_width="0sp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".4"
+        android:paddingTop="3dp"
+        android:paddingLeft="3dp"
+        android:text="@string/DCCEXsensorInactive"
+        android:textSize="16sp"
+        tools:ignore="HardcodedText"  />
+</LinearLayout>
