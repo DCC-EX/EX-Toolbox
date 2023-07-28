@@ -617,7 +617,9 @@
                                             android:layout_weight=".2"
                                             android:text=""
                                             android:textSize="14sp"
-                                            tools:ignore="HardcodedText" />
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd"  />
 
                                         <TextView
                                             android:id="@+id/dexc_current_max_6_value"
@@ -685,7 +687,9 @@
                                             android:layout_weight=".2"
                                             android:text=""
                                             android:textSize="14sp"
-                                            tools:ignore="HardcodedText" />
+                                            tools:ignore="HardcodedText"
+                                            android:gravity="end"
+                                            android:textAlignment="viewEnd"  />
 
                                         <TextView
                                             android:id="@+id/dexc_current_max_7_value"

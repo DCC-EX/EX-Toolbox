@@ -170,6 +170,13 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     static final String[] TRACK_TYPES = {"OFF", "MAIN", "PROG", "DC", "DCX"};
     static final boolean[] TRACK_TYPES_NEED_ID = {false, false, false, true, true};
 
+
+    String cv29SpeedSteps;
+    String cv29AnalogueMode;
+    String cv29Direction;
+    String cv29AddressSize;
+    String cv29SpeedTable;
+
     //**************************************
 
 
@@ -326,6 +333,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                         if ( (cvArgs[0].equals(DCCEXcv)) && !(cvArgs[1].charAt(0)=='-') ) { // response matches what we got back
                             DCCEXcvValue = cvArgs[1];
                             DCCEXinfoStr = getApplicationContext().getResources().getString(R.string.DCCEXSucceeded);
+                            checkCv29(DCCEXcv, DCCEXcvValue);
                         } else {
                             resetTextField(WHICH_CV_VALUE);
                             DCCEXinfoStr = getApplicationContext().getResources().getString(R.string.DCCEXFailed);
@@ -1333,4 +1341,52 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         }
     }
 
+    void checkCv29(String cv, String cvValueStr) {
+        if (cv.equals("29")) {
+            try {
+                String rslt = "";
+                int cvValue = Integer.parseInt(cvValueStr);
+                if (mainapp.bitExtracted(cvValue,1,1)==0) {
+                    cv29Direction = getApplicationContext().getResources().getString(R.string.cv29DirectionForward);
+                } else {
+                    cv29Direction = getApplicationContext().getResources().getString(R.string.cv29DirectionReverse);
+                }
+                rslt = rslt + cv29Direction + "<br />";
+
+                if (mainapp.bitExtracted(cvValue,1,2)==0) {
+                    cv29SpeedSteps = getApplicationContext().getResources().getString(R.string.cv29SpeedSteps14);
+                } else {
+                    cv29SpeedSteps = getApplicationContext().getResources().getString(R.string.cv29SpeedSteps28);
+                }
+                rslt = rslt + cv29SpeedSteps + "<br />";
+
+                if (mainapp.bitExtracted(cvValue,1,3)==0) {
+                    cv29AnalogueMode = getApplicationContext().getResources().getString(R.string.cv29AnalogueConversionOff);
+                } else {
+                    cv29AnalogueMode = getApplicationContext().getResources().getString(R.string.cv29AnalogueConversionOn);
+                }
+                rslt = rslt + cv29AnalogueMode + "<br />";
+
+                // bit 4 is Railcom
+
+                if (mainapp.bitExtracted(cvValue,1,5)==0) {
+                    cv29SpeedTable = getApplicationContext().getResources().getString(R.string.cv29SpeedTableNo);
+                } else {
+                    cv29SpeedTable = getApplicationContext().getResources().getString(R.string.cv29SpeedTableYes);
+                }
+                rslt = rslt + cv29SpeedTable + "<br />";
+
+                if (mainapp.bitExtracted(cvValue,1,6)==0) {
+                    cv29AddressSize = getApplicationContext().getResources().getString(R.string.cv29AddressSize2bit);
+                } else {
+                    cv29AddressSize = getApplicationContext().getResources().getString(R.string.cv29AddressSize4bit);
+                }
+                rslt = rslt +  cv29AddressSize;
+
+                mainapp.DCCEXresponsesStr = "<p>" + rslt + "</p>" + mainapp.DCCEXresponsesStr;
+            } catch (Exception e) {
+                Log.e("EX_Toolbox", "Error processign cv29: " + e.getMessage());
+            }
+        }
+    }
 }
