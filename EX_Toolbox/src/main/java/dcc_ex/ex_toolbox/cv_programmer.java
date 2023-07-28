@@ -1384,6 +1384,12 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                 rslt = rslt +  cv29AddressSize;
 
                 mainapp.DCCEXresponsesStr = "<p>" + rslt + "</p>" + mainapp.DCCEXresponsesStr;
+
+                mainapp.DCCEXresponsesStr = "<p>"
+                        + String.format(getApplicationContext().getResources().getString(R.string.cv29SpeedToggleDirection),
+                                        mainapp.toggleBit(cvValue,1) )
+                        + "</p>" + mainapp.DCCEXresponsesStr;
+
             } catch (Exception e) {
                 Log.e("EX_Toolbox", "Error processign cv29: " + e.getMessage());
             }
