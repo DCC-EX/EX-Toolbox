@@ -109,6 +109,8 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     private Integer DCCEXservoClosedPositionValue = Integer.parseInt(SERVO_CLOSED_POSITION_DEFAULT);
     private EditText etDCCEXservoClosedPositionValue;
 
+    private TextView etDCCEXservoExRailInstruction;
+
     private boolean [] autoIncrement = {false, false, false, false};
     private boolean [] autoDecrement = {false, false, false, false};
 
@@ -448,6 +450,9 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             public void onTextChanged(CharSequence s, int start, int before, int count) { }
         });
+
+        etDCCEXservoExRailInstruction = findViewById(R.id.dexc_DCCEXservoExRailInstruction);
+        etDCCEXservoExRailInstruction.setText("");
 
         //-----------------------------------------
 
@@ -914,6 +919,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 DCCEXservoThrownPositionValue = DCCEXservoThrownPositionValue + delta;
                 DCCEXservoThrownPosition = Integer.toString(DCCEXservoThrownPositionValue);
                 etDCCEXservoThrownPositionValue.setText(DCCEXservoThrownPosition);
+                setExRailInstruction();
                 msgTxt = String.format("%s %d %d", DCCEXservoVpin, DCCEXservoThrownPositionValue, dccExServoProfile);
                 mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, msgTxt, 0);
 //                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, DCCEXservoVpin, DCCEXservoThrownPositionValue);
@@ -922,6 +928,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 DCCEXservoMidPositionValue = DCCEXservoMidPositionValue + delta;
                 DCCEXservoMidPosition = Integer.toString(DCCEXservoMidPositionValue);
                 etDCCEXservoMidPositionValue.setText(DCCEXservoMidPosition);
+                setExRailInstruction();
                 msgTxt = String.format("%s %d %d", DCCEXservoVpin, DCCEXservoMidPositionValue, dccExServoProfile);
                 mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, msgTxt, 0);
 //              mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, DCCEXservoVpin, DCCEXservoMidPositionValue);
@@ -930,6 +937,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 DCCEXservoClosedPositionValue = DCCEXservoClosedPositionValue + delta;
                 DCCEXservoClosedPosition = Integer.toString(DCCEXservoClosedPositionValue);
                 etDCCEXservoClosedPositionValue.setText(DCCEXservoClosedPosition);
+                setExRailInstruction();
                 msgTxt = String.format("%s %d %d", DCCEXservoVpin, DCCEXservoClosedPositionValue, dccExServoProfile);
                 mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, msgTxt, 0);
 //              mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, DCCEXservoVpin, DCCEXservoClosedPositionValue);
@@ -1012,6 +1020,8 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
             etDCCEXservoClosedPositionValue.setText(DCCEXservoClosedPosition);
             etDCCEXservoThrownPositionValue.setText(DCCEXservoThrownPosition);
 
+            setExRailInstruction();
+
             mainapp.hideSoftKeyboard(v);
         }
     }
@@ -1030,6 +1040,8 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         etDCCEXservoClosedPositionValue.setText(DCCEXservoClosedPosition);
         etDCCEXservoMidPositionValue.setText(DCCEXservoMidPosition);
         etDCCEXservoThrownPositionValue.setText(DCCEXservoThrownPosition);
+
+        setExRailInstruction();
     }
 
     private class servo_reset_button_listener implements View.OnClickListener {
@@ -1124,26 +1136,36 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 DCCEXservoVpin = SERVO_VPIN_DEFAULT;
                 DCCEXservoVpinValue = Integer.parseInt(SERVO_VPIN_DEFAULT);
                 etDCCEXservoVpinValue.setText(SERVO_VPIN_DEFAULT);
+                setExRailInstruction();
                 break;
             case WHICH_THROWN_POSITION:
                 DCCEXservoThrownPosition = SERVO_THROWN_POSITION_DEFAULT;
                 DCCEXservoThrownPositionValue = Integer.parseInt(SERVO_THROWN_POSITION_DEFAULT);
                 etDCCEXservoThrownPositionValue.setText(SERVO_THROWN_POSITION_DEFAULT);
+                setExRailInstruction();
                 break;
             case WHICH_MID_POSITION:
                 DCCEXservoMidPosition = SERVO_MID_POSITION_DEFAULT;
                 DCCEXservoMidPositionValue = Integer.parseInt(SERVO_MID_POSITION_DEFAULT);
                 etDCCEXservoMidPositionValue.setText(SERVO_MID_POSITION_DEFAULT);
+                setExRailInstruction();
                 break;
             case WHICH_CLOSED_POSITION:
                 DCCEXservoClosedPosition = SERVO_CLOSED_POSITION_DEFAULT;
                 DCCEXservoClosedPositionValue = Integer.parseInt(SERVO_CLOSED_POSITION_DEFAULT);
                 etDCCEXservoClosedPositionValue.setText(SERVO_CLOSED_POSITION_DEFAULT);
+                setExRailInstruction();
                 break;
             case WHICH_COMMAND:
                 DCCEXsendCommandValue = "";
                 etDCCEXsendCommandValue.setText("");
         }
+    }
+
+    private void setExRailInstruction() {
+        etDCCEXservoExRailInstruction.setText(String.format( getApplicationContext().getString(R.string.DCCEXservoExRailInstruction),
+                DCCEXservoVpinValue,DCCEXservoThrownPositionValue,DCCEXservoClosedPositionValue,dccExServoProfilesEntriesArray[dccExServoProfile]));
+
     }
 
     private void readTextField(int which) {
@@ -1195,6 +1217,8 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             dccExServoProfilesIndex = dccExServoProfilesSpinner.getSelectedItemPosition();
             dccExServoProfile = Integer.parseInt(dccExServoProfilesEntryValuesArray[dccExServoProfilesIndex]);
+
+            setExRailInstruction();
         }
 
         @Override

@@ -91,7 +91,7 @@
                         <LinearLayout
                             android:id="@+id/dexc_ServosVpinLayout"
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="52dp"
                             android:layout_marginTop="8sp"
                             android:background="#00000000"
                             android:orientation="horizontal"
@@ -106,30 +106,30 @@
                                 android:text="@string/DCCEXservoVpinLabel" />
 
                             <Button
-                                android:id="@+id/dexc_DCCEXservoCloseButton"
+                                android:id="@+id/dexc_DCCEXservoThrowButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_weight=".25"
-                                android:padding="4sp"
+                                android:padding="0sp"
                                 android:text="@string/DCCEXservoCloseButtonLabel" />
 
                             <Button
                                 android:id="@+id/dexc_DCCEXservoMidButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_weight=".25"
-                                android:padding="4sp"
+                                android:padding="0sp"
                                 android:text="@string/DCCEXservoMidButtonLabel" />
 
                             <Button
-                                android:id="@+id/dexc_DCCEXservoThrowButton"
+                                android:id="@+id/dexc_DCCEXservoCloseButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_weight=".25"
-                                android:padding="4sp"
+                                android:padding="0sp"
                                 android:text="@string/DCCEXservoThrowButtonLabel" />
 
                         </LinearLayout>
@@ -164,7 +164,7 @@
                                 android:layout_marginLeft="8sp" />
 
                             <EditText
-                                android:id="@+id/dexc_DCCEXservoClosedPositionValue"
+                                android:id="@+id/dexc_DCCEXservoThrownPositionValue"
                                 style="?attr/edit_label_style"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -204,7 +204,7 @@
                                 tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
 
                             <EditText
-                                android:id="@+id/dexc_DCCEXservoThrownPositionValue"
+                                android:id="@+id/dexc_DCCEXservoClosedPositionValue"
                                 style="?attr/edit_label_style"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -407,7 +407,25 @@
 
                         </LinearLayout>
 
-
+                        <TextView
+                            android:id="@+id/dexc_DCCEXservoExRailInstruction"
+                            style="?attr/edit_label_style"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8sp"
+                            android:layout_marginLeft="8sp"
+                            android:layout_marginBottom="8sp"
+                            android:layout_marginEnd="8sp"
+                            android:layout_marginRight="8sp"
+                            android:paddingLeft="5sp"
+                            android:shadowColor="#FFFFFFFF"
+                            android:shadowDx="1"
+                            android:shadowDy="1"
+                            android:shadowRadius="0.3"
+                            android:textSize="12sp"
+                            android:textColor="?android:attr/textColorSecondary"
+                            android:text=""
+                            tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
 
                         <LinearLayout
                             android:layout_width="fill_parent"

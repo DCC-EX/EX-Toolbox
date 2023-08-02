@@ -48,6 +48,7 @@ public class PermissionsHelper {
             VIBRATE,
             READ_IMAGES,
             READ_LEGACY_FILES
+//            POST_NOTIFICATIONS
     })
     public @interface RequestCodes {}
 
@@ -71,6 +72,7 @@ public class PermissionsHelper {
     public static final int VIBRATE = 46;
     public static final int READ_IMAGES = 47;
     public static final int READ_LEGACY_FILES = 48;
+    public static final int POST_NOTIFICATIONS = 49;
 
     private boolean isDialogOpen = false;
     private static PermissionsHelper instance = null;
@@ -167,6 +169,8 @@ public class PermissionsHelper {
                 return context.getResources().getString(R.string.permissionsACCESS_FINE_LOCATION);
             case VIBRATE:
                 return context.getResources().getString(R.string.permissionsVIBRATE);
+//            case POST_NOTIFICATIONS:
+//                return context.getResources().getString(R.string.permissionsPOST_NOTIFICATIONS);
             default:
                 return "Unknown permission request: " + requestCode;
         }
@@ -249,6 +253,12 @@ public class PermissionsHelper {
                                     Manifest.permission.VIBRATE},
                             requestCode);
                     break;
+//                case POST_NOTIFICATIONS:
+//                    Log.d("EX_Toolbox", "Requesting POST_NOTIFICATIONS permissions");
+//                    activity.requestPermissions(new String[]{
+//                                    Manifest.permission.POST_NOTIFICATIONS},
+//                            requestCode);
+//                    break;
             }
         } else {
             Log.d("EX_Toolbox", "Permissions dialog is opened - don't ask yet...");
