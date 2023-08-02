@@ -150,7 +150,7 @@
     </string-array>
 
     <string-array name="dccExTrackTypeEntries">  <!-- display version -->
-        <item>OFF</item>
+        <item>NONE</item>   <!-- if less than v4.2.68 this needs to be changed to OFF -->
         <item>DCC MAIN</item>
         <item>DCC PROG</item>
         <item>DC</item>

@@ -119,7 +119,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
     static final int WHICH_CV_VALUE = 2;
     static final int WHICH_COMMAND = 3;
 
-    static final int TRACK_TYPE_OFF_INDEX = 0;
+    static final int TRACK_TYPE_OFF_NONE_INDEX = 0;
     static final int TRACK_TYPE_DCC_MAIN_INDEX = 1;
     static final int TRACK_TYPE_DCC_PROG_INDEX = 2;
     static final int TRACK_TYPE_DC_INDEX = 3;
@@ -427,7 +427,15 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         dccExTrackTypeEntryValuesArray = this.getResources().getStringArray(R.array.dccExTrackTypeEntryValues);
 //        final List<String> dccTrackTypeValuesList = new ArrayList<>(Arrays.asList(dccExTrackTypeEntryValuesArray));
         dccExTrackTypeEntriesArray = this.getResources().getStringArray(R.array.dccExTrackTypeEntries); // display version
-//        final List<String> dccTrackTypeEntriesList = new ArrayList<>(Arrays.asList(dccExTrackTypeEntriesArray));
+        float vn = 4;
+        try {
+            vn = Float.valueOf(mainapp.DCCEXversion);
+        } catch (Exception e) { } // invalid version
+
+        if (vn <= 04.002068) {  // need to change the NONE to OFF in track manager
+            dccExTrackTypeEntriesArray[0] = "OFF";
+        }
+        //        final List<String> dccTrackTypeEntriesList = new ArrayList<>(Arrays.asList(dccExTrackTypeEntriesArray));
 
         for (int i=0; i<mainapp.DCCEX_MAX_TRACKS; i++) {
             switch (i) {
@@ -828,7 +836,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
                         try {
                             id = Integer.parseInt(dccExTrackTypeIdEditText[i].getText().toString());
                             mainapp.DCCEXtrackId[i] = id.toString();
-                            if (mainapp.DCCEXtrackType[i] != TRACK_TYPE_OFF_INDEX) {
+                            if (mainapp.DCCEXtrackType[i] != TRACK_TYPE_OFF_NONE_INDEX) {
                                 mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WRITE_TRACK, trackLetter + " " + type, id);
                             }
                         } catch (Exception e) {
