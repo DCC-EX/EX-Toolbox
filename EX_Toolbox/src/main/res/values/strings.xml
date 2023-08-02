@@ -348,9 +348,9 @@
 <!--    <string name="DCCEXturnoutInconsistent">Inconsistent</string>-->
 
     <string name="DCCEXservoVpinLabel">VPin</string>
-    <string name="DCCEXservoThrowButtonLabel">Throw\n(inactive)</string>
+    <string name="DCCEXservoThrowButtonLabel">Throw\n(active)</string>
     <string name="DCCEXservoMidButtonLabel">Mid</string>
-    <string name="DCCEXservoCloseButtonLabel">Close\n(active)</string>
+    <string name="DCCEXservoCloseButtonLabel">Close\n(inactive)</string>
     <string name="DCCEXservoIncrementButtonLabel">+</string>
     <string name="DCCEXservoDecrementButtonLabel">-</string>
     <string name="DCCEXservoClosedPositionLabel">Closed Position</string>

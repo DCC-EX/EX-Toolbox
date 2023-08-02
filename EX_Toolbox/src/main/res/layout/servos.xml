@@ -112,7 +112,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight=".25"
                                 android:padding="0sp"
-                                android:text="@string/DCCEXservoCloseButtonLabel" />
+                                android:text="@string/DCCEXservoThrowButtonLabel" />
 
                             <Button
                                 android:id="@+id/dexc_DCCEXservoMidButton"
@@ -130,7 +130,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight=".25"
                                 android:padding="0sp"
-                                android:text="@string/DCCEXservoThrowButtonLabel" />
+                                android:text="@string/DCCEXservoCloseButtonLabel" />
 
                         </LinearLayout>
 
