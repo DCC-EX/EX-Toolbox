@@ -161,13 +161,13 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     static final int WHICH_CV_VALUE = 2;
     static final int WHICH_COMMAND = 3;
 
-    static final int TRACK_TYPE_OFF_INDEX = 0;
+    static final int TRACK_TYPE_OFF_NONE_INDEX = 0;
     static final int TRACK_TYPE_DCC_MAIN_INDEX = 1;
     static final int TRACK_TYPE_DCC_PROG_INDEX = 2;
     static final int TRACK_TYPE_DC_INDEX = 3;
     static final int TRACK_TYPE_DCX_INDEX = 4;
 
-    static final String[] TRACK_TYPES = {"OFF", "MAIN", "PROG", "DC", "DCX"};
+    static final String[] TRACK_TYPES = {"NONE", "MAIN", "PROG", "DC", "DCX"};
     static final boolean[] TRACK_TYPES_NEED_ID = {false, false, false, true, true};
 
 
@@ -536,7 +536,13 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         dccExTrackTypeEntryValuesArray = this.getResources().getStringArray(R.array.dccExTrackTypeEntryValues);
 //        final List<String> dccTrackTypeValuesList = new ArrayList<>(Arrays.asList(dccExTrackTypeEntryValuesArray));
         dccExTrackTypeEntriesArray = this.getResources().getStringArray(R.array.dccExTrackTypeEntries); // display version
-//        final List<String> dccTrackTypeEntriesList = new ArrayList<>(Arrays.asList(dccExTrackTypeEntriesArray));
+        float vn = 4;
+        try {
+            vn = Float.valueOf(mainapp.DCCEXversion);
+        } catch (Exception e) { } // invalid version
+        if (vn <= 04.002068) {  // need to change the NONE to OFF in track manager
+            dccExTrackTypeEntriesArray[0] = "OFF";
+        }//        final List<String> dccTrackTypeEntriesList = new ArrayList<>(Arrays.asList(dccExTrackTypeEntriesArray));
 
         for (int i=0; i<mainapp.DCCEX_MAX_TRACKS; i++) {
             switch (i) {
@@ -1071,7 +1077,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                         try {
                             id = Integer.parseInt(dccExTrackTypeIdEditText[i].getText().toString());
                             mainapp.DCCEXtrackId[i] = id.toString();
-                            if (mainapp.DCCEXtrackType[i] != TRACK_TYPE_OFF_INDEX) {
+                            if (mainapp.DCCEXtrackType[i] != TRACK_TYPE_OFF_NONE_INDEX) {
                                 mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WRITE_TRACK, trackLetter + " " + type, id);
                             }
                         } catch (Exception e) {
@@ -1326,6 +1332,13 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
             dccExTrackTypeIndex[myIndex] = mySpinner.getSelectedItemPosition();
+            if (dccExTrackTypeIndex[myIndex] == TRACK_TYPE_DCC_PROG_INDEX) {
+                for (int i=0; i<8; i++) {
+                    if ( (dccExTrackTypeIndex[i] == TRACK_TYPE_DCC_PROG_INDEX) && (myIndex != i) ) { // only one prog allowed
+                        dccExTrackTypeSpinner[i].setSelection(TRACK_TYPE_OFF_NONE_INDEX);
+                    }
+                }
+            }
             InputMethodManager imm =
                     (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             if ((imm != null) && (view != null)) {
