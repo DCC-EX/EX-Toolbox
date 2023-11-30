@@ -14,7 +14,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package dcc_ex.ex_toolbox;
+package dcc_ex.ex_toolbox.util;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -25,6 +25,8 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 
 import java.util.Locale;
+
+import dcc_ex.ex_toolbox.R;
 
 /*
 This class is used to change the application locale.

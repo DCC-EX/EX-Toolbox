@@ -1,4 +1,4 @@
-package dcc_ex.ex_toolbox;
+package dcc_ex.ex_toolbox.util;
 
 /*  override the overscrollfooter to insure it is transparent.  Needed for listviews which do not use all 
  *    available space.  Popular suggestion of warp_content causes multiple "loads" of the listview items,

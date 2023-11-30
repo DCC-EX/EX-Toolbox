@@ -67,6 +67,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import dcc_ex.ex_toolbox.type.message_type;
+import dcc_ex.ex_toolbox.util.LocaleHelper;
+
 public class SettingsActivity extends AppCompatActivity implements PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
     public static final int RESULT_LOAD_IMG = 1;
     private int result;                     // set to RESULT_FIRST_USER when something is edited

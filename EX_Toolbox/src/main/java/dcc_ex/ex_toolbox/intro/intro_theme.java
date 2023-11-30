@@ -18,7 +18,7 @@ Derived from the samples for AppIntro at https://github.com/paolorotolo/AppIntro
 
 */
 
-package dcc_ex.ex_toolbox;
+package dcc_ex.ex_toolbox.intro;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
@@ -33,6 +33,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import dcc_ex.ex_toolbox.R;
 
 
 public class intro_theme extends Fragment {

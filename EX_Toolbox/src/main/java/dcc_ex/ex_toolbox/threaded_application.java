@@ -73,22 +73,25 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-import dcc_ex.ex_toolbox.util.ImportExport;
+import dcc_ex.ex_toolbox.type.Consist;
+import dcc_ex.ex_toolbox.type.message_type;
+import dcc_ex.ex_toolbox.import_export.ImportExport;
+import dcc_ex.ex_toolbox.util.LocaleHelper;
 import dcc_ex.ex_toolbox.util.PermissionsHelper;
-import dcc_ex.ex_toolbox.util.comm_handler;
-import dcc_ex.ex_toolbox.util.comm_thread;
+import dcc_ex.ex_toolbox.comms.comm_handler;
+import dcc_ex.ex_toolbox.comms.comm_thread;
 import jmri.jmrit.roster.RosterEntry;
 
 //The application will start up a thread that will handle network communication in order to ensure that the UI is never blocked.
 //This thread will only act upon messages sent to it. The network communication needs to persist across activities, so that is why
 @SuppressLint("NewApi")
 public class threaded_application extends Application {
-    public static String INTRO_VERSION = "9";  // set this to a different string to force the intro to run on next startup.
+    public static String INTRO_VERSION = "10";  // set this to a different string to force the intro to run on next startup.
 
     private threaded_application mainapp = this;
     public comm_thread commThread;
     public volatile String host_ip = null; //The IP address of the WiThrottle server.
-    volatile String logged_host_ip = null;
+    public volatile String logged_host_ip = null;
     public volatile int port = 0; //The TCP port that the WiThrottle server is running on
 //    public Double withrottle_version = 0.0; //version of withrottle server
     public volatile int web_server_port = 0; //default port for jmri web server
@@ -98,7 +101,7 @@ public class threaded_application extends Application {
     //shared variables returned from the withrottle server, stored here for easy access by other activities
     public volatile Consist[] consists;
     public LinkedHashMap<Integer, String>[] function_labels;  //function#s and labels from roster for throttles
-    LinkedHashMap<Integer, String> function_labels_default;  //function#s and labels from local settings
+    public LinkedHashMap<Integer, String> function_labels_default;  //function#s and labels from local settings
     LinkedHashMap<Integer, String> function_labels_default_for_roster;  //function#s and labels from local settings for roster entries with no function labels
     LinkedHashMap<Integer, String> function_consist_locos; // used for the 'special' consists function label string matching
     public LinkedHashMap<Integer, String> function_consist_latching; // used for the 'special' consists function label string matching
@@ -166,6 +169,7 @@ public class threaded_application extends Application {
     public boolean DCCEXscreenIsOpen = false;
 
     public int [] DCCEXtrackType = {1, 2, 0, 0, 0, 0, 0, 0};
+    public int [] DCCEXtrackPower = {-1, -1, -1, -1, -1, -1, -1, -1};
     public boolean [] DCCEXtrackAvailable = {false, false, false, false, false, false, false, false};
     public String [] DCCEXtrackId = {"", "", "", "", "", "", "", ""};
     public final static int DCCEX_MAX_TRACKS = 8;
@@ -248,12 +252,11 @@ public class threaded_application extends Application {
     public String connectedHostName = "";
     @NonNull
     public String connectedHostip = "";
-
     public int getConnectedPort() {
         return connectedPort;
     }
-
     public int connectedPort = 0;
+    public String connectedSsid = "";
 
     public String languageCountry = "en";
 
@@ -1612,9 +1615,12 @@ public class threaded_application extends Application {
 
     public void loadBackgroundImage(ImageView myImage) {
         if (prefBackgroundImage) {
-            if (PermissionsHelper.getInstance().isPermissionGranted(this, PermissionsHelper.READ_IMAGES)) {
-                loadBackgroundImageImpl(myImage);
-                myImage.invalidate();
+            if ( ( (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+                && (PermissionsHelper.getInstance().isPermissionGranted(this, PermissionsHelper.READ_IMAGES)) )
+            || ( (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                && (PermissionsHelper.getInstance().isPermissionGranted(this, PermissionsHelper.READ_MEDIA_IMAGES)) ) ) {
+                        loadBackgroundImageImpl(myImage);
+                        myImage.invalidate();
             }
         }
     }

@@ -15,13 +15,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package dcc_ex.ex_toolbox;
+package dcc_ex.ex_toolbox.type;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+
+import dcc_ex.ex_toolbox.threaded_application;
 
 //
 //EngineDriver simple Consist

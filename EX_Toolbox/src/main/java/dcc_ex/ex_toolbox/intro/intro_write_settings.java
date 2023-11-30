@@ -18,31 +18,47 @@ Derived from the samples for AppIntro at https://github.com/paolorotolo/AppIntro
 
 */
 
-package dcc_ex.ex_toolbox;
+package dcc_ex.ex_toolbox.intro;
 
-import android.content.SharedPreferences;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
-public class intro_finish extends Fragment {
+import dcc_ex.ex_toolbox.R;
+
+public class intro_write_settings extends Fragment {
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.d("EX_Toolbox", "intro_finish");
+        Log.d("EX_Toolbox", "intro_write_settings");
         super.onActivityCreated(savedInstanceState);
+
+        Button settingsButton = getView().findViewById(R.id.intro_write_settings_launch);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                Uri uri = Uri.fromParts("package", getActivity().getApplicationContext().getPackageName(), null);
+                intent.setData(uri);
+                getActivity().startActivity(intent);
+            }
+        });
+
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.intro_finish, container, false);
+        return inflater.inflate(R.layout.intro_write_settings, container, false);
     }
 
 }

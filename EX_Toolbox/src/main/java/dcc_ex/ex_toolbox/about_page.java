@@ -31,6 +31,8 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import dcc_ex.ex_toolbox.type.message_type;
+
 public class about_page extends AppCompatActivity {
 
     private threaded_application mainapp; // hold pointer to mainapp

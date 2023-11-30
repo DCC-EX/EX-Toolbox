@@ -54,6 +54,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
+import dcc_ex.ex_toolbox.type.message_type;
+import dcc_ex.ex_toolbox.util.LocaleHelper;
 
 public class locos extends AppCompatActivity implements GestureOverlayView.OnGestureListener {
 

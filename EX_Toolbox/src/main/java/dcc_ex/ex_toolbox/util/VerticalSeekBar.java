@@ -1,4 +1,4 @@
-package dcc_ex.ex_toolbox;
+package dcc_ex.ex_toolbox.util;
 /*
   VerticalSeekBar code based on code from de.eisfeldj.augendiagnose project, as referred to on StackOverflow
   https://github.com/jeisfeld/Augendiagnose/blob/master/AugendiagnoseIdea/augendiagnoseLib/src/main/java/de/jeisfeld/augendiagnoselib/components/VerticalSeekBar.java
@@ -13,6 +13,9 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.SeekBar;
+
+import dcc_ex.ex_toolbox.R;
+import dcc_ex.ex_toolbox.threaded_application;
 
 /**
  * Implementation of an easy vertical SeekBar, based on the normal SeekBar.

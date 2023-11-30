@@ -36,6 +36,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
+import dcc_ex.ex_toolbox.type.message_type;
+import dcc_ex.ex_toolbox.util.LocaleHelper;
 
 public class reconnect_status extends AppCompatActivity {
 

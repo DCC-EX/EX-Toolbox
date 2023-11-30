@@ -15,7 +15,7 @@
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string-array name="DisplayClockEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
         <item >0</item>
         <item >1</item>
@@ -51,7 +51,7 @@
         <item>Acceleration Adjustment</item>
         <item>Deceleration Adjustment</item>
 
-        <item>Mode Control</item>
+        <item>Mode Control (dir, addr size, etc.)</item>
 
         <item>Kick Start</item>
         <item>Forward Trim</item>

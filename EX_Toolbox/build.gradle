@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion '31.0.0'
+    compileSdkVersion 33
+    buildToolsVersion '33.0.0'
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "dcc_ex.ex_toolbox"
         minSdkVersion 16
-        compileSdkVersion 31
-        targetSdkVersion 31
+        compileSdkVersion 33
+        targetSdkVersion 33
     }
 
     buildTypes {
@@ -49,7 +49,8 @@ dependencies {
     implementation files('libs/jackson-core-asl-1.9.7.jar')
     implementation files('libs/jackson-mapper-asl-1.9.7.jar')
     implementation files('libs/java-json.jar')
-    implementation files('libs/jmdns-3.5.5.jar')
+//    implementation files('libs/jmdns-3.5.5.jar')
+    implementation files('libs/jmdns-3.5.8.jar')
     implementation 'com.github.apl-devs:appintro:v4.2.3'
     implementation 'org.slf4j:slf4j-api:1.7.30'
     implementation 'org.slf4j:slf4j-nop:1.7.30'

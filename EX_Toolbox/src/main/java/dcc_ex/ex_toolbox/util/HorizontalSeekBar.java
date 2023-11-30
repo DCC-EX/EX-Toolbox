@@ -1,4 +1,4 @@
-package dcc_ex.ex_toolbox;
+package dcc_ex.ex_toolbox.util;
 
 
 import android.annotation.SuppressLint;
@@ -9,6 +9,9 @@ import android.graphics.Paint;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.widget.SeekBar;
+
+import dcc_ex.ex_toolbox.R;
+import dcc_ex.ex_toolbox.threaded_application;
 
 @SuppressLint("AppCompatCustomView")
 public class HorizontalSeekBar extends SeekBar {

@@ -50,6 +50,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
+import dcc_ex.ex_toolbox.type.message_type;
+import dcc_ex.ex_toolbox.util.LocaleHelper;
 
 public class currents extends AppCompatActivity implements GestureOverlayView.OnGestureListener {
 

@@ -16,7 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package dcc_ex.ex_toolbox.util;
+package dcc_ex.ex_toolbox.comms;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -57,9 +57,9 @@ import javax.jmdns.ServiceEvent;
 import javax.jmdns.ServiceInfo;
 import javax.jmdns.ServiceListener;
 
-import dcc_ex.ex_toolbox.Consist;
+import dcc_ex.ex_toolbox.type.Consist;
 import dcc_ex.ex_toolbox.R;
-import dcc_ex.ex_toolbox.message_type;
+import dcc_ex.ex_toolbox.type.message_type;
 import dcc_ex.ex_toolbox.threaded_application;
 
 public class comm_thread extends Thread {
@@ -137,6 +137,7 @@ public class comm_thread extends Thread {
             hm.put("ip_address", ip_address);
             hm.put("port", ((Integer) port).toString());
             hm.put("host_name", host_name);
+            hm.put("ssid", mainapp.client_ssid);
 
             mainapp.knownDCCEXserverIps.put(ip_address, serverType);
 
@@ -239,6 +240,7 @@ public class comm_thread extends Thread {
         hm.put("ip_address", server_addr);
         hm.put("port", entryPort);
         hm.put("host_name", entryName);
+        hm.put("ssid", mainapp.client_ssid);
 
         mainapp.knownDCCEXserverIps.put(server_addr, serverType);
 
@@ -467,6 +469,13 @@ public class comm_thread extends Thread {
         }
     }
 
+    protected static void sendTrackPower(String track, int powerState) {
+        if (mainapp.isDCCEX) { // DCC-EX only
+            String msgTxt = "<" + ((char) ('0' + powerState)) + " " + track + ">";
+            wifiSend(msgTxt);
+        }
+    }
+
     protected static void sendTrack(String track, String type, int id) {
         String msgTxt = "";
         boolean needsId = false;
@@ -572,6 +581,16 @@ public class comm_thread extends Thread {
         String msgTxt = String.format("<%d>", pState);
         wifiSend(msgTxt);
 //            Log.d("EX_Toolbox", "comm_thread.sendPower DCC-EX: " + msgTxt);
+    }
+
+    @SuppressLint("DefaultLocale")
+    protected void sendPower(int pState, int track) {  // DCC-EX only
+        char trackLetter = (char) ('A' + track);
+        if (mainapp.isDCCEX) { //DCC-EX
+            String msgTxt = String.format("<%d %s>", pState, trackLetter);
+            wifiSend(msgTxt);
+//            Log.d("Engine_Driver", "comm_thread.sendPower DCC-EX: " + msgTxt);
+        }
     }
 
     @SuppressLint("DefaultLocale")
@@ -778,13 +797,8 @@ public class comm_thread extends Thread {
                         break;
 
                     case 'p': // power response
-                        String oldState = mainapp.power_state;
-                        mainapp.power_state = responseStr.substring(2, 3);
-                        if (mainapp.power_state.equals(oldState)) {
-                            skipAlert = true;
-                        } else {
-                            responseStr = "PPA" + responseStr.charAt(2);
-                        }
+                        processDCCEXpowerResponse(args);
+                        skipAlert = true;
                         break;
 
                     case 'j': //roster, turnouts / routes lists
@@ -863,6 +877,74 @@ public class comm_thread extends Thread {
     }  //end of processWifiResponse
 
     /* ***********************************  *********************************** */
+
+    private static  void processDCCEXpowerResponse ( String [] args) { // <p0|1 [A|B|C|D|E|F|G|H|MAIN|PROG|DC|DCX]>
+        String oldState = mainapp.power_state;
+        String responseStr = "";
+        if (args.length==1) {  // <p0|1>
+            mainapp.power_state = args[0].substring(1, 2);
+            if (!mainapp.power_state.equals(oldState)) {
+                responseStr = "PPA" + args[0].charAt(1);
+                mainapp.alert_activities(message_type.RESPONSE, responseStr);
+                if (args[0].charAt(1)!='2') {
+                    for (int i = 0; i < mainapp.DCCEXtrackType.length; i++) {
+                        mainapp.DCCEXtrackPower[i] = args[0].charAt(1) - '0';
+                        responseStr = "PXX" + ((char) (i + '0')) + args[0].charAt(1);
+                        mainapp.alert_activities(message_type.RESPONSE, responseStr);
+                    }
+                }
+            }
+
+        } else { // <p0|1 A|B|C|D|E|F|G|H|MAIN|PROG|DC|DCX>
+            if (args[1].length()==1) {  // <p0|1 A|B|C|D|E|F|G|H|>
+                int trackNo = args[1].charAt(0) - 'A';
+                mainapp.DCCEXtrackPower[trackNo] = args[0].charAt(1) - '0';
+                responseStr = "PXX" + ((char) (trackNo + '0')) + args[0].charAt(1);
+                mainapp.alert_activities(message_type.RESPONSE, responseStr);
+
+            } else { // <p0|1 MAIN|PROG|DC|DCX>
+                int trackType = 0;
+                for (int i=0; i<TRACK_TYPES.length; i++) {
+                    if (args[1].equals(TRACK_TYPES[i])) {
+                        trackType = i;
+                        break;
+                    }
+                }
+                for (int i=0; i<mainapp.DCCEXtrackType.length; i++) {
+                    if (mainapp.DCCEXtrackType[i] == trackType) {
+                        mainapp.DCCEXtrackPower[i] = args[0].charAt(1) - '0';
+                        responseStr = "PXX" + ((char) (i + '0')) + args[0].charAt(1);
+                        mainapp.alert_activities(message_type.RESPONSE, responseStr);
+                    }
+                }
+            }
+            boolean globalPowerOn = true;
+            boolean globalPowerOff = true;
+            for (int i=0; i<mainapp.DCCEXtrackType.length; i++) {
+                if ( (mainapp.DCCEXtrackAvailable[i]) && (mainapp.DCCEXtrackType[i] != 0) ) {  // not "NONE"
+                    if (mainapp.DCCEXtrackPower[i] == 1) {
+                        globalPowerOff = false;
+                    }
+                    if (mainapp.DCCEXtrackPower[i] == 0) {
+                        globalPowerOn = false;
+                    }
+                }
+            }
+
+            if (!globalPowerOn && !globalPowerOff) {
+                mainapp.power_state = "2";
+                mainapp.alert_activities(message_type.RESPONSE, "PPA2"); // inconsistant
+            } else {
+                if (globalPowerOn) {
+                    mainapp.power_state = "1";
+                    mainapp.alert_activities(message_type.RESPONSE, "PPA1");
+                } else {
+                    mainapp.power_state = "0";
+                    mainapp.alert_activities(message_type.RESPONSE, "PPA0");
+                }
+            }
+        }
+    }
 
     private static void processDCCEXRequestCvResponse (String [] args) {
         String cv = "";

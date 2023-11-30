@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.gesture.GestureOverlayView;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,6 +39,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -57,6 +59,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
+import dcc_ex.ex_toolbox.type.message_type;
+import dcc_ex.ex_toolbox.util.LocaleHelper;
 
 public class track_manager extends AppCompatActivity implements GestureOverlayView.OnGestureListener {
 
@@ -107,6 +111,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
     Spinner dccExCommonCommandsSpinner;
 
     private int[] dccExTrackTypeIndex = {1, 2, 1, 1, 1, 1, 1, 1};
+    private Button dccExTrackPowerButton[] = {null, null, null, null, null, null, null, null};
     private Spinner[] dccExTrackTypeSpinner = {null, null, null, null, null, null, null, null};
     private EditText[] dccExTrackTypeIdEditText = {null, null, null, null, null, null, null, null};
     private LinearLayout[] dccExTrackTypeLayout = {null, null, null, null, null, null, null, null};
@@ -127,6 +132,8 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
 
     static final String[] TRACK_TYPES = {"NONE", "MAIN", "PROG", "DC", "DCX"};
     static final boolean[] TRACK_TYPES_NEED_ID = {false, false, false, true, true};
+
+    float vn = 4; // DCC-EC Version number
 
     //**************************************
 
@@ -258,7 +265,9 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
                         if ("PPA".equals(com1)) {
                             mainapp.setPowerStateButton(tMenu);
                         }
-                    }
+                        if ("PXX".equals(com1)) {  // individual track power response
+                            refreshDCCEXtracksView();
+                        }                    }
                     break;
                 }
                 case message_type.RECEIVED_TRACKS:
@@ -427,7 +436,8 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         dccExTrackTypeEntryValuesArray = this.getResources().getStringArray(R.array.dccExTrackTypeEntryValues);
 //        final List<String> dccTrackTypeValuesList = new ArrayList<>(Arrays.asList(dccExTrackTypeEntryValuesArray));
         dccExTrackTypeEntriesArray = this.getResources().getStringArray(R.array.dccExTrackTypeEntries); // display version
-        float vn = 4;
+
+        vn = 4;
         try {
             vn = Float.valueOf(mainapp.DCCEXversion);
         } catch (Exception e) { } // invalid version
@@ -441,41 +451,49 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
                 default:
                 case 0:
                     dccExTrackTypeLayout[0] = findViewById(R.id.dexc_DCCEXtrack0layout);
+                    dccExTrackPowerButton[0] = findViewById(R.id.dccex_power_control_button_0);
                     dccExTrackTypeSpinner[0] = findViewById(R.id.dexc_track_type_0_list);
                     dccExTrackTypeIdEditText[0] = findViewById(R.id.dexc_track_0_value);
                     break;
                 case 1:
                     dccExTrackTypeLayout[1] = findViewById(R.id.dexc_DCCEXtrack1layout);
+                    dccExTrackPowerButton[1] = findViewById(R.id.dccex_power_control_button_1);
                     dccExTrackTypeSpinner[1] = findViewById(R.id.dexc_track_type_1_list);
                     dccExTrackTypeIdEditText[1] = findViewById(R.id.dexc_track_1_value);
                     break;
                 case 2:
                     dccExTrackTypeLayout[2] = findViewById(R.id.dexc_DCCEXtrack2layout);
+                    dccExTrackPowerButton[2] = findViewById(R.id.dccex_power_control_button_2);
                     dccExTrackTypeSpinner[2] = findViewById(R.id.dexc_track_type_2_list);
                     dccExTrackTypeIdEditText[2] = findViewById(R.id.dexc_track_2_value);
                     break;
                 case 3:
                     dccExTrackTypeLayout[3] = findViewById(R.id.dexc_DCCEXtrack3layout);
+                    dccExTrackPowerButton[3] = findViewById(R.id.dccex_power_control_button_3);
                     dccExTrackTypeSpinner[3] = findViewById(R.id.dexc_track_type_3_list);
                     dccExTrackTypeIdEditText[3] = findViewById(R.id.dexc_track_3_value);
                     break;
                 case 4:
                     dccExTrackTypeLayout[4] = findViewById(R.id.dexc_DCCEXtrack4layout);
+                    dccExTrackPowerButton[4] = findViewById(R.id.dccex_power_control_button_4);
                     dccExTrackTypeSpinner[4] = findViewById(R.id.dexc_track_type_4_list);
                     dccExTrackTypeIdEditText[4] = findViewById(R.id.dexc_track_4_value);
                     break;
                 case 5:
                     dccExTrackTypeLayout[5] = findViewById(R.id.dexc_DCCEXtrack5layout);
+                    dccExTrackPowerButton[5] = findViewById(R.id.dccex_power_control_button_5);
                     dccExTrackTypeSpinner[5] = findViewById(R.id.dexc_track_type_5_list);
                     dccExTrackTypeIdEditText[5] = findViewById(R.id.dexc_track_5_value);
                     break;
                 case 6:
                     dccExTrackTypeLayout[6] = findViewById(R.id.dexc_DCCEXtrack6layout);
+                    dccExTrackPowerButton[6] = findViewById(R.id.dccex_power_control_button_6);
                     dccExTrackTypeSpinner[6] = findViewById(R.id.dexc_track_type_6_list);
                     dccExTrackTypeIdEditText[6] = findViewById(R.id.dexc_track_6_value);
                     break;
                 case 7:
                     dccExTrackTypeLayout[7] = findViewById(R.id.dexc_DCCEXtrack7layout);
+                    dccExTrackPowerButton[7] = findViewById(R.id.dccex_power_control_button_7);
                     dccExTrackTypeSpinner[7] = findViewById(R.id.dexc_track_type_7_list);
                     dccExTrackTypeIdEditText[7] = findViewById(R.id.dexc_track_7_value);
                     break;
@@ -496,6 +514,9 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
             clearCommandsButton = findViewById(R.id.dexc_DCCEXclearCommandsButton);
             clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
             clearCommandsButton.setOnClickListener(clearCommandsClickListener);
+
+            SetTrackPowerButtonListener  buttonListener = new SetTrackPowerButtonListener(i);
+            dccExTrackPowerButton[i].setOnClickListener(buttonListener);
         }
 
         refreshDCCEXtracksView();
@@ -815,6 +836,24 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         }
     }
 
+    public class SetTrackPowerButtonListener implements View.OnClickListener {
+        int myTrack;
+        char myTrackLetter;
+
+        public SetTrackPowerButtonListener(int track) {
+            myTrack = track;
+            myTrackLetter = (char) ('A' + track);
+        }
+
+        public void onClick(View v) {
+            if (mainapp.DCCEXtrackPower[myTrack] == 0 ) {
+                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WRITE_TRACK_POWER, ""+myTrackLetter, 1);
+            } else {
+                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WRITE_TRACK_POWER, ""+myTrackLetter, 0);
+            }
+        }
+    }
+
     public class write_tracks_button_listener implements View.OnClickListener {
         public void onClick(View v) {
             Integer typeIndex;
@@ -915,6 +954,11 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
             dccExTrackTypeSpinner[i].setSelection(mainapp.DCCEXtrackType[i]);
             dccExTrackTypeIdEditText[i].setText(mainapp.DCCEXtrackId[i]);
             dccExTrackTypeLayout[i].setVisibility(mainapp.DCCEXtrackAvailable[i] ? View.VISIBLE : View.GONE);
+            if (vn >= 5.002005) {
+                setPowerbutton(dccExTrackPowerButton[i], mainapp.DCCEXtrackPower[i]);
+            } else {
+                dccExTrackPowerButton[i].setVisibility(View.GONE);
+            }
         }
         showHideButtons();
 
@@ -990,4 +1034,16 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         }
     }
 
+    void setPowerbutton(Button btn, int powerState) {
+        TypedValue outValue = new TypedValue();
+        if (powerState == 1) {
+            mainapp.theme.resolveAttribute(R.attr.ed_power_green_button, outValue, true);
+        } else if (powerState == 0) {
+            mainapp.theme.resolveAttribute(R.attr.ed_power_red_button, outValue, true);
+        } else {
+            mainapp.theme.resolveAttribute(R.attr.ed_power_yellow_button, outValue, true);
+        }
+        Drawable img = getResources().getDrawable(outValue.resourceId);
+        btn.setBackground(img);
+    }
 }

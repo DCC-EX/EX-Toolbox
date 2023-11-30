@@ -61,6 +61,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
+import dcc_ex.ex_toolbox.type.message_type;
+import dcc_ex.ex_toolbox.util.LocaleHelper;
 
 public class cv_programmer extends AppCompatActivity implements android.gesture.GestureOverlayView.OnGestureListener {
 
@@ -407,6 +409,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         //put pointer to this activity's handler in main app's shared variable
         mainapp.cv_programmer_msg_handler = new cv_programmer_handler();
 
+        mainapp.getCommonPreferences();
         mainapp.loadBackgroundImage(findViewById(R.id.cv_programmerBackgroundImgView));
 
         readAddressButton = findViewById(R.id.dexc_DCCEXreadAddressButton);
@@ -611,8 +614,6 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 
         }
         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_TRACKS, "");
-
-        mainapp.getCommonPreferences();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {

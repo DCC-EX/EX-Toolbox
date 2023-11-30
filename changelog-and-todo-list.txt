@@ -1,10 +1,14 @@
+**Version 0.1.4-10
+ * bug fixes
+ * new format for the connection list items
+ * support for individual track power
 **Version 0.1.3
  * remember the last 10 servos
  * switch the sensors to a list so that it supports up to 100
 **Version 0.1.1-0.1.2
  * bug fixes
  * new loco monitoring page
- * remove Track Manage functiosnb from the programming screen
+ * remove Track Manager functions from the programming screen
 **Version 0.1.0
  * Initial release to Play Store
 **Version 0.0.13-0.0.16

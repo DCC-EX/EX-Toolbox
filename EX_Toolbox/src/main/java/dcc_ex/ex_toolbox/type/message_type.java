@@ -15,7 +15,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package dcc_ex.ex_toolbox;
+package dcc_ex.ex_toolbox.type;
 
 public interface message_type {
     //Constant values for Message types:  from->to parms (action)
@@ -70,16 +70,17 @@ public interface message_type {
     int RECEIVED_TRACKS = 69;
     int REQUEST_TRACKS = 70;
     int WRITE_TRACK = 71;
-    int REQUEST_REFRESH_THROTTLE = 72;
-    int MOVE_SERVO = 73;
-    int REQUEST_ALL_SENSOR_DETAILS = 74;
-    int REQUEST_SENSOR = 75;
-    int RECEIVED_SENSOR = 76;
-    int REQUEST_CURRENTS = 77;
-    int RECEIVED_CURRENTS = 78;
-    int REQUEST_CURRENTS_MAX = 79;
-    int RECEIVED_CURRENTS_MAX = 80;
-    int START_CURRENTS_TIMER = 81;
-    int STOP_CURRENTS_TIMER = 82;
-    int RECEIVED_LOCO_UPDATE = 82;
+    int WRITE_TRACK_POWER = 72;
+    int REQUEST_REFRESH_THROTTLE = 73;
+    int MOVE_SERVO = 74;
+    int REQUEST_ALL_SENSOR_DETAILS = 75;
+    int REQUEST_SENSOR = 76;
+    int RECEIVED_SENSOR = 77;
+    int REQUEST_CURRENTS = 78;
+    int RECEIVED_CURRENTS = 79;
+    int REQUEST_CURRENTS_MAX = 80;
+    int RECEIVED_CURRENTS_MAX = 81;
+    int START_CURRENTS_TIMER = 82;
+    int STOP_CURRENTS_TIMER = 83;
+    int RECEIVED_LOCO_UPDATE = 84;
 }

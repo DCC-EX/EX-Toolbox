@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dcc_ex.ex_toolbox.R;
-import dcc_ex.ex_toolbox.message_type;
+import dcc_ex.ex_toolbox.type.message_type;
 import dcc_ex.ex_toolbox.threaded_application;
 import dcc_ex.ex_toolbox.util.PermissionsHelper;
 import dcc_ex.ex_toolbox.util.PermissionsHelper.RequestCodes;

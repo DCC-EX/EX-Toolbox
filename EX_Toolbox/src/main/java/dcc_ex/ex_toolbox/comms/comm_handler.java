@@ -16,7 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-package dcc_ex.ex_toolbox.util;
+package dcc_ex.ex_toolbox.comms;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -33,7 +33,7 @@ import java.util.LinkedHashMap;
 import java.util.Objects;
 
 import dcc_ex.ex_toolbox.R;
-import dcc_ex.ex_toolbox.message_type;
+import dcc_ex.ex_toolbox.type.message_type;
 import dcc_ex.ex_toolbox.threaded_application;
 
 public class comm_handler extends Handler {
@@ -283,6 +283,12 @@ public class comm_handler extends Handler {
          case message_type.WRITE_TRACK: { // DCC-EX only
             String [] args = msg.obj.toString().split(" ");
             comm_thread.sendTrack(args[0], args[1], msg.arg1);
+            break;
+         }
+
+         case message_type.WRITE_TRACK_POWER: { // DCC-EX only
+            String [] args = msg.obj.toString().split(" ");
+            comm_thread.sendTrackPower(args[0], msg.arg1);
             break;
          }
 

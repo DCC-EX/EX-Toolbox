@@ -60,7 +60,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
-import dcc_ex.ex_toolbox.util.ImportExport;
+import dcc_ex.ex_toolbox.type.message_type;
+import dcc_ex.ex_toolbox.util.LocaleHelper;
 
 public class servos extends AppCompatActivity implements GestureOverlayView.OnGestureListener {
 
