@@ -287,6 +287,7 @@ public class threaded_application extends Application {
     public boolean prefAllowMobileData = false;
 
     public boolean prefShowTimeOnLogEntry = false;
+    public String logSaveFilename = "";
     public boolean prefFeedbackOnDisconnect = true;
 
     public String prefHapticFeedback = "None";

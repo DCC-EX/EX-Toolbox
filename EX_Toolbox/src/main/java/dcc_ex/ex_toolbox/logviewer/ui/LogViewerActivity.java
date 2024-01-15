@@ -1,5 +1,6 @@
 package dcc_ex.ex_toolbox.logviewer.ui;
 
+import static android.view.View.GONE;
 import static dcc_ex.ex_toolbox.threaded_application.context;
 
 import android.annotation.SuppressLint;
@@ -49,6 +50,9 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
     private LogReaderTask logReaderTask = null;
     private threaded_application mainapp;  // hold pointer to mainapp
 
+    private Button saveButton;
+    private TextView saveInfoTV;
+
 //    private static final String EX_TOOLBOX_DIR = "Android\\data\\dcc_ex.ex_toolbox\\files";
 
     private Menu AMenu;
@@ -94,10 +98,11 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
 //        reset_button_listener reset_click_listener = new reset_button_listener();
 //        resetButton.setOnClickListener(reset_click_listener);
 
-        Button saveButton = findViewById(R.id.logviewer_button_save);
+        saveButton = findViewById(R.id.logviewer_button_save);
         save_button_listener save_click_listener = new save_button_listener();
         saveButton.setOnClickListener(save_click_listener);
-
+        saveInfoTV = findViewById(R.id.logviewer_info);
+        showHideSaveButton();
 
         logReaderTask = new LogReaderTask();
 
@@ -223,22 +228,14 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
     }
 
     private void saveLogFile() {
-//        navigateToHandler(PermissionsHelper.STORE_LOG_FILES);
-//        saveLogFileImpl();
-//    }
-//
-//    private void saveLogFileImpl() {
-//        File path = Environment.getExternalStorageDirectory();
-//        File ex_toolbox_dir = new File(path, EX_TOOLBOX_DIR);
-//        ex_toolbox_dir.mkdir();            // create directory if it doesn't exist
-//
-//        File logFile = new File( ex_toolbox_dir, "logcat" + System.currentTimeMillis() + ".txt" );
         File logFile = new File(context.getExternalFilesDir(null), "logcat" + System.currentTimeMillis() + ".txt");
 
         try {
             Process process = Runtime.getRuntime().exec("logcat -c");
             process = Runtime.getRuntime().exec("logcat -f " + logFile);
             Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.toastSaveLogFile, logFile.toString()), Toast.LENGTH_LONG).show();
+            mainapp.logSaveFilename = logFile.toString();
+            showHideSaveButton();
             Log.d("EX_Toolbox", "Logging started to: " + logFile.toString());
             logAboutInfo();
         } catch ( IOException e ) {
@@ -247,6 +244,16 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
 
     }
 
+    void showHideSaveButton() {
+        if (mainapp.logSaveFilename.length()>0) {
+            saveButton.setVisibility(View.GONE);
+            saveInfoTV.setText(String.format(getApplicationContext().getResources().getString(R.string.infoSaveLogFile), mainapp.logSaveFilename) );
+            saveInfoTV.setVisibility(View.VISIBLE);
+        } else {
+            saveButton.setVisibility(View.VISIBLE);
+            saveInfoTV.setVisibility(View.GONE);
+        }
+    }
 
     @SuppressLint("SwitchIntDef")
     public void navigateToHandler(@PermissionsHelper.RequestCodes int requestCode) {

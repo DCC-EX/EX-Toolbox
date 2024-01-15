@@ -2,6 +2,14 @@
  * bug fixes
  * new format for the connection list items
  * support for individual track power
+ * hide 'save log' button after pressing. Show file name on the log screen.
+ * Individual Track Power
+ * bug fixes
+ * rearrange connection list items
+ * restructure of source files
+ * lint removal
+ * support for AUTO, EXT and BOOST Track types
+ * optional Toolbar buttons
 **Version 0.1.3
  * remember the last 10 servos
  * switch the sensors to a list so that it supports up to 100

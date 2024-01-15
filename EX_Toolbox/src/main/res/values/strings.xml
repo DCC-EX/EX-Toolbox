@@ -238,9 +238,8 @@
 
     <!--    Toast messages for the Log Viewer Activity -->
     <string name="toastSaveLogFile">Logging Started in file %1$s. Logging will continue until you exit the EX-Toolbox app.</string>
-
-
     <string name="logViewerTitle">LogViewerActivity | %1$s</string>
+    <string name="infoSaveLogFile">Logging to: %s</string>
 
     <string name="prefAllowMobileDataTitle">Mobile Data connection?</string>
     <string name="prefAllowMobileDataSummary">Allow your device to connect to JMRI over Mobile Data</string>

@@ -32,7 +32,9 @@
             android:paddingLeft="6dp"
             android:paddingRight="6dp">
 
-            <TableRow android:gravity="center_horizontal">
+            <TableRow
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
 
 <!--                <Button
                     android:id="@+id/logviewer_button_reset"
@@ -42,6 +44,7 @@
                 <Button
                     android:id="@+id/logviewer_button_close"
                     style="?attr/ed_normal_button_style"
+                    android:layout_height="40dp"
                     android:layout_gravity="left"
                     android:text="@string/logviewerClose"
                     tools:ignore="RtlHardcoded" />
@@ -49,9 +52,22 @@
                 <Button
                     android:id="@+id/logviewer_button_save"
                     style="?attr/ed_normal_button_style"
+                    android:layout_height="40dp"
                     android:layout_gravity="right"
                     android:text="@string/logviewerSave"
+                    android:visibility="visible"
                     tools:ignore="RtlHardcoded" />
+
+                <TextView
+                    android:id="@+id/logviewer_info"
+                    android:layout_width="220dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="right"
+                    android:text=""
+                    android:visibility="gone"
+                    android:textSize="10sp"
+                    tools:ignore="HardcodedText,RtlHardcoded" />
+
             </TableRow>
 
         </TableLayout>

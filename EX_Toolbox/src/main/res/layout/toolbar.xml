@@ -74,6 +74,7 @@
                     android:layout_marginLeft="4dp"
                     android:text=""
                     android:textColor="@color/secondary_text"
+                    style="?attr/list_extras_style"
                     android:textSize="8sp"
                     android:textStyle="italic"
                     tools:ignore="RtlHardcoded" />
