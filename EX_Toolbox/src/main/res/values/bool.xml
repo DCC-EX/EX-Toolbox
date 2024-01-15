@@ -15,6 +15,7 @@
 -->
 <resources>
     <bool name="prefLayoutPowerButtonDefaultValue">true</bool>
+    <bool name="prefShowToolbarMenuButtonsDefaultValue">false</bool>
     <bool name="prefConnectToFirstServer">false</bool>
 
     <bool name="prefShowAdvancedPreferencesDefaultValue">false</bool>

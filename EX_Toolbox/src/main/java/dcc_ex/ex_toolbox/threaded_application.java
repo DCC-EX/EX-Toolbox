@@ -158,64 +158,64 @@ public class threaded_application extends Application {
     public String client_ssid = "UNKNOWN";    //string of the connected SSID
     public String client_type = "UNKNOWN"; //network type, usually WIFI or MOBILE
 
-    public HashMap<String, String> knownDCCEXserverIps = new HashMap<>();
-    public boolean isDCCEX = true;  // is a DCC-EX EX-CommandStation
-    public String DCCEXversion = "";
-    public double DCCEXversionValue = 0.0;
+    public HashMap<String, String> knownDccexServerIps = new HashMap<>();
+    public boolean isDccex = true;  // is a DCC-EX EX-CommandStation
+    public String DccexVersion = "";
+    public double DccexVersionValue = 0.0;
     public static final double DCCEX_MIN_VERSION_FOR_TRACK_MANAGER = 04.002007;
     public static final double DCCEX_MIN_VERSION_FOR_CURRENTS = 04.002019;
-    public int DCCEXlistsRequested = -1;  // -1=not requested  0=requested  1,2,3= no. of lists received
+    public int dccexListsRequested = -1;  // -1=not requested  0=requested  1,2,3= no. of lists received
 
-    public boolean DCCEXscreenIsOpen = false;
+    public boolean dccexScreenIsOpen = false;
 
-    public int [] DCCEXtrackType = {1, 2, 0, 0, 0, 0, 0, 0};
-    public int [] DCCEXtrackPower = {-1, -1, -1, -1, -1, -1, -1, -1};
-    public boolean [] DCCEXtrackAvailable = {false, false, false, false, false, false, false, false};
-    public String [] DCCEXtrackId = {"", "", "", "", "", "", "", ""};
+    public int [] dccexTrackType = {1, 2, 0, 0, 0, 0, 0, 0};
+    public int [] dccexTrackPower = {-1, -1, -1, -1, -1, -1, -1, -1};
+    public boolean [] dccexTrackAvailable = {false, false, false, false, false, false, false, false};
+    public String [] dccexTrackId = {"", "", "", "", "", "", "", ""};
     public final static int DCCEX_MAX_TRACKS = 8;
 
-    public String rosterStringDCCEX = ""; // used to process the roster list
-    public int [] rosterIDsDCCEX;  // used to process the roster list
-    public String [] rosterLocoNamesDCCEX;  // used to process the roster list
-    public String [] rosterLocoFunctionsDCCEX;  // used to process the roster list
-    public boolean [] rosterDetailsReceivedDCCEX;  // used to process the roster list
+    public String rosterStringDccex = ""; // used to process the roster list
+    public int [] rosterIDsDccex;  // used to process the roster list
+    public String [] rosterLocoNamesDccex;  // used to process the roster list
+    public String [] rosterLocoFunctionsDccex;  // used to process the roster list
+    public boolean [] rosterDetailsReceivedDccex;  // used to process the roster list
 
     public final static int DCCEX_MAX_SENSORS = 10;
-    public int sensorDCCEXcount = 0;
-    public int [] sensorIDsDCCEX;  // used to process the sensor list
-    public int [] sensorVpinsDCCEX;  // used to process the sensor list
-    public int [] sensorPullupsDCCEX;  // used to process the sensor list
+    public int sensorDccexCount = 0;
+    public int [] sensorIdsDccex;  // used to process the sensor list
+    public int [] sensorVpinsDccex;  // used to process the sensor list
+    public int [] sensorPullupsDccex;  // used to process the sensor list
 
-    public int [] [] currentsDCCEX = { {0, 0, 0, 0,  0, 0, 0, 0}, {0, 0, 0, 0,  0, 0, 0, 0} };  // used to process the currents list
-    public int [] currentsHighestDCCEX = {0, 0, 0, 0,  0, 0, 0, 0};  // used to process the currents list
-    public int [] currentsMaxDCCEX = {0, 0, 0, 0,  0, 0, 0, 0};  // used to process the currents list
+    public int [] [] currentsDccex = { {0, 0, 0, 0,  0, 0, 0, 0}, {0, 0, 0, 0,  0, 0, 0, 0} };  // used to process the currents list
+    public int [] currentsHighestDccex = {0, 0, 0, 0,  0, 0, 0, 0};  // used to process the currents list
+    public int [] currentsMaxDccex = {0, 0, 0, 0,  0, 0, 0, 0};  // used to process the currents list
 
     public static int LATEST_VALUE = 0;
     public static int PREVIOUS_VALUE = 1;
 
-    public int DCCEXpreviousCommandIndex = -1;
-    public ArrayList<String> DCCEXpreviousCommandList = new ArrayList<>();
+    public int dccexPreviousCommandIndex = -1;
+    public ArrayList<String> dccexPreviousCommandList = new ArrayList<>();
 
-    public boolean [] [] throttleFunctionIsLatchingDCCEX = {null, null, null, null, null, null};
-    public String [][] throttleLocoReleaseListDCCEX = {null, null, null, null, null, null};  // used to process the list of locos to release on a throttle
+    public boolean [] [] throttleFunctionIsLatchingDccex = {null, null, null, null, null, null};
+    public String [][] throttleLocoReleaseListDccex = {null, null, null, null, null, null};  // used to process the list of locos to release on a throttle
 
-    public boolean turnoutsBeingProcessedDCCEX = false;
-    public String turnoutStringDCCEX = ""; // used to process the turnout list
-    public int [] turnoutIDsDCCEX;  // used to process the turnout list
-    public String [] turnoutNamesDCCEX;  // used to process the turnout list
-    public String [] turnoutStatesDCCEX;  // used to process the turnout list
-    public boolean [] turnoutDetailsReceivedDCCEX;  // used to process the turnout list
+    public boolean turnoutsBeingProcessedDccex = false;
+    public String turnoutStringDccex = ""; // used to process the turnout list
+    public int [] turnoutIDsDccex;  // used to process the turnout list
+    public String [] turnoutNamesDccex;  // used to process the turnout list
+    public String [] turnoutStatesDccex;  // used to process the turnout list
+    public boolean [] turnoutDetailsReceivedDccex;  // used to process the turnout list
 
-    public boolean routesBeingProcessedDCCEX = false;
-    public String routeStringDCCEX = ""; // used to process the route list
-    public int [] routeIDsDCCEX;  // used to process the route list
-    public String [] routeNamesDCCEX;  // used to process the route list
-    public String [] routeTypesDCCEX;  // used to process the route list
-    public String [] routeStatesDCCEX;  // used to process the route list
-    public boolean [] routeDetailsReceivedDCCEX;  // used to process the route list
+    public boolean routesBeingProcessedDccex = false;
+    public String routeStringDccex = ""; // used to process the route list
+    public int [] routeIDsDccex;  // used to process the route list
+    public String [] routeNamesDccex;  // used to process the route list
+    public String [] routeTypesDccex;  // used to process the route list
+    public String [] routeStatesDccex;  // used to process the route list
+    public boolean [] routeDetailsReceivedDccex;  // used to process the route list
 
-    public ArrayList<String> DCCEXresponsesListHtml = new ArrayList<>();
-    public ArrayList<String> DCCEXsendsListHtml = new ArrayList<>();
+    public ArrayList<String> DccexResponsesListHtml = new ArrayList<>();
+    public ArrayList<String> dccexSendsListHtml = new ArrayList<>();
 
     //For communication to the comm_thread.
     public comm_handler comm_msg_handler = null;
@@ -272,20 +272,12 @@ public class threaded_application extends Application {
 //    public static final int FORCED_RESTART_REASON_IMPORT = 2;
 //    public static final int FORCED_RESTART_REASON_IMPORT_SERVER_MANUAL = 3;
     public static final int FORCED_RESTART_REASON_THEME = 4;
-//    public static final int FORCED_RESTART_REASON_THROTTLE_PAGE = 5;
-    public static final int FORCED_RESTART_REASON_LOCALE = 6;
+    public static final int FORCED_RESTART_REASON_LOCALE = 5;
     public static final int FORCED_RESTART_REASON_IMPORT_SERVER_AUTO = 7;
-//    public static final int FORCED_RESTART_REASON_AUTO_IMPORT = 8; // for local server files
     public static final int FORCED_RESTART_REASON_BACKGROUND = 9;
-//    public static final int FORCED_RESTART_REASON_THROTTLE_SWITCH = 10;
     public static final int FORCED_RESTART_REASON_FORCE_WIFI = 11;
 //    public static final int FORCED_RESTART_REASON_IMMERSIVE_MODE = 12;
-//    public static final int FORCED_RESTART_REASON_DEAD_ZONE = 13;
-    public static final int FORCED_RESTART_REASON_SHAKE_THRESHOLD = 14;
-
-    public int actionBarIconCountThrottle = 0;
-    public int actionBarIconCountRoutes = 0;
-    public int actionBarIconCountTurnouts = 0;
+    public static final int FORCED_RESTART_REASON_TOOLBAR_BUTTONS = 15;
 
     public Resources.Theme theme;
 
@@ -324,10 +316,10 @@ public class threaded_application extends Application {
     public static final String HAPTIC_FEEDBACK_SLIDER_SCALED = "Scaled";
 
     public int[] lastKnownSpeedDCCEX = {0,0,0,0,0,0};
-    public int[] lastKnownDirDCCEX = {0,0,0,0,0,0};
+    public int[] lastKnownDirDccex = {0,0,0,0,0,0};
 
-    public String DCCEXresponsesStr = "";
-    public String DCCEXsendsStr = "";
+    public String dccexResponsesStr = "";
+    public String dccexSendsStr = "";
 
     public ImportExport importExport = new ImportExport();
 
@@ -375,7 +367,7 @@ public class threaded_application extends Application {
             manager.createNotificationChannel(mChannel);
             manager.notify(ED_NOTIFICATION_ID, notification);
         } else {
-            NotificationCompat.Builder builder =
+            @SuppressLint("IconColors") NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(this)
                             .setSmallIcon(R.drawable.icon)
                             .setContentTitle(this.getString(R.string.notification_title))
@@ -423,10 +415,10 @@ public class threaded_application extends Application {
 
         haveForcedWiFiConnection = false;
 
-        mainapp.sensorDCCEXcount =0;
-        mainapp.sensorIDsDCCEX = new int[100];
-        mainapp.sensorVpinsDCCEX = new int[100];
-        mainapp.sensorPullupsDCCEX = new int[100];
+        mainapp.sensorDccexCount =0;
+        mainapp.sensorIdsDccex = new int[100];
+        mainapp.sensorVpinsDccex = new int[100];
+        mainapp.sensorPullupsDccex = new int[100];
 
         //setup some legacy stuff from ED
         function_states[0] = new boolean[32];
@@ -690,7 +682,7 @@ public class threaded_application extends Application {
             web_server_port = 80; //hardcode web port for MRC
         } else if (serverType.equals("Digitrax")) {
             WiThrottle_Msg_Interval = 200; //increase the interval for LnWi
-        } else if ( (serverType.equals("DCC-EX")) && (isDCCEX) ) {
+        } else if ( (serverType.equals("DCC-EX")) && (isDccex) ) {
             WiThrottle_Msg_Interval = 100; //increase the interval for DCC-EX
         }
     }
@@ -727,14 +719,14 @@ public class threaded_application extends Application {
         rt_user_names = null;
         rt_state_names = null;
 
-        DCCEXversion = "";
-        DCCEXversionValue = 0.0;
-        DCCEXlistsRequested = -1;
-        DCCEXscreenIsOpen = false;
+        DccexVersion = "";
+        DccexVersionValue = 0.0;
+        dccexListsRequested = -1;
+        dccexScreenIsOpen = false;
 
-        rosterStringDCCEX = "";
-        turnoutStringDCCEX = "";
-        routeStringDCCEX = "";
+        rosterStringDccex = "";
+        turnoutStringDccex = "";
+        routeStringDccex = "";
 
         doFinish = false;
     }
@@ -798,11 +790,28 @@ public class threaded_application extends Application {
         sendMsg(comm_msg_handler, message_type.POWER_CONTROL, "", newState);
     }
 
+    public void displayToolbarMenuButtons(Menu menu) {
+        MenuItem menuItem = menu.findItem(R.id.toolbar_button_cv_programmer);
+        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarCvProgrammerMenuButtons", false));
+
+        menuItem = menu.findItem(R.id.toolbar_button_servos);
+        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarServosMenuButtons", false));
+
+        menuItem = menu.findItem(R.id.toolbar_button_sensors);
+        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarSensorsMenuButtons", false));
+
+        menuItem = menu.findItem(R.id.toolbar_button_locos);
+        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarLocosMenuButtons", false));
+
+        menuItem = menu.findItem(R.id.toolbar_button_currents);
+        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarCurrentsMenuButtons", false));
+
+        menuItem = menu.findItem(R.id.toolbar_button_track_manager);
+        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarTrackManagerMenuButtons", false));
+    }
+
     public void displayPowerStateMenuButton(Menu menu) {
         if (prefs.getBoolean("show_layout_power_button_preference", false) && (power_state != null)) {
-            actionBarIconCountThrottle++;
-            actionBarIconCountRoutes++;
-            actionBarIconCountTurnouts++;
             menu.findItem(R.id.power_layout_button).setVisible(true);
         } else {
             menu.findItem(R.id.power_layout_button).setVisible(false);
@@ -839,7 +848,7 @@ public class threaded_application extends Application {
         if (menu != null) {
             MenuItem item = menu.findItem(R.id.track_manager_mnu);
             if (item != null) {
-                item.setVisible(mainapp.DCCEXversionValue > mainapp.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER);
+                item.setVisible(mainapp.DccexVersionValue > DCCEX_MIN_VERSION_FOR_TRACK_MANAGER);
             }
         }
     }
@@ -848,7 +857,7 @@ public class threaded_application extends Application {
         if (menu != null) {
             MenuItem item = menu.findItem(R.id.currents_mnu);
             if (item != null) {
-                item.setVisible(mainapp.DCCEXversionValue > mainapp.DCCEX_MIN_VERSION_FOR_CURRENTS);
+                item.setVisible(mainapp.DccexVersionValue > DCCEX_MIN_VERSION_FOR_CURRENTS);
             }
         }
     }
@@ -875,10 +884,14 @@ public class threaded_application extends Application {
     public void setPowerStateButton(Menu menu) {
         if (menu != null) {
             TypedValue outValue = new TypedValue();
-            if ((power_state == null) || (power_state.equals("2"))) {
+            if (power_state == null) {
                 theme.resolveAttribute(R.attr.ed_power_yellow_button, outValue, true);
                 menu.findItem(R.id.power_layout_button).setIcon(outValue.resourceId);
                 menu.findItem(R.id.power_layout_button).setTitle("Layout Power is UnKnown");
+            } else if (power_state.equals("2")) {
+                    theme.resolveAttribute(R.attr.ed_power_green_red_button, outValue, true);
+                    menu.findItem(R.id.power_layout_button).setIcon(outValue.resourceId);
+                    menu.findItem(R.id.power_layout_button).setTitle("Layout Power is UnKnown");
             } else if (power_state.equals("1")) {
                 theme.resolveAttribute(R.attr.ed_power_green_button, outValue, true);
                 menu.findItem(R.id.power_layout_button).setIcon(outValue.resourceId);
@@ -1346,10 +1359,10 @@ public class threaded_application extends Application {
         int nextScreen;
         if (deltaX <= 0.0) {
             nextScreen = currentScreen + 1;
-            if ( (nextScreen == SCREEN_SWIPE_INDEX_CURRENTS) && (mainapp.DCCEXversionValue <= mainapp.DCCEX_MIN_VERSION_FOR_CURRENTS) ) {
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_CURRENTS) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_CURRENTS) ) {
                 nextScreen++;
             }
-            if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DCCEXversionValue <= mainapp.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen++;
             }
             if (nextScreen > SCREEN_SWIPE_INDEX_TRACK_MANGER) {
@@ -1360,10 +1373,10 @@ public class threaded_application extends Application {
             if (nextScreen < SCREEN_SWIPE_INDEX_CV_PROGRAMMER) {
                 nextScreen = SCREEN_SWIPE_INDEX_TRACK_MANGER;
             }
-            if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DCCEXversionValue <= mainapp.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen--;
             }
-            if ( (nextScreen == SCREEN_SWIPE_INDEX_CURRENTS) && (mainapp.DCCEXversionValue <= mainapp.DCCEX_MIN_VERSION_FOR_CURRENTS) ) {
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_CURRENTS) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_CURRENTS) ) {
                 nextScreen--;
             }
         }
@@ -1431,10 +1444,9 @@ public class threaded_application extends Application {
         }
 
         // include in this list if the Settings Activity should NOT be launched
-        return ((prefForcedRestartReason != FORCED_RESTART_REASON_BACKGROUND)
+        return ( (prefForcedRestartReason != FORCED_RESTART_REASON_BACKGROUND)
                 && (prefForcedRestartReason != FORCED_RESTART_REASON_RESET)
-                && (prefForcedRestartReason != FORCED_RESTART_REASON_FORCE_WIFI)
-                && (prefForcedRestartReason != FORCED_RESTART_REASON_SHAKE_THRESHOLD));
+                && (prefForcedRestartReason != FORCED_RESTART_REASON_FORCE_WIFI) );
     }
 
     /* only DCC-EX supports the "Request Loco ID" feature at this time */
@@ -1463,12 +1475,12 @@ public class threaded_application extends Application {
 //        return withrottle_version;
 //    }
 
-    public String getDCCEXVersion() {
-        return DCCEXversion;
+    public String getDccexVersion() {
+        return DccexVersion;
     }
 
-    public double getDCCEXVersionValue() {
-        return DCCEXversionValue;
+    public double getDccexVersionValue() {
+        return DccexVersionValue;
     }
 
     static public int getIntPrefValue(SharedPreferences sharedPreferences, String key, String defaultVal) {
@@ -1592,12 +1604,12 @@ public class threaded_application extends Application {
 
 //    // for DCC-EX we need to temp store the list of locos so we can remove them individually
 //    public void storeThrottleLocosForReleaseDCCEX(int whichThrottle) {
-//        if (isDCCEX) {
+//        if (isDccex) {
 //            Consist con = mainapp.consists[whichThrottle];
-//            throttleLocoReleaseListDCCEX[whichThrottle] = new String [con.size()];
+//            throttleLocoReleaseListDccex[whichThrottle] = new String [con.size()];
 //            int i=0;
 //            for (Consist.ConLoco l : con.getLocos()) {
-//                throttleLocoReleaseListDCCEX[whichThrottle][i] = l.getAddress();
+//                throttleLocoReleaseListDccex[whichThrottle][i] = l.getAddress();
 //                i++;
 //            }
 //        }

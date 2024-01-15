@@ -33,7 +33,7 @@
                     android:id="@+id/currentsBackgroundImgView"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1" />
+                    tools:ignore="ContentDescription" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -73,17 +73,18 @@
                             android:orientation="vertical" />
 
                         <LinearLayout
-                            android:id="@+id/dexc_DCCEXcurrentsLinearLayout"
+                            android:id="@+id/ex_DccexCurrentsLinearLayout"
                             android:layout_width="fill_parent"
                             android:layout_height="200sp"
                             android:layout_margin="0sp"
                             android:padding="5sp"
                             android:weightSum="1"
                             android:orientation="horizontal"
-                            tools:ignore="NestedWeights">
+                            tools:ignore="NestedWeights"
+                            android:baselineAligned="false">
 
                             <ScrollView
-                                android:id="@+id/dexc_DCCEXcurrentsScrollView"
+                                android:id="@+id/ex_DccexCurrentsScrollView"
                                 android:layout_width="0sp"
                                 android:layout_height="fill_parent"
                                 android:orientation="vertical"
@@ -97,13 +98,14 @@
                                     android:orientation="vertical">
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXcurrentTitleslayout"
+                                        android:id="@+id/ex_DccexCurrentTitleslayout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
                                         android:background="#00000000"
                                         android:orientation="horizontal"
-                                        android:weightSum="1" >
+                                        android:weightSum="1"
+                                        tools:ignore="TooDeepLayout">
 
                                         <TextView
                                             style="?attr/floating_text_style"
@@ -122,7 +124,7 @@
                                             android:layout_height="wrap_content"
                                             android:padding="1sp"
                                             android:layout_weight=".2"
-                                            android:text="@string/DCCEXCurrentsColumnLabel"
+                                            android:text="@string/DccexCurrentsColumnLabel"
                                             android:textSize="14sp"
                                             tools:ignore="HardcodedText"
                                             android:textColor="?android:attr/textColorSecondary"
@@ -135,7 +137,7 @@
                                             android:layout_height="wrap_content"
                                             android:padding="1sp"
                                             android:layout_weight=".2"
-                                            android:text="@string/DCCEXCurrentsHighestColumnLabel"
+                                            android:text="@string/DccexCurrentsHighestColumnLabel"
                                             android:textSize="14sp"
                                             tools:ignore="HardcodedText"
                                             android:textColor="?android:attr/textColorSecondary"
@@ -148,7 +150,7 @@
                                             android:layout_height="wrap_content"
                                             android:padding="1sp"
                                             android:layout_weight=".2"
-                                            android:text="@string/DCCEXCurrentsMaxColumnLabel"
+                                            android:text="@string/dccexCurrentsMaxColumnLabel"
                                             android:textSize="14sp"
                                             tools:ignore="HardcodedText"
                                             android:textColor="?android:attr/textColorSecondary"
@@ -159,7 +161,7 @@
 
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXcurrent0layout"
+                                        android:id="@+id/ex_DccexCurrent0layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -178,7 +180,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_0_value"
+                                            android:id="@+id/ex_current_0_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -191,7 +193,7 @@
                                             android:textAlignment="viewEnd" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_highest_0_value"
+                                            android:id="@+id/ex_current_highest_0_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -204,7 +206,7 @@
                                             android:textAlignment="viewEnd" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_max_0_value"
+                                            android:id="@+id/ex_current_max_0_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -217,19 +219,19 @@
                                             android:textAlignment="viewEnd" />
 
                                         <ProgressBar
-                                            android:id="@+id/dexc_current_max_0_progress_bar"
+                                            android:id="@+id/ex_current_max_0_progress_bar"
                                             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
                                             android:layout_weight=".3"
                                             android:max="100"
-                                            android:paddingLeft="20px"
-                                            android:paddingRight="20px" />
+                                            android:paddingLeft="6dp"
+                                            android:paddingRight="6dp" />
 
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXcurrent1layout"
+                                        android:id="@+id/ex_DccexCurrent1layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -248,7 +250,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_1_value"
+                                            android:id="@+id/ex_current_1_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -261,7 +263,7 @@
                                             android:textAlignment="viewEnd" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_highest_1_value"
+                                            android:id="@+id/ex_current_highest_1_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -274,7 +276,7 @@
                                             android:textAlignment="viewEnd" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_max_1_value"
+                                            android:id="@+id/ex_current_max_1_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -287,19 +289,19 @@
                                             android:textAlignment="viewEnd" />
 
                                         <ProgressBar
-                                            android:id="@+id/dexc_current_max_1_progress_bar"
+                                            android:id="@+id/ex_current_max_1_progress_bar"
                                             android:layout_width="0sp"
                                             android:layout_weight=".3"
                                             android:layout_height="wrap_content"
                                             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                                             android:max="100"
-                                            android:paddingLeft="20px"
-                                            android:paddingRight="20px" />
+                                            android:paddingLeft="6dp"
+                                            android:paddingRight="6dp"/>
 
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXcurrent2layout"
+                                        android:id="@+id/ex_DccexCurrent2layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -318,7 +320,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_2_value"
+                                            android:id="@+id/ex_current_2_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -331,7 +333,7 @@
                                             android:textAlignment="viewEnd" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_highest_2_value"
+                                            android:id="@+id/ex_current_highest_2_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -343,7 +345,7 @@
                                             android:textAlignment="viewEnd" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_max_2_value"
+                                            android:id="@+id/ex_current_max_2_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -355,19 +357,19 @@
                                             android:textAlignment="viewEnd" />
 
                                         <ProgressBar
-                                            android:id="@+id/dexc_current_max_2_progress_bar"
+                                            android:id="@+id/ex_current_max_2_progress_bar"
                                             android:layout_width="0sp"
                                             android:layout_weight=".3"
                                             android:layout_height="wrap_content"
                                             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                                             android:max="100"
-                                            android:paddingLeft="20px"
-                                            android:paddingRight="20px" />
+                                            android:paddingLeft="6dp"
+                                            android:paddingRight="6dp" />
 
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXcurrent3layout"
+                                        android:id="@+id/ex_DccexCurrent3layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -386,7 +388,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_3_value"
+                                            android:id="@+id/ex_current_3_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -399,7 +401,7 @@
                                             android:textAlignment="viewEnd" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_highest_3_value"
+                                            android:id="@+id/ex_current_highest_3_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -412,7 +414,7 @@
                                             android:textAlignment="viewEnd" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_max_3_value"
+                                            android:id="@+id/ex_current_max_3_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -425,19 +427,19 @@
                                             android:textAlignment="viewEnd" />
 
                                         <ProgressBar
-                                            android:id="@+id/dexc_current_max_3_progress_bar"
+                                            android:id="@+id/ex_current_max_3_progress_bar"
                                             android:layout_width="0sp"
                                             android:layout_weight=".3"
                                             android:layout_height="wrap_content"
                                             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                                             android:max="100"
-                                            android:paddingLeft="20px"
-                                            android:paddingRight="20px" />
+                                            android:paddingLeft="6dp"
+                                            android:paddingRight="6dp" />
 
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXcurrent4layout"
+                                        android:id="@+id/ex_DccexCurrent4layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -456,7 +458,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_4_value"
+                                            android:id="@+id/ex_current_4_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -469,7 +471,7 @@
                                             android:textAlignment="viewEnd" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_highest_4_value"
+                                            android:id="@+id/ex_current_highest_4_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -482,7 +484,7 @@
                                             android:textAlignment="viewEnd" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_max_4_value"
+                                            android:id="@+id/ex_current_max_4_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -495,19 +497,19 @@
                                             android:textAlignment="viewEnd" />
 
                                         <ProgressBar
-                                            android:id="@+id/dexc_current_max_4_progress_bar"
+                                            android:id="@+id/ex_current_max_4_progress_bar"
                                             android:layout_width="0sp"
                                             android:layout_weight=".3"
                                             android:layout_height="wrap_content"
                                             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                                             android:max="100"
-                                            android:paddingLeft="20px"
-                                            android:paddingRight="20px" />
+                                            android:paddingLeft="6dp"
+                                            android:paddingRight="6dp" />
 
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXcurrent5layout"
+                                        android:id="@+id/ex_DccexCurrent5layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -526,7 +528,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_5_value"
+                                            android:id="@+id/ex_current_5_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -539,7 +541,7 @@
                                             android:textAlignment="viewEnd" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_highest_5_value"
+                                            android:id="@+id/ex_current_highest_5_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -552,7 +554,7 @@
                                             android:textAlignment="viewEnd" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_max_5_value"
+                                            android:id="@+id/ex_current_max_5_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -565,19 +567,19 @@
                                             android:textAlignment="viewEnd" />
 
                                         <ProgressBar
-                                            android:id="@+id/dexc_current_max_5_progress_bar"
+                                            android:id="@+id/ex_current_max_5_progress_bar"
                                             android:layout_width="0sp"
                                             android:layout_weight=".3"
                                             android:layout_height="wrap_content"
                                             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                                             android:max="100"
-                                            android:paddingLeft="20px"
-                                            android:paddingRight="20px" />
+                                            android:paddingLeft="6dp"
+                                            android:paddingRight="6dp" />
 
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXcurrent6layout"
+                                        android:id="@+id/ex_DccexCurrent6layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -596,7 +598,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_6_value"
+                                            android:id="@+id/ex_current_6_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -609,7 +611,7 @@
                                             android:textAlignment="viewEnd" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_highest_6_value"
+                                            android:id="@+id/ex_current_highest_6_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -622,7 +624,7 @@
                                             android:textAlignment="viewEnd"  />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_max_6_value"
+                                            android:id="@+id/ex_current_max_6_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -635,19 +637,19 @@
                                             android:textAlignment="viewEnd" />
 
                                         <ProgressBar
-                                            android:id="@+id/dexc_current_max_6_progress_bar"
+                                            android:id="@+id/ex_current_max_6_progress_bar"
                                             android:layout_width="0sp"
                                             android:layout_weight=".3"
                                             android:layout_height="wrap_content"
                                             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                                             android:max="100"
-                                            android:paddingLeft="20px"
-                                            android:paddingRight="20px" />
+                                            android:paddingLeft="6dp"
+                                            android:paddingRight="6dp" />
 
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXcurrent7layout"
+                                        android:id="@+id/ex_DccexCurrent7layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -666,7 +668,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_7_value"
+                                            android:id="@+id/ex_current_7_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -679,7 +681,7 @@
                                             android:textAlignment="viewEnd" />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_highest_7_value"
+                                            android:id="@+id/ex_current_highest_7_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -692,7 +694,7 @@
                                             android:textAlignment="viewEnd"  />
 
                                         <TextView
-                                            android:id="@+id/dexc_current_max_7_value"
+                                            android:id="@+id/ex_current_max_7_value"
                                             style="?attr/floating_text_style"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
@@ -705,14 +707,14 @@
                                             android:textAlignment="viewEnd" />
 
                                         <ProgressBar
-                                            android:id="@+id/dexc_current_max_7_progress_bar"
+                                            android:id="@+id/ex_current_max_7_progress_bar"
                                             android:layout_width="0sp"
                                             android:layout_weight=".3"
                                             android:layout_height="wrap_content"
                                             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                                             android:max="100"
-                                            android:paddingLeft="20px"
-                                            android:paddingRight="20px" />
+                                            android:paddingLeft="6dp"
+                                            android:paddingRight="6dp" />
 
                                     </LinearLayout>
 
@@ -730,7 +732,7 @@
                                 android:orientation="vertical">
 
                             <Button
-                                android:id="@+id/dexc_DCCEXstartCurrentsButton"
+                                android:id="@+id/ex_DccexStartCurrentsButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -738,11 +740,11 @@
                                 android:autoSizeMinTextSize="8sp"
                                 android:autoSizeMaxTextSize="20sp"
                                 android:autoSizeStepGranularity="1sp"
-                                android:text="@string/DCCEXstartCurrentsButtonLabel"
+                                android:text="@string/dccexStartCurrentsButtonLabel"
                                 tools:ignore="UnusedAttribute" />
 
                                 <Button
-                                    android:id="@+id/dexc_DCCEXstopCurrentsButton"
+                                    android:id="@+id/ex_DccexStopCurrentsButton"
                                     style="?attr/ed_small_button_style"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -750,12 +752,12 @@
                                     android:autoSizeMinTextSize="8sp"
                                     android:autoSizeMaxTextSize="20sp"
                                     android:autoSizeStepGranularity="1sp"
-                                    android:text="@string/DCCEXstopCurrentsButtonLabel"
+                                    android:text="@string/dccexStopCurrentsButtonLabel"
                                     tools:ignore="UnusedAttribute" />                        </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/dexc_DCCEXwriteInfoLayout"
+                            android:id="@+id/ex_DccexWriteInfoLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="0sp"
@@ -770,7 +772,7 @@
                                 android:orientation="vertical" />
 
                             <TextView
-                                android:id="@+id/dexc_DCCEXwriteInfoLabel"
+                                android:id="@+id/ex_DccexWriteInfoLabel"
                                 style="?attr/floating_text_style"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -792,23 +794,25 @@
                             android:orientation="vertical" />
 
                         <LinearLayout
-                            android:id="@+id/dexc_DCCEXresponsesAndSendsLayout"
+                            android:id="@+id/ex_DccexResponsesAndSendsLayout"
                             android:layout_width="fill_parent"
                             android:layout_height="0sp"
                             android:layout_marginTop="0sp"
                             android:background="#00000000"
                             android:orientation="vertical"
                             android:layout_weight=".2"
-                            android:weightSum="1">
+                            android:weightSum="1"
+                            tools:ignore="NestedWeights">
 
                             <ScrollView
-                                android:id="@+id/dexc_DCCEXresponsesScrollView"
+                                android:id="@+id/ex_DccexResponsesScrollView"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                android:layout_weight=".7">
+                                android:layout_weight=".7"
+                                tools:ignore="NestedWeights">
 
                                 <TextView
-                                    android:id="@+id/dexc_DCCEXresponsesLabel"
+                                    android:id="@+id/ex_DccexResponsesLabel"
                                     style="?attr/floating_text_style"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -819,13 +823,13 @@
                             </ScrollView>
 
                             <ScrollView
-                                android:id="@+id/dexc_DCCEXsendsScrollView"
+                                android:id="@+id/ex_DccexSendsScrollView"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight=".2">
 
                                 <TextView
-                                    android:id="@+id/dexc_DCCEXsendsLabel"
+                                    android:id="@+id/ex_DccexSendsLabel"
                                     style="?attr/floating_text_style"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -845,7 +849,8 @@
                         android:layout_margin="3dp"
                         android:layout_weight=".06"
                         android:paddingLeft="6dp"
-                        android:paddingRight="6dp">
+                        android:paddingRight="6dp"
+                        tools:ignore="TooManyViews">
 
                         <RelativeLayout
                             android:id="@+id/dcc_ex_bottom_button_layout"
@@ -855,10 +860,10 @@
                             android:orientation="horizontal">
 
                             <Button
-                                android:id="@+id/dexc_DCCEXclearCommandsButton"
+                                android:id="@+id/ex_dccexClearCommandsButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_gravity="left"
-                                android:text="@string/DCCEXclearCommands"
+                                android:text="@string/dccexClearCommands"
                                 tools:ignore="RtlHardcoded"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentRight="true" />

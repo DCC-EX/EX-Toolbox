@@ -174,7 +174,7 @@ public class intro_activity extends AppIntro2 {
 
         introComplete = true;
         SharedPreferences prefsNoBackup = mainapp.getSharedPreferences("dcc_ex.ex_toolbox_preferences_no_backup", 0);
-        prefsNoBackup.edit().putString("prefRunIntro", mainapp.INTRO_VERSION).commit();
+        prefsNoBackup.edit().putString("prefRunIntro", threaded_application.INTRO_VERSION).commit();
 
         prefTheme = prefs.getString("prefTheme", getApplicationContext().getResources().getString(R.string.prefThemeDefaultValue));
 

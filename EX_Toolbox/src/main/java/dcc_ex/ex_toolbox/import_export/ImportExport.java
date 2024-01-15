@@ -2,6 +2,7 @@ package dcc_ex.ex_toolbox.import_export;
 
 import static dcc_ex.ex_toolbox.threaded_application.context;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -36,6 +37,7 @@ public class ImportExport {
         addSelectToList();
     }
 
+    @SuppressLint("DefaultLocale")
     public void updateServoList(int vpin, int closedPosition, int midPosition, int thrownPosition, int profile) {
 
         if (servoVpinList.size() > 0) {
@@ -131,6 +133,7 @@ public class ImportExport {
         servoProfileList.add(0, -1);
     }
 
+    @SuppressLint("DefaultLocale")
     public void readServoListFromFile() {
         Log.d("EX_Toolbox", "getRecentLocosListFromFile: ImportExportPreferences: Loading recent locos list from file");
         if (servoVpinList == null) { //make sure arrays are valid
@@ -148,7 +151,7 @@ public class ImportExport {
                     String line = list_reader.readLine();
                     int splitPos = line.indexOf(',');
                     if (splitPos > 0) {
-                        Integer vpin, closedPosition, midPosition, thrownPosition, profile = 0;
+                        Integer vpin, closedPosition, midPosition, thrownPosition, profile;
                         String [] args = line.split(",");
                         try {
                             vpin = Integer.decode(args[0]);

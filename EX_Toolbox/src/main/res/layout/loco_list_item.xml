@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:weightSum="1"
-    android:paddingLeft="3px"
-    android:paddingRight="3px">
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp">
 
     <TextView
         android:id="@+id/loco_id_item_label"
@@ -18,7 +19,8 @@
         android:gravity="end"
         android:text="loco id"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/loco_speed_item_label"
@@ -31,7 +33,8 @@
         android:textAlignment="viewEnd"
         android:gravity="end"
         android:text="126"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/loco_direction_item_label"
@@ -42,5 +45,6 @@
         android:paddingTop="3dp"
         android:paddingLeft="3dp"
         android:text="Forward"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry" />
 </LinearLayout>

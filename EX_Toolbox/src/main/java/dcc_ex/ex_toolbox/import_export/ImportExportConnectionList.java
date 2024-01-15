@@ -29,12 +29,12 @@ public class ImportExportConnectionList {
     public ArrayList<HashMap<String, String>> connections_list;
     private SharedPreferences prefs;
 
-    private static final String DUMMY_HOST = "999";
+//    private static final String DUMMY_HOST = "999";
     private static final String DUMMY_ADDRESS = "999";
     private static final int DUMMY_PORT = 999;
-    private static final String DUMMY_SSID = "";
+//    private static final String DUMMY_SSID = "";
 
-    private static final int FAILURE_REASON_ERROR_READING = 1;
+//    private static final int FAILURE_REASON_ERROR_READING = 1;
     public String failureReason = "";
 
     public ImportExportConnectionList(SharedPreferences p) {
@@ -73,7 +73,7 @@ public class ImportExportConnectionList {
                             host_name = parts.get(0);
                             ip_address = parts.get(1);
                             port_str = parts.get(2);
-                            ssid_str = parts.get(3);;
+                            ssid_str = parts.get(3);
                         }
                         try {  //attempt to convert port to integer
                             port = Integer.decode(port_str);
@@ -172,7 +172,7 @@ public class ImportExportConnectionList {
                     String ssid = t.get("ssid");
 
                     boolean doWrite = true;
-                    if (connected_hostip.equals(li) && (connected_port.intValue() == lp.intValue())){  //dont write it out if same as selected
+                    if (connected_hostip.equals(li) && (connected_port.intValue() == lp.intValue())){  //don't write it out if same as selected
                         doWrite = false;
                     }
                     if (doWrite) {
@@ -188,6 +188,7 @@ public class ImportExportConnectionList {
             if (mainapp.logged_host_ip == null) {
                 mainapp.logged_host_ip = connected_hostip;
                 try {
+                    //noinspection SpellCheckingInspection
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
                     String currentDateAndTime = sdf.format(new Date());
                     String connection_log_file_name = "connections_log.txt";

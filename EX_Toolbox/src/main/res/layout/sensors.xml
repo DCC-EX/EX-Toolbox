@@ -33,7 +33,7 @@
                     android:id="@+id/sensorsBackgroundImgView"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1" />
+                    tools:ignore="ContentDescription" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -73,17 +73,18 @@
                             android:orientation="vertical" />
 
                         <LinearLayout
-                            android:id="@+id/dexc_DCCEXsensorsLinearLayout"
+                            android:id="@+id/ex_DccexSensorsLinearLayout"
                             android:layout_width="fill_parent"
                             android:layout_height="300sp"
                             android:layout_margin="0sp"
                             android:padding="5sp"
                             android:weightSum="1"
                             android:orientation="horizontal"
-                            tools:ignore="NestedWeights">
+                            tools:ignore="NestedWeights"
+                            android:baselineAligned="false">
 
                             <LinearLayout
-                                android:id="@+id/dexc_DCCEXsensorsScrollView"
+                                android:id="@+id/ex_DccexSensorsScrollView"
                                 android:layout_width="0sp"
                                 android:layout_height="fill_parent"
                                 android:orientation="vertical"
@@ -108,7 +109,7 @@
                                 android:orientation="vertical">
 
                             <Button
-                                android:id="@+id/dexc_DCCEXreadSensorsButton"
+                                android:id="@+id/ex_DccexReadSensorsButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -116,13 +117,13 @@
                                 android:autoSizeMinTextSize="8sp"
                                 android:autoSizeMaxTextSize="20sp"
                                 android:autoSizeStepGranularity="1sp"
-                                android:text="@string/DCCEXreadSensorsButtonLabel"
+                                android:text="@string/DccexReadSensorsButtonLabel"
                                 tools:ignore="UnusedAttribute" />
                             </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/dexc_DCCEXwriteInfoLayout"
+                            android:id="@+id/ex_DccexWriteInfoLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="0sp"
@@ -137,7 +138,7 @@
                                 android:orientation="vertical" />
 
                             <TextView
-                                android:id="@+id/dexc_DCCEXwriteInfoLabel"
+                                android:id="@+id/ex_DccexWriteInfoLabel"
                                 style="?attr/floating_text_style"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -159,23 +160,25 @@
                             android:orientation="vertical" />
 
                         <LinearLayout
-                            android:id="@+id/dexc_DCCEXresponsesAndSendsLayout"
+                            android:id="@+id/ex_DccexResponsesAndSendsLayout"
                             android:layout_width="fill_parent"
                             android:layout_height="0sp"
                             android:layout_marginTop="0sp"
                             android:background="#00000000"
                             android:orientation="vertical"
                             android:layout_weight=".2"
-                            android:weightSum="1">
+                            android:weightSum="1"
+                            tools:ignore="NestedWeights">
 
                             <ScrollView
-                                android:id="@+id/dexc_DCCEXresponsesScrollView"
+                                android:id="@+id/ex_DccexResponsesScrollView"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                android:layout_weight=".7">
+                                android:layout_weight=".7"
+                                tools:ignore="NestedWeights">
 
                                 <TextView
-                                    android:id="@+id/dexc_DCCEXresponsesLabel"
+                                    android:id="@+id/ex_DccexResponsesLabel"
                                     style="?attr/floating_text_style"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -186,13 +189,13 @@
                             </ScrollView>
 
                             <ScrollView
-                                android:id="@+id/dexc_DCCEXsendsScrollView"
+                                android:id="@+id/ex_DccexSendsScrollView"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight=".2">
 
                                 <TextView
-                                    android:id="@+id/dexc_DCCEXsendsLabel"
+                                    android:id="@+id/ex_DccexSendsLabel"
                                     style="?attr/floating_text_style"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -222,19 +225,19 @@
                             android:orientation="horizontal">
 
                             <Button
-                                android:id="@+id/dexc_DCCEXclearCommandsButton"
+                                android:id="@+id/ex_dccexClearCommandsButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_gravity="left"
-                                android:text="@string/DCCEXclearCommands"
+                                android:text="@string/dccexClearCommands"
                                 tools:ignore="RtlHardcoded"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentRight="true" />
 
                             <!--            <Button-->
-                            <!--                android:id="@+id/dexc_DCCEXhideSendsButton"-->
+                            <!--                android:id="@+id/ex_dccexHideSendsButton"-->
                             <!--                style="?attr/ed_normal_button_style"-->
                             <!--                android:layout_gravity="left"-->
-                            <!--                android:text="@string/DCCEXhideSends"-->
+                            <!--                android:text="@string/dccexHideSends"-->
                             <!--                tools:ignore="RtlHardcoded"-->
                             <!--                android:layout_alignParentEnd="true"-->
                             <!--                android:layout_alignParentRight="true" />-->

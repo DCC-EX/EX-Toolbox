@@ -21,6 +21,7 @@ import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -38,10 +39,9 @@ public class about_page extends AppCompatActivity {
     private threaded_application mainapp; // hold pointer to mainapp
     private Menu AMenu;
 
-    private Toolbar toolbar;
-
     /**
      * Called when the activity is first created.
+     * @noinspection SpellCheckingInspection
      */
     @SuppressLint("DefaultLocale")
     @Override
@@ -60,15 +60,12 @@ public class about_page extends AppCompatActivity {
         s = "EngineDriver:" + mainapp.appVersion;
         if (mainapp.getHostIp() != null) {
             // WiT info
-            if (!mainapp.isDCCEX) {
-//                if (mainapp.getWithrottleVersion() != 0.0) {
-                    s += ", WiThrottle:v" + mainapp.getDCCEXVersion();
-                    s += String.format(", Heartbeat:%dms", mainapp.heartbeatInterval);
-//                }
+            if (!mainapp.isDccex) {
+                s += ", WiThrottle:v" + mainapp.getDccexVersion();
             } else {
-                s += ", DCC-EX CS:v" + mainapp.getDCCEXVersion();
-                s += String.format(", Heartbeat:%dms", mainapp.heartbeatInterval);
+                s += ", DCC-EX CS:v" + mainapp.getDccexVersion();
             }
+            s += String.format(", Heartbeat:%dms", mainapp.heartbeatInterval);
             s += String.format(", Host:%s", mainapp.getHostIp());
             s += String.format(", Port:%s", mainapp.getConnectedPort());
             //show server type and description if set
@@ -105,9 +102,9 @@ public class about_page extends AppCompatActivity {
         webview.loadUrl(getApplicationContext().getResources().getString(R.string.about_page_url));
 
         //put pointer to this activity's handler in main app's shared variable
-        mainapp.about_page_msg_handler = new about_page_handler();
+        mainapp.about_page_msg_handler = new about_page_handler(Looper.getMainLooper());
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -150,17 +147,16 @@ public class about_page extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
         //noinspection SwitchStatementWithTooFewBranches
-        switch (item.getItemId()) {
-            case R.id.power_layout_button:
-                if (!mainapp.isPowerControlAllowed()) {
-                    mainapp.powerControlNotAllowedDialog(AMenu);
-                } else {
-                    mainapp.powerStateMenuButton();
-                }
-                mainapp.buttonVibration();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.power_layout_button) {
+            if (!mainapp.isPowerControlAllowed()) {
+                mainapp.powerControlNotAllowedDialog(AMenu);
+            } else {
+                mainapp.powerStateMenuButton();
+            }
+            mainapp.buttonVibration();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -178,6 +174,10 @@ public class about_page extends AppCompatActivity {
     @SuppressLint("HandlerLeak")
     class about_page_handler extends Handler {
 
+        public about_page_handler(Looper looper) {
+            super(looper);
+        }
+
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case message_type.RESPONSE: {    //handle messages from WiThrottle server
@@ -191,7 +191,8 @@ public class about_page extends AppCompatActivity {
                     }
                     break;
                 }
-
+                default:
+                    break;
             }
         }
     }

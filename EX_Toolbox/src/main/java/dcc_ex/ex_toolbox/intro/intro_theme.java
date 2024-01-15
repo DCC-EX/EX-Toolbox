@@ -41,15 +41,14 @@ public class intro_theme extends Fragment {
 
     private SharedPreferences prefs;
     private String currentValue = "";
-    private String defaultName = "";
+//    private String defaultName = "";
     private TextView v;
-    private Spinner spinner;
-    private int introThemeValueIndex = 1;
+//    private Spinner spinner;
+//    private int introThemeValueIndex = 1;
     private String[] nameEntries;
     private String[] nameEntryValues;
 
 
-    @SuppressWarnings("ConstantConditions")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.d("EX_Toolbox", "intro_theme");

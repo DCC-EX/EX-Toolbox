@@ -79,16 +79,11 @@ public class comm_thread extends Thread {
 
     protected String LATCHING_DEFAULT;
 
-    private static int requestLocoIdForWhichThrottleDCCEX;
+    private static int requestLocoIdForWhichThrottleDccex;
 
-    static final int TRACK_TYPE_OFF_NONE_INDEX = 0;
-    static final int TRACK_TYPE_DCC_MAIN_INDEX = 1;
-    static final int TRACK_TYPE_DCC_PROG_INDEX = 2;
-    static final int TRACK_TYPE_DC_INDEX = 3;
-    static final int TRACK_TYPE_DCX_INDEX = 4;
-
-    static final String [] TRACK_TYPES = { "NONE", "MAIN", "PROG", "DC", "DCX"};
-    static final boolean [] TRACK_TYPES_NEED_ID = { false, false, false, true, true };
+    static final String[] TRACK_TYPES = {"NONE", "MAIN", "PROG", "DC", "DCX", "AUTO", "EXT", "PROG"};
+    static final boolean[] TRACK_TYPES_NEED_ID = {false, false, false, true, true, false, false, false};
+//    static final boolean[] TRACK_TYPES_SELECTABLE = {true, true, true, true, true, true, false, false};
 
     public comm_thread(threaded_application myApp, SharedPreferences myPrefs) {
         super("comm_thread");
@@ -127,6 +122,9 @@ public class comm_thread extends Thread {
             int port = event.getInfo().getPort();
 
             String serverType = event.getInfo().getPropertyString("jmri") == null ? "" : "JMRI";
+            if (event.getType().startsWith("_dccex")) {
+                serverType = "DCCEX";
+            }
 
             String host_name = event.getInfo().getName(); //
             Inet4Address[] ip_addresses = event.getInfo().getInet4Addresses();  //only get ipV4 address
@@ -139,7 +137,7 @@ public class comm_thread extends Thread {
             hm.put("host_name", host_name);
             hm.put("ssid", mainapp.client_ssid);
 
-            mainapp.knownDCCEXserverIps.put(ip_address, serverType);
+            mainapp.knownDccexServerIps.put(ip_address, serverType);
 
             Message service_message = Message.obtain();
             service_message.what = message_type.SERVICE_RESOLVED;
@@ -216,7 +214,7 @@ public class comm_thread extends Thread {
             jmdnsThread.start();
             Log.d("EX_Toolbox", "comm_thread.endJmdns active so ending it and starting thread to remove listener");
         } else {
-            jmdnsThread = null;
+//            jmdnsThread = null;
             Log.d("EX_Toolbox", "comm_thread.endJmdns not active");
         }
     }
@@ -242,7 +240,7 @@ public class comm_thread extends Thread {
         hm.put("host_name", entryName);
         hm.put("ssid", mainapp.client_ssid);
 
-        mainapp.knownDCCEXserverIps.put(server_addr, serverType);
+        mainapp.knownDccexServerIps.put(server_addr, serverType);
 
         Message service_message = Message.obtain();
         service_message.what = message_type.SERVICE_RESOLVED;
@@ -296,14 +294,14 @@ public class comm_thread extends Thread {
     private static void sendThrottleName(Boolean sendHWID) {
         //DCC-EX // name is not relevant, so send a Command Station Status Request
 //        Log.d("EX_Toolbox", "comm_thread.sendThrottleName DCC-EX: <s>");
-        if (mainapp.DCCEXlistsRequested < 0) { // if we haven't received all the lists go ask for them
+        if (mainapp.dccexListsRequested < 0) { // if we haven't received all the lists go ask for them
             wifiSend("<s>");
             sendRequestRoster();
             sendRequestTurnouts();
             sendRequestRoutes();
             sendRequestTracks();
             sendAllSensorDetailsRequest();
-            mainapp.DCCEXlistsRequested = 0;  // don't ask again
+            mainapp.dccexListsRequested = 0;  // don't ask again
         } else {
             wifiSend("<#>");
         }
@@ -313,15 +311,13 @@ public class comm_thread extends Thread {
          input addr is formatted "L37<;>CSX37" or "S96" (if no roster name)
          msgTxt will be formatted M0+L1012<;>EACL1012 or M1+S96<;>S96 */
     static void sendAcquireLoco(String addr, int whichThrottle, int interval) {
-        String rosterName;
+//        String rosterName;
         String address;
         String[] as = threaded_application.splitByString(addr, "<;>");
         if (as.length > 1) {
             address = as[0];
-            rosterName = "E" + as[1];
         } else { //if no rostername, just use address for both
             address = addr;
-            rosterName = addr;
         }
 
         String msgTxt;
@@ -345,7 +341,7 @@ public class comm_thread extends Thread {
             }
             mainapp.sendMsgDelay(mainapp.comm_msg_handler, 1000L, message_type.REFRESH_FUNCTIONS);
         } else { // requesting the loco id on the programming track.  Using the DCC-EX driveway feature
-            requestLocoIdForWhichThrottleDCCEX = whichThrottle;
+            requestLocoIdForWhichThrottleDccex = whichThrottle;
             wifiSend("<R>");
         }
 
@@ -371,7 +367,7 @@ public class comm_thread extends Thread {
 
     protected void sendDisconnect() {
         //  DCC-EX   no equivalent to a "Q" so just drop all the locos to be tidy
-        Consist con = null;
+        Consist con;
         if (mainapp.consists != null) {
             if (mainapp.consists.length > 0) {
                 for (int i = 0; i < mainapp.consists.length; i++) {
@@ -393,14 +389,14 @@ public class comm_thread extends Thread {
     @SuppressLint("DefaultLocale")
     protected void sendFunction(int whichThrottle, String addr, int fn, int fState) {
         //DCC-EX
-        String msgTxt = "";
+        String msgTxt;
 
         String isLatching = mainapp.function_consist_latching.get(fn);
         int newfState = -1;
 
-        if (mainapp.throttleFunctionIsLatchingDCCEX[whichThrottle] != null) {  //  we have a roster specific latching for this
-            if (fn < mainapp.throttleFunctionIsLatchingDCCEX[whichThrottle].length) {
-                isLatching = mainapp.throttleFunctionIsLatchingDCCEX[whichThrottle][fn] ? LATCHING_DEFAULT : "none";
+        if (mainapp.throttleFunctionIsLatchingDccex[whichThrottle] != null) {  //  we have a roster specific latching for this
+            if (fn < mainapp.throttleFunctionIsLatchingDccex[whichThrottle].length) {
+                isLatching = mainapp.throttleFunctionIsLatchingDccex[whichThrottle][fn] ? LATCHING_DEFAULT : "none";
             }
         } else {   // no roster entry
             if (fn>2) { // assume it is latching
@@ -462,7 +458,7 @@ public class comm_thread extends Thread {
     }
 
     protected static void sendRequestTracks() {
-        if (mainapp.DCCEXversionValue >= mainapp.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) {  /// need to remove the track manager option
+        if (mainapp.DccexVersionValue >= threaded_application.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) {  /// need to remove the track manager option
             String msgTxt = "<=>";
             wifiSend(msgTxt);
 //            Log.d("EX_Toolbox", "comm_thread.sendRequestTracks DCC-EX: " + msgTxt);
@@ -470,7 +466,7 @@ public class comm_thread extends Thread {
     }
 
     protected static void sendTrackPower(String track, int powerState) {
-        if (mainapp.isDCCEX) { // DCC-EX only
+        if (mainapp.isDccex) { // DCC-EX only
             String msgTxt = "<" + ((char) ('0' + powerState)) + " " + track + ">";
             wifiSend(msgTxt);
         }
@@ -552,16 +548,16 @@ public class comm_thread extends Thread {
         String systemName = cmd.substring(1);
         String msgTxt = "</START";
         try {
-            String whichLoco = "";
+            String whichLoco;
             int type = -1;
 //                whichLoco = mainapp.getConsist(mainapp.whichThrottleLastTouch).getLeadAddr();
             whichLoco = mainapp.getConsist(0).getLeadAddr();
             if (whichLoco.length()>0) {
                 String routeType = "";
                 int routeId = Integer.parseInt(systemName);
-                for (int i = 0; i < mainapp.routeIDsDCCEX.length; i++) {
-                    if (mainapp.routeIDsDCCEX[i]==routeId) {
-                        routeType = mainapp.routeTypesDCCEX[i];
+                for (int i = 0; i < mainapp.routeIDsDccex.length; i++) {
+                    if (mainapp.routeIDsDccex[i]==routeId) {
+                        routeType = mainapp.routeTypesDccex[i];
                         break;
                     }
                 }
@@ -586,7 +582,7 @@ public class comm_thread extends Thread {
     @SuppressLint("DefaultLocale")
     protected void sendPower(int pState, int track) {  // DCC-EX only
         char trackLetter = (char) ('A' + track);
-        if (mainapp.isDCCEX) { //DCC-EX
+        if (mainapp.isDccex) { //DCC-EX
             String msgTxt = String.format("<%d %s>", pState, trackLetter);
             wifiSend(msgTxt);
 //            Log.d("Engine_Driver", "comm_thread.sendPower DCC-EX: " + msgTxt);
@@ -594,7 +590,7 @@ public class comm_thread extends Thread {
     }
 
     @SuppressLint("DefaultLocale")
-    protected static void sendJoinDCCEX() {
+    protected static void sendJoinDccex() {
         // DCC-EX
         wifiSend("<1 JOIN>");
     }
@@ -613,22 +609,21 @@ public class comm_thread extends Thread {
     @SuppressLint("DefaultLocale")
     protected void sendDirection(int whichThrottle, String addr, int dir) {
         //DCC-EX
-        String msgTxt = "";
+        String msgTxt;
         if ((addr.length() == 0) || (addr.equals("*"))) { // all on the throttle
             Consist con = mainapp.consists[whichThrottle];
-            msgTxt = "";
             for (Consist.ConLoco l : con.getLocos()) {
                 int newDir = dir;
                 if (l.isBackward()) newDir = (dir == 0) ? 1 : 0;
                 msgTxt = String.format("<t 0 %s %d %d>", l.getAddress().substring(1), mainapp.lastKnownSpeedDCCEX[whichThrottle], newDir);
                 wifiSend(msgTxt);
-                mainapp.lastKnownDirDCCEX[whichThrottle] = newDir;
+                mainapp.lastKnownDirDccex[whichThrottle] = newDir;
 //                    Log.d("EX_Toolbox", "comm_thread.sendSpeed DCC-EX: " + msgTxt);
             }
         } else {
             msgTxt = String.format("<t 0 %s %d %d>", addr.substring(1), mainapp.lastKnownSpeedDCCEX[whichThrottle], dir);
             wifiSend(msgTxt);
-            mainapp.lastKnownDirDCCEX[whichThrottle] = dir;
+            mainapp.lastKnownDirDccex[whichThrottle] = dir;
 //                Log.d("EX_Toolbox", "comm_thread.sendDirection DCC-EX: " + msgTxt);
         }
     }
@@ -641,9 +636,9 @@ public class comm_thread extends Thread {
     protected static void sendSpeed(int whichThrottle, int speed) {
         //DCC-EX
         Consist con = mainapp.consists[whichThrottle];
-        String msgTxt = "";
+        String msgTxt;
         for (Consist.ConLoco l : con.getLocos()) {
-            int dir = mainapp.lastKnownDirDCCEX[whichThrottle];
+            int dir = mainapp.lastKnownDirDccex[whichThrottle];
             int newDir = dir;
             if (l.isBackward()) newDir = (dir == 0) ? 1 : 0;
             msgTxt = String.format("<t 0 %s %d %d>", l.getAddress().substring(1), speed, newDir);
@@ -656,7 +651,7 @@ public class comm_thread extends Thread {
     protected static void sendRequestSpeedAndDir(int whichThrottle) {
         //DCC-EX
         Consist con = mainapp.consists[whichThrottle];
-        String msgTxt = "";
+        String msgTxt;
         for (Consist.ConLoco l : con.getLocos()) {
             msgTxt = String.format("<t %s>", l.getAddress().substring(1));
             wifiSend(msgTxt);
@@ -693,7 +688,7 @@ public class comm_thread extends Thread {
     }
 
     @SuppressLint("DefaultLocale")
-    public static void sendDCCEXcommand(String msgTxt) {
+    public static void sendDccexCommand(String msgTxt) {
         // DCC-EX only
         wifiSend(msgTxt);
     }
@@ -702,6 +697,7 @@ public class comm_thread extends Thread {
     /* ******************************************************************************************** */
     /* ******************************************************************************************** */
 
+    @SuppressLint("DefaultLocale")
     protected static void processWifiResponse(String responseStr) {
             /* see java/arc/jmri/jmrit/withrottle/deviceserver.java for server code and some documentation
           VN<Version#>
@@ -717,7 +713,7 @@ public class comm_thread extends Thread {
              */
 
         //send response to debug log for review
-        Log.d("EX_Toolbox", "comm_thread.processWifiResponse: " + (mainapp.isDCCEX ? "DCC-EX" : "") + "<--:" + responseStr);
+        Log.d("EX_Toolbox", "comm_thread.processWifiResponse: " + (mainapp.isDccex ? "DCC-EX" : "") + "<--:" + responseStr);
 
         boolean skipAlert = false;          //set to true if the Activities do not need to be Alerted
 
@@ -730,7 +726,7 @@ public class comm_thread extends Thread {
             }
 
             if (responseStr.charAt(0) == '<') {
-                if ((mainapp.DCCEXscreenIsOpen) && (responseStr.charAt(1)!='#') ) {
+                if ((mainapp.dccexScreenIsOpen) && (responseStr.charAt(1)!='#') ) {
                     displayCommands(responseStr, true);
                     mainapp.alert_activities(message_type.DCCEX_RESPONSE, responseStr);
                 }
@@ -740,10 +736,10 @@ public class comm_thread extends Thread {
 
                 switch (responseStr.charAt(1)) {
                     case 'i': // Command Station Information or current information
-                        String old_vn = mainapp.DCCEXversion;
+                        String old_vn = mainapp.DccexVersion;
                         String[] vn1 = args[1].split("-");
                         String[] vn2 = vn1[1].split("\\.");
-                        String vn = String.format("%02d.%03d", Integer.parseInt(vn2[0]), Integer.parseInt(vn2[1]));
+                        @SuppressLint("DefaultLocale") String vn = String.format("%02d.%03d", Integer.parseInt(vn2[0]), Integer.parseInt(vn2[1]));
                         if (vn.length() >= 3) {
                             try {
                                 vn = vn + String.format("%03d", Integer.parseInt(vn2[2]));
@@ -760,15 +756,15 @@ public class comm_thread extends Thread {
                                 vn = vn + String.format("%03d", Integer.parseInt(pn));
                             }
                         }
-                        mainapp.DCCEXversion = vn;
+                        mainapp.DccexVersion = vn;
                         try {
-                            mainapp.DCCEXversionValue = Double.valueOf(mainapp.DCCEXversion);
-                        } catch (Exception e) { } // invalid version
+                            mainapp.DccexVersionValue = Double.valueOf(mainapp.DccexVersion);
+                        } catch (Exception ignored) { } // invalid version
 
-                        if (!mainapp.DCCEXversion.equals(old_vn)) { //only if changed
+                        if (!mainapp.DccexVersion.equals(old_vn)) { //only if changed
                             mainapp.sendMsg(mainapp.connection_msg_handler, message_type.CONNECTED);
                         } else {
-                            Log.d("EX_Toolbox", "comm_thread.processWifiResponse: version already set to " + mainapp.DCCEXversion + ", ignoring");
+                            Log.d("EX_Toolbox", "comm_thread.processWifiResponse: version already set to " + mainapp.DccexVersion + ", ignoring");
                         }
 
 //                            mainapp.withrottle_version = 4.0;  // fudge it
@@ -783,21 +779,21 @@ public class comm_thread extends Thread {
                         break;
 
                     case 'l':
-                        processDCCEXlocos(args);
+                        processDccexLocos(args);
                         skipAlert = true;
                         break;
 
                     case 'r':
                         if (args.length<=2) { // response from a request for a loco id (the Drive away feature, and also the Address read)
-                            processDCCEXRequestLocoIdResponse(args);
+                            processDccexRequestLocoIdResponse(args);
                         } else { // response from a CV write
-                            processDCCEXRequestCvResponse(args);
+                            processDccexRequestCvResponse(args);
                         }
                         skipAlert = true;
                         break;
 
                     case 'p': // power response
-                        processDCCEXpowerResponse(args);
+                        processDccexPowerResponse(args);
                         skipAlert = true;
                         break;
 
@@ -805,22 +801,22 @@ public class comm_thread extends Thread {
                         skipAlert = true;
                         switch (responseStr.charAt(2)) {
                             case 'T': // turnouts
-                                processDCCEXturnouts(args);
+                                processDccexTurnouts(args);
                                 break;
                             case 'A': // automations/routes
-                                processDCCEXroutes(args);
+                                processDccexRoutes(args);
                                 break;
                             case 'R': // roster
-                                skipAlert = processDCCEXroster(args);
+                                skipAlert = processDccexRoster(args);
                                 break;
                             case 'C': // fastclock
-                                processDCCEXfastClock(args);
+                                processDccexFastClock(args);
                                 break;
                             case 'I':
-                                processDCCEXcurrents(args);
+                                processDccexCurrents(args);
                                 break;
                             case 'G':
-                                processDCCEXcurrentsMax(args);
+                                processDccexCurrentsMax(args);
                                 break;                        }
                         break;
 
@@ -830,7 +826,7 @@ public class comm_thread extends Thread {
                         break;
 
                     case 'v': // response from a request a CV value
-                        processDCCEXRequestCvResponse(args);
+                        processDccexRequestCvResponse(args);
                         skipAlert = true;
                         break;
 
@@ -844,21 +840,21 @@ public class comm_thread extends Thread {
                         break;
 
                     case '=': // Track Manager response
-                        processDCCEXtrackManagerResponse(args);
+                        processDccexTrackManagerResponse(args);
                         skipAlert = true;
                         break;
 
                     case 'Q': // sensor active
                         if (args.length == 2) {
-                            processDCCEXsensorResponse(args, true);
+                            processDccexSensorResponse(args, true);
                         } else {
-                            processDCCEXsensorDetailsResponse(args);
+                            processDccexSensorDetailsResponse(args);
                         }
                         skipAlert = true;
                         break;
 
                     case 'q': // sensor inactive
-                        processDCCEXsensorResponse(args, false);
+                        processDccexSensorResponse(args, false);
                         skipAlert = true;
                         break;
 
@@ -878,17 +874,17 @@ public class comm_thread extends Thread {
 
     /* ***********************************  *********************************** */
 
-    private static  void processDCCEXpowerResponse ( String [] args) { // <p0|1 [A|B|C|D|E|F|G|H|MAIN|PROG|DC|DCX]>
+    private static  void processDccexPowerResponse ( String [] args) { // <p0|1 [A|B|C|D|E|F|G|H|MAIN|PROG|DC|DCX]>
         String oldState = mainapp.power_state;
-        String responseStr = "";
+        String responseStr;
         if (args.length==1) {  // <p0|1>
             mainapp.power_state = args[0].substring(1, 2);
             if (!mainapp.power_state.equals(oldState)) {
                 responseStr = "PPA" + args[0].charAt(1);
                 mainapp.alert_activities(message_type.RESPONSE, responseStr);
                 if (args[0].charAt(1)!='2') {
-                    for (int i = 0; i < mainapp.DCCEXtrackType.length; i++) {
-                        mainapp.DCCEXtrackPower[i] = args[0].charAt(1) - '0';
+                    for (int i = 0; i < mainapp.dccexTrackType.length; i++) {
+                        mainapp.dccexTrackPower[i] = args[0].charAt(1) - '0';
                         responseStr = "PXX" + ((char) (i + '0')) + args[0].charAt(1);
                         mainapp.alert_activities(message_type.RESPONSE, responseStr);
                     }
@@ -898,7 +894,7 @@ public class comm_thread extends Thread {
         } else { // <p0|1 A|B|C|D|E|F|G|H|MAIN|PROG|DC|DCX>
             if (args[1].length()==1) {  // <p0|1 A|B|C|D|E|F|G|H|>
                 int trackNo = args[1].charAt(0) - 'A';
-                mainapp.DCCEXtrackPower[trackNo] = args[0].charAt(1) - '0';
+                mainapp.dccexTrackPower[trackNo] = args[0].charAt(1) - '0';
                 responseStr = "PXX" + ((char) (trackNo + '0')) + args[0].charAt(1);
                 mainapp.alert_activities(message_type.RESPONSE, responseStr);
 
@@ -910,9 +906,9 @@ public class comm_thread extends Thread {
                         break;
                     }
                 }
-                for (int i=0; i<mainapp.DCCEXtrackType.length; i++) {
-                    if (mainapp.DCCEXtrackType[i] == trackType) {
-                        mainapp.DCCEXtrackPower[i] = args[0].charAt(1) - '0';
+                for (int i=0; i<mainapp.dccexTrackType.length; i++) {
+                    if (mainapp.dccexTrackType[i] == trackType) {
+                        mainapp.dccexTrackPower[i] = args[0].charAt(1) - '0';
                         responseStr = "PXX" + ((char) (i + '0')) + args[0].charAt(1);
                         mainapp.alert_activities(message_type.RESPONSE, responseStr);
                     }
@@ -920,12 +916,12 @@ public class comm_thread extends Thread {
             }
             boolean globalPowerOn = true;
             boolean globalPowerOff = true;
-            for (int i=0; i<mainapp.DCCEXtrackType.length; i++) {
-                if ( (mainapp.DCCEXtrackAvailable[i]) && (mainapp.DCCEXtrackType[i] != 0) ) {  // not "NONE"
-                    if (mainapp.DCCEXtrackPower[i] == 1) {
+            for (int i=0; i<mainapp.dccexTrackType.length; i++) {
+                if ( (mainapp.dccexTrackAvailable[i]) && (mainapp.dccexTrackType[i] != 0) ) {  // not "NONE"
+                    if (mainapp.dccexTrackPower[i] == 1) {
                         globalPowerOff = false;
                     }
-                    if (mainapp.DCCEXtrackPower[i] == 0) {
+                    if (mainapp.dccexTrackPower[i] == 0) {
                         globalPowerOn = false;
                     }
                 }
@@ -946,7 +942,7 @@ public class comm_thread extends Thread {
         }
     }
 
-    private static void processDCCEXRequestCvResponse (String [] args) {
+    private static void processDccexRequestCvResponse (String [] args) {
         String cv = "";
         String cvValue = "-1";
 
@@ -958,13 +954,13 @@ public class comm_thread extends Thread {
         mainapp.alert_activities(message_type.RECEIVED_CV, cv + "|" + cvValue);  //send response to running activities
     }
 
-    private static void processDCCEXsensorResponse (String [] args, boolean active) {
+    private static void processDccexSensorResponse (String [] args, boolean active) {
         String id = args[1];
 
         mainapp.alert_activities(message_type.RECEIVED_SENSOR, id + "|" + ((active) ? "1" : "0"));  //send response to running activities
     }
 
-    private static void processDCCEXsensorDetailsResponse (String [] args) {
+    private static void processDccexSensorDetailsResponse (String [] args) {
         String id = args[1];
         String vpin = args[2];
         String pullup = args[3];
@@ -983,30 +979,30 @@ public class comm_thread extends Thread {
 
         if (valid) {
             boolean found = false;
-            for (int i = 0; i < mainapp.sensorDCCEXcount; i++) {
-                if (mainapp.sensorIDsDCCEX[i] == idValue) {
+            for (int i = 0; i < mainapp.sensorDccexCount; i++) {
+                if (mainapp.sensorIdsDccex[i] == idValue) {
                     found = true;
                     break;
                 }
             }
             if (!found) {
-                mainapp.sensorIDsDCCEX[mainapp.sensorDCCEXcount] = idValue;
-                mainapp.sensorVpinsDCCEX[mainapp.sensorDCCEXcount] = vpinValue;
-                mainapp.sensorPullupsDCCEX[mainapp.sensorDCCEXcount] = pullupValue;
-                mainapp.sensorDCCEXcount++;
+                mainapp.sensorIdsDccex[mainapp.sensorDccexCount] = idValue;
+                mainapp.sensorVpinsDccex[mainapp.sensorDccexCount] = vpinValue;
+                mainapp.sensorPullupsDccex[mainapp.sensorDccexCount] = pullupValue;
+                mainapp.sensorDccexCount++;
             }
         }
     }
 
-    private static void processDCCEXtrackManagerResponse(String [] args) {
-        int trackNo = -1;
+    private static void processDccexTrackManagerResponse(String [] args) {
+        int trackNo;
         String type = args[2];
         if (type.charAt(type.length() - 1) == '+')
             type = type.substring(0, type.length() - 1);
 
         if (args.length>=2) {
             trackNo = args[1].charAt(0)-65;
-            if ( (trackNo>=0) && (trackNo<=mainapp.DCCEX_MAX_TRACKS) ) {
+            if ( (trackNo>=0) && (trackNo<= threaded_application.DCCEX_MAX_TRACKS) ) {
                 int trackTypeIndex = -1
 ;               boolean needsId = false;
                 for (int i=0; i<TRACK_TYPES.length; i++) {
@@ -1018,22 +1014,22 @@ public class comm_thread extends Thread {
                 }
 
                 if (trackTypeIndex>=0) {
-                    mainapp.DCCEXtrackType[trackNo] = trackTypeIndex;
-                    mainapp.DCCEXtrackId[trackNo] = "";
+                    mainapp.dccexTrackType[trackNo] = trackTypeIndex;
+                    mainapp.dccexTrackId[trackNo] = "";
                 }
                 if ( (needsId) && (args.length>=3) ) {
-                    mainapp.DCCEXtrackId[trackNo] = args[3];
+                    mainapp.dccexTrackId[trackNo] = args[3];
                 }
-                mainapp.DCCEXtrackAvailable[trackNo] = true;
+                mainapp.dccexTrackAvailable[trackNo] = true;
             }
             mainapp.alert_activities(message_type.RECEIVED_TRACKS, type);  //send response to running activities
         }
     }
 
-    private static void processDCCEXRequestLocoIdResponse(String [] args) {
+    private static void processDccexRequestLocoIdResponse(String [] args) {
         String responseStr = "";
 
-        if (requestLocoIdForWhichThrottleDCCEX!=-1) { // if -1, request came from the CV read/write screen
+        if (requestLocoIdForWhichThrottleDccex!=-1) { // if -1, request came from the CV read/write screen
             if (!args[1].equals("-1")) {
                 String addrStr = args[1];
                 if (Integer.parseInt(args[1]) <= 127) {
@@ -1041,10 +1037,10 @@ public class comm_thread extends Thread {
                 } else {
                     addrStr = "L" + addrStr;
                 }
-//                Consist con = mainapp.consists[requestLocoIdForWhichThrottleDCCEX];
+//                Consist con = mainapp.consists[requestLocoIdForWhichThrottleDccex];
 //                if (con.isWaitingOnID()) { //we were waiting for this response to get address
 //                    Consist.ConLoco conLoco = new Consist.ConLoco(addrStr);
-//                    conLoco.setFunctionLabelDefaults(mainapp, requestLocoIdForWhichThrottleDCCEX);
+//                    conLoco.setFunctionLabelDefaults(mainapp, requestLocoIdForWhichThrottleDccex);
 //                    //look for RosterEntry which matches address returned
 //                    String rn = mainapp.getRosterNameFromAddress(conLoco.getFormatAddress(), true);
 //                    if (!rn.equals("")) {
@@ -1055,15 +1051,15 @@ public class comm_thread extends Thread {
 //                    con.setWhichSource(addrStr, 1); //entered by address, not roster
 //                    con.setConfirmed(addrStr);
 //
-//                    sendAcquireLoco(addrStr, requestLocoIdForWhichThrottleDCCEX, 0);
-//                    sendJoinDCCEX();
+//                    sendAcquireLoco(addrStr, requestLocoIdForWhichThrottleDccex, 0);
+//                    sendJoinDccex();
 //                    mainapp.alert_activities(message_type.REQUEST_REFRESH_THROTTLE, "");
 //
 //                } else {
                     mainapp.alert_activities(message_type.RECEIVED_DECODER_ADDRESS, args[1]);  //send response to running activities
 //                }
             }  else {// else {} did not succeed
-                threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.DCCEXrequestLocoIdFailed), Toast.LENGTH_SHORT);
+                threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.dccexRequestLocoIdFailed), Toast.LENGTH_SHORT);
             }
 
         } else {
@@ -1072,30 +1068,30 @@ public class comm_thread extends Thread {
 
     }
 
-    static void processDCCEXcurrents(String [] args) {
+    static void processDccexCurrents(String [] args) {
         if (args.length>1) {
             for (int i=1; i<args.length; i++) {
-                mainapp.currentsDCCEX[mainapp.PREVIOUS_VALUE][i-1] = mainapp.currentsDCCEX[mainapp.LATEST_VALUE][i-1];
-                mainapp.currentsDCCEX[mainapp.LATEST_VALUE][i-1] = Integer.parseInt(args[i]);
-                if (mainapp.currentsDCCEX[mainapp.LATEST_VALUE][i-1] > mainapp.currentsHighestDCCEX[i-1]) {
-                    mainapp.currentsHighestDCCEX[i-1] = mainapp.currentsDCCEX[mainapp.LATEST_VALUE][i-1];
+                mainapp.currentsDccex[threaded_application.PREVIOUS_VALUE][i-1] = mainapp.currentsDccex[threaded_application.LATEST_VALUE][i-1];
+                mainapp.currentsDccex[threaded_application.LATEST_VALUE][i-1] = Integer.parseInt(args[i]);
+                if (mainapp.currentsDccex[threaded_application.LATEST_VALUE][i-1] > mainapp.currentsHighestDccex[i-1]) {
+                    mainapp.currentsHighestDccex[i-1] = mainapp.currentsDccex[threaded_application.LATEST_VALUE][i-1];
                 }
             }
             mainapp.alert_activities(message_type.RECEIVED_CURRENTS, "");
         }
     }
 
-    static void processDCCEXcurrentsMax(String [] args) {
+    static void processDccexCurrentsMax(String [] args) {
         if (args.length>1) {
             for (int i=1; i<args.length; i++) {
-                mainapp.currentsMaxDCCEX[i-1] = Integer.parseInt(args[i]);
+                mainapp.currentsMaxDccex[i-1] = Integer.parseInt(args[i]);
             }
             mainapp.alert_activities(message_type.RECEIVED_CURRENTS_MAX, "");
         }
     }
 
-    private static void processDCCEXlocos(String [] args) {
-        String responseStr="";
+    private static void processDccexLocos(String [] args) {
+        String responseStr;
 
         int dir = 0;
         int speed = Integer.parseInt(args[3]);
@@ -1140,57 +1136,57 @@ public class comm_thread extends Thread {
         responseStr = "l " + args[1] + " " + speed + " " + dir;
         mainapp.alert_activities(message_type.RECEIVED_LOCO_UPDATE, responseStr);
 
-    } // end processDCCEXlocos()
+    } // end processDccexLocos()
 
-    private static boolean processDCCEXroster(String [] args) {
+    private static boolean processDccexRoster(String [] args) {
         boolean skipAlert = true;
 
         if ( (args!=null) && (args.length>1)) {
             if ( (args.length<3) || (args[2].charAt(0) != '"') ) {  // loco list
-                if (mainapp.rosterStringDCCEX.equals("")) {
-                    mainapp.rosterStringDCCEX = "";
-                    mainapp.rosterIDsDCCEX = new int[args.length - 1];
-                    mainapp.rosterLocoNamesDCCEX = new String[args.length - 1];
-                    mainapp.rosterLocoFunctionsDCCEX = new String[args.length - 1];
-                    mainapp.rosterDetailsReceivedDCCEX = new boolean[args.length - 1];
+                if (mainapp.rosterStringDccex.equals("")) {
+                    mainapp.rosterStringDccex = "";
+                    mainapp.rosterIDsDccex = new int[args.length - 1];
+                    mainapp.rosterLocoNamesDccex = new String[args.length - 1];
+                    mainapp.rosterLocoFunctionsDccex = new String[args.length - 1];
+                    mainapp.rosterDetailsReceivedDccex = new boolean[args.length - 1];
                     for (int i = 0; i < args.length - 1; i++) { // first will be blank
-                        mainapp.rosterIDsDCCEX[i] = Integer.parseInt(args[i + 1]);
-                        mainapp.rosterDetailsReceivedDCCEX[i] = false;
+                        mainapp.rosterIDsDccex[i] = Integer.parseInt(args[i + 1]);
+                        mainapp.rosterDetailsReceivedDccex[i] = false;
                         wifiSend("<JR " + args[i + 1] + ">");
                     }
                 }
             } else {  // individual loco
-                if (mainapp.DCCEXlistsRequested < 3) {
-                    if (mainapp.rosterIDsDCCEX != null) {
-                        for (int i = 0; i < mainapp.rosterIDsDCCEX.length; i++) {
-                            if (mainapp.rosterIDsDCCEX[i] == Integer.parseInt(args[1])) {
-                                mainapp.rosterLocoNamesDCCEX[i] = args[2].substring(1, args[2].length() - 1);
-                                mainapp.rosterLocoFunctionsDCCEX[i] = args[3]; // ignore this
-                                mainapp.rosterDetailsReceivedDCCEX[i] = true;
+                if (mainapp.dccexListsRequested < 3) {
+                    if (mainapp.rosterIDsDccex != null) {
+                        for (int i = 0; i < mainapp.rosterIDsDccex.length; i++) {
+                            if (mainapp.rosterIDsDccex[i] == Integer.parseInt(args[1])) {
+                                mainapp.rosterLocoNamesDccex[i] = args[2].substring(1, args[2].length() - 1);
+                                mainapp.rosterLocoFunctionsDccex[i] = args[3]; // ignore this
+                                mainapp.rosterDetailsReceivedDccex[i] = true;
                                 break;
                             }
                         }
 
                         // check if we have all of them
                         boolean ready = true;
-                        for (int i = 0; i < mainapp.rosterIDsDCCEX.length; i++) {
-                            if (!mainapp.rosterDetailsReceivedDCCEX[i]) {
+                        for (int i = 0; i < mainapp.rosterIDsDccex.length; i++) {
+                            if (!mainapp.rosterDetailsReceivedDccex[i]) {
                                 ready = false;
                                 break;
                             }
                         }
                         if (ready) {
-                            mainapp.rosterStringDCCEX = "RL" + mainapp.rosterIDsDCCEX.length;
-                            for (int i = 0; i < mainapp.rosterIDsDCCEX.length; i++) {
-                                mainapp.rosterStringDCCEX = mainapp.rosterStringDCCEX
-                                        + "]\\[" + mainapp.rosterLocoNamesDCCEX[i]
-                                        + "}|{" + mainapp.rosterIDsDCCEX[i]
-                                        + "}|{" + (mainapp.rosterIDsDCCEX[i] <= 127 ? "S" : "L");
+                            mainapp.rosterStringDccex = "RL" + mainapp.rosterIDsDccex.length;
+                            for (int i = 0; i < mainapp.rosterIDsDccex.length; i++) {
+                                mainapp.rosterStringDccex = mainapp.rosterStringDccex
+                                        + "]\\[" + mainapp.rosterLocoNamesDccex[i]
+                                        + "}|{" + mainapp.rosterIDsDccex[i]
+                                        + "}|{" + (mainapp.rosterIDsDccex[i] <= 127 ? "S" : "L");
                             }
-                            processRosterList(mainapp.rosterStringDCCEX);
-                            mainapp.rosterStringDCCEX = "";
-                            mainapp.DCCEXlistsRequested++;
-                            Log.d("EX_Toolbox", "comm_thread.processDCCEXroster: Roster complete. Count: " + mainapp.DCCEXlistsRequested);
+                            processRosterList(mainapp.rosterStringDccex);
+                            mainapp.rosterStringDccex = "";
+                            mainapp.dccexListsRequested++;
+                            Log.d("EX_Toolbox", "comm_thread.processDccexRoster: Roster complete. Count: " + mainapp.dccexListsRequested);
                         }
                     }
 
@@ -1208,19 +1204,19 @@ public class comm_thread extends Thread {
                             if (lead.equals(addr_str)) {                       // only process the functions for lead engine in consist
                                 if (args[3].length() > 2) {                       // only process the functions for lead engine in consist
                                     String[] fnArgs = args[3].substring(1, args[3].length() - 1).split("/", 999);
-                                    mainapp.throttleFunctionIsLatchingDCCEX[whichThrottle] = new boolean[args[3].length()];
+                                    mainapp.throttleFunctionIsLatchingDccex[whichThrottle] = new boolean[args[3].length()];
                                     StringBuilder responseStrBuilder = new StringBuilder("RF29}|{1234(L)]\\[");  //prepend some stuff to match old-style
                                     for (int i = 0; i < fnArgs.length; i++) {
                                         if (fnArgs[i].length() == 0) {
                                             responseStrBuilder.append("]\\[");
-                                            mainapp.throttleFunctionIsLatchingDCCEX[whichThrottle][i] = false;
+                                            mainapp.throttleFunctionIsLatchingDccex[whichThrottle][i] = false;
                                         } else {
                                             if (fnArgs[i].charAt(0) == '*') { // is NOT latching
                                                 responseStrBuilder.append(fnArgs[i].substring(1)).append("]\\[");
-                                                mainapp.throttleFunctionIsLatchingDCCEX[whichThrottle][i] = false;
+                                                mainapp.throttleFunctionIsLatchingDccex[whichThrottle][i] = false;
                                             } else {
                                                 responseStrBuilder.append(fnArgs[i]).append("]\\[");
-                                                mainapp.throttleFunctionIsLatchingDCCEX[whichThrottle][i] = true;
+                                                mainapp.throttleFunctionIsLatchingDccex[whichThrottle][i] = true;
                                             }
                                         }
                                     }
@@ -1229,7 +1225,7 @@ public class comm_thread extends Thread {
                                     mainapp.consists[whichThrottle].setFunctionLabels(addr_str, responseStrBuilder.toString(), mainapp);
                                     skipAlert = false;
                                 } else {
-                                    mainapp.throttleFunctionIsLatchingDCCEX[whichThrottle] = null;
+                                    mainapp.throttleFunctionIsLatchingDccex[whichThrottle] = null;
                                 }
                             }
 
@@ -1247,9 +1243,9 @@ public class comm_thread extends Thread {
             }
         }
         return skipAlert;
-    } // end processDCCEXroster()
+    } // end processDccexRoster()
 
-    private static void processDCCEXfastClock(String [] args) {
+    private static void processDccexFastClock(String [] args) {
         if (args!=null)  {
             if (args.length == 3) { // <jC mmmm ss>
                 mainapp.fastClockSeconds = 0L;
@@ -1263,7 +1259,7 @@ public class comm_thread extends Thread {
         }
     }
 
-    private static void processDCCEXturnouts(String [] args) {
+    private static void processDccexTurnouts(String [] args) {
 
         if (args!=null)  {
             if ( (args.length == 1)  // no Turnouts <jT>
@@ -1275,77 +1271,77 @@ public class comm_thread extends Thread {
                 if ( args.length == 1) { // no turnouts
                     noTurnouts = true;
                 } else {
-                    for (int i = 0; i < mainapp.turnoutIDsDCCEX.length; i++) {
-                        if (mainapp.turnoutIDsDCCEX[i] == Integer.parseInt(args[1])) {
-                            mainapp.turnoutStatesDCCEX[i] = args[2];
+                    for (int i = 0; i < mainapp.turnoutIDsDccex.length; i++) {
+                        if (mainapp.turnoutIDsDccex[i] == Integer.parseInt(args[1])) {
+                            mainapp.turnoutStatesDccex[i] = args[2];
                             if ((args.length > 3) && (args[3].length() > 2)) {
-                                mainapp.turnoutNamesDCCEX[i] = args[3].substring(1, args[3].length() - 1);
+                                mainapp.turnoutNamesDccex[i] = args[3].substring(1, args[3].length() - 1);
                             } else {
-                                mainapp.turnoutNamesDCCEX[i] = "";
+                                mainapp.turnoutNamesDccex[i] = "";
                             }
-                            mainapp.turnoutDetailsReceivedDCCEX[i] = true;
+                            mainapp.turnoutDetailsReceivedDccex[i] = true;
                             break;
                         }
                     }
                     // check if we have all of them
-                    for (int i = 0; i < mainapp.turnoutIDsDCCEX.length; i++) {
-                        if (!mainapp.turnoutDetailsReceivedDCCEX[i]) {
+                    for (int i = 0; i < mainapp.turnoutIDsDccex.length; i++) {
+                        if (!mainapp.turnoutDetailsReceivedDccex[i]) {
                             ready = false;
                             break;
                         }
                     }
                 }
                 if (ready) {
-                    mainapp.turnoutStringDCCEX = "PTL";
+                    mainapp.turnoutStringDccex = "PTL";
                     if (!noTurnouts) {
-                        for (int i = 0; i < mainapp.turnoutIDsDCCEX.length; i++) {
-                            mainapp.turnoutStringDCCEX = mainapp.turnoutStringDCCEX
-                                    + "]\\[" + mainapp.turnoutIDsDCCEX[i]
-                                    + "}|{" + mainapp.turnoutNamesDCCEX[i]
-                                    + "}|{" + (mainapp.turnoutStatesDCCEX[i].equals("T") ? 4 : 2);
+                        for (int i = 0; i < mainapp.turnoutIDsDccex.length; i++) {
+                            mainapp.turnoutStringDccex = mainapp.turnoutStringDccex
+                                    + "]\\[" + mainapp.turnoutIDsDccex[i]
+                                    + "}|{" + mainapp.turnoutNamesDccex[i]
+                                    + "}|{" + (mainapp.turnoutStatesDccex[i].equals("T") ? 4 : 2);
                         }
                     }
                     processTurnoutTitles("PTT]\\[Turnouts}|{Turnout]\\["
-                            + mainapp.getResources().getString(R.string.DCCEXturnoutClosed) + "}|{2]\\["
-                            + mainapp.getResources().getString(R.string.DCCEXturnoutThrown) + "}|{4]\\["
-                            + mainapp.getResources().getString(R.string.DCCEXturnoutUnknown) + "}|{1]\\["
-                            + mainapp.getResources().getString(R.string.DCCEXturnoutInconsistent) + "}|{8");
-                    processTurnoutList(mainapp.turnoutStringDCCEX);
+                            + mainapp.getResources().getString(R.string.dccexTurnoutClosed) + "}|{2]\\["
+                            + mainapp.getResources().getString(R.string.dccexTurnoutThrown) + "}|{4]\\["
+                            + mainapp.getResources().getString(R.string.dccexTurnoutUnknown) + "}|{1]\\["
+                            + mainapp.getResources().getString(R.string.dccexTurnoutInconsistent) + "}|{8");
+                    processTurnoutList(mainapp.turnoutStringDccex);
                     mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_REFRESH_THROTTLE, "");
-                    mainapp.turnoutStringDCCEX = "";
-                    mainapp.DCCEXlistsRequested++;
+                    mainapp.turnoutStringDccex = "";
+                    mainapp.dccexListsRequested++;
 
-                    int count = (mainapp.turnoutIDsDCCEX==null) ? 0 : mainapp.turnoutIDsDCCEX.length;
-                    Log.d("EX_Toolbox", "comm_thread.processDCCEXturnouts: Turnouts complete. Count: " + count);
-                    mainapp.turnoutsBeingProcessedDCCEX = false;
+                    int count = (mainapp.turnoutIDsDccex==null) ? 0 : mainapp.turnoutIDsDccex.length;
+                    Log.d("EX_Toolbox", "comm_thread.processDccexTurnouts: Turnouts complete. Count: " + count);
+                    mainapp.turnoutsBeingProcessedDccex = false;
                 }
 
             } else { // turnouts list  <jT id1 id2 id3 ...>
 
-                Log.d("EX_Toolbox", "comm_thread.processDCCEXturnouts: Turnouts list received.");
-                if (!mainapp.turnoutsBeingProcessedDCCEX) {
-                    mainapp.turnoutsBeingProcessedDCCEX = true;
-                    if (mainapp.turnoutStringDCCEX.equals("")) {
-                        mainapp.turnoutStringDCCEX = "";
-                        mainapp.turnoutIDsDCCEX = new int[args.length - 1];
-                        mainapp.turnoutNamesDCCEX = new String[args.length - 1];
-                        mainapp.turnoutStatesDCCEX = new String[args.length - 1];
-                        mainapp.turnoutDetailsReceivedDCCEX = new boolean[args.length - 1];
+                Log.d("EX_Toolbox", "comm_thread.processDccexTurnouts: Turnouts list received.");
+                if (!mainapp.turnoutsBeingProcessedDccex) {
+                    mainapp.turnoutsBeingProcessedDccex = true;
+                    if (mainapp.turnoutStringDccex.equals("")) {
+                        mainapp.turnoutStringDccex = "";
+                        mainapp.turnoutIDsDccex = new int[args.length - 1];
+                        mainapp.turnoutNamesDccex = new String[args.length - 1];
+                        mainapp.turnoutStatesDccex = new String[args.length - 1];
+                        mainapp.turnoutDetailsReceivedDccex = new boolean[args.length - 1];
                         for (int i = 0; i < args.length - 1; i++) { // first will be blank
-                            mainapp.turnoutIDsDCCEX[i] = Integer.parseInt(args[i + 1]);
-                            mainapp.turnoutDetailsReceivedDCCEX[i] = false;
+                            mainapp.turnoutIDsDccex[i] = Integer.parseInt(args[i + 1]);
+                            mainapp.turnoutDetailsReceivedDccex[i] = false;
                             wifiSend("<JT " + args[i + 1] + ">");
                         }
 
-                        int count = (mainapp.turnoutIDsDCCEX==null) ? 0 : mainapp.turnoutIDsDCCEX.length;
-                        Log.d("EX_Toolbox", "comm_thread.processDCCEXturnouts: Turnouts list received. Count: " + count);
+                        int count = (mainapp.turnoutIDsDccex==null) ? 0 : mainapp.turnoutIDsDccex.length;
+                        Log.d("EX_Toolbox", "comm_thread.processDccexTurnouts: Turnouts list received. Count: " + count);
                     }
                 }
             }
         }
-    } // end processDCCEXturnouts()
+    } // end processDccexTurnouts()
 
-    private static void processDCCEXroutes(String [] args) {
+    private static void processDccexRoutes(String [] args) {
 
         if (args != null)  {
             if ( (args.length == 1)  // no Turnouts <jT>
@@ -1358,71 +1354,71 @@ public class comm_thread extends Thread {
                 if ( args.length == 1) { // no turnouts
                     noRoutes = true;
                 } else {
-                    for (int i = 0; i < mainapp.routeIDsDCCEX.length; i++) {
-                        if (mainapp.routeIDsDCCEX[i] == Integer.parseInt(args[1])) {
-                            mainapp.routeTypesDCCEX[i] = args[2];
-                            mainapp.routeNamesDCCEX[i] = args[3].substring(1, args[3].length() - 1);
-                            mainapp.routeDetailsReceivedDCCEX[i] = true;
+                    for (int i = 0; i < mainapp.routeIDsDccex.length; i++) {
+                        if (mainapp.routeIDsDccex[i] == Integer.parseInt(args[1])) {
+                            mainapp.routeTypesDccex[i] = args[2];
+                            mainapp.routeNamesDccex[i] = args[3].substring(1, args[3].length() - 1);
+                            mainapp.routeDetailsReceivedDccex[i] = true;
                             break;
                         }
                     }
                     // check if we have all of them
 
-                    for (int i = 0; i < mainapp.routeIDsDCCEX.length; i++) {
-                        if (!mainapp.routeDetailsReceivedDCCEX[i]) {
+                    for (int i = 0; i < mainapp.routeIDsDccex.length; i++) {
+                        if (!mainapp.routeDetailsReceivedDccex[i]) {
                             ready = false;
                             break;
                         }
                     }
                 }
                 if (ready) {
-                    mainapp.routeStringDCCEX = "PRL";
+                    mainapp.routeStringDccex = "PRL";
                     if (!noRoutes) {
-                        for (int i = 0; i < mainapp.routeIDsDCCEX.length; i++) {
-                            mainapp.routeStringDCCEX = mainapp.routeStringDCCEX
-                                    + "]\\[" + mainapp.routeIDsDCCEX[i]
-                                    + "}|{" + mainapp.routeNamesDCCEX[i]
-                                    + "}|{" + (mainapp.routeTypesDCCEX[i].equals("R") ? 2 : 4);  //2=Route 4=Automation
+                        for (int i = 0; i < mainapp.routeIDsDccex.length; i++) {
+                            mainapp.routeStringDccex = mainapp.routeStringDccex
+                                    + "]\\[" + mainapp.routeIDsDccex[i]
+                                    + "}|{" + mainapp.routeNamesDccex[i]
+                                    + "}|{" + (mainapp.routeTypesDccex[i].equals("R") ? 2 : 4);  //2=Route 4=Automation
                         }
                     }
                     processRouteTitles("PRT]\\[Routes}|{Route]\\["
-                            + mainapp.getResources().getString(R.string.DCCEXrouteSet)+"}|{2]\\["
-                            + mainapp.getResources().getString(R.string.DCCEXrouteHandoff) + "}|{4");
-                    processRouteList(mainapp.routeStringDCCEX);
+                            + mainapp.getResources().getString(R.string.dccexRouteSet)+"}|{2]\\["
+                            + mainapp.getResources().getString(R.string.dccexRouteHandoff) + "}|{4");
+                    processRouteList(mainapp.routeStringDccex);
                     mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_REFRESH_THROTTLE, "");
-                    mainapp.routeStringDCCEX = "";
-                    mainapp.DCCEXlistsRequested++;
+                    mainapp.routeStringDccex = "";
+                    mainapp.dccexListsRequested++;
 
-                    int count = (mainapp.routeIDsDCCEX==null) ? 0 : mainapp.routeIDsDCCEX.length;
-                    Log.d("EX_Toolbox", "comm_thread.processDCCEXroutes: Routes complete. Count: " + count);
-                    mainapp.routesBeingProcessedDCCEX = false;
+                    int count = (mainapp.routeIDsDccex==null) ? 0 : mainapp.routeIDsDccex.length;
+                    Log.d("EX_Toolbox", "comm_thread.processDccexRoutes: Routes complete. Count: " + count);
+                    mainapp.routesBeingProcessedDccex = false;
                 }
 
             } else { // routes list   <jA id1 id2 id3 ...>   or <jA> for empty
 
-                Log.d("EX_Toolbox", "comm_thread.processDCCEXroutes: Routes list received.");
-                if (!mainapp.routesBeingProcessedDCCEX) {
-                    mainapp.routesBeingProcessedDCCEX = true;
-                    if (mainapp.routeStringDCCEX.equals("")) {
-                        mainapp.routeStringDCCEX = "";
-                        mainapp.routeIDsDCCEX = new int[args.length - 1];
-                        mainapp.routeNamesDCCEX = new String[args.length - 1];
-                        mainapp.routeTypesDCCEX = new String[args.length - 1];
-                        mainapp.routeStatesDCCEX = new String[args.length - 1];
-                        mainapp.routeDetailsReceivedDCCEX = new boolean[args.length - 1];
+                Log.d("EX_Toolbox", "comm_thread.processDccexRoutes: Routes list received.");
+                if (!mainapp.routesBeingProcessedDccex) {
+                    mainapp.routesBeingProcessedDccex = true;
+                    if (mainapp.routeStringDccex.equals("")) {
+                        mainapp.routeStringDccex = "";
+                        mainapp.routeIDsDccex = new int[args.length - 1];
+                        mainapp.routeNamesDccex = new String[args.length - 1];
+                        mainapp.routeTypesDccex = new String[args.length - 1];
+                        mainapp.routeStatesDccex = new String[args.length - 1];
+                        mainapp.routeDetailsReceivedDccex = new boolean[args.length - 1];
                         for (int i = 0; i < args.length - 1; i++) { // first will be blank
-                            mainapp.routeIDsDCCEX[i] = Integer.parseInt(args[i + 1]);
-                            mainapp.routeDetailsReceivedDCCEX[i] = false;
+                            mainapp.routeIDsDccex[i] = Integer.parseInt(args[i + 1]);
+                            mainapp.routeDetailsReceivedDccex[i] = false;
                             wifiSend("<JA " + args[i + 1] + ">");
                         }
 
-                        int count = (mainapp.routeIDsDCCEX==null) ? 0 : mainapp.routeIDsDCCEX.length;
-                        Log.d("EX_Toolbox", "comm_thread.processDCCEXroutes: Routes list received. Count: " + count);
+                        int count = (mainapp.routeIDsDccex==null) ? 0 : mainapp.routeIDsDccex.length;
+                        Log.d("EX_Toolbox", "comm_thread.processDccexRoutes: Routes list received. Count: " + count);
                     }
                 }
             }
         }
-    } // end processDCCEXroutes()
+    } // end processDccexRoutes()
 
     /* ***********************************  *********************************** */
 
@@ -1656,7 +1652,7 @@ public class comm_thread extends Thread {
         }
     }
 
-    //
+    /** @noinspection UnnecessaryUnicodeEscape*/ //
     // wifiSend(String msg)
     //
     //send formatted msg to the socket using multithrottle format
@@ -1677,11 +1673,11 @@ public class comm_thread extends Thread {
         //send if sufficient gap between messages or msg is timingSensitive, requeue if not
         if (lastGap >= threaded_application.WiThrottle_Msg_Interval || timingSensitive(msg)) {
             //perform the send
-            Log.d("EX_Toolbox", "comm_thread.wifiSend: " + (mainapp.isDCCEX ? "DCC-EX" : "") + "           -->:" + msg.replaceAll("\n", "\u21B5") + " (" + lastGap + ")"); //replace newline with cr arrow
+            Log.d("EX_Toolbox", "comm_thread.wifiSend: " + (mainapp.isDccex ? "DCC-EX" : "") + "           -->:" + msg.replaceAll("\n", "\u21B5") + " (" + lastGap + ")"); //replace newline with cr arrow
             lastSentMs = now;
             socketWiT.Send(msg);
 
-            if (mainapp.DCCEXscreenIsOpen) { // only relevant to some DCC-EX commands that we want to see in the DCC-EC Screen.
+            if (mainapp.dccexScreenIsOpen) { // only relevant to some DCC-EX commands that we want to see in the DCC-EC Screen.
                 mainapp.sendMsg(mainapp.comm_msg_handler, message_type.DCCEX_COMMAND_ECHO, msg);
             }
         } else {
@@ -1699,12 +1695,12 @@ public class comm_thread extends Thread {
      */
     private static boolean timingSensitive(String msg) {
         boolean ret = false;
-        if (!mainapp.isDCCEX) {
+        if (!mainapp.isDccex) {
             if (msg.matches("^M[0-5]A.{1,5}<;>F[0-1][\\d]{1,2}$")) {
                 ret = true;
             } //any function key message
         }
-        if (ret) Log.d("EX_Toolbox", "comm_thread.timingSensitive: timeSensitive msg, not requeuing:");
+        if (ret) Log.d("EX_Toolbox", "comm_thread.timingSensitive: timeSensitive msg, not requeueing:");
         return ret;
     }
 
@@ -1937,7 +1933,7 @@ public class comm_thread extends Thread {
         }
 
         // Attempt to determine if the socket connection is still good.
-        // unfortunatley isConnected returns true if the Socket was disconnected other than by calling close()
+        // unfortunately isConnected returns true if the Socket was disconnected other than by calling close()
         // so on signal loss it still returns true.
         // Eventually we just try to send and handle the IOException if the socket was disconnected.
         boolean SocketCheck() {
@@ -2140,7 +2136,7 @@ public class comm_thread extends Thread {
                 mainapp.comm_msg_handler.removeCallbacks(this);             //remove pending requests
                 if (heartbeatIntervalSetpoint != 0) {
                     boolean anySent = false;
-                    if (!mainapp.isDCCEX) {
+                    if (!mainapp.isDccex) {
 //                        for (int i = 0; i < mainapp.numThrottles; i++) {
                         for (int i = 0; i < 1; i++) {
                             if (mainapp.consists[i].isActive()) {
@@ -2185,29 +2181,29 @@ public class comm_thread extends Thread {
         String currentTime = sdf.format(new Date());
 
         if (inbound) {
-            mainapp.DCCEXresponsesListHtml.add("<small><small>" + currentTime + " </small></small> ◄ : <b>" + Html.escapeHtml(msg) + "</b><br />");
+            mainapp.DccexResponsesListHtml.add("<small><small>" + currentTime + " </small></small> ◄ : <b>" + Html.escapeHtml(msg) + "</b><br />");
         } else {
-//            DCCEXsendsListHtml.add("<small><small>" + currentTime + " </small></small> ► : &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <i>" + Html.escapeHtml(msg) + "</i><br />");
-            mainapp.DCCEXsendsListHtml.add("<small><small>" + currentTime + " </small></small> ► : <i>" + Html.escapeHtml(msg) + "</i><br />");
+//            dccexSendsListHtml.add("<small><small>" + currentTime + " </small></small> ► : &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <i>" + Html.escapeHtml(msg) + "</i><br />");
+            mainapp.dccexSendsListHtml.add("<small><small>" + currentTime + " </small></small> ► : <i>" + Html.escapeHtml(msg) + "</i><br />");
         }
-        if (mainapp.DCCEXresponsesListHtml.size()>80) {
-            mainapp.DCCEXresponsesListHtml.remove(0);
+        if (mainapp.DccexResponsesListHtml.size()>80) {
+            mainapp.DccexResponsesListHtml.remove(0);
         }
-        if (mainapp.DCCEXsendsListHtml.size()>60) {
-            mainapp.DCCEXsendsListHtml.remove(0);
+        if (mainapp.dccexSendsListHtml.size()>60) {
+            mainapp.dccexSendsListHtml.remove(0);
         }
 
-        mainapp.DCCEXresponsesStr ="<p>";
-        for (int i=0; i<mainapp.DCCEXresponsesListHtml.size(); i++) {
-            mainapp.DCCEXresponsesStr = mainapp.DCCEXresponsesListHtml.get(i) + mainapp.DCCEXresponsesStr;
+        mainapp.dccexResponsesStr ="<p>";
+        for (int i=0; i<mainapp.DccexResponsesListHtml.size(); i++) {
+            mainapp.dccexResponsesStr = mainapp.DccexResponsesListHtml.get(i) + mainapp.dccexResponsesStr;
         }
-        mainapp.DCCEXresponsesStr = mainapp.DCCEXresponsesStr + "</p>";
+        mainapp.dccexResponsesStr = mainapp.dccexResponsesStr + "</p>";
 
-        mainapp.DCCEXsendsStr ="<p>";
-        for (int i=0; i<mainapp.DCCEXsendsListHtml.size(); i++) {
-            mainapp.DCCEXsendsStr = mainapp.DCCEXsendsListHtml.get(i) + mainapp.DCCEXsendsStr;
+        mainapp.dccexSendsStr ="<p>";
+        for (int i=0; i<mainapp.dccexSendsListHtml.size(); i++) {
+            mainapp.dccexSendsStr = mainapp.dccexSendsListHtml.get(i) + mainapp.dccexSendsStr;
         }
-        mainapp.DCCEXsendsStr = mainapp.DCCEXsendsStr + "</p>";
+        mainapp.dccexSendsStr = mainapp.dccexSendsStr + "</p>";
     }
 
     // ------------------------------------------

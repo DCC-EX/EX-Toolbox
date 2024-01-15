@@ -20,7 +20,6 @@ Derived from the samples for AppIntro at https://github.com/paolorotolo/AppIntro
 
 package dcc_ex.ex_toolbox.intro;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,13 +27,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import dcc_ex.ex_toolbox.R;
 
 public class intro_finish extends Fragment {
 
-    @SuppressWarnings("ConstantConditions")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.d("EX_Toolbox", "intro_finish");

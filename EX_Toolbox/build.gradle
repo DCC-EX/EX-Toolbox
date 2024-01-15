@@ -1,3 +1,4 @@
+//file:noinspection SpellCheckingInspection
 apply plugin: 'com.android.application'
 
 android {

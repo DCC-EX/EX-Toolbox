@@ -6,6 +6,7 @@ package dcc_ex.ex_toolbox.util;
  *    Found this solution here: http://stackoverflow.com/a/7974508
  */
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -18,24 +19,22 @@ import java.lang.reflect.Method;
 public class TransparentListView extends ListView {
 
     private void makeTransparent() {
-        if (Build.VERSION.SDK_INT >= 9) {
+        try {
+
+            Method overscrollFooterMethod =
+                    TransparentListView.class.getMethod("setOverscrollFooter", Drawable.class);
+            Method overscrollHeaderMethod =
+                    TransparentListView.class.getMethod("setOverscrollHeader", Drawable.class);
+
+
             try {
-
-                Method overscrollFooterMethod =
-                        TransparentListView.class.getMethod("setOverscrollFooter", Drawable.class);
-                Method overscrollHeaderMethod =
-                        TransparentListView.class.getMethod("setOverscrollHeader", Drawable.class);
-
-
-                try {
-                    overscrollFooterMethod.invoke(this, new Object[]{null});
-                    overscrollHeaderMethod.invoke(this, new Object[]{null});
-                } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            } catch (SecurityException | NoSuchMethodException e) {
+                overscrollFooterMethod.invoke(this, new Object[]{null});
+                overscrollHeaderMethod.invoke(this, new Object[]{null});
+            } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
+        } catch (SecurityException | NoSuchMethodException e) {
+            e.printStackTrace();
         }
     }
 

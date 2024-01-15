@@ -17,6 +17,48 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
+    <item android:id="@+id/toolbar_button_cv_programmer"
+        android:icon="?attr/ed_toolbar_button_cv_programmer"
+        android:title="@string/app_name_cv_programmer"
+        android:visible="true"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item android:id="@+id/toolbar_button_servos"
+        android:icon="?attr/ed_toolbar_button_servos"
+        android:title="@string/app_name_servos"
+        android:visible="true"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item android:id="@+id/toolbar_button_sensors"
+        android:icon="?attr/ed_toolbar_button_sensors"
+        android:title="@string/app_name_sensors"
+        android:visible="true"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+<!--    <item android:id="@+id/toolbar_button_locos"-->
+<!--        android:icon="?attr/ed_toolbar_button_loco"-->
+<!--        android:title="@string/app_name_locos"-->
+<!--        android:visible="true"-->
+<!--        app:showAsAction="always"-->
+<!--        tools:ignore="AlwaysShowAction" />-->
+
+    <item android:id="@+id/toolbar_button_currents"
+        android:icon="?attr/ed_toolbar_button_current"
+        android:title="@string/app_name_currents"
+        android:visible="true"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item android:id="@+id/toolbar_button_track_manager"
+        android:icon="?attr/ed_toolbar_button_track_manager"
+        android:title="@string/app_name_track_manager"
+        android:visible="true"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
     <item android:id="@+id/power_layout_button"
         android:title="@string/PowerButtonBar"
         android:visible="false"

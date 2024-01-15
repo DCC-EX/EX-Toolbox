@@ -36,6 +36,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -61,6 +62,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,7 +91,6 @@ public class connection_activity extends AppCompatActivity implements Permission
 
     //pointer back to application
     private threaded_application mainapp;
-    private Menu CMenu;
     //The IP address and port that are used to connect.
     private String connected_hostip;
     private String connected_hostname;
@@ -350,6 +351,10 @@ public class connection_activity extends AppCompatActivity implements Permission
     private class ui_handler extends Handler {
         @SuppressWarnings("unchecked")
 
+        public ui_handler(Looper looper) {
+            super(looper);
+        }
+
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case message_type.SERVICE_RESOLVED:
@@ -417,14 +422,14 @@ public class connection_activity extends AppCompatActivity implements Permission
     /**
      * Called when the activity is first created.
      */
-    @SuppressLint("ApplySharedPref")
+    @SuppressLint({"ApplySharedPref", "ClickableViewAccessibility"})
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //    timestamp = SystemClock.uptimeMillis();
         Log.d("EX_Toolbox", "connection.onCreate ");
         mainapp = (threaded_application) this.getApplication();
-        mainapp.connection_msg_handler = new ui_handler();
+        mainapp.connection_msg_handler = new ui_handler(Looper.getMainLooper());
 
         mainapp.connectedHostName = "";
         mainapp.connectedHostip = "";
@@ -566,6 +571,10 @@ public class connection_activity extends AppCompatActivity implements Permission
                     getApplicationContext().getResources().getString(R.string.app_name),
                     getApplicationContext().getResources().getString(R.string.app_name_connect),
                     "");
+//            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) toolbar.getLayoutParams();
+//            layoutParams.height = 120;
+//            toolbar.setLayoutParams(layoutParams);
+//            toolbar.requestLayout();
         }
 
     } //end onCreate
@@ -635,7 +644,6 @@ public class connection_activity extends AppCompatActivity implements Permission
         } else {
             isRestarting = false;
         }
-        CMenu = null;
         connectionsListSwipeDetector = null;
         prefs = null;
         discovery_list_adapter = null;
@@ -648,9 +656,6 @@ public class connection_activity extends AppCompatActivity implements Permission
     }
 
     private void set_labels() {
-        SharedPreferences prefs = getSharedPreferences("dcc_ex.ex_toolbox_preferences", 0);
-        TextView v = findViewById(R.id.ca_footer);
-
         //sets the tile to include throttle name.
         if (toolbar != null) {
             mainapp.setToolbarTitle(toolbar,
@@ -752,7 +757,6 @@ public class connection_activity extends AppCompatActivity implements Permission
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.connection_menu, menu);
-        CMenu = menu;
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -761,36 +765,35 @@ public class connection_activity extends AppCompatActivity implements Permission
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
         Intent in;
-        switch (item.getItemId()) {
-            case R.id.exit_mnu:
-                mainapp.checkExit(this);
-                return true;
-            case R.id.settings_mnu:
-                in = new Intent().setClass(this, SettingsActivity.class);
-                startActivityForResult(in, 0);
-                connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
-                return true;
-            case R.id.about_mnu:
-                in = new Intent().setClass(this, about_page.class);
-                startActivity(in);
-                connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
-                return true;
-            case R.id.ClearconnList:
-                clearConnectionsList();
-                getConnectionsList();
-                return true;
-            case R.id.logviewer_menu:
-                Intent logviewer = new Intent().setClass(this, LogViewerActivity.class);
-                startActivity(logviewer);
-                connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
-                return true;
-            case R.id.intro_mnu:
-                in = new Intent().setClass(this, intro_activity.class);
-                startActivity(in);
-                connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.exit_mnu) {
+            mainapp.checkExit(this);
+            return true;
+        } else if (item.getItemId() == R.id.settings_mnu ) {
+            in = new Intent().setClass(this, SettingsActivity.class);
+            startActivityForResult(in, 0);
+            connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
+            return true;
+        } else if (item.getItemId() == R.id.about_mnu) {
+            in = new Intent().setClass(this, about_page.class);
+            startActivity(in);
+            connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
+            return true;
+        } else if (item.getItemId() == R.id.ClearconnList) {
+            clearConnectionsList();
+            getConnectionsList();
+            return true;
+        } else if (item.getItemId() == R.id.logviewer_menu) {
+            Intent logviewer = new Intent().setClass(this, LogViewerActivity.class);
+            startActivity(logviewer);
+            connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
+            return true;
+        } else if (item.getItemId() == R.id.intro_mnu) {
+            in = new Intent().setClass(this, intro_activity.class);
+            startActivity(in);
+            connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -896,7 +899,7 @@ public class connection_activity extends AppCompatActivity implements Permission
                 if (importExportConnectionList.failureReason.length() > 0) {
                     Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.toastConnectErrorReadingRecentConnections) + " " + importExportConnectionList.failureReason, Toast.LENGTH_SHORT).show();
                 } else {
-                    if ( (importExportConnectionList.connections_list.size() > 1) || (importExportConnectionList.connections_list.size() > 0) ) {
+                    if (importExportConnectionList.connections_list.size() > 0) {
                         // use connToast so onPause can cancel toast if connection is made
                         connToast.setText(threaded_application.context.getResources().getString(R.string.toastConnectionsListHelp));
                         connToast.show();

@@ -85,6 +85,7 @@ public class comm_handler extends Handler {
                            Log.d("EX_Toolbox", "comm_handler.handleMessage: multicast_lock.acquire() failed");
                         }
                         commThread.jmdns.addServiceListener("_withrottle._tcp.local.", commThread.listener);
+                        commThread.jmdns.addServiceListener("_dccex._tcp.local.", commThread.listener);
                         Log.d("EX_Toolbox", "comm_handler.handleMessage: jmdns listener added");
                      } else {
                         Log.d("EX_Toolbox", "comm_handler.handleMessage: jmdns not running, didn't start listener");
@@ -137,7 +138,6 @@ public class comm_handler extends Handler {
 
          //Release one or all locos on the specified throttle.  addr is in msg (""==all), arg1 holds whichThrottle.
          case message_type.RELEASE: {
-            int delays = 0;
             String addr = msg.obj.toString();
             final int whichThrottle = msg.arg1;
             final boolean releaseAll = (addr.length() == 0);
@@ -153,7 +153,7 @@ public class comm_handler extends Handler {
             break;
          }
 
-            //estop requested.   arg1 holds whichThrottle
+            //EStop requested.   arg1 holds whichThrottle
          //  M0A*<;>X  was(0X)
          case message_type.ESTOP: {
             final int whichThrottle = msg.arg1;
@@ -207,8 +207,8 @@ public class comm_handler extends Handler {
                if (!mainapp.sendMsgDelay(mainapp.comm_msg_handler, 1600L, message_type.SHUTDOWN)) {
                   commThread.shutdown(false);
                }
-               if (mainapp.isDCCEX) {
-                  commThread.wifiSend("<U DISCONNECT>");  // this is not a real command.  just a placeholder that will be ignored by the CS
+               if (mainapp.isDccex) {
+                  comm_thread.wifiSend("<U DISCONNECT>");  // this is not a real command.  just a placeholder that will be ignored by the CS
                }
             }
 
@@ -263,7 +263,7 @@ public class comm_handler extends Handler {
          }
 
          case message_type.DCCEX_SEND_COMMAND: { // DCC-EX only
-            comm_thread.sendDCCEXcommand(msg.obj.toString());
+            comm_thread.sendDccexCommand(msg.obj.toString());
             break;
          }
 
@@ -464,13 +464,13 @@ public class comm_handler extends Handler {
 
          case message_type.START_CURRENTS_TIMER:
             if (!mainapp.doFinish) {
-               commThread.currentTimer.startTimer();
+               comm_thread.currentTimer.startTimer();
             }
             break;
 
          case message_type.STOP_CURRENTS_TIMER:
             if (!mainapp.doFinish) {
-               commThread.currentTimer.stopTimer();
+               comm_thread.currentTimer.stopTimer();
             }
             break;
 

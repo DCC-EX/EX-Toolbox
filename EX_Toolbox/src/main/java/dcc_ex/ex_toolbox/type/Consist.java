@@ -41,8 +41,8 @@ public final class Consist {
     public static final int LIGHT_ON = 3;
 
     private static final int WHICH_SOURCE_UNKNOWN = 0;
-    private static final int WHICH_SOURCE_ADDRESS = 1;
-    private static final int WHICH_SOURCE_ROSTER = 2;
+//    private static final int WHICH_SOURCE_ADDRESS = 1;
+//    private static final int WHICH_SOURCE_ROSTER = 2;
 
     public static class ConLoco extends Loco {
         private boolean backward;                        //end of loco that faces the top of the consist
@@ -139,7 +139,7 @@ public final class Consist {
                 leadAddr = addr;
                 trailAddr = addr;
             }
-            con.put(addr, new ConLoco(l));                        //this ctor makes copy as objects are immutable
+            con.put(addr, new ConLoco(l));                        //this makes copy as objects are immutable
 
         }
     }

@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -103,7 +104,7 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
         logReaderTask.execute();
 
         //put pointer to this activity's handler in main app's shared variable
-        mainapp.logviewer_msg_handler = new logviewer_handler();
+        mainapp.logviewer_msg_handler = new logviewer_handler(Looper.getMainLooper());
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -151,17 +152,16 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
         //noinspection SwitchStatementWithTooFewBranches
-        switch (item.getItemId()) {
-            case R.id.power_layout_button:
-                if (!mainapp.isPowerControlAllowed()) {
-                    mainapp.powerControlNotAllowedDialog(AMenu);
-                } else {
-                    mainapp.powerStateMenuButton();
-                }
-                mainapp.buttonVibration();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.power_layout_button) {
+            if (!mainapp.isPowerControlAllowed()) {
+                mainapp.powerControlNotAllowedDialog(AMenu);
+            } else {
+                mainapp.powerStateMenuButton();
+            }
+            mainapp.buttonVibration();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -192,6 +192,10 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
     @SuppressLint("HandlerLeak")
     class logviewer_handler extends Handler {
 
+        public logviewer_handler(Looper looper) {
+            super(looper);
+        }
+
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case message_type.RESPONSE: {    //handle messages from WiThrottle server
@@ -205,7 +209,8 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
                     }
                     break;
                 }
-
+                default:
+                    break;
             }
         }
     }
@@ -423,6 +428,7 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private void logAboutInfo() {
         String s = "";
         // device info
@@ -437,7 +443,7 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
         if (mainapp.getHostIp() != null) {
             // WiT info
 //            if (mainapp.getWithrottleVersion() != 0.0) {
-                s += ", WiThrottle:v" + mainapp.getDCCEXVersion();
+                s += ", WiThrottle:v" + mainapp.getDccexVersion();
                 s +=  String.format(", Heartbeat:%dms", mainapp.heartbeatInterval);
 //            }
             s += String.format(", Host:%s", mainapp.getHostIp() );

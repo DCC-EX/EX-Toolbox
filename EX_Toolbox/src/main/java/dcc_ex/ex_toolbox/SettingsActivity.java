@@ -37,6 +37,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -156,10 +157,10 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
         deviceId = Settings.System.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         //put pointer to this activity's message handler in main app's shared variable (If needed)
-        mainapp.settings_msg_handler = new SettingsActivity.settings_handler();
+        mainapp.settings_msg_handler = new SettingsActivity.settings_handler(Looper.getMainLooper());
 
         //put pointer to this activity's message handler in main app's shared variable (If needed)
-        mainapp.preferences_msg_handler = new SettingsActivity.settings_handler();
+        mainapp.preferences_msg_handler = new SettingsActivity.settings_handler(Looper.getMainLooper());
 
         toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -292,6 +293,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             //@Override
+            @SuppressLint("ApplySharedPref")
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
@@ -326,7 +328,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
         reload();
 
-        forceRestartApp(mainapp.FORCED_RESTART_REASON_RESET);
+        forceRestartApp(threaded_application.FORCED_RESTART_REASON_RESET);
     }
 
     private void delete_auto_import_settings_files() {
@@ -373,6 +375,10 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     @SuppressLint("HandlerLeak")
     private class settings_handler extends Handler {
 
+        public settings_handler(Looper looper) {
+            super(looper);
+        }
+
         @SuppressLint("ApplySharedPref")
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -389,7 +395,8 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                         }
                     }
                     break;
-
+                default:
+                    break;
             }
         }
     }
@@ -449,21 +456,21 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
         //noinspection SwitchStatementWithTooFewBranches
-        switch (item.getItemId()) {
-            case R.id.power_layout_button:
-                if (!mainapp.isPowerControlAllowed()) {
-                    mainapp.powerControlNotAllowedDialog(SAMenu);
-                } else {
-                    mainapp.powerStateMenuButton();
-                }
-                mainapp.buttonVibration();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.power_layout_button) {
+            if (!mainapp.isPowerControlAllowed()) {
+                mainapp.powerControlNotAllowedDialog(SAMenu);
+            } else {
+                mainapp.powerStateMenuButton();
+            }
+            mainapp.buttonVibration();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
 
+    @SuppressLint("ApplySharedPref")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d("EX_Toolbox", "Settings: onActivityResult()");
@@ -488,7 +495,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                 edit.commit();
 
                 forceRestartAppOnPreferencesClose = true;
-                forceRestartAppOnPreferencesCloseReason = mainapp.FORCED_RESTART_REASON_BACKGROUND;
+                forceRestartAppOnPreferencesCloseReason = threaded_application.FORCED_RESTART_REASON_BACKGROUND;
             }
             else {
                 Toast.makeText(this, R.string.prefBackgroundImageFileNameNoImageSelected, Toast.LENGTH_LONG).show();
@@ -745,13 +752,13 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                         sharedPreferences.edit().putString("prefLeftDirectionButtonsShort", "").commit();
                         sharedPreferences.edit().putString("prefRightDirectionButtonsShort", "").commit();
                         parentActivity.forceReLaunchAppOnPreferencesClose = true;
-                        parentActivity.forceRestartApp(mainapp.FORCED_RESTART_REASON_LOCALE);
+                        parentActivity.forceRestartApp(threaded_application.FORCED_RESTART_REASON_LOCALE);
                         break;
 
                     case "prefTheme":
                         String prefTheme = sharedPreferences.getString("prefTheme", parentActivity.getApplicationContext().getResources().getString(R.string.prefThemeDefaultValue));
                         if (!prefTheme.equals(prefThemeOriginal)) {
-                            parentActivity.forceRestartApp(mainapp.FORCED_RESTART_REASON_THEME);
+                            parentActivity.forceRestartApp(threaded_application.FORCED_RESTART_REASON_THEME);
                         }
                         break;
 
@@ -761,7 +768,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
                     case "prefAllowMobileData":
                         parentActivity.mainapp.haveForcedWiFiConnection = false;
-                        parentActivity.forceRestartAppOnPreferencesCloseReason = mainapp.FORCED_RESTART_REASON_FORCE_WIFI;
+                        parentActivity.forceRestartAppOnPreferencesCloseReason = threaded_application.FORCED_RESTART_REASON_FORCE_WIFI;
                         parentActivity.forceReLaunchAppOnPreferencesClose = true;
                         break;
 
@@ -774,10 +781,20 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                         mainapp.prefHapticFeedbackButtons = prefs.getBoolean("prefHapticFeedbackButtons", getResources().getBoolean(R.bool.prefHapticFeedbackButtonsDefaultValue));
                         break;
 
+//                    case "prefShowToolbarCvProgrammerMenuButtons":
+//                    case "prefShowToolbarLocosMenuButtons":
+//                    case "prefShowToolbarCurrentsMenuButtons":
+//                    case "prefShowToolbarSensorsMenuButtons":
+//                    case "prefShowToolbarServosMenuButtons":
+//                    case "prefShowToolbarTrackManagerMenuButtons":
+//                        parentActivity.forceReLaunchAppOnPreferencesClose = true;
+//                        parentActivity.forceRestartAppOnPreferencesCloseReason = threaded_application.FORCED_RESTART_REASON_TOOLBAR_BUTTONS;
+//                        break;
                 }
             }
         }
 
+        @SuppressLint("ApplySharedPref")
         void setPreferencesUI() {
             Log.d("EX_Toolbox", "Settings: setPreferencesUI()");
             prefs = parentActivity.prefs;
@@ -834,7 +851,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                 // - - - - - - - - - - - -
 
                 prefs.edit().putBoolean("prefForcedRestart", false).commit();
-                prefs.edit().putInt("prefForcedRestartReason", mainapp.FORCED_RESTART_REASON_NONE).commit();
+                prefs.edit().putInt("prefForcedRestartReason", threaded_application.FORCED_RESTART_REASON_NONE).commit();
                 prefs.edit().putString("prefPreferencesImportAll", PREF_IMPORT_ALL_RESET).commit();
 
                 advancedPreferences = getResources().getStringArray(R.array.advancedPreferences);
@@ -866,7 +883,6 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                     getPreferenceScreen().removePreference(preference);
             } catch (Exception except) {
                 Log.d("EX_Toolbox", "Settings: removePreference: failed: " + preference);
-                return;
             }
         }
 
@@ -1026,7 +1042,6 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                     getPreferenceScreen().removePreference(preference);
             } catch (Exception except) {
                 Log.d("EX_Toolbox", "Settings: removeSubPreference: failed: " + preference);
-                return;
             }
         }
 
@@ -1062,7 +1077,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                     case "prefBackgroundImageFileName":
                     case "prefBackgroundImagePosition":
                         parentActivity.forceRestartAppOnPreferencesClose = true;
-                        parentActivity.forceRestartAppOnPreferencesCloseReason = parentActivity.mainapp.FORCED_RESTART_REASON_BACKGROUND;
+                        parentActivity.forceRestartAppOnPreferencesCloseReason = threaded_application.FORCED_RESTART_REASON_BACKGROUND;
                         break;
 
                     case "prefShowTimeOnLogEntry":

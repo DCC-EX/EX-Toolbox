@@ -1,6 +1,7 @@
 package dcc_ex.ex_toolbox.util;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -230,17 +231,17 @@ public class PermissionsHelper {
      * @param requestCode the permissions request code
      */
     private void showAppSettingsDialog(final Context context, @RequestCodes final int requestCode) {
-        String postiveButtonLabel;
+        String positiveButtonLabel;
         if (requestCode != WRITE_SETTINGS) {
-            postiveButtonLabel = context.getResources().getString(R.string.permissionsAppSettingsButton);
+            positiveButtonLabel = context.getResources().getString(R.string.permissionsAppSettingsButton);
         } else {
-            postiveButtonLabel = context.getResources().getString(R.string.permissionsSystemSettingsButton);
+            positiveButtonLabel = context.getResources().getString(R.string.permissionsSystemSettingsButton);
         }
         isDialogOpen = true;
         new AlertDialog.Builder(context)
                 .setTitle(context.getResources().getString(R.string.permissionsRequestTitle))
                 .setMessage(getMessage(context, requestCode))
-                .setPositiveButton(postiveButtonLabel, new DialogInterface.OnClickListener() {
+                .setPositiveButton(positiveButtonLabel, new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = new Intent();
                         if (requestCode != WRITE_SETTINGS) {
@@ -307,6 +308,7 @@ public class PermissionsHelper {
      * @return true if permissions granted; false if not
      */
 //    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @SuppressLint("ObsoleteSdkInt")
     public boolean isPermissionGranted(final Context context, @RequestCodes final int requestCode) {
         //sdk 15 doesn't support some of the codes below, always return success
         if (android.os.Build.VERSION.SDK_INT < 16) {

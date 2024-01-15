@@ -33,7 +33,7 @@
                     android:id="@+id/cv_programmerBackgroundImgView"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1" />
+                    tools:ignore="ContentDescription" />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -63,13 +63,13 @@
                                 android:paddingTop="1sp"
                                 android:padding="0sp"
                                 android:layout_weight=".15"
-                                android:text="@string/DCCEXactionTypeLabel"
+                                android:text="@string/dccexActionTypeLabel"
                                 android:textAlignment="viewEnd"
                                 android:gravity="end"
                                 android:textSize="12sp" />
 
                             <Spinner
-                                android:id="@+id/dexc_action_type_list"
+                                android:id="@+id/ex_action_type_list"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="none"
@@ -90,7 +90,7 @@
                             android:orientation="vertical" />
 
                         <LinearLayout
-                            android:id="@+id/dexc_programmingAddressLayout"
+                            android:id="@+id/ex_programmingAddressLayout"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8sp"
@@ -105,11 +105,11 @@
                                 android:layout_weight=".5"
                                 android:gravity="end"
                                 android:padding="4sp"
-                                android:text="@string/DCCEXwriteAddressLabel"
+                                android:text="@string/dccexWriteAddressLabel"
                                 android:textAlignment="viewEnd" />
 
                             <EditText
-                                android:id="@+id/dexc_DCCEXwriteAddressValue"
+                                android:id="@+id/ex_DccexWriteAddressValue"
                                 style="?attr/edit_label_style"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -118,8 +118,8 @@
                                 android:layout_weight=".2"
                                 android:inputType="number"
                                 android:maxLength="5"
-                                android:nextFocusRight="@id/dexc_DCCEXcv"
-                                android:nextFocusDown="@id/dexc_DCCEXcv"
+                                android:nextFocusRight="@id/ex_DccexCv"
+                                android:nextFocusDown="@id/ex_DccexCv"
                                 android:paddingRight="8sp"
                                 android:shadowColor="#FFFFFFFF"
                                 android:shadowDx="1"
@@ -130,27 +130,27 @@
                                 tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
 
                             <Button
-                                android:id="@+id/dexc_DCCEXreadAddressButton"
+                                android:id="@+id/ex_DccexReadAddressButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_width="0dp"
                                 android:layout_height="38sp"
                                 android:layout_weight=".15"
                                 android:padding="4sp"
-                                android:text="@string/DCCEXreadAddressButtonLabel" />
+                                android:text="@string/dccexReadAddressButtonLabel" />
 
                             <Button
-                                android:id="@+id/dexc_DCCEXwriteAddressButton"
+                                android:id="@+id/ex_DccexWriteAddressButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_width="0dp"
                                 android:layout_height="38sp"
                                 android:layout_weight=".15"
                                 android:padding="4sp"
-                                android:text="@string/DCCEXwriteAddressButtonLabel" />
+                                android:text="@string/dccexWriteAddressButtonLabel" />
 
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/dexc_programmingCvLayout"
+                            android:id="@+id/ex_programmingCvLayout"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8sp"
@@ -165,11 +165,11 @@
                                 android:layout_weight=".1"
                                 android:gravity="end"
                                 android:padding="4sp"
-                                android:text="@string/DCCEXwriteCvLabel"
+                                android:text="@string/dccexWriteCvLabel"
                                 android:textAlignment="viewEnd" />
 
                             <EditText
-                                android:id="@+id/dexc_DCCEXcv"
+                                android:id="@+id/ex_DccexCv"
                                 style="?attr/edit_label_style"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -178,8 +178,8 @@
                                 android:layout_weight=".2"
                                 android:inputType="number"
                                 android:maxLength="4"
-                                android:nextFocusRight="@id/dexc_DCCEXcvValue"
-                                android:nextFocusDown="@id/dexc_DCCEXcvValue"
+                                android:nextFocusRight="@id/ex_DccexCvValue"
+                                android:nextFocusDown="@id/ex_DccexCvValue"
                                 android:shadowColor="#FFFFFFFF"
                                 android:shadowDx="1"
                                 android:shadowDy="1"
@@ -195,11 +195,11 @@
                                 android:layout_weight=".2"
                                 android:gravity="end"
                                 android:padding="4sp"
-                                android:text="@string/DCCEXwriteCvValueLabel"
+                                android:text="@string/dccexWriteCvValueLabel"
                                 android:textAlignment="viewEnd" />
 
                             <EditText
-                                android:id="@+id/dexc_DCCEXcvValue"
+                                android:id="@+id/ex_DccexCvValue"
                                 style="?attr/edit_label_style"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -208,8 +208,8 @@
                                 android:layout_weight=".2"
                                 android:inputType="number"
                                 android:maxLength="4"
-                                android:nextFocusRight="@id/dexc_DCCEXsendCommandValue"
-                                android:nextFocusDown="@id/dexc_DCCEXsendCommandValue"
+                                android:nextFocusRight="@id/ex_DccexSendCommandValue"
+                                android:nextFocusDown="@id/ex_DccexSendCommandValue"
                                 android:paddingRight="8sp"
                                 android:shadowColor="#FFFFFFFF"
                                 android:shadowDx="1"
@@ -220,34 +220,35 @@
                                 tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
 
                             <Button
-                                android:id="@+id/dexc_DCCEXreadCvButton"
+                                android:id="@+id/ex_DccexReadCvButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_width="0dp"
                                 android:layout_height="38sp"
                                 android:layout_weight=".15"
                                 android:padding="4sp"
-                                android:text="@string/DCCEXreadAddressButtonLabel" />
+                                android:text="@string/dccexReadAddressButtonLabel" />
 
                             <Button
-                                android:id="@+id/dexc_DCCEXwriteCvButton"
+                                android:id="@+id/ex_DccexWriteCvButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_width="0dp"
                                 android:layout_height="38sp"
                                 android:layout_weight=".15"
                                 android:padding="4sp"
-                                android:text="@string/DCCEXwriteAddressButtonLabel" />
+                                android:text="@string/dccexWriteAddressButtonLabel" />
 
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/dexc_programmingCommonCvsLayout"
+                            android:id="@+id/ex_programmingCommonCvsLayout"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2sp"
                             android:layout_marginLeft="20sp"
                             android:background="?attr/ed_background_highlight_secondary"
                             android:orientation="horizontal"
-                            android:weightSum="1">
+                            android:weightSum="1"
+                            tools:ignore="RtlHardcoded">
 
                             <TextView
                                 style="?attr/floating_text_style"
@@ -256,14 +257,14 @@
                                 android:layout_weight=".2"
                                 android:padding="2sp"
                                 android:layout_marginBottom="2sp"
-                                android:text="@string/DCCEXcommonCvsLabel"
+                                android:text="@string/dccexCommonCvsLabel"
                                 android:textSize="12sp"
                                 android:textAlignment="viewEnd"
                                 android:gravity="end"
                                 android:textColor="?android:attr/textColorSecondary" />
 
                             <Spinner
-                                android:id="@+id/dexc_dcc_cv_list"
+                                android:id="@+id/ex_dcc_cv_list"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="none"
@@ -280,7 +281,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/dexc_DCCEXtrackLinearLayout"
+                            android:id="@+id/ex_DccexTrackLinearLayout"
                             android:layout_width="fill_parent"
                             android:layout_height="120sp"
                             android:layout_margin="0sp"
@@ -291,7 +292,7 @@
                             tools:ignore="NestedWeights">
 
                             <ScrollView
-                                android:id="@+id/dexc_DCCEXtrackScrollView"
+                                android:id="@+id/ex_DccexTrackScrollView"
                                 android:layout_width="0sp"
                                 android:layout_height="fill_parent"
                                 android:orientation="vertical"
@@ -305,13 +306,14 @@
                                     android:orientation="vertical">
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXtrack0layout"
+                                        android:id="@+id/ex_DccexTrack0layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
                                         android:background="#00000000"
                                         android:orientation="horizontal"
-                                        android:weightSum="1" >
+                                        android:weightSum="1"
+                                        tools:ignore="TooDeepLayout">
 
                                         <TextView
                                             style="?attr/floating_text_style"
@@ -324,7 +326,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <Spinner
-                                            android:id="@+id/dexc_track_type_0_list"
+                                            android:id="@+id/ex_track_type_0_list"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
                                             android:ellipsize="none"
@@ -336,7 +338,7 @@
                                             tools:ignore="RtlHardcoded" />
 
                                         <EditText
-                                            android:id="@+id/dexc_track_0_value"
+                                            android:id="@+id/ex_track_0_value"
                                             style="?attr/edit_label_style"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
@@ -357,7 +359,7 @@
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXtrack1layout"
+                                        android:id="@+id/ex_DccexTrack1layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -376,7 +378,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <Spinner
-                                            android:id="@+id/dexc_track_type_1_list"
+                                            android:id="@+id/ex_track_type_1_list"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
                                             android:ellipsize="none"
@@ -388,7 +390,7 @@
                                             tools:ignore="RtlHardcoded" />
 
                                         <EditText
-                                            android:id="@+id/dexc_track_1_value"
+                                            android:id="@+id/ex_track_1_value"
                                             style="?attr/edit_label_style"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
@@ -409,7 +411,7 @@
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXtrack2layout"
+                                        android:id="@+id/ex_DccexTrack2layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -428,7 +430,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <Spinner
-                                            android:id="@+id/dexc_track_type_2_list"
+                                            android:id="@+id/ex_track_type_2_list"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
                                             android:ellipsize="none"
@@ -440,7 +442,7 @@
                                             tools:ignore="RtlHardcoded" />
 
                                         <EditText
-                                            android:id="@+id/dexc_track_2_value"
+                                            android:id="@+id/ex_track_2_value"
                                             style="?attr/edit_label_style"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
@@ -461,7 +463,7 @@
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXtrack3layout"
+                                        android:id="@+id/ex_DccexTrack3layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -480,7 +482,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <Spinner
-                                            android:id="@+id/dexc_track_type_3_list"
+                                            android:id="@+id/ex_track_type_3_list"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
                                             android:ellipsize="none"
@@ -492,7 +494,7 @@
                                             tools:ignore="RtlHardcoded" />
 
                                         <EditText
-                                            android:id="@+id/dexc_track_3_value"
+                                            android:id="@+id/ex_track_3_value"
                                             style="?attr/edit_label_style"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
@@ -513,7 +515,7 @@
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXtrack4layout"
+                                        android:id="@+id/ex_DccexTrack4layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -532,7 +534,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <Spinner
-                                            android:id="@+id/dexc_track_type_4_list"
+                                            android:id="@+id/ex_track_type_4_list"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
                                             android:ellipsize="none"
@@ -544,7 +546,7 @@
                                             tools:ignore="RtlHardcoded" />
 
                                         <EditText
-                                            android:id="@+id/dexc_track_4_value"
+                                            android:id="@+id/ex_track_4_value"
                                             style="?attr/edit_label_style"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
@@ -565,7 +567,7 @@
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXtrack5layout"
+                                        android:id="@+id/ex_DccexTrack5layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -584,7 +586,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <Spinner
-                                            android:id="@+id/dexc_track_type_5_list"
+                                            android:id="@+id/ex_track_type_5_list"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
                                             android:ellipsize="none"
@@ -596,7 +598,7 @@
                                             tools:ignore="RtlHardcoded" />
 
                                         <EditText
-                                            android:id="@+id/dexc_track_5_value"
+                                            android:id="@+id/ex_track_5_value"
                                             style="?attr/edit_label_style"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
@@ -617,7 +619,7 @@
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXtrack6layout"
+                                        android:id="@+id/ex_DccexTrack6layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -636,7 +638,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <Spinner
-                                            android:id="@+id/dexc_track_type_6_list"
+                                            android:id="@+id/ex_track_type_6_list"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
                                             android:ellipsize="none"
@@ -648,7 +650,7 @@
                                             tools:ignore="RtlHardcoded" />
 
                                         <EditText
-                                            android:id="@+id/dexc_track_6_value"
+                                            android:id="@+id/ex_track_6_value"
                                             style="?attr/edit_label_style"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
@@ -669,7 +671,7 @@
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:id="@+id/dexc_DCCEXtrack7layout"
+                                        android:id="@+id/ex_DccexTrack7layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="0sp"
@@ -688,7 +690,7 @@
                                             tools:ignore="HardcodedText" />
 
                                         <Spinner
-                                            android:id="@+id/dexc_track_type_7_list"
+                                            android:id="@+id/ex_track_type_7_list"
                                             android:layout_width="0sp"
                                             android:layout_height="wrap_content"
                                             android:ellipsize="none"
@@ -700,7 +702,7 @@
                                             tools:ignore="RtlHardcoded" />
 
                                         <EditText
-                                            android:id="@+id/dexc_track_7_value"
+                                            android:id="@+id/ex_track_7_value"
                                             style="?attr/edit_label_style"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
@@ -725,7 +727,7 @@
                             </ScrollView>
 
                             <Button
-                                android:id="@+id/dexc_DCCEXwriteTracksButton"
+                                android:id="@+id/ex_DccexWriteTracksButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_width="0sp"
                                 android:layout_height="wrap_content"
@@ -734,7 +736,7 @@
                                 android:autoSizeMinTextSize="8sp"
                                 android:autoSizeMaxTextSize="20sp"
                                 android:autoSizeStepGranularity="1sp"
-                                android:text="@string/DCCEXsetTrackButtonLabel"
+                                android:text="@string/dccexSetTrackButtonLabel"
                                 tools:ignore="UnusedAttribute" />
 
 
@@ -755,11 +757,11 @@
                                 android:layout_weight=".3"
                                 android:padding="4sp"
                                 android:textAlignment="viewEnd"
-                                android:text="@string/DCCEXsendCommandLabel"
+                                android:text="@string/dccexSendCommandLabel"
                                 android:gravity="end" />
 
                             <EditText
-                                android:id="@+id/dexc_DCCEXsendCommandValue"
+                                android:id="@+id/ex_DccexSendCommandValue"
                                 style="?attr/edit_label_style"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -767,7 +769,7 @@
                                 android:layout_marginRight="8sp"
                                 android:layout_weight=".40"
                                 android:inputType="text"
-                                android:maxLength="30"
+                                android:maxLength="60"
                                 android:paddingRight="8sp"
                                 android:shadowColor="#FFFFFFFF"
                                 android:shadowDx="1"
@@ -778,16 +780,16 @@
                                 tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
 
                             <Button
-                                android:id="@+id/dexc_DCCEXsendCommandButton"
+                                android:id="@+id/ex_DccexSendCommandButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight=".15"
                                 android:padding="4sp"
-                                android:text="@string/DCCEXsendCommandButtonLabel" />
+                                android:text="@string/dccexSendCommandButtonLabel" />
 
                             <TableLayout
-                                android:id="@+id/dexc_commandsExtraButtonsLayout"
+                                android:id="@+id/ex_commandsExtraButtonsLayout"
                                 android:layout_width="0sp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
@@ -798,36 +800,37 @@
 
                                 <TableRow android:gravity="center_horizontal">
                                     <Button
-                                        android:id="@+id/dexc_DCCEXpreviousCommandButton"
+                                        android:id="@+id/ex_DccexPreviousCommandButton"
                                         style="?attr/ed_small_button_style"
                                         android:layout_width="fill_parent"
                                         android:layout_height="22sp"
                                         android:layout_weight=".5"
                                         android:padding="2sp"
-                                        android:text="@string/DCCEXpreviousCommandButtonLabel" />
+                                        android:text="@string/dccexPreviousCommandButtonLabel" />
                                 </TableRow>
                                 <TableRow android:gravity="center_horizontal">
                                     <Button
-                                        android:id="@+id/dexc_DCCEXnextCommandButton"
+                                        android:id="@+id/ex_DccexNextCommandButton"
                                         style="?attr/ed_small_button_style"
                                         android:layout_width="fill_parent"
                                         android:layout_height="22sp"
                                         android:layout_weight=".5"
                                         android:padding="2sp"
-                                        android:text="@string/DCCEXnextCommandButtonLabel" />
+                                        android:text="@string/dccexNextCommandButtonLabel" />
                                 </TableRow>
                             </TableLayout>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/dexc_CommonCommandsLayout"
+                            android:id="@+id/ex_CommonCommandsLayout"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2sp"
                             android:layout_marginLeft="20sp"
                             android:background="?attr/ed_background_highlight_secondary"
                             android:orientation="horizontal"
-                            android:weightSum="1">
+                            android:weightSum="1"
+                            tools:ignore="RtlHardcoded">
 
                             <TextView
                                 style="?attr/floating_text_style"
@@ -836,14 +839,14 @@
                                 android:layout_weight=".3"
                                 android:padding="2sp"
                                 android:layout_marginBottom="2sp"
-                                android:text="@string/DCCEXcommonCommnadsLabel"
+                                android:text="@string/dccexCommonCommandsLabel"
                                 android:textSize="12sp"
                                 android:textAlignment="viewEnd"
                                 android:gravity="end"
                                 android:textColor="?android:attr/textColorSecondary" />
 
                             <Spinner
-                                android:id="@+id/dexc_common_commands_list"
+                                android:id="@+id/ex_common_commands_list"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="none"
@@ -861,7 +864,7 @@
 
 
                         <LinearLayout
-                            android:id="@+id/dexc_DCCEXwriteInfoLayout"
+                            android:id="@+id/ex_DccexWriteInfoLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="0sp"
@@ -876,7 +879,7 @@
                                 android:orientation="vertical" />
 
                             <TextView
-                                android:id="@+id/dexc_DCCEXwriteInfoLabel"
+                                android:id="@+id/ex_DccexWriteInfoLabel"
                                 style="?attr/floating_text_style"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -898,23 +901,25 @@
                             android:orientation="vertical" />
 
                         <LinearLayout
-                            android:id="@+id/dexc_DCCEXresponsesAndSendsLayout"
+                            android:id="@+id/ex_DccexResponsesAndSendsLayout"
                             android:layout_width="fill_parent"
                             android:layout_height="0sp"
                             android:layout_marginTop="0sp"
                             android:background="#00000000"
                             android:orientation="vertical"
                             android:layout_weight=".4"
-                            android:weightSum="1">
+                            android:weightSum="1"
+                            tools:ignore="NestedWeights,TooManyViews">
 
                             <ScrollView
-                                android:id="@+id/dexc_DCCEXresponsesScrollView"
+                                android:id="@+id/ex_DccexResponsesScrollView"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                android:layout_weight=".7">
+                                android:layout_weight=".7"
+                                tools:ignore="NestedWeights">
 
                                 <TextView
-                                    android:id="@+id/dexc_DCCEXresponsesLabel"
+                                    android:id="@+id/ex_DccexResponsesLabel"
                                     style="?attr/floating_text_style"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -925,13 +930,13 @@
                             </ScrollView>
 
                             <ScrollView
-                                android:id="@+id/dexc_DCCEXsendsScrollView"
+                                android:id="@+id/ex_DccexSendsScrollView"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight=".3">
 
                                 <TextView
-                                    android:id="@+id/dexc_DCCEXsendsLabel"
+                                    android:id="@+id/ex_DccexSendsLabel"
                                     style="?attr/floating_text_style"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -961,22 +966,13 @@
                             android:orientation="horizontal">
 
                             <Button
-                                android:id="@+id/dexc_DCCEXclearCommandsButton"
+                                android:id="@+id/ex_dccexClearCommandsButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_gravity="left"
-                                android:text="@string/DCCEXclearCommands"
+                                android:text="@string/dccexClearCommands"
                                 tools:ignore="RtlHardcoded"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentRight="true" />
-
-                            <!--            <Button-->
-                            <!--                android:id="@+id/dexc_DCCEXhideSendsButton"-->
-                            <!--                style="?attr/ed_normal_button_style"-->
-                            <!--                android:layout_gravity="left"-->
-                            <!--                android:text="@string/DCCEXhideSends"-->
-                            <!--                tools:ignore="RtlHardcoded"-->
-                            <!--                android:layout_alignParentEnd="true"-->
-                            <!--                android:layout_alignParentRight="true" />-->
 
                         </RelativeLayout>
 

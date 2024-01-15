@@ -57,6 +57,7 @@
         <item name="edit_func_style">@style/edit_func_style</item>
         <item name="list_item_style">@style/list_item_style</item>
         <item name="list_id_style">@style/list_id_style</item>
+        <item name="list_extras_style">@style/list_extras_style</item>
         <item name="EDListView">@style/EDListView</item>
 
         <item name="ed_fn_scrollview_style">@style/fn_scrollview_style</item>
@@ -67,7 +68,7 @@
         <item name="ed_loco_select_button_style">@style/loco_select_button_style</item>
         <item name="ed_small_button_style">@style/small_button_style</item>
         <item name="ed_hover_button_style">@style/small_button_hover_style</item>
-        <item name="ed_stop_button_style">@style/stop_button_style</item>
+<!--        <item name="ed_stop_button_style">@style/stop_button_style</item>-->
         <item name="ed_fn_button_style">@style/fn_button_style</item>
         <item name="ed_list_button_style">@style/list_button_style</item>
 
@@ -80,8 +81,16 @@
         <item name="ed_toolbar_background">@drawable/toolbar_background_black</item>
 
         <item name="ed_power_green_button">@drawable/power_green</item>
+        <item name="ed_power_green_red_button">@drawable/power_green_red</item>
         <item name="ed_power_yellow_button">@drawable/power_yellow</item>
         <item name="ed_power_red_button">@drawable/power_red</item>
+
+        <item name="ed_toolbar_button_loco">@drawable/toolbar_button_loco</item>
+        <item name="ed_toolbar_button_cv_programmer">@drawable/toolbar_button_cv_programmer</item>
+        <item name="ed_toolbar_button_current">@drawable/toolbar_button_current</item>
+        <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors</item>
+        <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos</item>
+        <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager</item>
 
         <item name="ed_folder_icon">@drawable/folder_outline</item>
         <item name="ed_clock_icon">@drawable/fast_clock</item>
@@ -94,7 +103,7 @@
         <item name="ed_icon">@drawable/icon</item>
     </style>
 
-    <!-- also appears 'round' theme' -->
+    <!-- appears as 'high contrast' theme' -->
     <style name="app_theme_black" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="preferenceTheme">@style/app_theme_black_preferences</item>
 
@@ -127,6 +136,7 @@
         <item name="edit_func_style">@style/edit_func_style_black</item>
         <item name="list_item_style">@style/list_item_style_black</item>
         <item name="list_id_style">@style/list_id_style_black</item>
+        <item name="list_extras_style">@style/list_extras_style_black</item>
         <item name="EDListView">@style/EDListView_black</item>
 
         <item name="ed_fn_scrollview_style">@style/fn_scrollview_style_black</item>
@@ -137,7 +147,7 @@
         <item name="ed_loco_select_button_style">@style/loco_select_button_style_black</item>
         <item name="ed_small_button_style">@style/small_button_style_black</item>
         <item name="ed_hover_button_style">@style/small_button_hover_style</item>
-        <item name="ed_stop_button_style">@style/stop_button_style_black</item>
+<!--        <item name="ed_stop_button_style">@style/stop_button_style_black</item>-->
         <item name="ed_fn_button_style">@style/fn_button_style_black</item>
         <item name="ed_list_button_style">@style/list_button_style_black</item>
 
@@ -153,8 +163,16 @@
         <item name="ed_toolbar_background">@drawable/toolbar_background_black</item>
 
         <item name="ed_power_green_button">@drawable/power_green_outline</item>
+        <item name="ed_power_green_red_button">@drawable/power_green_red_outline</item>
         <item name="ed_power_yellow_button">@drawable/power_yellow_outline</item>
         <item name="ed_power_red_button">@drawable/power_red_outline</item>
+
+        <item name="ed_toolbar_button_loco">@drawable/toolbar_button_loco</item>
+        <item name="ed_toolbar_button_cv_programmer">@drawable/toolbar_button_cv_programmer</item>
+        <item name="ed_toolbar_button_current">@drawable/toolbar_button_current</item>
+        <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors</item>
+        <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos</item>
+        <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager</item>
 
         <item name="ed_folder_icon">@drawable/folder_outline</item>
         <item name="ed_clock_icon">@drawable/fast_clock</item>
@@ -196,6 +214,7 @@
         <item name="edit_func_style">@style/edit_func_style_black</item>
         <item name="list_item_style">@style/list_item_style_outline</item>
         <item name="list_id_style">@style/list_id_style_outline</item>
+        <item name="list_extras_style">@style/list_extras_style_outline</item>
         <item name="EDListView">@style/EDListView_black</item>
 
         <item name="ed_fn_scrollview_style">@style/fn_scrollview_style_black</item>
@@ -206,7 +225,7 @@
         <item name="ed_loco_select_button_style">@style/loco_select_button_style_outline</item>
         <item name="ed_small_button_style">@style/small_button_style_outline</item>
         <item name="ed_hover_button_style">@style/small_button_hover_style</item>
-        <item name="ed_stop_button_style">@style/stop_button_style_outline</item>
+<!--        <item name="ed_stop_button_style">@style/stop_button_style_outline</item>-->
         <item name="ed_fn_button_style">@style/fn_button_style_outline</item>
         <item name="ed_list_button_style">@style/list_button_style_outline</item>
 
@@ -222,8 +241,16 @@
         <item name="ed_toolbar_background">@color/black</item>
 
         <item name="ed_power_green_button">@drawable/power_green_outline</item>
+        <item name="ed_power_green_red_button">@drawable/power_green_red_outline</item>
         <item name="ed_power_yellow_button">@drawable/power_yellow_outline</item>
         <item name="ed_power_red_button">@drawable/power_red_outline</item>
+
+        <item name="ed_toolbar_button_loco">@drawable/toolbar_button_loco</item>
+        <item name="ed_toolbar_button_cv_programmer">@drawable/toolbar_button_cv_programmer</item>
+        <item name="ed_toolbar_button_current">@drawable/toolbar_button_current</item>
+        <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors</item>
+        <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos</item>
+        <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager</item>
 
         <item name="ed_folder_icon">@drawable/folder_outline</item>
         <item name="ed_clock_icon">@drawable/fast_clock</item>
@@ -268,6 +295,7 @@
         <item name="edit_func_style">@style/edit_func_style_black</item>
         <item name="list_item_style">@style/list_item_style_outline</item>
         <item name="list_id_style">@style/list_id_style_outline</item>
+        <item name="list_extras_style">@style/list_extras_style_outline</item>
         <item name="EDListView">@style/EDListView_black</item>
 
         <item name="ed_fn_scrollview_style">@style/fn_scrollview_style_ultra</item>
@@ -278,7 +306,7 @@
         <item name="ed_loco_select_button_style">@style/loco_select_button_style_ultra</item>
         <item name="ed_small_button_style">@style/small_button_style_ultra</item>
         <item name="ed_hover_button_style">@style/small_button_hover_style</item>
-        <item name="ed_stop_button_style">@style/stop_button_style_ultra</item>
+<!--        <item name="ed_stop_button_style">@style/stop_button_style_ultra</item>-->
         <item name="ed_fn_button_style">@style/fn_button_style_ultra</item>
         <item name="ed_list_button_style">@style/list_button_style_ultra</item>
 
@@ -294,8 +322,16 @@
         <item name="ed_toolbar_background">@drawable/toolbar_background_black</item>
 
         <item name="ed_power_green_button">@drawable/power_green_outline</item>
+        <item name="ed_power_green_red_button">@drawable/power_green_red_outline</item>
         <item name="ed_power_yellow_button">@drawable/power_yellow_outline</item>
         <item name="ed_power_red_button">@drawable/power_red_outline</item>
+
+        <item name="ed_toolbar_button_loco">@drawable/toolbar_button_loco</item>
+        <item name="ed_toolbar_button_cv_programmer">@drawable/toolbar_button_cv_programmer</item>
+        <item name="ed_toolbar_button_current">@drawable/toolbar_button_current</item>
+        <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors</item>
+        <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos</item>
+        <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager</item>
 
         <item name="ed_folder_icon">@drawable/folder_outline</item>
         <item name="ed_clock_icon">@drawable/fast_clock</item>
@@ -348,6 +384,7 @@
         <item name="edit_func_style">@style/edit_func_style_colorful</item>
         <item name="list_item_style">@style/list_item_style_colorful</item>
         <item name="list_id_style">@style/list_id_style_colorful</item>
+        <item name="list_extras_style">@style/list_extras_style_colorful</item>
         <item name="EDListView">@style/EDListView_colorful</item>
 
         <item name="ed_fn_scrollview_style">@style/fn_scrollview_style_colorful</item>
@@ -358,7 +395,7 @@
         <item name="ed_loco_select_button_style">@style/loco_select_button_style_colorful</item>
         <item name="ed_small_button_style">@style/small_button_style_colorful</item>
         <item name="ed_hover_button_style">@style/small_button_hover_style</item>
-        <item name="ed_stop_button_style">@style/stop_button_style_colorful</item>
+<!--        <item name="ed_stop_button_style">@style/stop_button_style_colorful</item>-->
         <item name="ed_fn_button_style">@style/fn_button_style_colorful</item>
         <item name="ed_list_button_style">@style/list_button_style_colorful</item>
 
@@ -374,8 +411,16 @@
         <item name="ed_toolbar_background">@drawable/toolbar_background_colorful</item>
 
         <item name="ed_power_green_button">@drawable/power_green</item>
+        <item name="ed_power_green_red_button">@drawable/power_green_red</item>
         <item name="ed_power_yellow_button">@drawable/power_yellow</item>
         <item name="ed_power_red_button">@drawable/power_red</item>
+
+        <item name="ed_toolbar_button_loco">@drawable/toolbar_button_loco</item>
+        <item name="ed_toolbar_button_cv_programmer">@drawable/toolbar_button_cv_programmer</item>
+        <item name="ed_toolbar_button_current">@drawable/toolbar_button_current</item>
+        <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors</item>
+        <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos</item>
+        <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager</item>
 
         <item name="ed_folder_icon">@drawable/folder</item>
         <item name="ed_clock_icon">@drawable/fast_clock_black</item>

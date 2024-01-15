@@ -6,6 +6,7 @@
     <attr name="edit_func_style" format="reference" />
     <attr name="list_item_style" format="reference" />
     <attr name="list_id_style" format="reference" />
+    <attr name="list_extras_style" format="reference" />
     <attr name="EDListView" format="reference" />
     <attr name="listSeparatorTextViewStyle" format="reference" />
 
@@ -15,7 +16,7 @@
     <attr name="ed_loco_select_button_style" format="reference" />
     <attr name="ed_small_button_style" format="reference" />
     <attr name="ed_hover_button_style" format="reference" />
-    <attr name="ed_stop_button_style" format="reference" />
+<!--    <attr name="ed_stop_button_style" format="reference" />-->
     <attr name="ed_fn_button_style" format="reference" />
     <attr name="ed_list_button_style" format="reference" />
 
@@ -27,8 +28,16 @@
     <attr name="ed_toolbar_background" format="reference" />
 
     <attr name="ed_power_green_button" format="reference" />
+    <attr name="ed_power_green_red_button" format="reference" />
     <attr name="ed_power_yellow_button" format="reference" />
     <attr name="ed_power_red_button" format="reference" />
+
+    <attr name="ed_toolbar_button_loco" format="reference" />
+    <attr name="ed_toolbar_button_cv_programmer" format="reference" />
+    <attr name="ed_toolbar_button_current" format="reference" />
+    <attr name="ed_toolbar_button_sensors" format="reference" />
+    <attr name="ed_toolbar_button_servos" format="reference" />
+    <attr name="ed_toolbar_button_track_manager" format="reference" />
 
     <attr name="ed_folder_icon" format="reference" />
     <attr name="ed_clock_icon" format="reference" />

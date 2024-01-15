@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="3px"
-    android:paddingRight="3px">
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp">
 
     <TextView
         android:id="@+id/ip_item_label"
@@ -12,8 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="test.test.test"
-        android:layout_toLeftOf="@id/seperator_item_label"
-        tools:ignore="HardcodedText" />
+        android:layout_toLeftOf="@id/separator_item_label"
+        tools:ignore="HardcodedText,RtlHardcoded" />
 
     <TextView
         android:id="@+id/host_item_label"
@@ -39,7 +39,7 @@
 
     <TextView
         android:id="@+id/ssid_item_label"
-        style="?attr/list_id_style"
+        style="?attr/list_extras_style"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:id="@+id/seperator_item_label"
+        android:id="@+id/separator_item_label"
         style="?attr/list_id_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

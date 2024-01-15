@@ -99,11 +99,18 @@
         <item>Track Manager</item>
         <item>Route/Automation {loco} {id}</item>
         <item>Kill all Automations</item>
+        <item>--- Diagnostic Commands ---</item>
         <item>ACK Limit {mA}</item>
         <item>ACK Min {µS}</item>
         <item>ACK Max {µS}</item>
         <item>Reboot/Reset CS</item>
         <item>Reset HAL Devices</item>
+        <item>Show All HAL Devices</item>
+        <item>PROG current boost</item>
+        <item>WIFI {ON|OFF}</item>
+        <item>ETHERNET {ON|OFF}</item>
+        <item>WiThrottle {ON|OFF}</item>
+        <item>Show free RAM</item>
     </string-array>
     <string-array name="dccExCommonCommandsEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
         <item />
@@ -116,11 +123,18 @@
         <item>=</item>
         <item>/ START</item>
         <item>/ KILL ALL</item>
+        <item />
         <item>D ACK LIMIT</item>
         <item>D ACK MIN</item>
         <item>D ACK MAX</item>
         <item>D RESET</item>
         <item>D HAL RESET</item>
+        <item>D HAL SHOW</item>
+        <item>D PROGBOOST</item>
+        <item>D WIFI</item>
+        <item>D ETHERNET</item>
+        <item>D WIT</item>
+        <item>D RAM</item>
     </string-array>
     <integer-array name="dccExCommonCommandsHasParameters" translatable="false">  <!-- DO NOT TRANSLATE -->
         <item>0</item>
@@ -133,11 +147,18 @@
         <item>0</item>  // =
         <item>1</item>  // /START
         <item>0</item>  // /KILL ALL
+        <item>0</item>  // delimeter
         <item>1</item>  // D ACK LIMIT
         <item>1</item>  // D ACK MIN
         <item>1</item>  // D ACK MAX
         <item>0</item>  // D RESET
         <item>0</item>  // D HAL RESET
+        <item>0</item>  // D HAL SHOW
+        <item>0</item>  // D PROGBOOST
+        <item>1</item>  // D WIFI
+        <item>1</item>  // D ETHERNET
+        <item>1</item>  // D WIT
+        <item>1</item>  // D RAM
     </integer-array>
 
     <string-array name="dccExActionTypeEntries">  <!-- display version -->
@@ -150,11 +171,14 @@
     </string-array>
 
     <string-array name="dccExTrackTypeEntries">  <!-- display version -->
-        <item>NONE</item>   <!-- if less than v4.2.68 this needs to be changed to OFF -->
+        <item>NONE</item>  <!-- if less than v4.2.68 this needs to be changed to OFF -->
         <item>DCC MAIN</item>
         <item>DCC PROG</item>
         <item>DC</item>
         <item>DC reversed polarity (DCX)</item>
+        <item>AUTO - Auto Reverse DCC MAIN</item>
+        <item>EXT (not selectable)</item>
+        <item>BOOST (not selectable)</item>
     </string-array>
     <string-array name="dccExTrackTypeEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
         <item>0</item>
@@ -162,6 +186,9 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
     </string-array>
 
     <string-array name="dccExServoProfilesEntries">  <!-- display version -->
@@ -208,37 +235,37 @@
         <item>Colorful</item>
     </string-array>
 
-    <string-array name="prefYesNoEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
-        <item>Yes</item>
-        <item>No</item>
-    </string-array>
-    <string-array name="prefYesNoEntries">  <!-- display version -->
-        <item>Yes</item>
-        <item>No</item>
-    </string-array>
+<!--    <string-array name="prefYesNoEntryValues" translatable="false">  &lt;!&ndash; DO NOT TRANSLATE &ndash;&gt;-->
+<!--        <item>Yes</item>-->
+<!--        <item>No</item>-->
+<!--    </string-array>-->
+<!--    <string-array name="prefYesNoEntries">  &lt;!&ndash; display version &ndash;&gt;-->
+<!--        <item>Yes</item>-->
+<!--        <item>No</item>-->
+<!--    </string-array>-->
 
-    <string-array name="prefLocaleEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
-        <item>Default</item>
-        <item>en_US</item>
-        <item>it</item>
-        <item>pt</item>
-        <item>de</item>
-        <item>es</item>
-        <item>ca</item>
-        <item>fr</item>
-        <item>cs</item>
-    </string-array>
-    <string-array name="prefLocaleEntries">  <!-- display version -->
-        <item>Use Phone\'s global setting</item>
-        <item>English (US) - EX-Toolbox\'s default </item>
-        <item>Italian</item>
-        <item>Portuguese</item>
-        <item>German</item>
-        <item>Spanish</item>
-        <item>Catalan</item>
-        <item>French</item>
-        <item>Czech</item>
-    </string-array>
+<!--    <string-array name="prefLocaleEntryValues" translatable="false">  &lt;!&ndash; DO NOT TRANSLATE &ndash;&gt;-->
+<!--        <item>Default</item>-->
+<!--        <item>en_US</item>-->
+<!--        <item>it</item>-->
+<!--        <item>pt</item>-->
+<!--        <item>de</item>-->
+<!--        <item>es</item>-->
+<!--        <item>ca</item>-->
+<!--        <item>fr</item>-->
+<!--        <item>cs</item>-->
+<!--    </string-array>-->
+<!--    <string-array name="prefLocaleEntries">  &lt;!&ndash; display version &ndash;&gt;-->
+<!--        <item>Use Phone\'s global setting</item>-->
+<!--        <item>English (US) - EX-Toolbox\'s default </item>-->
+<!--        <item>Italian</item>-->
+<!--        <item>Portuguese</item>-->
+<!--        <item>German</item>-->
+<!--        <item>Spanish</item>-->
+<!--        <item>Catalan</item>-->
+<!--        <item>French</item>-->
+<!--        <item>Czech</item>-->
+<!--    </string-array>-->
 
     <string-array name="prefBackgroundImagePositionEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
         <item>FIT_CENTER</item>
@@ -263,7 +290,7 @@
 
         <!-- Status Row Preferences -->
         <!-- <item>prefCategoryThrottleStatusRow</item> -->
-        <item>show_emergency_stop_menu_preference</item>
+<!--        <item>show_emergency_stop_menu_preference</item>-->
         <!-- <item>show_layout_power_button_preference</item> -->
         <item>ClockDisplayTypePreference</item>
 

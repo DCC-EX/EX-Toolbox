@@ -149,6 +149,55 @@
             android:summary="@string/prefPowerButtonBarSummary"
             android:title="@string/prefPowerButtonBarTitle" />
 
+        <CheckBoxPreference
+            android:icon="?attr/ed_toolbar_button_cv_programmer"
+            android:defaultValue="@bool/prefShowToolbarMenuButtonsDefaultValue"
+            android:key="prefShowToolbarCvProgrammerMenuButtons"
+            android:layout="@layout/checkbox_icon_right"
+            android:summary="@string/prefShowToolbarMenuButtonsSummary"
+            android:title="@string/prefShowToolbarCvProgrammerMenuButtonsTitle" />
+
+        <CheckBoxPreference
+            android:icon="?attr/ed_toolbar_button_current"
+            android:defaultValue="@bool/prefShowToolbarMenuButtonsDefaultValue"
+            android:key="prefShowToolbarCurrentsMenuButtons"
+            android:layout="@layout/checkbox_icon_right"
+            android:summary="@string/prefShowToolbarMenuButtonsSummary"
+            android:title="@string/prefShowToolbarCurrentsMenuButtonsTitle" />
+
+        <CheckBoxPreference
+            android:icon="?attr/ed_toolbar_button_loco"
+            android:defaultValue="@bool/prefShowToolbarMenuButtonsDefaultValue"
+            android:key="prefShowToolbarLocosMenuButtons"
+            android:layout="@layout/checkbox_icon_right"
+            android:summary="@string/prefShowToolbarMenuButtonsSummary"
+            android:title="@string/prefShowToolbarLocosMenuButtonsTitle" />
+
+        <CheckBoxPreference
+            android:icon="?attr/ed_toolbar_button_sensors"
+            android:defaultValue="@bool/prefShowToolbarMenuButtonsDefaultValue"
+            android:key="prefShowToolbarSensorsMenuButtons"
+            android:layout="@layout/checkbox_icon_right"
+            android:summary="@string/prefShowToolbarMenuButtonsSummary"
+            android:title="@string/prefShowToolbarSensorsMenuButtonsTitle" />
+
+        <CheckBoxPreference
+            android:icon="?attr/ed_toolbar_button_servos"
+            android:defaultValue="@bool/prefShowToolbarMenuButtonsDefaultValue"
+            android:key="prefShowToolbarServosMenuButtons"
+            android:layout="@layout/checkbox_icon_right"
+            android:summary="@string/prefShowToolbarMenuButtonsSummary"
+            android:title="@string/prefShowToolbarServosMenuButtonsTitle" />
+
+        <CheckBoxPreference
+            android:icon="?attr/ed_toolbar_button_track_manager"
+            android:defaultValue="@bool/prefShowToolbarMenuButtonsDefaultValue"
+            android:key="prefShowToolbarTrackManagerMenuButtons"
+            android:layout="@layout/checkbox_icon_right"
+            android:summary="@string/prefShowToolbarMenuButtonsSummary"
+            android:title="@string/prefShowToolbarTrackManagerMenuButtonsTitle" />
+
+
         <ListPreference
             android:icon="?attr/ed_clock_icon"
             android:defaultValue="@string/prefDisplayClockDefaultValue"

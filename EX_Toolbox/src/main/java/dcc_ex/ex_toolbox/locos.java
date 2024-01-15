@@ -29,6 +29,7 @@ import android.content.res.Configuration;
 import android.gesture.GestureOverlayView;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -76,16 +77,14 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
 
     //**************************************
 
-    private LinearLayout DCCEXwriteInfoLayout;
-    private TextView DCCEXwriteInfoLabel;
-    private String DCCEXinfoStr = "";
+    private LinearLayout DccexWriteInfoLayout;
+    private TextView DccexWriteInfoLabel;
+    private String DccexInfoStr = "";
 
-    private TextView DCCEXresponsesLabel;
-    private TextView DCCEXsendsLabel;
-    private ScrollView DCCEXresponsesScrollView;
-    private ScrollView DCCEXsendsScrollView;
-
-    private boolean DCCEXhideSends = false;
+    private TextView DccexResponsesLabel;
+    private TextView DccexSendsLabel;
+    private ScrollView DccexResponsesScrollView;
+    private ScrollView DccexSendsScrollView;
 
     private ArrayList<HashMap<String, String>> locos_list;
     private SimpleAdapter locos_list_adapter;
@@ -210,6 +209,10 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
     @SuppressLint("HandlerLeak")
     class locos_handler extends Handler {
 
+        public locos_handler(Looper looper) {
+            super(looper);
+        }
+
         public void handleMessage(Message msg) {
             switch (msg.what) {
 
@@ -253,17 +256,14 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
                         }
                         locos_list_adapter.notifyDataSetChanged();
 
-                        refreshDCCEXlocosView();
+                        refreshDccexLocosView();
                     }
                     break;
 
                 case message_type.DCCEX_COMMAND_ECHO:  // informational response
-//                    refreshDCCEXview();
-                    refreshDCCEXcommandsView();
-                    break;
-                case message_type.DCCEX_RESPONSE:  // informational response
-//                    refreshDCCEXview();
-                    refreshDCCEXcommandsView();
+                case message_type.DCCEX_RESPONSE:
+//                    refreshDccexView();
+                    refreshDccexCommandsView();
                     break;
 
                 case message_type.WIT_CON_RETRY:
@@ -331,16 +331,16 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
         mainapp.loadBackgroundImage(findViewById(R.id.locosBackgroundImgView));
 
         //put pointer to this activity's handler in main app's shared variable
-        mainapp.locos_msg_handler = new locos_handler();
+        mainapp.locos_msg_handler = new locos_handler(Looper.getMainLooper());
 
-        DCCEXwriteInfoLayout = findViewById(R.id.dexc_DCCEXwriteInfoLayout);
-        DCCEXwriteInfoLabel = findViewById(R.id.dexc_DCCEXwriteInfoLabel);
-        DCCEXwriteInfoLabel.setText("");
+        DccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
+        DccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
+        DccexWriteInfoLabel.setText("");
 
-        DCCEXresponsesLabel = findViewById(R.id.dexc_DCCEXresponsesLabel);
-        DCCEXresponsesLabel.setText("");
-        DCCEXsendsLabel = findViewById(R.id.dexc_DCCEXsendsLabel);
-        DCCEXsendsLabel.setText("");
+        DccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
+        DccexResponsesLabel.setText("");
+        DccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
+        DccexSendsLabel.setText("");
 
         //Set up a list adapter to allow adding discovered locos to the UI.
         locos_list = new ArrayList<>();
@@ -350,14 +350,14 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
         ListView locos_list = findViewById(R.id.locos_list);
         locos_list.setAdapter(locos_list_adapter);
 
-        DCCEXresponsesScrollView = findViewById(R.id.dexc_DCCEXresponsesScrollView);
-        DCCEXsendsScrollView = findViewById(R.id.dexc_DCCEXsendsScrollView);
+        DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
+        DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
 
-        clearCommandsButton = findViewById(R.id.dexc_DCCEXclearCommandsButton);
+        clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
         clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
         clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
-        refreshDCCEXlocosView();
+        refreshDccexLocosView();
 
 //        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_SENSOR, "");
 //
@@ -381,9 +381,9 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
         mainapp.getCommonPreferences();
 
         setActivityTitle();
-        mainapp.DCCEXscreenIsOpen = true;
-        refreshDCCEXview();
-        refreshDCCEXlocosView();
+        mainapp.dccexScreenIsOpen = true;
+        refreshDccexView();
+        refreshDccexLocosView();
 
         if (mainapp.isForcingFinish()) {    //expedite
             this.finish();
@@ -415,7 +415,7 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
         Log.d("EX_Toolbox", "locos.onStart() called");
         // put pointer to this activity's handler in main app's shared variable
         if (mainapp.locos_msg_handler == null)
-            mainapp.locos_msg_handler = new locos_handler();
+            mainapp.locos_msg_handler = new locos_handler(Looper.getMainLooper());
     }
 
     @Override
@@ -477,6 +477,7 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
         mainapp.setTrackmanagerMenuOption(menu);
         mainapp.setCurrentsMenuOption(menu);
 
+        mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
         mainapp.setPowerStateButton(menu);
@@ -491,57 +492,55 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
         Intent in;
-        switch (item.getItemId()) {
-
-            case R.id.cv_programmer_mnu:
-                navigateAway(true, null);
-                in = new Intent().setClass(this, cv_programmer.class);
-                startACoreActivity(this, in, false, 0);
-                return true;
-            case R.id.servos_mnu:
+        if ( (item.getItemId() == R.id.cv_programmer_mnu) || (item.getItemId() == R.id.toolbar_button_cv_programmer) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, cv_programmer.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
+        } else if ( (item.getItemId() == R.id.servos_mnu) || (item.getItemId() == R.id.toolbar_button_servos) ) {
                 navigateAway(true, null);
                 in = new Intent().setClass(this, servos.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
-            case R.id.sensors_mnu:_mnu:
+        } else if ( (item.getItemId() == R.id.sensors_mnu) || (item.getItemId() == R.id.toolbar_button_sensors) ) {
                 navigateAway(true, null);
                 in = new Intent().setClass(this, sensors.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
-            case R.id.locos_mnu:_mnu:
+        } else if ( (item.getItemId() == R.id.locos_mnu) || (item.getItemId() == R.id.toolbar_button_locos) ) {
                 navigateAway(true, null);
                 in = new Intent().setClass(this, locos.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
-            case R.id.currents_mnu:_mnu:
+        } else if ( (item.getItemId() == R.id.currents_mnu) || (item.getItemId() == R.id.toolbar_button_currents) ) {
                 navigateAway(true, null);
                 in = new Intent().setClass(this, currents.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
-            case R.id.track_manager_mnu:_mnu:
+        } else if ( (item.getItemId() == R.id.track_manager_mnu) || (item.getItemId() == R.id.toolbar_button_track_manager) ) {
                 navigateAway(true, null);
                 in = new Intent().setClass(this, track_manager.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
 
-            case R.id.exit_mnu:
+        } else if (item.getItemId() == R.id.exit_mnu) {
                 mainapp.checkExit(this);
                 return true;
-            case R.id.power_control_mnu:
+        } else if (item.getItemId() == R.id.power_control_mnu) {
                 navigateAway(false, power_control.class);
                 return true;
-            case R.id.settings_mnu:
+        } else if (item.getItemId() == R.id.settings_mnu) {
                 in = new Intent().setClass(this, SettingsActivity.class);
                 startActivityForResult(in, 0);
                 connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
                 return true;
-            case R.id.logviewer_menu:
+        } else if (item.getItemId() == R.id.logviewer_menu) {
                 navigateAway(false, LogViewerActivity.class);
                 return true;
-            case R.id.about_mnu:
+        } else if (item.getItemId() == R.id.about_mnu) {
                 navigateAway(false, about_page.class);
                 return true;
-            case R.id.power_layout_button:
+        } else if (item.getItemId() == R.id.power_layout_button) {
                 if (!mainapp.isPowerControlAllowed()) {
                     mainapp.powerControlNotAllowedDialog(tMenu);
                 } else {
@@ -549,7 +548,7 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
                 }
                 mainapp.buttonVibration();
                 return true;
-            default:
+        } else {
                 return super.onOptionsItemSelected(item);
         }
     }
@@ -622,26 +621,26 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
 
     public class clear_commands_button_listener implements View.OnClickListener {
         public void onClick(View v) {
-            mainapp.DCCEXresponsesListHtml.clear();
-            mainapp.DCCEXsendsListHtml.clear();
-            mainapp.DCCEXresponsesStr = "";
-            mainapp.DCCEXsendsStr = "";
-            refreshDCCEXview();
+            mainapp.DccexResponsesListHtml.clear();
+            mainapp.dccexSendsListHtml.clear();
+            mainapp.dccexResponsesStr = "";
+            mainapp.dccexSendsStr = "";
+            refreshDccexView();
         }
     }
 
-    public void refreshDCCEXview() {
-        DCCEXwriteInfoLabel.setText(DCCEXinfoStr);
-        refreshDCCEXcommandsView();
+    public void refreshDccexView() {
+        DccexWriteInfoLabel.setText(DccexInfoStr);
+        refreshDccexCommandsView();
 
     }
 
-    public void refreshDCCEXcommandsView() {
-        DCCEXresponsesLabel.setText(Html.fromHtml(mainapp.DCCEXresponsesStr));
-        DCCEXsendsLabel.setText(Html.fromHtml(mainapp.DCCEXsendsStr));
+    public void refreshDccexCommandsView() {
+        DccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
+        DccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
     }
 
-    public void refreshDCCEXlocosView() {
+    public void refreshDccexLocosView() {
     }
 
 }

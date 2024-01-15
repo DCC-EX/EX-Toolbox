@@ -15,10 +15,10 @@
 -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="exit">Exit</string>
-    <string name="settings">Function Defaults</string>
-    <string name="fb_label">Function Label</string>
-    <string name="fb_column_label">Label</string>
-    <string name="fb_column_function">Funct#</string>
+<!--    <string name="settings">Function Defaults</string>-->
+<!--    <string name="fb_label">Function Label</string>-->
+<!--    <string name="fb_column_label">Label</string>-->
+<!--    <string name="fb_column_function">Funct#</string>-->
     <string name="introMenu">Intro/Setup Wizard</string>
 
     <string name="app_name" translatable="false">EX-Toolbox</string>  <!-- DO NOT TRANSLATE -->
@@ -51,12 +51,12 @@
     <string name="notification_text">Tap to reopen EX-Toolbox</string>
     <string name="host_ip">Host Name or Address</string>
     <string name="port">Port</string>
-    <string name="loco_address">Loco Address</string>
+<!--    <string name="loco_address">Loco Address</string>-->
     <string name="connect_button">Connect</string>
     <string name="recent_connections">Recent Servers</string>
     <string name="discovered_services">Discovered Servers</string>
-    <string name="save_settings">Save Settings</string>
-    <string name="stop">Stop</string>
+<!--    <string name="save_settings">Save Settings</string>-->
+<!--    <string name="stop">Stop</string>-->
     <string name="none">None</string>
 
     <string name="about">About</string>
@@ -75,7 +75,7 @@
     <string name="reconnect_success">RECONNECTED.  Resuming normal operation.</string>
 
     <string name="ca_recent_conn_notice">Recent Connections unavailable - No SD card found.</string>
-    <string name="sl_recent_engine_notice">Recent Locos unavailable - No SD card found.</string>
+<!--    <string name="sl_recent_engine_notice">Recent Locos unavailable - No SD card found.</string>-->
     <string name="power">Power</string>
 
     <string name="on">On</string>
@@ -129,6 +129,15 @@
     <string name="prefPowerButtonBarTitle">Layout Power button?</string>
     <string name="prefPowerButtonBarSummary">Show Layout Power button in action bar</string>
 
+    <string name="prefShowToolbarCvProgrammerMenuButtonsTitle">CV Programmer toolbar button</string>
+    <string name="prefShowToolbarMenuButtonsSummary">Show additional toolbar button.\nMay require EX-Toolbox to be restarted.</string>
+    <string name="prefShowToolbarLocosMenuButtonsTitle">Locos toolbar button</string>
+    <string name="prefShowToolbarCurrentsMenuButtonsTitle">Currents toolbar button</string>
+    <string name="prefShowToolbarSensorsMenuButtonsTitle">Sensors toolbar button</string>
+    <string name="prefShowToolbarServosMenuButtonsTitle">Servos toolbar button</string>
+    <string name="prefShowToolbarTrackManagerMenuButtonsTitle">Track Manager toolbar button</string>
+
+
     <string name="PrefConnectToFirstServerTitle">Auto-Connect to Server?</string>
     <string name="PrefConnectToFirstServerSummary">Connect automatically to \'first\' Server discovered</string>
     <string name="prefDisplayClockTitle">Fast Clock Display</string>
@@ -148,8 +157,8 @@
     <string name="prefThemeSummary">Select a visual appearance for this app</string>
     <string name="prefThemeDefaultValue" translatable="false">Default</string>  <!-- DO NOT TRANSLATE -->
 
-    <string name="prefLocaleTitle">Localisation</string>
-    <string name="prefLocaleSummary">Language to use for this app</string>
+<!--    <string name="prefLocaleTitle">Localisation</string>-->
+<!--    <string name="prefLocaleSummary">Language to use for this app</string>-->
     <string name="prefLocaleDefaultValue" translatable="false">Default</string>  <!-- DO NOT TRANSLATE -->
 
     <!--    prefs for the Import/Export -->
@@ -160,13 +169,13 @@
     <string name="prefImportExportSummary">\'Import\' or \'Export\' preferences to the \'\\Android\\data\\jmri.enginedriver\\files\\\' folder, or \'Reset\' them.\nWill occur IMMEDIATELY on selecting the option.\nWARNING! With \'Reset\' and \'Import\', Engine Driver will restart!\n(You can transfer the preferences to a different phone by copying the file.)</string>
     <string name="prefImportExportDefaultValue" translatable="false">None</string>  <!-- DO NOT TRANSLATE -->
 
-    <string name="prefImportExportLocoListTitle">Include recent loco list?</string>
-    <string name="prefImportExportLocoListSummary">Include the locos in the recent loco list in \'Imports\' and \'Exports\'</string>
+<!--    <string name="prefImportExportLocoListTitle">Include recent loco list?</string>-->
+<!--    <string name="prefImportExportLocoListSummary">Include the locos in the recent loco list in \'Imports\' and \'Exports\'</string>-->
 
-    <string name="prefImportExportOverwite">File \'%1$s\' already exists. Overwite?</string>
+<!--    <string name="prefImportExportOverwite">File \'%1$s\' already exists. Overwite?</string>-->
     <string name="prefImportExportErrorReadingList">Error reading recent connections list:</string>
-    <string name="prefImportExportErrorReadingFrom">Import from \'\\Android\\data\\jmri.enginedriver\\files\\ %1$s\' failed! You may not have saved the preferences for this host yet.</string>
-    <string name="prefImportExportErrorNotConnected">Not connected to a host.</string>
+<!--    <string name="prefImportExportErrorReadingFrom">Import from \'\\Android\\data\\jmri.enginedriver\\files\\ %1$s\' failed! You may not have saved the preferences for this host yet.</string>-->
+<!--    <string name="prefImportExportErrorNotConnected">Not connected to a host.</string>-->
 
 
     <string name="prefDisplaySpeedUnitsDefaultValue" translatable="false">100</string>  <!-- DO NOT TRANSLATE -->
@@ -195,9 +204,9 @@
     <string name="toastPreferencesOutsideLimits">Value entered is outside the limits (%1$s-%2$s). Reset to %3$s.</string>
     <string name="toastPreferencesNotNumeric">Value entered is not numeric (%1$s-%2$s). Reset to %3$s.</string>
     <string name="toastPreferencesResetSucceeded">Preferences Reset to defaults!</string>
-    <string name="toastPreferencesImportServerManualFailed">Preferences Import from Server failed! Check the file is correct. (%1$s)</string>
-    <string name="toastPreferencesImportServerManualSucceeded">Preferences Import from Server succeeded. (%1$s)</string>
-    <string name="toastPreferencesImportSucceeded">Preferences Import from file succeeded.</string>
+<!--    <string name="toastPreferencesImportServerManualFailed">Preferences Import from Server failed! Check the file is correct. (%1$s)</string>-->
+<!--    <string name="toastPreferencesImportServerManualSucceeded">Preferences Import from Server succeeded. (%1$s)</string>-->
+<!--    <string name="toastPreferencesImportSucceeded">Preferences Import from file succeeded.</string>-->
     <string name="toastPreferencesThemeChangeSucceeded">Theme Change succeeded.</string>
     <string name="toastPreferencesThrottleChangeSucceeded">Throttle Layout change succeeded.</string>
     <string name="toastPreferencesLocaleChangeSucceeded">Locale (Language) change succeeded.</string>
@@ -219,13 +228,13 @@
     <string name="toastConnectionsListHelp">Touch to select a Server,\n  or enter Server Address and Port.\nSwipe Right to remove an entry.</string>
 
     <!--    Toast messages for the Import/Export -->
-    <string name="toastImportExportExportSucceeded">Preferences export to \'\\Android\\data\\dcc_ex.ex_toolbox\\files\\%1$s\' succeeded.</string>
-    <string name="toastImportExportImportSucceeded">Preferences import from \'\\Android\\data\\dcc_ex.ex_toolbox\\files\\%1$s\' succeeded.</string>
-    <string name="toastImportExportExportFailed">Preferences export to \'\\Android\\data\\dcc_ex.ex_toolbox\\files\\%1$s\' failed!</string>
-    <string name="toastImportExportImportFailed">Preferences import from \'\\Android\\data\\dcc_ex.ex_toolbox\\files\\%1$s\' failed!</string>
-    <string name="toastImportExportServerImportFailed">Preferences not imported from \'\\Android\\data\\dcc_ex.ex_toolbox\\files\\%1$s\'. You may not have saved the preferences for this host yet.</string>
-    <string name="toastImportExportCannotImport">Can\'t import preferences. Not connected to a host.</string>
-    <string name="toastImportExportCannotExport">Can\'t export host specific preferences. Not connected to a host.</string>
+<!--    <string name="toastImportExportExportSucceeded">Preferences export to \'\\Android\\data\\dcc_ex.ex_toolbox\\files\\%1$s\' succeeded.</string>-->
+<!--    <string name="toastImportExportImportSucceeded">Preferences import from \'\\Android\\data\\dcc_ex.ex_toolbox\\files\\%1$s\' succeeded.</string>-->
+<!--    <string name="toastImportExportExportFailed">Preferences export to \'\\Android\\data\\dcc_ex.ex_toolbox\\files\\%1$s\' failed!</string>-->
+<!--    <string name="toastImportExportImportFailed">Preferences import from \'\\Android\\data\\dcc_ex.ex_toolbox\\files\\%1$s\' failed!</string>-->
+<!--    <string name="toastImportExportServerImportFailed">Preferences not imported from \'\\Android\\data\\dcc_ex.ex_toolbox\\files\\%1$s\'. You may not have saved the preferences for this host yet.</string>-->
+<!--    <string name="toastImportExportCannotImport">Can\'t import preferences. Not connected to a host.</string>-->
+<!--    <string name="toastImportExportCannotExport">Can\'t export host specific preferences. Not connected to a host.</string>-->
 
     <!--    Toast messages for the Log Viewer Activity -->
     <string name="toastSaveLogFile">Logging Started in file %1$s. Logging will continue until you exit the EX-Toolbox app.</string>
@@ -242,7 +251,7 @@
     <string name="permissionsReadImages">EX-Toolbox needs STORAGE permissions to load background images.</string>
     <string name="permissionsREAD_MEDIA_IMAGES">EX-Toolbox needs READ_MEDIA_IMAGES permissions to load background images.</string>
 
-    <string name="permissionsReadLegacyFiles">EX-Toolbox needs STORAGE permissions to load legacy (old location) settings.</string>
+<!--    <string name="permissionsReadLegacyFiles">EX-Toolbox needs STORAGE permissions to load legacy (old location) settings.</string>-->
     <string name="permissionsReadPhoneState">EX-Toolbox needs PHONE permissions to pause operations when on a call.</string>
     <string name="permissionsWriteSettings">EX-Toolbox needs ALLOW MODIFYING SYSTEM SETTINGS permissions to change screen brightness.</string>
     <string name="permissionsWriteSettingsAdditional">- Click the button below.\n- Grant the permission.\n- Click \'Back\' to return here.</string>
@@ -268,12 +277,12 @@
     <string name="introWelcomeTitle">Welcome to \nEX-Toolbox</string>
     <string name="introWelcomeSummary">This app can only connect to a DCC-EX EX-CommandStation. The following pages will guide you through initial setup.</string>
 
-    <string name="introThrottleNameSummary">Set a name for this device</string>
-    <string name="introThrottleNameSummary1">The name you choose will appear in the WiThrottle Server window. It can help when resolving problems with multiple devices.  It must be unique.</string>
+<!--    <string name="introThrottleNameSummary">Set a name for this device</string>-->
+<!--    <string name="introThrottleNameSummary1">The name you choose will appear in the WiThrottle Server window. It can help when resolving problems with multiple devices.  It must be unique.</string>-->
 
     <string name="introThemeSummary">Choose the colors and appearance of the whole app</string>
-    <string name="introThrottleTypeSummary">Choose the layout of the main throttle screen</string>
-    <string name="introThrottleTypeSummary2">Depending on the chosen layout, you will be limited on the number of individual throttles (1 to 6) on the screen</string>
+<!--    <string name="introThrottleTypeSummary">Choose the layout of the main throttle screen</string>-->
+<!--    <string name="introThrottleTypeSummary2">Depending on the chosen layout, you will be limited on the number of individual throttles (1 to 6) on the screen</string>-->
 
     <string name="introFinishTitle">Ready to use</string>
     <string name="introFinishSummary">EX-Toolbox is now ready to connect.</string>
@@ -287,8 +296,8 @@
     <string name="dialogConfirmResetPreferencesTitle">Reset Preferences</string>
     <string name="dialogResetPreferencesQuestion">Confirm that you want reset all preferences.\nALL current preferences will be lost.</string>
 
-    <string name="dialogConfirmImportPreferencesTitle">Import Preferences</string>
-    <string name="dialogImportPreferencesQuestion">Confirm that you want import preferences.\nALL current preferences will be lost.</string>
+<!--    <string name="dialogConfirmImportPreferencesTitle">Import Preferences</string>-->
+<!--    <string name="dialogImportPreferencesQuestion">Confirm that you want import preferences.\nALL current preferences will be lost.</string>-->
 
     <string name="dialogConfirmClearTitle">Clear List</string>
 
@@ -321,8 +330,8 @@
     <string name="prefFeedbackWhenGoingToBackgroundTitle">Background Alert</string>
     <string name="prefFeedbackWhenGoingToBackgroundSummary">Audible alert when the app is sent to the background</string>
 
-    <string name="prefActionBarShowDccExButtonSummary">Show button in action bar to access the DCC-EX screen.\n(For native DCC-EX connections only.)</string>
-    <string name="prefActionBarShowDccExButtonTitle">DCC-EX button?</string>
+<!--    <string name="prefActionBarShowDccExButtonSummary">Show button in action bar to access the DCC-EX screen.\n(For native DCC-EX connections only.)</string>-->
+<!--    <string name="prefActionBarShowDccExButtonTitle">DCC-EX button?</string>-->
 
     <string name="prefHapticFeedbackTitle">Haptic Feedback (Vibration)</string>
     <string name="prefHapticFeedbackSummary">Haptic feedback (vibrate) on speed changes</string>
@@ -344,81 +353,80 @@
     <string name="prefHapticFeedbackButtonsTitle">Haptic Feedback on Button Presses</string>
     <string name="prefHapticFeedbackButtonsSummary">Haptic feedback (vibrate) on button presses.</string>
 
-<!--    <string name="DCCEXrouteSet">Set</string>-->
-<!--    <string name="DCCEXrouteHandoff">HandOff</string>-->
+<!--    <string name="dccexRouteSet">Set</string>-->
+<!--    <string name="dccexRouteHandoff">HandOff</string>-->
 
-<!--    <string name="DCCEXturnoutClosed">Closed</string>-->
-<!--    <string name="DCCEXturnoutThrown">Thrown</string>-->
-<!--    <string name="DCCEXturnoutUnknown">Unknown</string>-->
-<!--    <string name="DCCEXturnoutInconsistent">Inconsistent</string>-->
+<!--    <string name="dccexTurnoutClosed">Closed</string>-->
+<!--    <string name="dccexTurnoutThrown">Thrown</string>-->
+<!--    <string name="dccexTurnoutUnknown">Unknown</string>-->
+<!--    <string name="dccexTurnoutInconsistent">Inconsistent</string>-->
 
-    <string name="DCCEXservoVpinLabel">VPin</string>
-    <string name="DCCEXservoThrowButtonLabel">Throw\n(active)</string>
-    <string name="DCCEXservoMidButtonLabel">Mid</string>
-    <string name="DCCEXservoCloseButtonLabel">Close\n(inactive)</string>
-    <string name="DCCEXservoIncrementButtonLabel">+</string>
-    <string name="DCCEXservoDecrementButtonLabel">-</string>
-    <string name="DCCEXservoClosedPositionLabel">Closed Position</string>
-    <string name="DCCEXservoMidPositionLabel">Mid Position</string>
-    <string name="DCCEXservoThrownPositionLabel">Thrown Position</string>
+    <string name="dccexServoVpinLabel">VPin</string>
+    <string name="dccexServoThrowButtonLabel">Throw\n(active)</string>
+    <string name="dccexServoMidButtonLabel">Mid</string>
+    <string name="dccexServoCloseButtonLabel">Close\n(inactive)</string>
+    <string name="dccexServoIncrementButtonLabel">+</string>
+    <string name="dccexServoDecrementButtonLabel">-</string>
+    <string name="dccexServoClosedPositionLabel">Closed Position</string>
+    <string name="dccexServoMidPositionLabel">Mid Position</string>
+    <string name="dccexServoThrownPositionLabel">Thrown Position</string>
 
-    <string name="DCCEXservoPositionSwapButtonLabel">Swap</string>
-    <string name="DCCEXservoResetButtonLabel">Reset</string>
+    <string name="dccexServoPositionSwapButtonLabel">Swap</string>
+    <string name="dccexServoResetButtonLabel">Reset</string>
 
-    <string name="DCCEXservoProfilesLabel" >Profile</string>
+    <string name="dccexServoProfilesLabel" >Profile</string>
 
-    <string name="DCCEXservoExRailInstruction" >SERVO_TURNOUT( id, %d, %d, %d, %s , \"description\")</string>
+    <string name="dccexServoExRailInstruction" >SERVO_TURNOUT( id, %d, %d, %d, %s , \"description\")</string>
 
-    <string name="DCCEXactionTypeLabel">Action</string>
-    <string name="DCCEXwriteAddressLabel">DCC Address</string>
-    <string name="DCCEXwriteCvLabel">CV</string>
-    <string name="DCCEXwriteCvValueLabel">Value</string>
-    <string name="DCCEXwriteAddressButtonLabel">Write</string>
-    <string name="DCCEXreadAddressButtonLabel">Read</string>
-    <string name="DCCEXsendCommandButtonLabel">Send</string>
-    <string name="DCCEXpreviousCommandButtonLabel">Prior</string>
-    <string name="DCCEXnextCommandButtonLabel">Next</string>
-    <string name="DCCEXsendCommandLabel">DCC-EX Cmd\n<small>(exclude \'&lt;\' and \'&gt;\')</small></string>
-<!--    <string name="DCCEXhideSends">Hide Sends</string>-->
-    <string name="DCCEXclearCommands">Clear</string>
+    <string name="dccexActionTypeLabel">Action</string>
+    <string name="dccexWriteAddressLabel">DCC Address</string>
+    <string name="dccexWriteCvLabel">CV</string>
+    <string name="dccexWriteCvValueLabel">Value</string>
+    <string name="dccexWriteAddressButtonLabel">Write</string>
+    <string name="dccexReadAddressButtonLabel">Read</string>
+    <string name="dccexSendCommandButtonLabel">Send</string>
+    <string name="dccexPreviousCommandButtonLabel">Prior</string>
+    <string name="dccexNextCommandButtonLabel">Next</string>
+    <string name="dccexSendCommandLabel">DCC-EX Cmd\n<small>(exclude \'&lt;\' and \'&gt;\')</small></string>
+    <string name="dccexClearCommands">Clear</string>
 
-    <string name="DCCEXcommonCvsLabel" >NMRA CVs</string>
-    <string name="DCCEXcommonCommnadsLabel" >Common CMDs</string>
+    <string name="dccexCommonCvsLabel" >NMRA CVs</string>
+    <string name="dccexCommonCommandsLabel" >Common CMDs</string>
 
-    <string name="DCCEXsetTrackButtonLabel">Set</string>
+    <string name="dccexSetTrackButtonLabel">Set</string>
 
-    <string name="DCCEXSucceeded">Action Succeeded</string>
-    <string name="DCCEXFailed">Action Failed</string>
+    <string name="dccexSucceeded">Action Succeeded</string>
+    <string name="dccexFailed">Action Failed</string>
 
-    <string name="DCCEXrequestLocoIdFailed">Request Loco Id Failed</string>
+    <string name="dccexRequestLocoIdFailed">Request Loco Id Failed</string>
 
-    <string name="DCCEXturnoutClosed">Closed</string>
-    <string name="DCCEXturnoutThrown">Thrown</string>
-    <string name="DCCEXturnoutUnknown">Unknown</string>
-    <string name="DCCEXturnoutInconsistent">Inconsistent</string>
+    <string name="dccexTurnoutClosed">Closed</string>
+    <string name="dccexTurnoutThrown">Thrown</string>
+    <string name="dccexTurnoutUnknown">Unknown</string>
+    <string name="dccexTurnoutInconsistent">Inconsistent</string>
 
-    <string name="DCCEXrouteSet">Set</string>
-    <string name="DCCEXrouteHandoff">HandOff</string>
+    <string name="dccexRouteSet">Set</string>
+    <string name="dccexRouteHandoff">HandOff</string>
 
-    <string name="DCCEXreadSensorsButtonLabel">Watch</string>
-    <string name="DCCEXincrementSensorsButtonLabel">Increment Ids</string>
-    <string name="DCCEXsensorActive">Active</string>
-    <string name="DCCEXsensorInactive">InActive</string>
-    <string name="DCCEXsensorUnknown">Unknown</string>
+    <string name="DccexReadSensorsButtonLabel">Watch</string>
+    <string name="dccexIncrementSensorsButtonLabel">Increment Ids</string>
+    <string name="dccexSensorActive">Active</string>
+    <string name="DccexSensorInactive">InActive</string>
+    <string name="dccexSensorUnknown">Unknown</string>
 
-    <string name="DCCEXstartCurrentsButtonLabel">Start</string>
-    <string name="DCCEXstopCurrentsButtonLabel">Stop</string>
+    <string name="dccexStartCurrentsButtonLabel">Start</string>
+    <string name="dccexStopCurrentsButtonLabel">Stop</string>
 
-    <string name="DCCEXCurrentsColumnLabel">Value</string>
-    <string name="DCCEXCurrentsHighestColumnLabel">Highest</string>
-    <string name="DCCEXCurrentsMaxColumnLabel">Max</string>
+    <string name="DccexCurrentsColumnLabel">Value</string>
+    <string name="DccexCurrentsHighestColumnLabel">Highest</string>
+    <string name="dccexCurrentsMaxColumnLabel">Max</string>
 
     <string name="forward">Forward</string>
     <string name="reverse">Reverse</string>
 
-    <string name="DCCEXlocoIdColumnLabel">DCC Addr</string>
-    <string name="DCCEXlocoSpeedColumnLabel" tools:ignore="TypographyDashes">Speed (0-126)</string>
-    <string name="DCCEXlocoDirectionColumnLabel">Direction</string>
+    <string name="DccexLocoIdColumnLabel">DCC Addr</string>
+    <string name="DccexLocoSpeedColumnLabel" tools:ignore="TypographyDashes">Speed (0-126)</string>
+    <string name="DccexLocoDirectionColumnLabel">Direction</string>
 
     <string name="servoListDefaultValue">&lt;select&gt;</string>
 

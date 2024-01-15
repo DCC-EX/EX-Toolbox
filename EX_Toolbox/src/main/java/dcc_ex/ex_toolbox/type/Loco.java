@@ -38,7 +38,7 @@ public class Loco {
     private LinkedHashMap<Integer, String> functionLabels;
     private int functionLabelsMaxKey = 0;          // highest function number that contains a string (not null)
 
-    private static final String CONSIST_FUNCTION_ACTION_NONE = "none";
+//    private static final String CONSIST_FUNCTION_ACTION_NONE = "none";
     private static final String CONSIST_FUNCTION_ACTION_LEAD = "lead";
     private static final String CONSIST_FUNCTION_ACTION_LEAD_AND_TRAIL = "lead and trail";
     private static final String CONSIST_FUNCTION_ACTION_ALL = "all";
@@ -55,7 +55,7 @@ public class Loco {
 //    private static final String CONSIST_FUNCTION_RULE_STYLE_ORIGINAL = "original";
     private static final String CONSIST_FUNCTION_RULE_STYLE_COMPLEX = "complex";
     private static final String CONSIST_FUNCTION_RULE_STYLE_SPECIAL_EXACT = "specialExact";
-    private static final String CONSIST_FUNCTION_RULE_STYLE_SPECIAL_PARTIAL = "specialPartial";
+//    private static final String CONSIST_FUNCTION_RULE_STYLE_SPECIAL_PARTIAL = "specialPartial";
 
     public Loco(String address) {
         if (address != null)
@@ -155,7 +155,7 @@ public class Loco {
     }
 
     public void setFunctionLabels(String functionLabelsString, threaded_application mainapp) {
-        String[] ta = mainapp.splitByString(functionLabelsString, "]\\[");  //split into list of labels
+        String[] ta = threaded_application.splitByString(functionLabelsString, "]\\[");  //split into list of labels
 
         //populate a temp label array from RF command string
         functionLabels = new LinkedHashMap<>();

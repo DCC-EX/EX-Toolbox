@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:weightSum="1"
-    android:paddingLeft="3px"
-    android:paddingRight="3px">
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp">
 
     <TextView
         android:id="@+id/sensor_id_value"
@@ -46,7 +46,7 @@
         android:paddingLeft="3dp"
         android:text=""
         android:textSize="16sp"
-        tools:ignore="HardcodedText"  />
+        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry" />
 
     <TextView
         android:id="@+id/sensor_status"
@@ -56,7 +56,7 @@
         android:layout_weight=".4"
         android:paddingTop="3dp"
         android:paddingLeft="3dp"
-        android:text="@string/DCCEXsensorInactive"
+        android:text="@string/DccexSensorInactive"
         android:textSize="16sp"
-        tools:ignore="HardcodedText"  />
+        tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry"  />
 </LinearLayout>

@@ -36,7 +36,6 @@ import dcc_ex.ex_toolbox.R;
 
 public class intro_write_settings extends Fragment {
 
-    @SuppressWarnings("ConstantConditions")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.d("EX_Toolbox", "intro_write_settings");

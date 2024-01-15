@@ -19,6 +19,7 @@ import dcc_ex.ex_toolbox.threaded_application;
 
 /**
  * Implementation of an easy vertical SeekBar, based on the normal SeekBar.
+ * @noinspection SuspiciousNameCombination
  */
 @SuppressLint("AppCompatCustomView")
 public class VerticalSeekBar extends SeekBar {
@@ -115,7 +116,7 @@ public class VerticalSeekBar extends SeekBar {
         if (!tickMarksChecked) {
             tickMarksChecked = true;
             prefTickMarksOnSliders = prefs.getBoolean("prefTickMarksOnSliders", getResources().getBoolean(R.bool.prefTickMarksOnSlidersDefaultValue));
-            prefDisplaySpeedUnits = mainapp.getIntPrefValue(prefs, "DisplaySpeedUnits", getResources().getString(R.string.prefDisplaySpeedUnitsDefaultValue));
+            prefDisplaySpeedUnits = threaded_application.getIntPrefValue(prefs, "DisplaySpeedUnits", getResources().getString(R.string.prefDisplaySpeedUnitsDefaultValue));
 
             steps = prefDisplaySpeedUnits;
             if (steps >= 100) {
@@ -197,6 +198,7 @@ public class VerticalSeekBar extends SeekBar {
         super.setOnSeekBarChangeListener(l);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public final boolean onTouchEvent(final MotionEvent event) {
         if (!isEnabled()) {

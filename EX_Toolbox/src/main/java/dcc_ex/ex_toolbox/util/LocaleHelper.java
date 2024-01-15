@@ -16,6 +16,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package dcc_ex.ex_toolbox.util;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -52,7 +53,7 @@ public class LocaleHelper {
     // called once from the mainapp activity
     public static Context onAttach(Context context, String defaultLanguage) {
         if (languageCountry.equals("")) {
-            languageCountry = defaultLanguage; // set the inital value
+            languageCountry = defaultLanguage; // set the initial value
         }
         String lang = getLanguagePreference(context);
         return setLocale(context, lang);
@@ -81,6 +82,7 @@ public class LocaleHelper {
         return prefLocale;
     }
 
+    @SuppressLint("AppBundleLocaleChanges")
     @TargetApi(17)
     private static Context updateResources(Context context, String language) {
 
@@ -94,7 +96,6 @@ public class LocaleHelper {
         return context.createConfigurationContext(configuration);
     }
 
-    @SuppressWarnings("deprecation")
     private static Context updateResourcesLegacy(Context context, String language) {
 
         Locale locale = new Locale(language);

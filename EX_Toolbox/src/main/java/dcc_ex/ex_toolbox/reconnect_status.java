@@ -25,6 +25,7 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -45,13 +46,16 @@ public class reconnect_status extends AppCompatActivity {
     private String prog = "";
     private boolean backOk = true;
     private boolean retryFirst = false;
-    private Menu RCMenu;
 
     private Toolbar toolbar;
 
     //Handle messages from the communication thread back to this thread (responses from withrottle)
     @SuppressLint("HandlerLeak")
     class reconnect_status_handler extends Handler {
+
+        public reconnect_status_handler(Looper looper) {
+            super(looper);
+        }
 
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -84,7 +88,8 @@ public class reconnect_status extends AppCompatActivity {
             prog = prog + ".";
             if (prog.length() > 5)
                 prog = ".";
-            tv.setText(status + prog);
+            String rslt = status + prog;
+            tv.setText(rslt);
         }
     }
 
@@ -132,7 +137,7 @@ public class reconnect_status extends AppCompatActivity {
         setContentView(R.layout.reconnect_page);
 
         //put pointer to this activity's handler in main app's shared variable (If needed)
-        mainapp.reconnect_status_msg_handler = new reconnect_status_handler();
+        mainapp.reconnect_status_msg_handler = new reconnect_status_handler(Looper.getMainLooper());
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -226,26 +231,22 @@ public class reconnect_status extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.reconnect_status_menu, menu);
-        RCMenu = menu;
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
-        //noinspection SwitchStatementWithTooFewBranches
-        switch (item.getItemId()) {
-            case R.id.exit_mnu:
-                mainapp.checkExit(this, true);
-                return true;
-            case R.id.logviewer_menu:
-                Intent logviewer = new Intent().setClass(this, LogViewerActivity.class);
-                startActivity(logviewer);
-                connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.exit_mnu) {
+            mainapp.checkExit(this, true);
+            return true;
+        } else if (item.getItemId() == R.id.logviewer_menu) {
+            Intent logviewer = new Intent().setClass(this, LogViewerActivity.class);
+            startActivity(logviewer);
+            connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 

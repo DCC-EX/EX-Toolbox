@@ -30,6 +30,7 @@ import android.content.res.Configuration;
 import android.gesture.GestureOverlayView;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -84,30 +85,30 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     private VelocityTracker mVelocityTracker;
 
     //**************************************
-    private String DCCEXcv = "";
-    private String DCCEXcvValue = "";
-    private EditText etDCCEXcv;
-    private EditText etDCCEXcvValue;
+    private String DccexCv = "";
+    private String DccexCvValue = "";
+    private EditText etDccexCv;
+    private EditText etDccexCvValue;
 
-    private String DCCEXaddress = "";
-    private EditText etDCCEXwriteAddressValue;
+    private String dccexAddress = "";
+    private EditText etDccexWriteAddressValue;
 
-    private String DCCEXsendCommandValue = "";
-    private EditText etDCCEXsendCommandValue;
+    private String DccexSendCommandValue = "";
+    private EditText etDccexSendCommandValue;
 
-    private LinearLayout DCCEXwriteInfoLayout;
-    private TextView DCCEXwriteInfoLabel;
-    private String DCCEXinfoStr = "";
+    private LinearLayout DccexWriteInfoLayout;
+    private TextView DccexWriteInfoLabel;
+    private String DccexInfoStr = "";
 
-    private TextView DCCEXresponsesLabel;
-    private TextView DCCEXsendsLabel;
-//    private String DCCEXresponsesStr = "";
-//    private String DCCEXsendsStr = "";
-    private ScrollView DCCEXresponsesScrollView;
-    private ScrollView DCCEXsendsScrollView;
+    private TextView DccexResponsesLabel;
+    private TextView DccexSendsLabel;
+//    private String dccexResponsesStr = "";
+//    private String dccexSendsStr = "";
+    private ScrollView DccexResponsesScrollView;
+    private ScrollView DccexSendsScrollView;
 
-//    ArrayList<String> DCCEXresponsesListHtml = new ArrayList<>();
-//    ArrayList<String> DCCEXsendsListHtml = new ArrayList<>();
+//    ArrayList<String> DccexResponsesListHtml = new ArrayList<>();
+//    ArrayList<String> dccexSendsListHtml = new ArrayList<>();
 
     private int dccCvsIndex = 0;
     String[] dccCvsEntryValuesArray;
@@ -121,8 +122,6 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     private int dccExActionTypeIndex = 0;
     String[] dccExActionTypeEntryValuesArray;
     String[] dccExActionTypeEntriesArray; // display version
-
-    private boolean DCCEXhideSends = false;
 
     private static final int PROGRAMMING_TRACK = 0;
     private static final int PROGRAMMING_ON_MAIN = 1;
@@ -142,8 +141,8 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     private LinearLayout dexcProgrammingCommonCvsLayout;
     private LinearLayout dexcProgrammingAddressLayout;
     private LinearLayout dexcProgrammingCvLayout;
-    private LinearLayout[] dexcDCCEXtracklayout = {null, null, null, null, null, null, null, null};
-    private LinearLayout dexcDCCEXtrackLinearLayout;
+    private LinearLayout[] dexcDccexTracklayout = {null, null, null, null, null, null, null, null};
+    private LinearLayout dexcDccexTrackLinearLayout;
     Spinner dccExCommonCvsSpinner;
     Spinner dccExCommonCommandsSpinner;
 
@@ -155,8 +154,8 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     String[] dccExTrackTypeEntryValuesArray;
     String[] dccExTrackTypeEntriesArray; // display version
 
-//    private int DCCEXpreviousCommandIndex = -1;
-//    ArrayList<String> DCCEXpreviousCommandList = new ArrayList<>();
+//    private int dccexPreviousCommandIndex = -1;
+//    ArrayList<String> dccexPreviousCommandList = new ArrayList<>();
 
     static final int WHICH_ADDRESS = 0;
     static final int WHICH_CV = 1;
@@ -169,8 +168,9 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     static final int TRACK_TYPE_DC_INDEX = 3;
     static final int TRACK_TYPE_DCX_INDEX = 4;
 
-    static final String[] TRACK_TYPES = {"NONE", "MAIN", "PROG", "DC", "DCX"};
-    static final boolean[] TRACK_TYPES_NEED_ID = {false, false, false, true, true};
+    static final String[] TRACK_TYPES = {"NONE", "MAIN", "PROG", "DC", "DCX", "AUTO", "EXT", "PROG"};
+    static final boolean[] TRACK_TYPES_NEED_ID = {false, false, false, true, true, false, false, false};
+//    static final boolean[] TRACK_TYPES_SELECTABLE = {true, true, true, true, true, true, false, false};
 
 
     String cv29SpeedSteps;
@@ -298,6 +298,10 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     @SuppressLint("HandlerLeak")
     class cv_programmer_handler extends Handler {
 
+        public cv_programmer_handler(Looper looper) {
+            super(looper);
+        }
+
         public void handleMessage(Message msg) {
             switch (msg.what) {
 
@@ -315,41 +319,38 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                     break;
                 }
                 case message_type.RECEIVED_TRACKS:
-                    refreshDCCEXtracksView();
+                    refreshDccexTracksView();
                     break;
 
                 case message_type.RECEIVED_DECODER_ADDRESS:
                     String response_str = msg.obj.toString();
                     if ( (response_str.length() > 0) && !(response_str.charAt(0)=='-') ) {  //refresh address
-                        DCCEXaddress = response_str;
-                        DCCEXinfoStr = getApplicationContext().getResources().getString(R.string.DCCEXSucceeded);
+                        dccexAddress = response_str;
+                        DccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexSucceeded);
                     } else {
-                        DCCEXinfoStr = getApplicationContext().getResources().getString(R.string.DCCEXFailed);
+                        DccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexFailed);
                     }
-                    refreshDCCEXview();
+                    refreshDccexView();
                     break;
                 case message_type.RECEIVED_CV:
                     String cvResponseStr = msg.obj.toString();
                     if (cvResponseStr.length() > 0) {
                         String[] cvArgs = cvResponseStr.split("(\\|)");
-                        if ( (cvArgs[0].equals(DCCEXcv)) && !(cvArgs[1].charAt(0)=='-') ) { // response matches what we got back
-                            DCCEXcvValue = cvArgs[1];
-                            DCCEXinfoStr = getApplicationContext().getResources().getString(R.string.DCCEXSucceeded);
-                            checkCv29(DCCEXcv, DCCEXcvValue);
+                        if ( (cvArgs[0].equals(DccexCv)) && !(cvArgs[1].charAt(0)=='-') ) { // response matches what we got back
+                            DccexCvValue = cvArgs[1];
+                            DccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexSucceeded);
+                            checkCv29(DccexCv, DccexCvValue);
                         } else {
                             resetTextField(WHICH_CV_VALUE);
-                            DCCEXinfoStr = getApplicationContext().getResources().getString(R.string.DCCEXFailed);
+                            DccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexFailed);
                         }
-                        refreshDCCEXview();
+                        refreshDccexView();
                     }
                     break;
                 case message_type.DCCEX_COMMAND_ECHO:  // informational response
-//                    refreshDCCEXview();
-                    refreshDCCEXcommandsView();
-                    break;
-                case message_type.DCCEX_RESPONSE:  // informational response
-//                    refreshDCCEXview();
-                    refreshDCCEXcommandsView();
+                case message_type.DCCEX_RESPONSE:
+//                    refreshDccexView();
+                    refreshDccexCommandsView();
                     break;
 
                 case message_type.WIT_CON_RETRY:
@@ -407,79 +408,79 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         setContentView(R.layout.cv_programmer);
 
         //put pointer to this activity's handler in main app's shared variable
-        mainapp.cv_programmer_msg_handler = new cv_programmer_handler();
+        mainapp.cv_programmer_msg_handler = new cv_programmer_handler(Looper.getMainLooper());
 
         mainapp.getCommonPreferences();
         mainapp.loadBackgroundImage(findViewById(R.id.cv_programmerBackgroundImgView));
 
-        readAddressButton = findViewById(R.id.dexc_DCCEXreadAddressButton);
+        readAddressButton = findViewById(R.id.ex_DccexReadAddressButton);
         read_address_button_listener read_address_click_listener = new read_address_button_listener();
         readAddressButton.setOnClickListener(read_address_click_listener);
 
-        writeAddressButton = findViewById(R.id.dexc_DCCEXwriteAddressButton);
+        writeAddressButton = findViewById(R.id.ex_DccexWriteAddressButton);
         write_address_button_listener write_address_click_listener = new write_address_button_listener();
         writeAddressButton.setOnClickListener(write_address_click_listener);
 
-        etDCCEXwriteAddressValue = findViewById(R.id.dexc_DCCEXwriteAddressValue);
-        etDCCEXwriteAddressValue.setText("");
-        etDCCEXwriteAddressValue.addTextChangedListener(new TextWatcher() {
+        etDccexWriteAddressValue = findViewById(R.id.ex_DccexWriteAddressValue);
+        etDccexWriteAddressValue.setText("");
+        etDccexWriteAddressValue.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) { readTextField(WHICH_ADDRESS); showHideButtons(); }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             public void onTextChanged(CharSequence s, int start, int before, int count) { }
         });
 
-        readCvButton = findViewById(R.id.dexc_DCCEXreadCvButton);
+        readCvButton = findViewById(R.id.ex_DccexReadCvButton);
         read_cv_button_listener readCvClickListener = new read_cv_button_listener();
         readCvButton.setOnClickListener(readCvClickListener);
 
-        writeCvButton = findViewById(R.id.dexc_DCCEXwriteCvButton);
+        writeCvButton = findViewById(R.id.ex_DccexWriteCvButton);
         write_cv_button_listener writeCvClickListener = new write_cv_button_listener();
         writeCvButton.setOnClickListener(writeCvClickListener);
 
-        etDCCEXcv = findViewById(R.id.dexc_DCCEXcv);
-        etDCCEXcv.setText("");
-        etDCCEXcv.addTextChangedListener(new TextWatcher() {
+        etDccexCv = findViewById(R.id.ex_DccexCv);
+        etDccexCv.setText("");
+        etDccexCv.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) { readTextField(WHICH_CV); showHideButtons(); }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             public void onTextChanged(CharSequence s, int start, int before, int count) { }
         });
 
-        etDCCEXcvValue = findViewById(R.id.dexc_DCCEXcvValue);
-        etDCCEXcvValue.setText("");
-        etDCCEXcvValue.addTextChangedListener(new TextWatcher() {
+        etDccexCvValue = findViewById(R.id.ex_DccexCvValue);
+        etDccexCvValue.setText("");
+        etDccexCvValue.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) { readTextField(WHICH_CV_VALUE); showHideButtons(); }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             public void onTextChanged(CharSequence s, int start, int before, int count) { }
         });
 
-        sendCommandButton = findViewById(R.id.dexc_DCCEXsendCommandButton);
+        sendCommandButton = findViewById(R.id.ex_DccexSendCommandButton);
         send_command_button_listener sendCommandClickListener = new send_command_button_listener();
         sendCommandButton.setOnClickListener(sendCommandClickListener);
 
-        etDCCEXsendCommandValue = findViewById(R.id.dexc_DCCEXsendCommandValue);
-        etDCCEXsendCommandValue.setInputType(TYPE_TEXT_FLAG_AUTO_CORRECT);
-        etDCCEXsendCommandValue.setText("");
-        etDCCEXsendCommandValue.addTextChangedListener(new TextWatcher() {
+        etDccexSendCommandValue = findViewById(R.id.ex_DccexSendCommandValue);
+        etDccexSendCommandValue.setInputType(TYPE_TEXT_FLAG_AUTO_CORRECT);
+        etDccexSendCommandValue.setText("");
+        etDccexSendCommandValue.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) { readTextField(WHICH_COMMAND); showHideButtons(); }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             public void onTextChanged(CharSequence s, int start, int before, int count) { }
         });
-        DCCEXwriteInfoLayout = findViewById(R.id.dexc_DCCEXwriteInfoLayout);
-        DCCEXwriteInfoLabel = findViewById(R.id.dexc_DCCEXwriteInfoLabel);
-        DCCEXwriteInfoLabel.setText("");
+        DccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
+        DccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
+        DccexWriteInfoLabel.setText("");
 
-        previousCommandButton = findViewById(R.id.dexc_DCCEXpreviousCommandButton);
+        previousCommandButton = findViewById(R.id.ex_DccexPreviousCommandButton);
         previous_command_button_listener previousCommandClickListener = new previous_command_button_listener();
         previousCommandButton.setOnClickListener(previousCommandClickListener);
 
-        nextCommandButton = findViewById(R.id.dexc_DCCEXnextCommandButton);
+        nextCommandButton = findViewById(R.id.ex_DccexNextCommandButton);
         next_command_button_listener nextCommandClickListener = new next_command_button_listener();
         nextCommandButton.setOnClickListener(nextCommandClickListener);
 
-        DCCEXresponsesLabel = findViewById(R.id.dexc_DCCEXresponsesLabel);
-        DCCEXresponsesLabel.setText("");
-        DCCEXsendsLabel = findViewById(R.id.dexc_DCCEXsendsLabel);
-        DCCEXsendsLabel.setText("");
+        DccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
+        DccexResponsesLabel.setText("");
+        DccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
+        DccexSendsLabel.setText("");
 
         dccCvsEntryValuesArray = this.getResources().getStringArray(R.array.dccCvsEntryValues);
 //        final List<String> dccCvsValuesList = new ArrayList<>(Arrays.asList(dccCvsEntryValuesArray));
@@ -487,7 +488,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 //        final List<String> dccCvsEntriesList = new ArrayList<>(Arrays.asList(dccCvsEntriesArray));
 
         dccCvsIndex=0;
-        dccExCommonCvsSpinner = findViewById(R.id.dexc_dcc_cv_list);
+        dccExCommonCvsSpinner = findViewById(R.id.ex_dcc_cv_list);
         ArrayAdapter<?> spinner_adapter = ArrayAdapter.createFromResource(this, R.array.dccCvsEntries, android.R.layout.simple_spinner_item);
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dccExCommonCvsSpinner.setAdapter(spinner_adapter);
@@ -501,14 +502,14 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         dccExCommonCommandsHasParametersArray = this.getResources().getIntArray(R.array.dccExCommonCommandsHasParameters);
 
         dccCmdIndex=0;
-        dccExCommonCommandsSpinner = findViewById(R.id.dexc_common_commands_list);
+        dccExCommonCommandsSpinner = findViewById(R.id.ex_common_commands_list);
         spinner_adapter = ArrayAdapter.createFromResource(this, R.array.dccExCommonCommandsEntries, android.R.layout.simple_spinner_item);
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dccExCommonCommandsSpinner.setAdapter(spinner_adapter);
         dccExCommonCommandsSpinner.setOnItemSelectedListener(new command_spinner_listener());
         dccExCommonCommandsSpinner.setSelection(dccCmdIndex);
 
-        if (mainapp.DCCEXversionValue <= mainapp.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) {  /// need to remove the track manager option
+        if (mainapp.DccexVersionValue <= threaded_application.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) {  /// need to remove the track manager option
             dccExActionTypeEntryValuesArray = new String [2];
             dccExActionTypeEntriesArray = new String [2];
             for (int i=0; i<2; i++) {
@@ -523,7 +524,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         final List<String> dccActionTypeEntriesList = new ArrayList<>(Arrays.asList(dccExActionTypeEntriesArray));
 
         dccExActionTypeIndex = PROGRAMMING_TRACK;
-        Spinner dcc_action_type_spinner = findViewById(R.id.dexc_action_type_list);
+        Spinner dcc_action_type_spinner = findViewById(R.id.ex_action_type_list);
 //        ArrayAdapter<?> action_type_spinner_adapter = ArrayAdapter.createFromResource(this, R.array.dccExActionTypeEntries, android.R.layout.simple_spinner_item);
         ArrayAdapter<?> action_type_spinner_adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dccExActionTypeEntriesArray);
         action_type_spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -531,64 +532,64 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         dcc_action_type_spinner.setOnItemSelectedListener(new action_type_spinner_listener());
         dcc_action_type_spinner.setSelection(dccExActionTypeIndex);
 
-        dexcProgrammingCommonCvsLayout = findViewById(R.id.dexc_programmingCommonCvsLayout);
-        dexcProgrammingAddressLayout = findViewById(R.id.dexc_programmingAddressLayout);
-        dexcProgrammingCvLayout = findViewById(R.id.dexc_programmingCvLayout);
-        dexcDCCEXtrackLinearLayout = findViewById(R.id.dexc_DCCEXtrackLinearLayout);
+        dexcProgrammingCommonCvsLayout = findViewById(R.id.ex_programmingCommonCvsLayout);
+        dexcProgrammingAddressLayout = findViewById(R.id.ex_programmingAddressLayout);
+        dexcProgrammingCvLayout = findViewById(R.id.ex_programmingCvLayout);
+        dexcDccexTrackLinearLayout = findViewById(R.id.ex_DccexTrackLinearLayout);
 
         dccExTrackTypeEntryValuesArray = this.getResources().getStringArray(R.array.dccExTrackTypeEntryValues);
 //        final List<String> dccTrackTypeValuesList = new ArrayList<>(Arrays.asList(dccExTrackTypeEntryValuesArray));
         dccExTrackTypeEntriesArray = this.getResources().getStringArray(R.array.dccExTrackTypeEntries); // display version
         float vn = 4;
         try {
-            vn = Float.valueOf(mainapp.DCCEXversion);
-        } catch (Exception e) { } // invalid version
+            vn = Float.valueOf(mainapp.DccexVersion);
+        } catch (Exception ignored) { } // invalid version
         if (vn <= 04.002068) {  // need to change the NONE to OFF in track manager
             dccExTrackTypeEntriesArray[0] = "OFF";
         }//        final List<String> dccTrackTypeEntriesList = new ArrayList<>(Arrays.asList(dccExTrackTypeEntriesArray));
 
-        for (int i=0; i<mainapp.DCCEX_MAX_TRACKS; i++) {
+        for (int i = 0; i< threaded_application.DCCEX_MAX_TRACKS; i++) {
             switch (i) {
                 default:
                 case 0:
-                    dccExTrackTypeLayout[0] = findViewById(R.id.dexc_DCCEXtrack0layout);
-                    dccExTrackTypeSpinner[0] = findViewById(R.id.dexc_track_type_0_list);
-                    dccExTrackTypeIdEditText[0] = findViewById(R.id.dexc_track_0_value);
+                    dccExTrackTypeLayout[0] = findViewById(R.id.ex_DccexTrack0layout);
+                    dccExTrackTypeSpinner[0] = findViewById(R.id.ex_track_type_0_list);
+                    dccExTrackTypeIdEditText[0] = findViewById(R.id.ex_track_0_value);
                     break;
                 case 1:
-                    dccExTrackTypeLayout[1] = findViewById(R.id.dexc_DCCEXtrack1layout);
-                    dccExTrackTypeSpinner[1] = findViewById(R.id.dexc_track_type_1_list);
-                    dccExTrackTypeIdEditText[1] = findViewById(R.id.dexc_track_1_value);
+                    dccExTrackTypeLayout[1] = findViewById(R.id.ex_DccexTrack1layout);
+                    dccExTrackTypeSpinner[1] = findViewById(R.id.ex_track_type_1_list);
+                    dccExTrackTypeIdEditText[1] = findViewById(R.id.ex_track_1_value);
                     break;
                 case 2:
-                    dccExTrackTypeLayout[2] = findViewById(R.id.dexc_DCCEXtrack2layout);
-                    dccExTrackTypeSpinner[2] = findViewById(R.id.dexc_track_type_2_list);
-                    dccExTrackTypeIdEditText[2] = findViewById(R.id.dexc_track_2_value);
+                    dccExTrackTypeLayout[2] = findViewById(R.id.ex_DccexTrack2layout);
+                    dccExTrackTypeSpinner[2] = findViewById(R.id.ex_track_type_2_list);
+                    dccExTrackTypeIdEditText[2] = findViewById(R.id.ex_track_2_value);
                     break;
                 case 3:
-                    dccExTrackTypeLayout[3] = findViewById(R.id.dexc_DCCEXtrack3layout);
-                    dccExTrackTypeSpinner[3] = findViewById(R.id.dexc_track_type_3_list);
-                    dccExTrackTypeIdEditText[3] = findViewById(R.id.dexc_track_3_value);
+                    dccExTrackTypeLayout[3] = findViewById(R.id.ex_DccexTrack3layout);
+                    dccExTrackTypeSpinner[3] = findViewById(R.id.ex_track_type_3_list);
+                    dccExTrackTypeIdEditText[3] = findViewById(R.id.ex_track_3_value);
                     break;
                 case 4:
-                    dccExTrackTypeLayout[4] = findViewById(R.id.dexc_DCCEXtrack4layout);
-                    dccExTrackTypeSpinner[4] = findViewById(R.id.dexc_track_type_4_list);
-                    dccExTrackTypeIdEditText[4] = findViewById(R.id.dexc_track_4_value);
+                    dccExTrackTypeLayout[4] = findViewById(R.id.ex_DccexTrack4layout);
+                    dccExTrackTypeSpinner[4] = findViewById(R.id.ex_track_type_4_list);
+                    dccExTrackTypeIdEditText[4] = findViewById(R.id.ex_track_4_value);
                     break;
                 case 5:
-                    dccExTrackTypeLayout[5] = findViewById(R.id.dexc_DCCEXtrack5layout);
-                    dccExTrackTypeSpinner[5] = findViewById(R.id.dexc_track_type_5_list);
-                    dccExTrackTypeIdEditText[5] = findViewById(R.id.dexc_track_5_value);
+                    dccExTrackTypeLayout[5] = findViewById(R.id.ex_DccexTrack5layout);
+                    dccExTrackTypeSpinner[5] = findViewById(R.id.ex_track_type_5_list);
+                    dccExTrackTypeIdEditText[5] = findViewById(R.id.ex_track_5_value);
                     break;
                 case 6:
-                    dccExTrackTypeLayout[6] = findViewById(R.id.dexc_DCCEXtrack6layout);
-                    dccExTrackTypeSpinner[6] = findViewById(R.id.dexc_track_type_6_list);
-                    dccExTrackTypeIdEditText[6] = findViewById(R.id.dexc_track_6_value);
+                    dccExTrackTypeLayout[6] = findViewById(R.id.ex_DccexTrack6layout);
+                    dccExTrackTypeSpinner[6] = findViewById(R.id.ex_track_type_6_list);
+                    dccExTrackTypeIdEditText[6] = findViewById(R.id.ex_track_6_value);
                     break;
                 case 7:
-                    dccExTrackTypeLayout[7] = findViewById(R.id.dexc_DCCEXtrack7layout);
-                    dccExTrackTypeSpinner[7] = findViewById(R.id.dexc_track_type_7_list);
-                    dccExTrackTypeIdEditText[7] = findViewById(R.id.dexc_track_7_value);
+                    dccExTrackTypeLayout[7] = findViewById(R.id.ex_DccexTrack7layout);
+                    dccExTrackTypeSpinner[7] = findViewById(R.id.ex_track_type_7_list);
+                    dccExTrackTypeIdEditText[7] = findViewById(R.id.ex_track_7_value);
                     break;
             }
             ArrayAdapter<?> track_type_spinner_adapter = ArrayAdapter.createFromResource(this, R.array.dccExTrackTypeEntries, android.R.layout.simple_spinner_item);
@@ -597,18 +598,18 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
             dccExTrackTypeSpinner[i].setOnItemSelectedListener(new track_type_spinner_listener(dccExTrackTypeSpinner[i], i));
             dccExTrackTypeSpinner[i].setSelection(dccExTrackTypeIndex[i]);
 
-            writeTracksButton = findViewById(R.id.dexc_DCCEXwriteTracksButton);
+            writeTracksButton = findViewById(R.id.ex_DccexWriteTracksButton);
             write_tracks_button_listener writeTracksClickListener = new write_tracks_button_listener();
             writeTracksButton.setOnClickListener(writeTracksClickListener);
 
-            DCCEXresponsesScrollView = findViewById(R.id.dexc_DCCEXresponsesScrollView);
-            DCCEXsendsScrollView = findViewById(R.id.dexc_DCCEXsendsScrollView);
+            DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
+            DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
 
-            clearCommandsButton = findViewById(R.id.dexc_DCCEXclearCommandsButton);
+            clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
             clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
             clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
-//            hideSendsButton = findViewById(R.id.dexc_DCCEXhideSendsButton);
+//            hideSendsButton = findViewById(R.id.ex_dccexHideSendsButton);
 //            hide_sends_button_listener hideSendsClickListener = new hide_sends_button_listener();
 //            hideSendsButton.setOnClickListener(hideSendsClickListener);
 
@@ -632,9 +633,9 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         mainapp.getCommonPreferences();
 
         setActivityTitle();
-        mainapp.DCCEXscreenIsOpen = true;
-        refreshDCCEXview();
-        refreshDCCEXtracksView();
+        mainapp.dccexScreenIsOpen = true;
+        refreshDccexView();
+        refreshDccexTracksView();
 
         if (mainapp.isForcingFinish()) {    //expedite
             this.finish();
@@ -666,7 +667,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         Log.d("EX_Toolbox", "cv_programmer.onStart() called");
         // put pointer to this activity's handler in main app's shared variable
         if (mainapp.cv_programmer_msg_handler == null)
-            mainapp.cv_programmer_msg_handler = new cv_programmer_handler();
+            mainapp.cv_programmer_msg_handler = new cv_programmer_handler(Looper.getMainLooper());
     }
 
     @Override
@@ -687,7 +688,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         Log.d("EX_Toolbox", "cv_programmer.onDestroy() called");
 
         mainapp.hideSoftKeyboard(this.getCurrentFocus());
-        mainapp.DCCEXscreenIsOpen = false;
+        mainapp.dccexScreenIsOpen = false;
 
         if (!isRestarting) {
             removeHandlers();
@@ -747,6 +748,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         mainapp.setTrackmanagerMenuOption(menu);
         mainapp.setCurrentsMenuOption(menu);
 
+        mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
         mainapp.setPowerStateButton(menu);
@@ -761,59 +763,58 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
         Intent in;
-        switch (item.getItemId()) {
-            case R.id.servos_mnu:
-                navigateAway(true, null);
-                in = new Intent().setClass(this, servos.class);
-                startACoreActivity(this, in, false, 0);
-                return true;
-            case R.id.track_manager_mnu:
+        if ( (item.getItemId() == R.id.servos_mnu) || (item.getItemId() == R.id.toolbar_button_servos) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, servos.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
+        } else if ( (item.getItemId() == R.id.track_manager_mnu) || (item.getItemId() == R.id.toolbar_button_track_manager) ) {
                 navigateAway(true, null);
                 in = new Intent().setClass(this, track_manager.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
-            case R.id.currents_mnu:
+        } else if ( (item.getItemId() == R.id.currents_mnu) || (item.getItemId() == R.id.toolbar_button_currents) ) {
                 navigateAway(true, null);
                 in = new Intent().setClass(this, currents.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
-            case R.id.sensors_mnu:
+        } else if ( (item.getItemId() == R.id.sensors_mnu) || (item.getItemId() == R.id.toolbar_button_sensors) ) {
                 navigateAway(true, null);
                 in = new Intent().setClass(this, sensors.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
-            case R.id.locos_mnu:_mnu:
+        } else if ( (item.getItemId() == R.id.locos_mnu) || (item.getItemId() == R.id.toolbar_button_locos) ) {
             navigateAway(true, null);
                 in = new Intent().setClass(this, locos.class);
                 startACoreActivity(this, in, false, 0);
                 return true;
 
-            case R.id.exit_mnu:
+        } else if (item.getItemId() == R.id.exit_mnu) {
                 mainapp.checkExit(this);
                 return true;
-            case R.id.power_control_mnu:
+        } else if (item.getItemId() == R.id.power_control_mnu) {
                 navigateAway(false, power_control.class);
                 return true;
-            case R.id.settings_mnu:
+        } else if (item.getItemId() == R.id.settings_mnu) {
                 in = new Intent().setClass(this, SettingsActivity.class);
                 startActivityForResult(in, 0);
                 connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
                 return true;
-            case R.id.logviewer_menu:
+        } else if (item.getItemId() == R.id.logviewer_menu) {
                 navigateAway(false, LogViewerActivity.class);
                 return true;
-            case R.id.about_mnu:
+        } else if (item.getItemId() == R.id.about_mnu) {
                 navigateAway(false, about_page.class);
                 return true;
-            case R.id.power_layout_button:
-                if (!mainapp.isPowerControlAllowed()) {
-                    mainapp.powerControlNotAllowedDialog(tMenu);
-                } else {
-                    mainapp.powerStateMenuButton();
-                }
-                mainapp.buttonVibration();
-                return true;
-            default:
+        } else if (item.getItemId() == R.id.power_layout_button) {
+            if (!mainapp.isPowerControlAllowed()) {
+                mainapp.powerControlNotAllowedDialog(tMenu);
+            } else {
+                mainapp.powerStateMenuButton();
+            }
+            mainapp.buttonVibration();
+            return true;
+        } else {
                 return super.onOptionsItemSelected(item);
         }
     }
@@ -900,11 +901,11 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     public class read_address_button_listener implements View.OnClickListener {
 
         public void onClick(View v) {
-            DCCEXinfoStr = "";
+            DccexInfoStr = "";
             resetTextField(WHICH_ADDRESS);
             mainapp.buttonVibration();
             mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_DECODER_ADDRESS, "*", -1);
-            refreshDCCEXview();
+            refreshDccexView();
             mainapp.hideSoftKeyboard(v);
 
         }
@@ -912,12 +913,12 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 
     public class write_address_button_listener implements View.OnClickListener {
         public void onClick(View v) {
-            DCCEXinfoStr = "";
-            String addrStr = etDCCEXwriteAddressValue.getText().toString();
+            DccexInfoStr = "";
+            String addrStr = etDccexWriteAddressValue.getText().toString();
             try {
                 Integer addr = Integer.decode(addrStr);
                 if ((addr > 2) && (addr <= 10239)) {
-                    DCCEXaddress = addr.toString();
+                    dccexAddress = addr.toString();
                     mainapp.buttonVibration();
                     mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WRITE_DECODER_ADDRESS, "", addr);
                 } else {
@@ -926,7 +927,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
             } catch (Exception e) {
                 resetTextField(WHICH_ADDRESS);
             }
-            refreshDCCEXview();
+            refreshDccexView();
             mainapp.hideSoftKeyboard(v);
 
         }
@@ -934,38 +935,38 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 
     public class read_cv_button_listener implements View.OnClickListener {
         public void onClick(View v) {
-            DCCEXinfoStr = "";
+            DccexInfoStr = "";
             resetTextField(WHICH_CV_VALUE);
-            String cvStr = etDCCEXcv.getText().toString();
+            String cvStr = etDccexCv.getText().toString();
             try {
                 int cv = Integer.decode(cvStr);
                 if (cv > 0) {
-                    DCCEXcv = Integer.toString(cv);
+                    DccexCv = Integer.toString(cv);
                     mainapp.buttonVibration();
                     mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_CV, "", cv);
-                    refreshDCCEXview();
+                    refreshDccexView();
                 }
             } catch (Exception e) {
                 resetTextField(WHICH_CV);
             }
-            refreshDCCEXview();
+            refreshDccexView();
             mainapp.hideSoftKeyboard(v);
         }
     }
 
     public class write_cv_button_listener implements View.OnClickListener {
         public void onClick(View v) {
-            DCCEXinfoStr = "";
-            String cvStr = etDCCEXcv.getText().toString();
-            String cvValueStr = etDCCEXcvValue.getText().toString();
-            String addrStr = etDCCEXwriteAddressValue.getText().toString();
+            DccexInfoStr = "";
+            String cvStr = etDccexCv.getText().toString();
+            String cvValueStr = etDccexCvValue.getText().toString();
+            String addrStr = etDccexWriteAddressValue.getText().toString();
             if (dccExActionTypeIndex == PROGRAMMING_TRACK) {
                 try {
                     Integer cv = Integer.decode(cvStr);
                     int cvValue = Integer.decode(cvValueStr);
                     if (cv > 0) {
-                        DCCEXcv = cv.toString();
-                        DCCEXcvValue = Integer.toString(cvValue);
+                        DccexCv = cv.toString();
+                        DccexCvValue = Integer.toString(cvValue);
                         mainapp.buttonVibration();
                         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WRITE_CV, cvValueStr, cv);
                     } else {
@@ -980,11 +981,11 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                     int cvValue = Integer.decode(cvValueStr);
                     Integer addr = Integer.decode(addrStr);
                     if ((addr > 2) && (addr <= 9999) && (cv > 0) && (cvValue > 0)) {
-                        DCCEXaddress = addr.toString();
-                        DCCEXcv = cv.toString();
-                        DCCEXcvValue = Integer.toString(cvValue);
+                        dccexAddress = addr.toString();
+                        DccexCv = cv.toString();
+                        DccexCvValue = Integer.toString(cvValue);
                         mainapp.buttonVibration();
-                        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WRITE_POM_CV, DCCEXcv + " " + DCCEXcvValue, addr);
+                        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WRITE_POM_CV, DccexCv + " " + DccexCvValue, addr);
                     } else {
                         resetTextField(WHICH_ADDRESS);
                     }
@@ -992,15 +993,15 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                     resetTextField(WHICH_ADDRESS);
                 }
             }
-            refreshDCCEXview();
+            refreshDccexView();
             mainapp.hideSoftKeyboard(v);
         }
     }
 
     public class send_command_button_listener implements View.OnClickListener {
         public void onClick(View v) {
-            DCCEXinfoStr = "";
-            String cmdStr = etDCCEXsendCommandValue.getText().toString();
+            DccexInfoStr = "";
+            String cmdStr = etDccexSendCommandValue.getText().toString();
             if ((cmdStr.length() > 0) && (cmdStr.charAt(0) != '<')) {
                 mainapp.buttonVibration();
                 mainapp.sendMsg(mainapp.comm_msg_handler, message_type.DCCEX_SEND_COMMAND, "<" + cmdStr + ">");
@@ -1008,52 +1009,52 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                 if ((cmdStr.charAt(0) == '=') && (cmdStr.length() > 1)) // we don't get a response from a tracks command, so request an update
                     mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_TRACKS, "");
 
-                if ((mainapp.DCCEXpreviousCommandList.size() <= 0) || !(mainapp.DCCEXpreviousCommandList.get(mainapp.DCCEXpreviousCommandList.size() - 1).equals(cmdStr))) {
-                    mainapp.DCCEXpreviousCommandList.add(cmdStr);
-                    if (mainapp.DCCEXpreviousCommandList.size() > 20) {
-                        mainapp.DCCEXpreviousCommandList.remove(0);
+                if ((mainapp.dccexPreviousCommandList.size() == 0) || !(mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandList.size() - 1).equals(cmdStr))) {
+                    mainapp.dccexPreviousCommandList.add(cmdStr);
+                    if (mainapp.dccexPreviousCommandList.size() > 20) {
+                        mainapp.dccexPreviousCommandList.remove(0);
                     }
                 }
-                mainapp.DCCEXpreviousCommandIndex = mainapp.DCCEXpreviousCommandList.size();
+                mainapp.dccexPreviousCommandIndex = mainapp.dccexPreviousCommandList.size();
             }
             resetTextField(WHICH_COMMAND);
-            refreshDCCEXview();
+            refreshDccexView();
             mainapp.hideSoftKeyboard(v);
         }
     }
 
     public class previous_command_button_listener implements View.OnClickListener {
         public void onClick(View v) {
-            DCCEXinfoStr = "";
-            String cmdStr = etDCCEXsendCommandValue.getText().toString();
-            if (mainapp.DCCEXpreviousCommandIndex > 0) {
-                DCCEXsendCommandValue = mainapp.DCCEXpreviousCommandList.get(mainapp.DCCEXpreviousCommandIndex - 1);
-                mainapp.DCCEXpreviousCommandIndex--;
+            DccexInfoStr = "";
+            String cmdStr = etDccexSendCommandValue.getText().toString();
+            if (mainapp.dccexPreviousCommandIndex > 0) {
+                DccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandIndex - 1);
+                mainapp.dccexPreviousCommandIndex--;
             } else {
-                DCCEXsendCommandValue = mainapp.DCCEXpreviousCommandList.get(mainapp.DCCEXpreviousCommandList.size() - 1);
-                mainapp.DCCEXpreviousCommandIndex = mainapp.DCCEXpreviousCommandList.size() - 1;
+                DccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandList.size() - 1);
+                mainapp.dccexPreviousCommandIndex = mainapp.dccexPreviousCommandList.size() - 1;
             }
-            etDCCEXsendCommandValue.setText(DCCEXsendCommandValue);
+            etDccexSendCommandValue.setText(DccexSendCommandValue);
 
-            refreshDCCEXview();
+            refreshDccexView();
             mainapp.hideSoftKeyboard(v);
         }
     }
 
     public class next_command_button_listener implements View.OnClickListener {
         public void onClick(View v) {
-            DCCEXinfoStr = "";
-            String cmdStr = etDCCEXsendCommandValue.getText().toString();
-            if (mainapp.DCCEXpreviousCommandIndex < mainapp.DCCEXpreviousCommandList.size() - 1) {
-                DCCEXsendCommandValue = mainapp.DCCEXpreviousCommandList.get(mainapp.DCCEXpreviousCommandIndex + 1);
-                mainapp.DCCEXpreviousCommandIndex++;
+            DccexInfoStr = "";
+            String cmdStr = etDccexSendCommandValue.getText().toString();
+            if (mainapp.dccexPreviousCommandIndex < mainapp.dccexPreviousCommandList.size() - 1) {
+                DccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandIndex + 1);
+                mainapp.dccexPreviousCommandIndex++;
             } else {
-                DCCEXsendCommandValue = mainapp.DCCEXpreviousCommandList.get(0);
-                mainapp.DCCEXpreviousCommandIndex = 0;
+                DccexSendCommandValue = mainapp.dccexPreviousCommandList.get(0);
+                mainapp.dccexPreviousCommandIndex = 0;
             }
-            etDCCEXsendCommandValue.setText(DCCEXsendCommandValue);
+            etDccexSendCommandValue.setText(DccexSendCommandValue);
 
-            refreshDCCEXview();
+            refreshDccexView();
             mainapp.hideSoftKeyboard(v);
         }
     }
@@ -1066,22 +1067,22 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
             char trackLetter;
 
             for (int i = 0; i < threaded_application.DCCEX_MAX_TRACKS; i++) {
-                if (mainapp.DCCEXtrackAvailable[i]) {
+                if (mainapp.dccexTrackAvailable[i]) {
                     trackLetter = (char) ('A' + i);
                     typeIndex = dccExTrackTypeSpinner[i].getSelectedItemPosition();
                     type = TRACK_TYPES[typeIndex];
-                    mainapp.DCCEXtrackType[i] = typeIndex;
+                    mainapp.dccexTrackType[i] = typeIndex;
 
                     if (!TRACK_TYPES_NEED_ID[typeIndex]) {
                         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WRITE_TRACK, trackLetter + " " + type, 0);
                     } else {
                         try {
                             id = Integer.parseInt(dccExTrackTypeIdEditText[i].getText().toString());
-                            mainapp.DCCEXtrackId[i] = id.toString();
-                            if (mainapp.DCCEXtrackType[i] != TRACK_TYPE_OFF_NONE_INDEX) {
+                            mainapp.dccexTrackId[i] = id.toString();
+                            if (mainapp.dccexTrackType[i] != TRACK_TYPE_OFF_NONE_INDEX) {
                                 mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WRITE_TRACK, trackLetter + " " + type, id);
                             }
-                        } catch (Exception e) {
+                        } catch (Exception ignored) {
                         }
                     }
                 }
@@ -1093,11 +1094,11 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 
     public class clear_commands_button_listener implements View.OnClickListener {
         public void onClick(View v) {
-            mainapp.DCCEXresponsesListHtml.clear();
-            mainapp.DCCEXsendsListHtml.clear();
-            mainapp.DCCEXresponsesStr = "";
-            mainapp.DCCEXsendsStr = "";
-            refreshDCCEXview();
+            mainapp.DccexResponsesListHtml.clear();
+            mainapp.dccexSendsListHtml.clear();
+            mainapp.dccexResponsesStr = "";
+            mainapp.dccexSendsStr = "";
+            refreshDccexView();
         }
     }
 
@@ -1111,36 +1112,36 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     private void resetTextField(int which) {
         switch (which) {
             case WHICH_ADDRESS:
-                DCCEXaddress = "";
-                etDCCEXwriteAddressValue.setText("");
+                dccexAddress = "";
+                etDccexWriteAddressValue.setText("");
                 break;
             case WHICH_CV:
-                DCCEXcv = "";
-                etDCCEXcv.setText("");
+                DccexCv = "";
+                etDccexCv.setText("");
                 break;
             case WHICH_CV_VALUE:
-                DCCEXcvValue = "";
-                etDCCEXcvValue.setText("");
+                DccexCvValue = "";
+                etDccexCvValue.setText("");
                 break;
             case WHICH_COMMAND:
-                DCCEXsendCommandValue = "";
-                etDCCEXsendCommandValue.setText("");
+                DccexSendCommandValue = "";
+                etDccexSendCommandValue.setText("");
         }
     }
 
     private void readTextField(int which) {
         switch (which) {
             case WHICH_ADDRESS:
-                DCCEXaddress = etDCCEXwriteAddressValue.getText().toString();
+                dccexAddress = etDccexWriteAddressValue.getText().toString();
                 break;
             case WHICH_CV:
-                DCCEXcv = etDCCEXcv.getText().toString();
+                DccexCv = etDccexCv.getText().toString();
                 break;
             case WHICH_CV_VALUE:
-                DCCEXcvValue = etDCCEXcvValue.getText().toString();
+                DccexCvValue = etDccexCvValue.getText().toString();
                 break;
             case WHICH_COMMAND:
-                DCCEXsendCommandValue = etDCCEXsendCommandValue.getText().toString();
+                DccexSendCommandValue = etDccexSendCommandValue.getText().toString();
         }
     }
 
@@ -1151,16 +1152,16 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 
             dexcProgrammingAddressLayout.setVisibility(View.VISIBLE);
             dexcProgrammingCvLayout.setVisibility(View.VISIBLE);
-            dexcDCCEXtrackLinearLayout.setVisibility(View.GONE);
-            DCCEXwriteInfoLayout.setVisibility(View.VISIBLE);
+            dexcDccexTrackLinearLayout.setVisibility(View.GONE);
+            DccexWriteInfoLayout.setVisibility(View.VISIBLE);
 
             sendCommandButton.setEnabled(false);
-            writeAddressButton.setEnabled(DCCEXaddress.length() != 0);
-            readCvButton.setEnabled(DCCEXcv.length() != 0);
+            writeAddressButton.setEnabled(dccexAddress.length() != 0);
+            readCvButton.setEnabled(DccexCv.length() != 0);
             if (dccExActionTypeIndex == PROGRAMMING_TRACK) {
-                writeCvButton.setEnabled(((DCCEXcv.length() != 0) && (DCCEXcvValue.length() != 0)));
+                writeCvButton.setEnabled(((DccexCv.length() != 0) && (DccexCvValue.length() != 0)));
             } else {
-                writeCvButton.setEnabled(((DCCEXcv.length() != 0) && (DCCEXcvValue.length() != 0) && (DCCEXaddress.length() != 0)));
+                writeCvButton.setEnabled(((DccexCv.length() != 0) && (DccexCvValue.length() != 0) && (dccexAddress.length() != 0)));
             }
         } else {
             dexcProgrammingCommonCvsLayout.setVisibility(View.GONE);
@@ -1168,25 +1169,25 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 
             dexcProgrammingAddressLayout.setVisibility(View.GONE);
             dexcProgrammingCvLayout.setVisibility(View.GONE);
-            DCCEXwriteInfoLayout.setVisibility(View.GONE);
-            dexcDCCEXtrackLinearLayout.setVisibility(View.VISIBLE);
+            DccexWriteInfoLayout.setVisibility(View.GONE);
+            dexcDccexTrackLinearLayout.setVisibility(View.VISIBLE);
 
             for (int i = 0; i < threaded_application.DCCEX_MAX_TRACKS; i++) {
                 dccExTrackTypeIdEditText[i].setVisibility(TRACK_TYPES_NEED_ID[dccExTrackTypeIndex[i]] ? View.VISIBLE : View.GONE);
             }
         }
-        sendCommandButton.setEnabled((DCCEXsendCommandValue.length() != 0) && (DCCEXsendCommandValue.charAt(0) != '<'));
-        previousCommandButton.setEnabled((mainapp.DCCEXpreviousCommandIndex >= 0));
-        nextCommandButton.setEnabled((mainapp.DCCEXpreviousCommandIndex >= 0));
+        sendCommandButton.setEnabled((DccexSendCommandValue.length() != 0) && (DccexSendCommandValue.charAt(0) != '<'));
+        previousCommandButton.setEnabled((mainapp.dccexPreviousCommandIndex >= 0));
+        nextCommandButton.setEnabled((mainapp.dccexPreviousCommandIndex >= 0));
     }
 
-    public void refreshDCCEXview() {
+    public void refreshDccexView() {
         try {
-            etDCCEXwriteAddressValue.setText(DCCEXaddress);
-            DCCEXwriteInfoLabel.setText(DCCEXinfoStr);
-            etDCCEXcv.setText(DCCEXcv);
-            etDCCEXcvValue.setText(DCCEXcvValue);
-    //        etDCCEXsendCommandValue.setText(DCCEXsendCommandValue);
+            etDccexWriteAddressValue.setText(dccexAddress);
+            DccexWriteInfoLabel.setText(DccexInfoStr);
+            etDccexCv.setText(DccexCv);
+            etDccexCvValue.setText(DccexCvValue);
+    //        etDccexSendCommandValue.setText(DccexSendCommandValue);
 
             if (dccExActionTypeIndex == PROGRAMMING_TRACK) {
                 readAddressButton.setVisibility(View.VISIBLE);
@@ -1198,26 +1199,26 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                 readCvButton.setVisibility(View.GONE);
             }
 
-            refreshDCCEXcommandsView();
+            refreshDccexCommandsView();
 
         } catch (Exception e) {
-            Log.e("EX_Toolbox", "refreshDCCEXview: object not available on resume, yet");
+            Log.e("EX_Toolbox", "refreshDccexView: object not available on resume, yet");
         }
 
         showHideButtons();
     }
 
-    public void refreshDCCEXcommandsView() {
-        DCCEXresponsesLabel.setText(Html.fromHtml(mainapp.DCCEXresponsesStr));
-        DCCEXsendsLabel.setText(Html.fromHtml(mainapp.DCCEXsendsStr));
+    public void refreshDccexCommandsView() {
+        DccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
+        DccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
     }
 
-    public void refreshDCCEXtracksView() {
+    public void refreshDccexTracksView() {
 
         for (int i = 0; i< threaded_application.DCCEX_MAX_TRACKS; i++) {
-            dccExTrackTypeSpinner[i].setSelection(mainapp.DCCEXtrackType[i]);
-            dccExTrackTypeIdEditText[i].setText(mainapp.DCCEXtrackId[i]);
-            dccExTrackTypeLayout[i].setVisibility(mainapp.DCCEXtrackAvailable[i] ? View.VISIBLE : View.GONE);
+            dccExTrackTypeSpinner[i].setSelection(mainapp.dccexTrackType[i]);
+            dccExTrackTypeIdEditText[i].setText(mainapp.dccexTrackId[i]);
+            dccExTrackTypeLayout[i].setVisibility(mainapp.dccexTrackAvailable[i] ? View.VISIBLE : View.GONE);
         }
         showHideButtons();
 
@@ -1231,21 +1232,21 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 
             dccCvsIndex = dccExCommonCvsSpinner.getSelectedItemPosition();
             if (dccCvsIndex > 0) {
-                DCCEXcv = dccCvsEntryValuesArray[dccCvsIndex];
+                DccexCv = dccCvsEntryValuesArray[dccCvsIndex];
                 resetTextField(WHICH_CV_VALUE);
-                etDCCEXcvValue.requestFocus();
+                etDccexCvValue.requestFocus();
             }
             dccCvsIndex = 0;
             dccExCommonCvsSpinner.setSelection(dccCvsIndex);
-            DCCEXinfoStr = "";
+            DccexInfoStr = "";
 
             InputMethodManager imm =
                     (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             if ((imm != null) && (view != null)) {
-                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); // force the softkeyboard to close
+                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); // force the soft keyboard to close
             }
 
-            refreshDCCEXview();
+            refreshDccexView();
         }
 
         @Override
@@ -1262,24 +1263,24 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 
             dccCmdIndex = dccExCommonCommandsSpinner.getSelectedItemPosition();
             if (dccCmdIndex > 0) {
-                DCCEXsendCommandValue = dccExCommonCommandsEntryValuesArray[dccCmdIndex];
+                DccexSendCommandValue = dccExCommonCommandsEntryValuesArray[dccCmdIndex];
                 if (dccExCommonCommandsHasParametersArray[dccCmdIndex] >0)
-                    DCCEXsendCommandValue = DCCEXsendCommandValue + " ";
-                etDCCEXsendCommandValue.setText(DCCEXsendCommandValue);
-                etDCCEXsendCommandValue.requestFocus();
-                etDCCEXsendCommandValue.setSelection(DCCEXsendCommandValue.length());
+                    DccexSendCommandValue = DccexSendCommandValue + " ";
+                etDccexSendCommandValue.setText(DccexSendCommandValue);
+                etDccexSendCommandValue.requestFocus();
+                etDccexSendCommandValue.setSelection(DccexSendCommandValue.length());
             }
             dccCmdIndex = 0;
             dccExCommonCommandsSpinner.setSelection(dccCmdIndex);
-            DCCEXinfoStr = "";
+            DccexInfoStr = "";
 
             InputMethodManager imm =
                     (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             if ((imm != null) && (view != null)) {
-                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); // force the softkeyboard to close
+                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); // force the soft keyboard to close
             }
 
-            refreshDCCEXview();
+            refreshDccexView();
         }
 
         @Override
@@ -1294,23 +1295,23 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-            Spinner spinner = findViewById(R.id.dexc_action_type_list);
+            Spinner spinner = findViewById(R.id.ex_action_type_list);
             dccExActionTypeIndex = spinner.getSelectedItemPosition();
             resetTextField(WHICH_CV);
             resetTextField(WHICH_CV_VALUE);
-            DCCEXinfoStr = "";
+            DccexInfoStr = "";
 
             InputMethodManager imm =
                     (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             if ((imm != null) && (view != null)) {
-                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); // force the softkeyboard to close
+                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); // force the soft keyboard to close
             }
 
             dccCvsIndex = 0;
             dccExCommonCvsSpinner.setSelection(dccCvsIndex);
 
-            refreshDCCEXview();
-            refreshDCCEXtracksView();
+            refreshDccexView();
+            refreshDccexTracksView();
         }
 
         @Override
@@ -1343,10 +1344,10 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
             InputMethodManager imm =
                     (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             if ((imm != null) && (view != null)) {
-                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); // force the softkeyboard to close
+                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); // force the soft keyboard to close
             }
 
-            refreshDCCEXview();
+            refreshDccexView();
         }
 
         @Override
@@ -1397,15 +1398,15 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                 }
                 rslt = rslt +  cv29AddressSize;
 
-                mainapp.DCCEXresponsesStr = "<p>" + rslt + "</p>" + mainapp.DCCEXresponsesStr;
+                mainapp.dccexResponsesStr = "<p>" + rslt + "</p>" + mainapp.dccexResponsesStr;
 
-                mainapp.DCCEXresponsesStr = "<p>"
+                mainapp.dccexResponsesStr = "<p>"
                         + String.format(getApplicationContext().getResources().getString(R.string.cv29SpeedToggleDirection),
                                         mainapp.toggleBit(cvValue,1) )
-                        + "</p>" + mainapp.DCCEXresponsesStr;
+                        + "</p>" + mainapp.dccexResponsesStr;
 
             } catch (Exception e) {
-                Log.e("EX_Toolbox", "Error processign cv29: " + e.getMessage());
+                Log.e("EX_Toolbox", "Error processing cv29: " + e.getMessage());
             }
         }
     }

@@ -3,13 +3,14 @@
 
 package dcc_ex.ex_toolbox.util;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class SwipeDetector implements View.OnTouchListener {
 
-    public static enum Action {
+    public enum Action {
         LR, // Left to Right
         RL, // Right to Left
         TB, // Top to bottom
@@ -34,6 +35,7 @@ public class SwipeDetector implements View.OnTouchListener {
         return mSwipeDetected;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {

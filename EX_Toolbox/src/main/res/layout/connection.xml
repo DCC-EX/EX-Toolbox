@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/connection_view"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -31,7 +31,8 @@
             android:inputType="numberDecimal"
             android:digits="0123456789."
             android:maxLength="60"
-            android:singleLine="true" />
+            android:singleLine="true"
+            tools:ignore="Autofill" />
 
         <EditText
             android:id="@+id/port"
@@ -44,7 +45,8 @@
             android:imeOptions="actionDone"
             android:inputType="numberDecimal"
             android:maxLength="5"
-            android:singleLine="true" />
+            android:singleLine="true"
+            tools:ignore="Autofill,RtlHardcoded" />
 
         <TextView
             android:id="@+id/port_title"
@@ -56,14 +58,16 @@
             android:layout_marginLeft="8dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="@string/port" />
+            android:text="@string/port"
+            tools:ignore="RtlHardcoded" />
         <Button
             android:id="@+id/connect"
             style="?attr/ed_normal_button_style"
             android:layout_width="fill_parent"
             android:layout_alignBottom="@id/port"
             android:layout_toRightOf="@id/port"
-            android:text="@string/connect_button" />
+            android:text="@string/connect_button"
+            tools:ignore="RtlHardcoded" />
 
     </RelativeLayout>
 
@@ -123,7 +127,8 @@
         android:layout_marginTop="2dp"
         android:layout_marginRight="20dp"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:ignore="RtlHardcoded" >
 
         <Button
             android:id="@+id/host_numeric"

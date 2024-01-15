@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package dcc_ex.ex_toolbox.type;
 
 public interface message_type {
-    //Constant values for Message types:  from->to parms (action)
+    //Constant values for Message types:  from->to params (action)
     int NONE = -1;
     int ERROR = 0;
     int CONNECT = 1;            // ca(select)->ta ipaddr, port (sends CONNECTED if no error)
@@ -44,7 +44,7 @@ public interface message_type {
     int CLOCK_DISPLAY_CHANGED = 29;     // pref -> ta  clock display preference changed
     int ESTOP = 30;             // ta(sendeStopMsg) -> ta  estop requested
     int WIFI_QUIT = 31;   // ta(disconnect) -> ta send quit command to server
-    int STEAL = 33;             // ta(checkSteal) pass addr, throttle -> ta send commands to steal
+//    int STEAL = 33;             // ta(checkSteal) pass addr, throttle -> ta send commands to steal
     int WIFI_SEND = 34;         // ta, pass complete message, used for delayed sends
     int SEND_HEARTBEAT_START = 35;    // ta, pass complete message, used for delayed sends
     int TOAST_MESSAGE = 37;      //web_activity -> ta pass message text
@@ -53,7 +53,7 @@ public interface message_type {
     int HTTP_SERVER_NAME_RECEIVED = 49;
     int CONNECTION_COMPLETED_CHECK = 50;
     int RELAUNCH_APP = 51;
-    int SOUNDS_FORCE_LOCO_SOUNDS_TO_START = 52;
+//    int SOUNDS_FORCE_LOCO_SOUNDS_TO_START = 52;
     int REFRESH_FUNCTIONS = 56;
     int REQUEST_DECODER_ADDRESS = 57;
     int RECEIVED_DECODER_ADDRESS = 58;
