@@ -10,6 +10,7 @@
  * lint removal
  * support for AUTO, EXT and BOOST Track types
  * optional Toolbar buttons
+ * fix the icon on old android versions
 **Version 0.1.3
  * remember the last 10 servos
  * switch the sensors to a list so that it supports up to 100
