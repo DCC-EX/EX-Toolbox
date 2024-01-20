@@ -24,12 +24,12 @@
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
 
-    <item android:id="@+id/toolbar_button_speed_matching"
-        android:icon="?attr/ed_toolbar_button_speed_matching"
-        android:title="@string/app_name_speed_matching"
-        android:visible="true"
-        app:showAsAction="always"
-        tools:ignore="AlwaysShowAction" />
+<!--    <item android:id="@+id/toolbar_button_speed_matching"-->
+<!--        android:icon="?attr/ed_toolbar_button_speed_matching"-->
+<!--        android:title="@string/app_name_speed_matching"-->
+<!--        android:visible="true"-->
+<!--        app:showAsAction="always"-->
+<!--        tools:ignore="AlwaysShowAction" />-->
 
     <item android:id="@+id/toolbar_button_servos"
         android:icon="?attr/ed_toolbar_button_servos"
@@ -45,12 +45,12 @@
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
 
-<!--    <item android:id="@+id/toolbar_button_locos"-->
-<!--        android:icon="?attr/ed_toolbar_button_loco"-->
-<!--        android:title="@string/app_name_locos"-->
-<!--        android:visible="true"-->
-<!--        app:showAsAction="always"-->
-<!--        tools:ignore="AlwaysShowAction" />-->
+    <item android:id="@+id/toolbar_button_locos"
+        android:icon="?attr/ed_toolbar_button_loco"
+        android:title="@string/app_name_locos"
+        android:visible="true"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
 
     <item android:id="@+id/toolbar_button_currents"
         android:icon="?attr/ed_toolbar_button_current"
@@ -73,10 +73,10 @@
         tools:ignore="AlwaysShowAction" />
 
     <item android:id="@+id/cv_programmer_mnu" android:title="@string/app_name_cv_programmer" />
-    <item android:id="@+id/speed_matching_mnu" android:title="@string/app_name_speed_matching" />
+<!--    <item android:id="@+id/speed_matching_mnu" android:title="@string/app_name_speed_matching" />-->
     <item android:id="@+id/servos_mnu" android:title="@string/app_name_servos" />
     <item android:id="@+id/sensors_mnu" android:title="@string/app_name_sensors" />
-<!--    <item android:id="@+id/locos_mnu" android:title="@string/app_name_locos" />-->
+    <item android:id="@+id/locos_mnu" android:title="@string/app_name_locos" />
     <item android:id="@+id/currents_mnu" android:title="@string/app_name_currents" />
     <item android:id="@+id/track_manager_mnu" android:title="@string/app_name_track_manager" />
 

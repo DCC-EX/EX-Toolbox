@@ -1,16 +1,14 @@
-**Version 0.1.4-10
- * bug fixes
- * new format for the connection list items
+**Version 0.1.4-11
+ * New Speed Matching screen
  * support for individual track power
- * hide 'save log' button after pressing. Show file name on the log screen.
- * Individual Track Power
- * bug fixes
- * rearrange connection list items
- * restructure of source files
- * lint removal
  * support for AUTO, EXT and BOOST Track types
  * optional Toolbar buttons
+ * new format for the connection list items
+ * hide 'save log' button after pressing. Show file name on the log screen.
+ * restructure of source files
  * fix the icon on old android versions
+ * bug fixes
+ * lint removal
 **Version 0.1.3
  * remember the last 10 servos
  * switch the sensors to a list so that it supports up to 100

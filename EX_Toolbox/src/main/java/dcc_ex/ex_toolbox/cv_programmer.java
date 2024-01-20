@@ -763,49 +763,59 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
         Intent in;
-        if ( (item.getItemId() == R.id.servos_mnu) || (item.getItemId() == R.id.toolbar_button_servos) ) {
+        if ( (item.getItemId() == R.id.cv_programmer_mnu) || (item.getItemId() == R.id.toolbar_button_cv_programmer) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, cv_programmer.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
+        } else if ( (item.getItemId() == R.id.speed_matching_mnu) || (item.getItemId() == R.id.toolbar_button_speed_matching) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, speed_matching.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
+        } else if ( (item.getItemId() == R.id.servos_mnu) || (item.getItemId() == R.id.toolbar_button_servos) ) {
             navigateAway(true, null);
             in = new Intent().setClass(this, servos.class);
             startACoreActivity(this, in, false, 0);
             return true;
         } else if ( (item.getItemId() == R.id.track_manager_mnu) || (item.getItemId() == R.id.toolbar_button_track_manager) ) {
-                navigateAway(true, null);
-                in = new Intent().setClass(this, track_manager.class);
-                startACoreActivity(this, in, false, 0);
-                return true;
+            navigateAway(true, null);
+            in = new Intent().setClass(this, track_manager.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
         } else if ( (item.getItemId() == R.id.currents_mnu) || (item.getItemId() == R.id.toolbar_button_currents) ) {
-                navigateAway(true, null);
-                in = new Intent().setClass(this, currents.class);
-                startACoreActivity(this, in, false, 0);
-                return true;
+            navigateAway(true, null);
+            in = new Intent().setClass(this, currents.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
         } else if ( (item.getItemId() == R.id.sensors_mnu) || (item.getItemId() == R.id.toolbar_button_sensors) ) {
-                navigateAway(true, null);
-                in = new Intent().setClass(this, sensors.class);
-                startACoreActivity(this, in, false, 0);
-                return true;
+            navigateAway(true, null);
+            in = new Intent().setClass(this, sensors.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
         } else if ( (item.getItemId() == R.id.locos_mnu) || (item.getItemId() == R.id.toolbar_button_locos) ) {
             navigateAway(true, null);
-                in = new Intent().setClass(this, locos.class);
-                startACoreActivity(this, in, false, 0);
-                return true;
+            in = new Intent().setClass(this, locos.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
 
         } else if (item.getItemId() == R.id.exit_mnu) {
-                mainapp.checkExit(this);
-                return true;
+            mainapp.checkExit(this);
+            return true;
         } else if (item.getItemId() == R.id.power_control_mnu) {
-                navigateAway(false, power_control.class);
-                return true;
+            navigateAway(false, power_control.class);
+            return true;
         } else if (item.getItemId() == R.id.settings_mnu) {
-                in = new Intent().setClass(this, SettingsActivity.class);
-                startActivityForResult(in, 0);
-                connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
-                return true;
+            in = new Intent().setClass(this, SettingsActivity.class);
+            startActivityForResult(in, 0);
+            connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
+            return true;
         } else if (item.getItemId() == R.id.logviewer_menu) {
-                navigateAway(false, LogViewerActivity.class);
-                return true;
+            navigateAway(false, LogViewerActivity.class);
+            return true;
         } else if (item.getItemId() == R.id.about_mnu) {
-                navigateAway(false, about_page.class);
-                return true;
+            navigateAway(false, about_page.class);
+            return true;
         } else if (item.getItemId() == R.id.power_layout_button) {
             if (!mainapp.isPowerControlAllowed()) {
                 mainapp.powerControlNotAllowedDialog(tMenu);

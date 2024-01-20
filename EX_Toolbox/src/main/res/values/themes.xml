@@ -91,6 +91,7 @@
         <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors</item>
         <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos</item>
         <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager</item>
+        <item name="ed_toolbar_button_speed_matching">@drawable/toolbar_button_speed_matching</item>
 
         <item name="ed_folder_icon">@drawable/folder_outline</item>
         <item name="ed_clock_icon">@drawable/fast_clock</item>
@@ -173,6 +174,7 @@
         <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors</item>
         <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos</item>
         <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager</item>
+        <item name="ed_toolbar_button_speed_matching">@drawable/toolbar_button_speed_matching</item>
 
         <item name="ed_folder_icon">@drawable/folder_outline</item>
         <item name="ed_clock_icon">@drawable/fast_clock</item>
@@ -251,6 +253,7 @@
         <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors</item>
         <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos</item>
         <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager</item>
+        <item name="ed_toolbar_button_speed_matching">@drawable/toolbar_button_speed_matching</item>
 
         <item name="ed_folder_icon">@drawable/folder_outline</item>
         <item name="ed_clock_icon">@drawable/fast_clock</item>
@@ -332,6 +335,7 @@
         <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors</item>
         <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos</item>
         <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager</item>
+        <item name="ed_toolbar_button_speed_matching">@drawable/toolbar_button_speed_matching</item>
 
         <item name="ed_folder_icon">@drawable/folder_outline</item>
         <item name="ed_clock_icon">@drawable/fast_clock</item>
@@ -421,6 +425,7 @@
         <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors</item>
         <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos</item>
         <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager</item>
+        <item name="ed_toolbar_button_speed_matching">@drawable/toolbar_button_speed_matching</item>
 
         <item name="ed_folder_icon">@drawable/folder</item>
         <item name="ed_clock_icon">@drawable/fast_clock_black</item>

@@ -648,6 +648,14 @@ public class comm_thread extends Thread {
     }
 
     @SuppressLint("DefaultLocale")
+    protected static void setSpeedDirect(int locoAddr, int speed, int dir) {
+        //DCC-EX
+        String msgTxt = String.format("<t 0 %d %d %d>", locoAddr, speed, dir);
+        wifiSend(msgTxt);
+//                Log.d("EX_Toolbox", "comm_thread.setSpeedDirect DCC-EX: " + msgTxt);
+    }
+
+    @SuppressLint("DefaultLocale")
     protected static void sendRequestSpeedAndDir(int whichThrottle) {
         //DCC-EX
         Consist con = mainapp.consists[whichThrottle];

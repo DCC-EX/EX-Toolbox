@@ -497,31 +497,36 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
             in = new Intent().setClass(this, cv_programmer.class);
             startACoreActivity(this, in, false, 0);
             return true;
+        } else if ( (item.getItemId() == R.id.speed_matching_mnu) || (item.getItemId() == R.id.toolbar_button_speed_matching) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, speed_matching.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
         } else if ( (item.getItemId() == R.id.servos_mnu) || (item.getItemId() == R.id.toolbar_button_servos) ) {
-                navigateAway(true, null);
-                in = new Intent().setClass(this, servos.class);
-                startACoreActivity(this, in, false, 0);
-                return true;
-        } else if ( (item.getItemId() == R.id.sensors_mnu) || (item.getItemId() == R.id.toolbar_button_sensors) ) {
-                navigateAway(true, null);
-                in = new Intent().setClass(this, sensors.class);
-                startACoreActivity(this, in, false, 0);
-                return true;
-        } else if ( (item.getItemId() == R.id.locos_mnu) || (item.getItemId() == R.id.toolbar_button_locos) ) {
-                navigateAway(true, null);
-                in = new Intent().setClass(this, locos.class);
-                startACoreActivity(this, in, false, 0);
-                return true;
-        } else if ( (item.getItemId() == R.id.currents_mnu) || (item.getItemId() == R.id.toolbar_button_currents) ) {
-                navigateAway(true, null);
-                in = new Intent().setClass(this, currents.class);
-                startACoreActivity(this, in, false, 0);
-                return true;
+            navigateAway(true, null);
+            in = new Intent().setClass(this, servos.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
         } else if ( (item.getItemId() == R.id.track_manager_mnu) || (item.getItemId() == R.id.toolbar_button_track_manager) ) {
-                navigateAway(true, null);
-                in = new Intent().setClass(this, track_manager.class);
-                startACoreActivity(this, in, false, 0);
-                return true;
+            navigateAway(true, null);
+            in = new Intent().setClass(this, track_manager.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
+        } else if ( (item.getItemId() == R.id.currents_mnu) || (item.getItemId() == R.id.toolbar_button_currents) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, currents.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
+        } else if ( (item.getItemId() == R.id.sensors_mnu) || (item.getItemId() == R.id.toolbar_button_sensors) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, sensors.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
+        } else if ( (item.getItemId() == R.id.locos_mnu) || (item.getItemId() == R.id.toolbar_button_locos) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, locos.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
 
         } else if (item.getItemId() == R.id.exit_mnu) {
                 mainapp.checkExit(this);

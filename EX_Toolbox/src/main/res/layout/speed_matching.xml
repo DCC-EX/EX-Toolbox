@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/speed_matching_screen"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:keepScreenOn="true"
+    android:orientation="vertical">
+
+    <android.gesture.GestureOverlayView
+        android:id="@+id/speed_matching_overlay"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:eventsInterceptionEnabled="false"
+        android:gestureColor="@color/transparent"
+        android:gestureStrokeType="single"
+        android:orientation="vertical"
+        android:uncertainGestureColor="@color/transparent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/toolbar" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/speedMatchingBackgroundImgView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight=".94"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0sp"
+                            android:background="?attr/ed_background_highlight"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <TextView
+                                style="?attr/floating_text_style"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="2sp"
+                                android:text="@string/app_name_speed_matching"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="8sp"
+                            android:background="#888888"
+                            android:orientation="vertical" />
+
+                        <LinearLayout
+                            android:id="@+id/ex_DccexSpeedMatchingLinearLayout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0sp"
+                            android:padding="5sp"
+                            android:orientation="vertical"
+                            tools:ignore="NestedWeights">
+
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0sp"
+                                android:background="#00000000"
+                                android:orientation="horizontal"
+                                android:weightSum="1"
+                                tools:ignore="TooDeepLayout">
+
+                                <TextView
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:padding="1sp"
+                                    android:text="@string/speedMatchMaster"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/ex_DccexSpeedMatchingMasterAddrValue"
+                                    style="?attr/edit_label_style"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8sp"
+                                    android:layout_marginRight="8sp"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:paddingRight="8sp"
+                                    android:shadowColor="#FFFFFFFF"
+                                    android:shadowDx="1"
+                                    android:shadowDy="1"
+                                    android:shadowRadius="0.3"
+                                    android:singleLine="true"
+                                    android:text=""
+                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+
+                                <TextView
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/speedMatchStep"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/ex_DccexSpeedMatchingStepValue"
+                                    style="?attr/edit_label_style"
+                                    android:layout_width="40dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8sp"
+                                    android:layout_marginRight="8sp"
+                                    android:inputType="number"
+                                    android:maxLength="3"
+                                    android:paddingRight="8sp"
+                                    android:shadowColor="#FFFFFFFF"
+                                    android:shadowDx="1"
+                                    android:shadowDy="1"
+                                    android:shadowRadius="0.3"
+                                    android:singleLine="true"
+                                    android:text="1"
+                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0sp"
+                                android:background="#00000000"
+                                android:orientation="horizontal"
+                                tools:ignore="TooDeepLayout">
+
+                                <TextView
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:padding="1sp"
+                                    android:text="@string/speedMatchSecond"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/ex_DccexSpeedMatchingSecondAddrValue"
+                                    style="?attr/edit_label_style"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8sp"
+                                    android:layout_marginRight="8sp"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:paddingRight="8sp"
+                                    android:shadowColor="#FFFFFFFF"
+                                    android:shadowDx="1"
+                                    android:shadowDy="1"
+                                    android:shadowRadius="0.3"
+                                    android:singleLine="true"
+                                    android:text=""
+                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingReadSecondButton"
+                                    android:layout_width="117dp"
+                                    android:layout_height="28dp"
+                                    android:text="@string/speedMatchRead"
+                                    style="?attr/ed_small_button_style"
+                                    android:src="?attr/ed_power_yellow_button" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingStopButton"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="28dp"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginLeft="20dp"
+                                    android:text="@string/speedMatchStop" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0sp"
+                                android:background="#00000000"
+                                android:orientation="horizontal"
+                                tools:ignore="TooDeepLayout">
+
+                                <TextView
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="40dp"
+                                    android:layout_height="wrap_content"
+                                    android:padding="1sp"
+                                    android:text="@string/speedMatchLow"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/ex_DccexSpeedMatchingLowValue"
+                                    style="?attr/edit_label_style"
+                                    android:layout_width="40dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8sp"
+                                    android:layout_marginRight="8sp"
+                                    android:inputType="number"
+                                    android:maxLength="3"
+                                    android:paddingRight="8sp"
+                                    android:shadowColor="#FFFFFFFF"
+                                    android:shadowDx="1"
+                                    android:shadowDy="1"
+                                    android:shadowRadius="0.3"
+                                    android:singleLine="true"
+                                    android:text="0"
+                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingLowWriteButton"
+                                    android:layout_width="60dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchWrite" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingLowWriteMinusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchMinus" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingLowWritePlusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchPlus" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingLowSetSpeedButton"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="28dp"
+                                    android:layout_marginStart="28dp"
+                                    android:layout_marginLeft="28dp"
+                                    android:text="@string/speedMatchSetSpeed" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0sp"
+                                android:background="#00000000"
+                                android:orientation="horizontal"
+                                tools:ignore="TooDeepLayout">
+
+                                <TextView
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="40dp"
+                                    android:layout_height="wrap_content"
+                                    android:padding="1sp"
+                                    android:text="@string/speedMatchMid"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/ex_DccexSpeedMatchingMidValue"
+                                    style="?attr/edit_label_style"
+                                    android:layout_width="40dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8sp"
+                                    android:layout_marginRight="8sp"
+                                    android:inputType="number"
+                                    android:maxLength="3"
+                                    android:paddingRight="8sp"
+                                    android:shadowColor="#FFFFFFFF"
+                                    android:shadowDx="1"
+                                    android:shadowDy="1"
+                                    android:shadowRadius="0.3"
+                                    android:singleLine="true"
+                                    android:text="0"
+                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingMidWriteButton"
+                                    android:layout_width="60dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchWrite" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingMidWriteMinusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchMinus" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingMidWritePlusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchPlus" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingMidSetSpeedButton"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="28dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="28dp"
+                                    android:layout_marginLeft="28dp"
+                                    android:text="@string/speedMatchSetSpeed" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0sp"
+                                android:background="#00000000"
+                                android:orientation="horizontal"
+                                tools:ignore="TooDeepLayout">
+
+                                <TextView
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="40dp"
+                                    android:layout_height="wrap_content"
+                                    android:padding="1sp"
+                                    android:text="@string/speedMatchHigh"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/ex_DccexSpeedMatchingHighValue"
+                                    style="?attr/edit_label_style"
+                                    android:layout_width="40dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8sp"
+                                    android:layout_marginRight="8sp"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:paddingRight="8sp"
+                                    android:shadowColor="#FFFFFFFF"
+                                    android:shadowDx="1"
+                                    android:shadowDy="1"
+                                    android:shadowRadius="0.3"
+                                    android:singleLine="true"
+                                    android:text="0"
+                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingHighWriteButton"
+                                    android:layout_width="60dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchWrite" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingHighWriteMinusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchMinus" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingHighWritePlusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchPlus" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingHighSetSpeedButton"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="28dp"
+                                    android:layout_marginStart="28dp"
+                                    android:layout_marginLeft="28dp"
+                                    android:text="@string/speedMatchSetSpeed" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0sp"
+                                android:background="#00000000"
+                                android:orientation="horizontal"
+                                tools:ignore="TooDeepLayout">
+
+                                <TextView
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="40dp"
+                                    android:layout_height="wrap_content"
+                                    android:padding="1sp"
+                                    android:text="@string/speedMatchAcceleration"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/ex_DccexSpeedMatchingAccelerationValue"
+                                    style="?attr/edit_label_style"
+                                    android:layout_width="40dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8sp"
+                                    android:layout_marginRight="8sp"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:paddingRight="8sp"
+                                    android:shadowColor="#FFFFFFFF"
+                                    android:shadowDx="1"
+                                    android:shadowDy="1"
+                                    android:shadowRadius="0.3"
+                                    android:singleLine="true"
+                                    android:text="0"
+                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingAccelerationWriteButton"
+                                    android:layout_width="60dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchWrite" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingAccelerationWriteMinusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchMinus" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingAccelerationWritePlusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchPlus" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0sp"
+                                android:background="#00000000"
+                                android:orientation="horizontal"
+                                tools:ignore="TooDeepLayout">
+
+                                <TextView
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="40dp"
+                                    android:layout_height="wrap_content"
+                                    android:padding="1sp"
+                                    android:text="@string/speedMatchDeceleration"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/ex_DccexSpeedMatchingDecelerationValue"
+                                    style="?attr/edit_label_style"
+                                    android:layout_width="40dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8sp"
+                                    android:layout_marginRight="8sp"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:paddingRight="8sp"
+                                    android:shadowColor="#FFFFFFFF"
+                                    android:shadowDx="1"
+                                    android:shadowDy="1"
+                                    android:shadowRadius="0.3"
+                                    android:singleLine="true"
+                                    android:text="0"
+                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingDecelerationWriteButton"
+                                    android:layout_width="60dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchWrite" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingDecelerationWriteMinusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchMinus" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingDecelerationWritePlusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchPlus" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0sp"
+                                android:background="#00000000"
+                                android:orientation="horizontal"
+                                tools:ignore="TooDeepLayout">
+
+                                <TextView
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="40dp"
+                                    android:layout_height="wrap_content"
+                                    android:padding="1sp"
+                                    android:text="@string/speedMatchKickStart"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <EditText
+                                    android:id="@+id/ex_DccexSpeedMatchingKickStartValue"
+                                    style="?attr/edit_label_style"
+                                    android:layout_width="40dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8sp"
+                                    android:layout_marginRight="8sp"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:paddingRight="8sp"
+                                    android:shadowColor="#FFFFFFFF"
+                                    android:shadowDx="1"
+                                    android:shadowDy="1"
+                                    android:shadowRadius="0.3"
+                                    android:singleLine="true"
+                                    android:text="0"
+                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingKickStartWriteButton"
+                                    android:layout_width="60dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchWrite" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingKickStartWriteMinusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchMinus" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingKickStartWritePlusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="28dp"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchPlus" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ex_DccexWriteInfoLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0sp"
+                            android:background="#00000000"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="2dp"
+                                android:layout_marginTop="6sp"
+                                android:background="#888888"
+                                android:orientation="vertical" />
+
+                            <TextView
+                                android:id="@+id/ex_DccexWriteInfoLabel"
+                                style="?attr/floating_text_style"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:layout_marginTop="1sp"
+                                android:layout_marginBottom="1sp"
+                                android:padding="2sp"
+                                android:text=""
+                                android:textAlignment="viewEnd"
+                                android:textColor="?android:attr/textColorSecondary" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="2dp"
+                            android:paddingTop="2dp"
+                            android:background="#888888"
+                            android:orientation="vertical" />
+
+                        <LinearLayout
+                            android:id="@+id/ex_DccexResponsesAndSendsLayout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0sp"
+                            android:layout_marginTop="0sp"
+                            android:background="#00000000"
+                            android:orientation="vertical"
+                            android:layout_weight=".4"
+                            android:weightSum="1"
+                            tools:ignore="NestedWeights">
+
+                            <ScrollView
+                                android:id="@+id/ex_DccexResponsesScrollView"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight=".7"
+                                tools:ignore="NestedWeights">
+
+                                <TextView
+                                    android:id="@+id/ex_DccexResponsesLabel"
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8sp"
+                                    android:text=""
+                                    android:textSize="12sp" />
+
+                            </ScrollView>
+
+                            <ScrollView
+                                android:id="@+id/ex_DccexSendsScrollView"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight=".3">
+
+                                <TextView
+                                    android:id="@+id/ex_DccexSendsLabel"
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8sp"
+                                    android:text=""
+                                    android:textSize="12sp" />
+
+                            </ScrollView>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="3dp"
+                        android:layout_weight=".06"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp">
+
+                        <RelativeLayout
+                            android:id="@+id/dcc_ex_bottom_button_layout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0sp"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/ex_dccexClearCommandsButton"
+                                style="?attr/ed_small_button_style"
+                                android:layout_gravity="left"
+                                android:text="@string/dccexClearCommands"
+                                tools:ignore="RtlHardcoded,TooManyViews"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true" />
+
+                            <!--            <Button-->
+                            <!--                android:id="@+id/ex_dccexHideSendsButton"-->
+                            <!--                style="?attr/ed_normal_button_style"-->
+                            <!--                android:layout_gravity="left"-->
+                            <!--                android:text="@string/dccexHideSends"-->
+                            <!--                tools:ignore="RtlHardcoded"-->
+                            <!--                android:layout_alignParentEnd="true"-->
+                            <!--                android:layout_alignParentRight="true" />-->
+
+                        </RelativeLayout>
+
+                    </TableLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.gesture.GestureOverlayView>
+
+</LinearLayout>

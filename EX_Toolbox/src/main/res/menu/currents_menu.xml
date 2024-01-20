@@ -24,6 +24,13 @@
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
 
+    <item android:id="@+id/toolbar_button_speed_matching"
+        android:icon="?attr/ed_toolbar_button_speed_matching"
+        android:title="@string/app_name_speed_matching"
+        android:visible="true"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
     <item android:id="@+id/toolbar_button_servos"
         android:icon="?attr/ed_toolbar_button_servos"
         android:title="@string/app_name_servos"

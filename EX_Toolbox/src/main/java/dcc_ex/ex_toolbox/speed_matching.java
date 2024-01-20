@@ -29,6 +29,7 @@ import android.content.res.Configuration;
 import android.gesture.GestureOverlayView;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -44,26 +45,21 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.webkit.CookieSyncManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.EditText;
 import android.widget.ScrollView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
 import dcc_ex.ex_toolbox.type.message_type;
 import dcc_ex.ex_toolbox.util.LocaleHelper;
 
-public class sensors extends AppCompatActivity implements GestureOverlayView.OnGestureListener {
+public class speed_matching extends AppCompatActivity implements GestureOverlayView.OnGestureListener {
 
     private threaded_application mainapp;  // hold pointer to mainapp
     private SharedPreferences prefs;
 
     private Menu tMenu;
-    private static boolean savedMenuSelected;
+//    private static boolean savedMenuSelected;
 
     protected GestureOverlayView ov;
     // these are used for gesture tracking
@@ -76,39 +72,56 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
     //**************************************
 
-    private LinearLayout DccexWriteInfoLayout;
+//    private LinearLayout DccexWriteInfoLayout;
     private TextView DccexWriteInfoLabel;
     private String DccexInfoStr = "";
 
     private TextView DccexResponsesLabel;
     private TextView DccexSendsLabel;
-    private ScrollView DccexResponsesScrollView;
-    private ScrollView DccexSendsScrollView;
+//    private ScrollView DccexResponsesScrollView;
+//    private ScrollView DccexSendsScrollView;
 
-    Button readSensorsButton;
     Button clearCommandsButton;
 
-//    private LinearLayout[] dccExSensorLayouts = {null, null, null, null, null,  null, null, null, null, null};
-//    private TextView[] dccExSensorStatusTextView = {null, null, null, null, null,  null, null, null, null, null};
-//    private TextView[] dccExSensorIdTextView = {null, null, null, null, null,  null, null, null, null, null};
-//    private TextView[] dccExSensorVpinsTextView = {null, null, null, null, null,  null, null, null, null, null};
-//    private TextView[] dccExSensorPullupsTextView = {null, null, null, null, null,  null, null, null, null, null};
-//
-//    private int[] DccexSensorStatus= {-1, -1, -1, -1, -1,  -1, -1, -1, -1, -1};
-//    private int[] DccexSensorIds = {0, 0, 0, 0, 0,  0, 0, 0, 0, 0};
-//    private int[] DccexSensorVpins = {0, 0, 0, 0, 0,  0, 0, 0, 0, 0};
-//    private int[] DccexSensorPullups = {1, 1, 1, 1, 1,  1, 1, 1, 1, 1};
+//    static final int WHICH_ADDRESS = 0;
+//    static final int WHICH_CV = 1;
+//    static final int WHICH_CV_VALUE = 2;
+//    static final int WHICH_COMMAND = 3;
 
-    static final String SENSOR_STATUS_UNKNOWN = "-1";
-    static final String SENSOR_STATUS_INACTIVE = "0";
-    static final String SENSOR_STATUS_ACTIVE = "1";
+    Button[] writeButtons = {null, null, null, null, null, null};  // LOW, MID, HIGH, Acceleration, Deceleration, Kick Start
+    Button[] writeMinusButtons = {null, null, null, null, null, null};
+    Button[] writePlusButtons = {null, null, null, null, null, null};
 
-    private ArrayList<HashMap<String, String>> sensors_list;
-    private SimpleAdapter sensors_list_adapter;
+    Button[] setSpeedButtons = {null, null, null, null};  // LOW, MID, HIGH, STOP
+
+    EditText[] valsEditText = {null, null, null, null, null, null};  // LOW, MID, HIGH, Acceleration, Deceleration, Kick Start
+    int [] vals = {0, 0, 0, 0, 0, 0};  // LOW, MID, HIGH, Acceleration, Deceleration, Kick Start
+
+    EditText stepValueEditText;
+    int stepValue;
+
+    EditText locoAddrMasterEditText;
+    EditText locoAddrSecondEditText;
+    int locoAddrMaster = 0;
+    int locoAddrSecond = 0;
+
+    static int LOW = 0;
+    static int MID = 1;
+    static int HIGH = 2;
+    static int STOP = 3;
+    static int ACCEL = 3;  //note: same as Stop. NOt used in the same arrays as stop
+    static int DECEL = 4;
+    static int KICK = 5;
+    int[] speedCVs = {2, 6, 5, 3, 4, 65};  // LOW, MID, HIGH, Acceleration, Deceleration, Kick Start
+    int[] speeds = {5, 63, 126, 0};  // LOW, MID, HIGH, STOP
+
+    float vn = 4; // DCC-EC Version number
 
     //**************************************
 
+
     private Toolbar toolbar;
+    private int toolbarHeight;
 
     @Override
     public void onGesture(GestureOverlayView arg0, MotionEvent event) {
@@ -141,15 +154,15 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         mVelocityTracker.clear();
 
         // start the gesture timeout timer
-        if (mainapp.sensors_msg_handler != null)
-            mainapp.sensors_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
+        if (mainapp.speed_matching_msg_handler != null)
+            mainapp.speed_matching_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
     }
 
     public void gestureMove(MotionEvent event) {
         // Log.d("Engine_Driver", "gestureMove action " + event.getAction());
-        if ( (mainapp != null) && (mainapp.sensors_msg_handler != null) && (gestureInProgress) ) {
+        if ( (mainapp != null) && (mainapp.speed_matching_msg_handler != null) && (gestureInProgress) ) {
             // stop the gesture timeout timer
-            mainapp.sensors_msg_handler.removeCallbacks(gestureStopped);
+            mainapp.speed_matching_msg_handler.removeCallbacks(gestureStopped);
 
             mVelocityTracker.addMovement(event);
             if ((event.getEventTime() - gestureLastCheckTime) > gestureCheckRate) {
@@ -166,15 +179,15 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
             }
             if (gestureInProgress) {
                 // restart the gesture timeout timer
-                mainapp.sensors_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
+                mainapp.speed_matching_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
             }
         }
     }
 
     private void gestureEnd(MotionEvent event) {
         // Log.d("Engine_Driver", "gestureEnd action " + event.getAction() + " inProgress? " + gestureInProgress);
-        if ( (mainapp != null) && (mainapp.sensors_msg_handler != null) && (gestureInProgress) ) {
-            mainapp.sensors_msg_handler.removeCallbacks(gestureStopped);
+        if ( (mainapp != null) && (mainapp.speed_matching_msg_handler != null) && (gestureInProgress) ) {
+            mainapp.speed_matching_msg_handler.removeCallbacks(gestureStopped);
 
             float deltaX = (event.getX() - gestureStartX);
             float absDeltaX =  Math.abs(deltaX);
@@ -182,7 +195,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
                 // valid gesture. Change the event action to CANCEL so that it isn't processed by any control below the gesture overlay
                 event.setAction(MotionEvent.ACTION_CANCEL);
                 // process swipe in the direction with the largest change
-                Intent nextScreenIntent = mainapp.getNextIntentInSwipeSequence(threaded_application.SCREEN_SWIPE_INDEX_SENSORS, deltaX);
+                Intent nextScreenIntent = mainapp.getNextIntentInSwipeSequence(threaded_application.SCREEN_SWIPE_INDEX_SPEED_MATCHING, deltaX);
                 startACoreActivity(this, nextScreenIntent, true, deltaX);
             } else {
                 // gesture was not long enough
@@ -192,8 +205,8 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
     }
 
     private void gestureCancel(MotionEvent event) {
-        if (mainapp.sensors_msg_handler != null)
-            mainapp.sensors_msg_handler.removeCallbacks(gestureStopped);
+        if (mainapp.speed_matching_msg_handler != null)
+            mainapp.speed_matching_msg_handler.removeCallbacks(gestureStopped);
         gestureInProgress = false;
     }
 
@@ -219,12 +232,16 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
 
     @SuppressLint("HandlerLeak")
-    class sensors_handler extends Handler {
+    class speed_matching_handler extends Handler {
+
+        public speed_matching_handler(Looper looper) {
+            super(looper);
+        }
 
         public void handleMessage(Message msg) {
             switch (msg.what) {
 
-                case message_type.RESPONSE: {    //handle messages from server
+                case message_type.RESPONSE: {    //handle messages from WiThrottle server
                     String s = msg.obj.toString();
                     String response_str = s.substring(0, Math.min(s.length(), 2));
 
@@ -237,14 +254,46 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
                     }
                     break;
                 }
-                case message_type.RECEIVED_SENSOR:
-                    String s = msg.obj.toString();
-                    if (s.length() > 0) {
-                        String[] sArgs = s.split("(\\|)");
-                        updateASensorListItem(sArgs[0], sArgs[1]);
-                        sensors_list_adapter.notifyDataSetChanged();
-
-                        refreshDccexSensorsView();
+                case message_type.RECEIVED_CV:
+                    String cvResponseStr = msg.obj.toString();
+                    if (cvResponseStr.length() > 0) {
+                        String[] cvArgs = cvResponseStr.split("(\\|)");
+                        int cv = Integer.decode(cvArgs[0]);
+                        if ( !(cvArgs[1].charAt(0)=='-') ) { // response matches what we got back
+                            if (cv==speedCVs[LOW]) {
+                                vals[LOW] = Integer.decode(cvArgs[0]);
+                                valsEditText[LOW].setText(cvArgs[1]);
+                                refreshDccexView();
+                            } else if (cv==speedCVs[MID]) {
+                                vals[MID] = Integer.decode(cvArgs[0]);
+                                valsEditText[MID].setText(cvArgs[1]);
+                                refreshDccexView();
+                            } else if (cv==speedCVs[HIGH]) {
+                                vals[HIGH] = Integer.decode(cvArgs[0]);
+                                valsEditText[HIGH].setText(cvArgs[1]);
+                                refreshDccexView();
+                            } else if (cv==speedCVs[ACCEL]) {
+                                vals[ACCEL] = Integer.decode(cvArgs[0]);
+                                valsEditText[ACCEL].setText(cvArgs[1]);
+                                refreshDccexView();
+                            } else if (cv==speedCVs[DECEL]) {
+                                vals[DECEL] = Integer.decode(cvArgs[0]);
+                                valsEditText[DECEL].setText(cvArgs[1]);
+                                refreshDccexView();
+                            } else if (cv==speedCVs[KICK]) {
+                                vals[KICK] = Integer.decode(cvArgs[0]);
+                                valsEditText[KICK].setText(cvArgs[1]);
+                                refreshDccexView();
+                            }
+                        }
+                    }
+                    break;
+                case message_type.RECEIVED_DECODER_ADDRESS:
+                    String response_str = msg.obj.toString();
+                    if ( (response_str.length() > 0) && !(response_str.charAt(0)=='-') ) {  //refresh address
+                        locoAddrSecond = Integer.decode(response_str);
+                        locoAddrSecondEditText.setText(response_str);
+                        refreshDccexView();
                     }
                     break;
 
@@ -277,12 +326,12 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         if (mainapp.getFastClockFormat() > 0)
             mainapp.setToolbarTitle(toolbar,
                     "",
-                    getApplicationContext().getResources().getString(R.string.app_name_sensors_short),
+                    getApplicationContext().getResources().getString(R.string.app_name_speed_matching_short),
                     mainapp.getFastClockTime());
         else
             mainapp.setToolbarTitle(toolbar,
                     getApplicationContext().getResources().getString(R.string.app_name),
-                    getApplicationContext().getResources().getString(R.string.app_name_sensors),
+                    getApplicationContext().getResources().getString(R.string.app_name_speed_matching),
                     "");
     }
 
@@ -311,14 +360,16 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
             return;
         }
 
-        setContentView(R.layout.sensors);
+        setContentView(R.layout.speed_matching);
 
-        mainapp.loadBackgroundImage(findViewById(R.id.sensorsBackgroundImgView));
+        mainapp.loadBackgroundImage(findViewById(R.id.speedMatchingBackgroundImgView));
 
         //put pointer to this activity's handler in main app's shared variable
-        mainapp.sensors_msg_handler = new sensors_handler();
+        mainapp.speed_matching_msg_handler = new speed_matching_handler(Looper.getMainLooper());
 
-        DccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
+        //Set the buttons
+
+//        DccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
         DccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
         DccexWriteInfoLabel.setText("");
 
@@ -327,33 +378,131 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         DccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
         DccexSendsLabel.setText("");
 
-        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ALL_SENSOR_DETAILS);
-
-        //Set up a list adapter to allow adding discovered sensors to the UI.
-        sensors_list = new ArrayList<>();
-        sensors_list_adapter = new SimpleAdapter(this, sensors_list, R.layout.sensors_list_item,
-                new String[]{"sensorId", "vpin", "pullup", "status"},
-                new int[]{R.id.sensor_id_value, R.id.sensor_vpin_value, R.id.sensor_pullup_value, R.id.sensor_status});
-        ListView locos_list = findViewById(R.id.sensors_list);
-        locos_list.setAdapter(sensors_list_adapter);
-
-        readSensorsButton = findViewById(R.id.ex_DccexReadSensorsButton);
-        read_sensors_button_listener readSensorsClickListener = new read_sensors_button_listener();
-        readSensorsButton.setOnClickListener(readSensorsClickListener);
-
-
-        DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
-        DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
+//        DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
+//        DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
 
         clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
         clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
         clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
-//        resetSensorTextFields();
-        refreshDccexSensorsView();
+        // ********************************
 
-//        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_SENSOR, "");
-//
+        valsEditText[LOW] = findViewById(R.id.ex_DccexSpeedMatchingLowValue);
+        valsEditText[MID] = findViewById(R.id.ex_DccexSpeedMatchingMidValue);
+        valsEditText[HIGH] = findViewById(R.id.ex_DccexSpeedMatchingHighValue);
+
+        locoAddrMasterEditText = findViewById(R.id.ex_DccexSpeedMatchingMasterAddrValue);
+        locoAddrSecondEditText = findViewById(R.id.ex_DccexSpeedMatchingSecondAddrValue);
+
+        stepValueEditText = findViewById(R.id.ex_DccexSpeedMatchingStepValue);
+
+        valsEditText[ACCEL] = findViewById(R.id.ex_DccexSpeedMatchingAccelerationValue);
+        valsEditText[DECEL] = findViewById(R.id.ex_DccexSpeedMatchingDecelerationValue);
+        valsEditText[KICK] = findViewById(R.id.ex_DccexSpeedMatchingKickStartValue);
+
+        // ********************************
+
+        writeButtons[LOW] = findViewById(R.id.ex_DccexSpeedMatchingLowWriteButton);
+        WriteButtonListener writeButtonListener = new WriteButtonListener(LOW, 0);
+        writeButtons[LOW].setOnClickListener(writeButtonListener);
+
+        writeButtons[MID] = findViewById(R.id.ex_DccexSpeedMatchingMidWriteButton);
+        writeButtonListener = new WriteButtonListener(MID, 0);
+        writeButtons[MID].setOnClickListener(writeButtonListener);
+
+        writeButtons[HIGH] = findViewById(R.id.ex_DccexSpeedMatchingHighWriteButton);
+        writeButtonListener = new WriteButtonListener(HIGH, 0);
+        writeButtons[HIGH].setOnClickListener(writeButtonListener);
+
+        writeButtons[ACCEL] = findViewById(R.id.ex_DccexSpeedMatchingAccelerationWriteButton);
+        writeButtonListener = new WriteButtonListener(ACCEL, 0);
+        writeButtons[ACCEL].setOnClickListener(writeButtonListener);
+
+        writeButtons[DECEL] = findViewById(R.id.ex_DccexSpeedMatchingDecelerationWriteButton);
+        writeButtonListener = new WriteButtonListener(DECEL, 0);
+        writeButtons[DECEL].setOnClickListener(writeButtonListener);
+
+        writeButtons[KICK] = findViewById(R.id.ex_DccexSpeedMatchingKickStartWriteButton);
+        writeButtonListener = new WriteButtonListener(KICK, 0);
+        writeButtons[KICK].setOnClickListener(writeButtonListener);
+        // ********************************
+
+        writeMinusButtons[LOW] = findViewById(R.id.ex_DccexSpeedMatchingLowWriteMinusButton);
+        writeButtonListener = new WriteButtonListener(LOW, -1);
+        writeMinusButtons[LOW].setOnClickListener(writeButtonListener);
+
+        writeMinusButtons[MID] = findViewById(R.id.ex_DccexSpeedMatchingMidWriteMinusButton);
+        writeButtonListener = new WriteButtonListener(MID, -1);
+        writeMinusButtons[MID].setOnClickListener(writeButtonListener);
+
+        writeMinusButtons[HIGH] = findViewById(R.id.ex_DccexSpeedMatchingHighWriteMinusButton);
+        writeButtonListener = new WriteButtonListener(HIGH, -1);
+        writeMinusButtons[HIGH].setOnClickListener(writeButtonListener);
+
+        writeMinusButtons[ACCEL] = findViewById(R.id.ex_DccexSpeedMatchingAccelerationWriteMinusButton);
+        writeButtonListener = new WriteButtonListener(ACCEL, -1);
+        writeMinusButtons[ACCEL].setOnClickListener(writeButtonListener);
+
+        writeMinusButtons[DECEL] = findViewById(R.id.ex_DccexSpeedMatchingDecelerationWriteMinusButton);
+        writeButtonListener = new WriteButtonListener(DECEL, -1);
+        writeMinusButtons[DECEL].setOnClickListener(writeButtonListener);
+
+        writeMinusButtons[KICK] = findViewById(R.id.ex_DccexSpeedMatchingKickStartWriteMinusButton);
+        writeButtonListener = new WriteButtonListener(KICK, -1);
+        writeMinusButtons[KICK].setOnClickListener(writeButtonListener);
+
+        // ********************************
+
+        writePlusButtons[LOW] = findViewById(R.id.ex_DccexSpeedMatchingLowWritePlusButton);
+        writeButtonListener = new WriteButtonListener(LOW, 1);
+        writePlusButtons[LOW].setOnClickListener(writeButtonListener);
+
+        writePlusButtons[MID] = findViewById(R.id.ex_DccexSpeedMatchingMidWritePlusButton);
+        writeButtonListener = new WriteButtonListener(MID, 1);
+        writePlusButtons[MID].setOnClickListener(writeButtonListener);
+
+        writePlusButtons[HIGH] = findViewById(R.id.ex_DccexSpeedMatchingHighWritePlusButton);
+        writeButtonListener = new WriteButtonListener(HIGH, 1);
+        writePlusButtons[HIGH].setOnClickListener(writeButtonListener);
+
+        writePlusButtons[ACCEL] = findViewById(R.id.ex_DccexSpeedMatchingAccelerationWritePlusButton);
+        writeButtonListener = new WriteButtonListener(ACCEL, 1);
+        writePlusButtons[ACCEL].setOnClickListener(writeButtonListener);
+
+        writePlusButtons[DECEL] = findViewById(R.id.ex_DccexSpeedMatchingDecelerationWritePlusButton);
+        writeButtonListener = new WriteButtonListener(DECEL, 1);
+        writePlusButtons[DECEL].setOnClickListener(writeButtonListener);
+
+        writePlusButtons[KICK] = findViewById(R.id.ex_DccexSpeedMatchingKickStartWritePlusButton);
+        writeButtonListener = new WriteButtonListener(KICK, 1);
+        writePlusButtons[KICK].setOnClickListener(writeButtonListener);
+
+        // ********************************
+
+        setSpeedButtons[LOW] = findViewById(R.id.ex_DccexSpeedMatchingLowSetSpeedButton);
+        SetSpeedButtonListener setSpeedButtonListener = new SetSpeedButtonListener(LOW);
+        setSpeedButtons[LOW].setOnClickListener(setSpeedButtonListener);
+
+        setSpeedButtons[MID] = findViewById(R.id.ex_DccexSpeedMatchingMidSetSpeedButton);
+        setSpeedButtonListener = new SetSpeedButtonListener(MID);
+        setSpeedButtons[MID].setOnClickListener(setSpeedButtonListener);
+
+        setSpeedButtons[HIGH] = findViewById(R.id.ex_DccexSpeedMatchingHighSetSpeedButton);
+        setSpeedButtonListener = new SetSpeedButtonListener(HIGH);
+        setSpeedButtons[HIGH].setOnClickListener(setSpeedButtonListener);
+
+        setSpeedButtons[STOP] = findViewById(R.id.ex_DccexSpeedMatchingStopButton);
+        setSpeedButtonListener = new SetSpeedButtonListener(STOP);
+        setSpeedButtons[STOP].setOnClickListener(setSpeedButtonListener);
+
+        // ********************************
+
+        Button readSecondLocoButton = findViewById(R.id.ex_DccexSpeedMatchingReadSecondButton);
+        ReadSecondButtonListener buttonListener = new ReadSecondButtonListener();
+        readSecondLocoButton.setOnClickListener(buttonListener);
+
+        // ********************************
+
         mainapp.getCommonPreferences();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -366,7 +515,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
     @Override
     public void onResume() {
-        Log.d("EX_Toolbox", "sensors.onResume() called");
+        Log.d("EX_Toolbox", "speed_matching.onResume() called");
         mainapp.applyTheme(this);
 
         super.onResume();
@@ -376,20 +525,17 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         setActivityTitle();
         mainapp.dccexScreenIsOpen = true;
         refreshDccexView();
-        refreshDccexSensorsView();
 
         if (mainapp.isForcingFinish()) {    //expedite
             this.finish();
             return;
         }
 
-        setIdsFromResponses();
-
-            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.TIME_CHANGED);    // request time update
+        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.TIME_CHANGED);    // request time update
         CookieSyncManager.getInstance().startSync();
 
         // enable swipe/fling detection if enabled in Prefs
-        ov = findViewById(R.id.sensors_overlay);
+        ov = findViewById(R.id.speed_matching_overlay);
         ov.addOnGestureListener(this);
         ov.setEventsInterceptionEnabled(true);
         if (mVelocityTracker == null) {
@@ -399,7 +545,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
     @Override
     public void onPause() {
-        Log.d("EX_Toolbox", "sensors.onPause() called");
+        Log.d("EX_Toolbox", "track_manager.onPause() called");
         super.onPause();
         CookieSyncManager.getInstance().stopSync();
     }
@@ -407,10 +553,10 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("EX_Toolbox", "sensors.onStart() called");
+        Log.d("EX_Toolbox", "track_manager.onStart() called");
         // put pointer to this activity's handler in main app's shared variable
-        if (mainapp.sensors_msg_handler == null)
-            mainapp.sensors_msg_handler = new sensors_handler();
+        if (mainapp.track_manager_msg_handler == null)
+            mainapp.track_manager_msg_handler = new speed_matching_handler(Looper.getMainLooper());
     }
 
     @Override
@@ -428,11 +574,11 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("EX_Toolbox", "sensors.onDestroy() called");
+        Log.d("EX_Toolbox", "speed_matching.onDestroy() called");
 
-        if (mainapp.sensors_msg_handler !=null) {
-            mainapp.sensors_msg_handler.removeCallbacksAndMessages(null);
-            mainapp.sensors_msg_handler = null;
+        if (mainapp.speed_matching_msg_handler !=null) {
+            mainapp.speed_matching_msg_handler.removeCallbacksAndMessages(null);
+            mainapp.speed_matching_msg_handler = null;
         } else {
             Log.d("Engine_Driver", "onDestroy: mainapp.web_msg_handler is null. Unable to removeCallbacksAndMessages");
         }
@@ -450,7 +596,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
     @Override
     public boolean onKeyDown(int key, KeyEvent event) {
         if (key == KeyEvent.KEYCODE_BACK) {
-            if (mainapp.sensors_msg_handler!=null) {
+            if (mainapp.speed_matching_msg_handler!=null) {
                 mainapp.checkExit(this);
             } else { // something has gone wrong and the activity did not shut down properly so force it
                 disconnect();
@@ -463,11 +609,9 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.sensors_menu, menu);
+        inflater.inflate(R.menu.speed_matching_menu, menu);
         tMenu = menu;
 
-
-        mainapp.setTrackmanagerMenuOption(menu);
         mainapp.setCurrentsMenuOption(menu);
 
         mainapp.displayToolbarMenuButtons(menu);
@@ -522,35 +666,32 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
             return true;
 
         } else if (item.getItemId() == R.id.exit_mnu) {
-                mainapp.checkExit(this);
-                return true;
+            mainapp.checkExit(this);
+            return true;
         } else if (item.getItemId() == R.id.power_control_mnu) {
-                navigateAway(false, power_control.class);
-                return true;
-/*        } else if (item.getItemId() == R.id.preferences_mnu) {
-                navigateAway(false, SettingsActivity.class);
-                return true;*/
+            navigateAway(false, power_control.class);
+            return true;
         } else if (item.getItemId() == R.id.settings_mnu) {
-                in = new Intent().setClass(this, SettingsActivity.class);
-                startActivityForResult(in, 0);
-                connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
-                return true;
+            in = new Intent().setClass(this, SettingsActivity.class);
+            startActivityForResult(in, 0);
+            connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
+            return true;
         } else if (item.getItemId() == R.id.logviewer_menu) {
-                navigateAway(false, LogViewerActivity.class);
-                return true;
+            navigateAway(false, LogViewerActivity.class);
+            return true;
         } else if (item.getItemId() == R.id.about_mnu) {
-                navigateAway(false, about_page.class);
-                return true;
+            navigateAway(false, about_page.class);
+            return true;
         } else if (item.getItemId() == R.id.power_layout_button) {
-                if (!mainapp.isPowerControlAllowed()) {
-                    mainapp.powerControlNotAllowedDialog(tMenu);
-                } else {
-                    mainapp.powerStateMenuButton();
-                }
-                mainapp.buttonVibration();
-                return true;
+            if (!mainapp.isPowerControlAllowed()) {
+                mainapp.powerControlNotAllowedDialog(tMenu);
+            } else {
+                mainapp.powerStateMenuButton();
+            }
+            mainapp.buttonVibration();
+            return true;
         } else {
-                return super.onOptionsItemSelected(item);
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -610,7 +751,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
     @SuppressLint("ApplySharedPref")
     public void forceRestartApp(int forcedRestartReason) {
-        Log.d("EX-Toolbox", "sensors.forceRestartApp() ");
+        Log.d("EX-Toolbox", "speed_matching.forceRestartApp() ");
         Message msg = Message.obtain();
         msg.what = message_type.RESTART_APP;
         msg.arg1 = forcedRestartReason;
@@ -619,83 +760,108 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
 //**************************************************************************************
 
-    @SuppressLint("DefaultLocale")
-    void setIdsFromResponses() {
-        for (int i=0; i<mainapp.sensorDccexCount; i++) {
-            updateSensorsList(String.format("%d",mainapp.sensorIdsDccex[i]),
-                String.format("%d",mainapp.sensorVpinsDccex[i]),
-                String.format("%d",mainapp.sensorPullupsDccex[i]),
-                SENSOR_STATUS_UNKNOWN);
-        }
-        sensors_list_adapter.notifyDataSetChanged();
-//        showHideButtons();
-    }
+    public class WriteButtonListener implements View.OnClickListener {
+        int myWhich;
+        int myAdjust;
 
-    void updateSensorsList(String id, String vpin, String pullup, String status) {
-        HashMap<String, String> hm = new HashMap<String, String>();
-        hm.put("sensorId", id);
-        hm.put("vpin", vpin);
-        hm.put("pullup", pullup);
-        switch (status) {
-            case SENSOR_STATUS_ACTIVE:
-                hm.put("status", getApplicationContext().getResources().getString(R.string.dccexSensorActive));
-                break;
-            case SENSOR_STATUS_INACTIVE:
-                hm.put("status", getApplicationContext().getResources().getString(R.string.DccexSensorInactive));
-                break;
-            default:
-            case SENSOR_STATUS_UNKNOWN:
-                hm.put("status", getApplicationContext().getResources().getString(R.string.dccexSensorUnknown));
-                break;
+        public WriteButtonListener(int which, int adjust) {
+            myWhich = which;
+            myAdjust = adjust;
         }
-        String foundSensorId = hm.get("sensorId");
-        boolean entryExists = false;
 
-        //stop if new address is already in the list
-        HashMap<String, String> tm;
-        for (int index = 0; index < sensors_list.size(); index++) {
-            tm = sensors_list.get(index);
-            if (tm.get("sensorId").equals(foundSensorId)) {
-                entryExists = true;
-                sensors_list.set(index, hm);
-                break;
-            }
-        }
-        if (!entryExists) {                // if new loco, add to discovered list on screen
-            sensors_list.add(hm);
-        }
-    }
-
-    void updateASensorListItem(String id, String status) {
-        HashMap<String, String> tm;
-        for (int index = 0; index < sensors_list.size(); index++) {
-            tm = sensors_list.get(index);
-            if (tm.get("sensorId").equals(id)) {
-                updateSensorsList(id, tm.get("vpin"), tm.get("pullup"), status);
-                break;
-            }
-        }
-    }
-
-    int getIntFromString(String str) {
-        int result = 0;
-        try {
-            result = Integer.parseInt(str);
-        } catch (Exception ignored) {}
-        return result;
-    }
-
-    public class read_sensors_button_listener implements View.OnClickListener {
         public void onClick(View v) {
-            for (int i=0; i<mainapp.sensorDccexCount; i++) {
-                if (mainapp.sensorIdsDccex[i]!=0) {
-                    mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_SENSOR,
-                            mainapp.sensorIdsDccex[i] + " " + Integer.toString(mainapp.sensorVpinsDccex[i]) + " " + Integer.toString(mainapp.sensorPullupsDccex[i]));
+            mainapp.buttonVibration();
+            getLocoAddresses();
+            getStepValue();
+            mainapp.hideSoftKeyboard(v);
+            if (locoAddrSecond>0) {
+                String cvValueStr = valsEditText[myWhich].getText().toString();
+                try {
+                    int cvVal = Integer.decode(cvValueStr);
+                    if (myAdjust != 0) {
+                        cvVal = cvVal + (stepValue * myAdjust);
+                        if (cvVal<0) cvVal = 0;
+                        else if (cvVal>255) cvVal = 255;
+                        valsEditText[myWhich].setText(""+cvVal);
+                        vals[myWhich] = cvVal;
+                        }
+                    if ( (cvVal >= 0) && (cvVal <= 255)) {
+                        mainapp.buttonVibration();
+                        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WRITE_POM_CV, speedCVs[myWhich] + " " + cvVal, locoAddrSecond);
+                        refreshDccexView();
+                    }
+                } catch (Exception ignored) {
                 }
             }
-            mainapp.hideSoftKeyboard(v);
         }
     }
+
+    public class SetSpeedButtonListener implements View.OnClickListener {
+        int myWhich;
+
+        public SetSpeedButtonListener(int which) {
+            myWhich = which;
+        }
+
+        public void onClick(View v) {
+            mainapp.buttonVibration();
+            getLocoAddresses();
+            mainapp.hideSoftKeyboard(v);
+
+            if (locoAddrMaster>0) {
+                mainapp.buttonVibration();
+                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SET_SPEED_DIRECT, "" + speeds[myWhich] + " 1", locoAddrMaster);
+            }
+            if (locoAddrSecond>0) {
+                mainapp.buttonVibration();
+                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SET_SPEED_DIRECT, "" + speeds[myWhich] + " 1", locoAddrSecond);
+            }
+        }
+    }
+
+    public class ReadSecondButtonListener implements View.OnClickListener {
+
+        public void onClick(View v) {
+            mainapp.hideSoftKeyboard(v);
+            mainapp.buttonVibration();
+            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_CV, "", speedCVs[0]);
+            mainapp.sendMsgDelay(mainapp.comm_msg_handler, 3000L, message_type.REQUEST_CV, "", speedCVs[1], 0);
+            mainapp.sendMsgDelay(mainapp.comm_msg_handler, 6000L, message_type.REQUEST_CV, "", speedCVs[2], 0);
+            mainapp.sendMsgDelay(mainapp.comm_msg_handler, 9000L, message_type.REQUEST_CV, "", speedCVs[3], 0);
+            mainapp.sendMsgDelay(mainapp.comm_msg_handler, 12000L, message_type.REQUEST_CV, "", speedCVs[4], 0);
+            mainapp.sendMsgDelay(mainapp.comm_msg_handler, 15000L, message_type.REQUEST_CV, "", speedCVs[5], 0);
+            mainapp.sendMsgDelay(mainapp.comm_msg_handler, 18000L, message_type.REQUEST_DECODER_ADDRESS, "", 0, 0);
+            refreshDccexView();
+
+        }
+    }
+
+    void getLocoAddresses() {
+        locoAddrMaster = 0;
+        locoAddrSecond = 0;
+        String addrValueStr = locoAddrMasterEditText.getText().toString();
+        try {
+            locoAddrMaster = Integer.decode(addrValueStr);
+        } catch (Exception ignored) {
+        }
+        addrValueStr = locoAddrSecondEditText.getText().toString();
+        try {
+            locoAddrSecond = Integer.decode(addrValueStr);
+        } catch (Exception ignored) {
+        }
+
+    }
+
+    void getStepValue() {
+        stepValue = 1;
+        String stepValueStr = stepValueEditText.getText().toString();
+        try {
+            stepValue = Integer.decode(stepValueStr);
+        } catch (Exception ignored) {
+        }
+    }
+
+    // *********************************
 
     public class clear_commands_button_listener implements View.OnClickListener {
         public void onClick(View v) {
@@ -707,46 +873,14 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         }
     }
 
-//    private void resetSensorTextFields() {
-//        for (int i = 0; i < threaded_application.DCCEX_MAX_SENSORS; i++) {
-//            dccexSensorIds[i] = 0;
-//            dccexSensorVpins[i] = 0;
-//            dccexSensorPullups[i] = 0;
-//
-//            dccExSensorIdTextView[i].setText(Integer.toString(dccexSensorIds[i]));
-//            dccExSensorVpinsTextView[i].setText(Integer.toString(dccexSensorVpins[i]));
-//            dccExSensorPullupsTextView[i].setText(Integer.toString(dccexSensorPullups[i]));
-//        }
-//    }
-//
-//
-//    private void showHideButtons() {
-//        for (int i = 0; i < threaded_application.DCCEX_MAX_SENSORS; i++) {
-//            if (dccexSensorIds[i] != 0) {
-//                dccExSensorLayouts[i].setVisibility(View.VISIBLE);
-//            } else {
-//                dccExSensorLayouts[i].setVisibility(View.GONE);
-//            }
-//        }
-//    }
-
     public void refreshDccexView() {
         DccexWriteInfoLabel.setText(DccexInfoStr);
         refreshDccexCommandsView();
-//        showHideButtons();
-
     }
 
     public void refreshDccexCommandsView() {
         DccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
         DccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
-    }
-
-    public void refreshDccexSensorsView() {
-//        for (int i = 0; i < threaded_application.DCCEX_MAX_SENSORS; i++) {
-//        }
-//        showHideButtons();
-
     }
 
 }

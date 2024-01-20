@@ -24,6 +24,13 @@
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
 
+    <item android:id="@+id/toolbar_button_speed_matching"
+        android:icon="?attr/ed_toolbar_button_speed_matching"
+        android:title="@string/app_name_speed_matching"
+        android:visible="true"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
     <item android:id="@+id/toolbar_button_servos"
         android:icon="?attr/ed_toolbar_button_servos"
         android:title="@string/app_name_servos"
@@ -66,6 +73,7 @@
         tools:ignore="AlwaysShowAction" />
 
     <item android:id="@+id/cv_programmer_mnu" android:title="@string/app_name_cv_programmer" />
+    <item android:id="@+id/speed_matching_mnu" android:title="@string/app_name_speed_matching" />
     <item android:id="@+id/servos_mnu" android:title="@string/app_name_servos" />
     <item android:id="@+id/sensors_mnu" android:title="@string/app_name_sensors" />
     <item android:id="@+id/locos_mnu" android:title="@string/app_name_locos" />

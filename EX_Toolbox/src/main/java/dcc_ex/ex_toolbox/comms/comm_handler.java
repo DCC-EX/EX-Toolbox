@@ -303,6 +303,15 @@ public class comm_handler extends Handler {
             break;
          }
 
+         case message_type.SET_SPEED_DIRECT: { // DCC-EX only
+            int addr = msg.arg1;
+            String [] args = msg.obj.toString().split(" ");  // [0]=speed [1]=direction
+            int speed = Integer.decode(args[0]);
+            int dir = Integer.decode(args[1]);
+            comm_thread.setSpeedDirect(addr, speed, dir);
+            break;
+         }
+
          case message_type.WRITE_POM_CV: { // DCC-EX only
             int addr = msg.arg1;
             String [] args = msg.obj.toString().split(" ");  // [0]=cv [1]=cv value

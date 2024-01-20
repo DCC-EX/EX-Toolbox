@@ -197,6 +197,14 @@
             android:summary="@string/prefShowToolbarMenuButtonsSummary"
             android:title="@string/prefShowToolbarTrackManagerMenuButtonsTitle" />
 
+        <CheckBoxPreference
+            android:icon="?attr/ed_toolbar_button_speed_matching"
+            android:defaultValue="@bool/prefShowToolbarMenuButtonsDefaultValue"
+            android:key="prefShowToolbarSpeedMatchingMenuButtons"
+            android:layout="@layout/checkbox_icon_right"
+            android:summary="@string/prefShowToolbarMenuButtonsSummary"
+            android:title="@string/prefShowToolbarSpeedMatchingMenuButtonsTitle" />
+
 
         <ListPreference
             android:icon="?attr/ed_clock_icon"

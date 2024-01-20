@@ -227,6 +227,7 @@ public class threaded_application extends Application {
     public volatile Handler cv_programmer_msg_handler;
     public volatile Handler servos_msg_handler;
     public volatile Handler track_manager_msg_handler;
+    public volatile Handler speed_matching_msg_handler;
     public volatile Handler sensors_msg_handler;
     public volatile Handler currents_msg_handler;
     public volatile Handler locos_msg_handler;
@@ -297,13 +298,14 @@ public class threaded_application extends Application {
 
     /// swipe right sequence
     public static final int SCREEN_SWIPE_INDEX_CV_PROGRAMMER = 0;
-    public static final int SCREEN_SWIPE_INDEX_LOCOS = 1;
-    public static final int SCREEN_SWIPE_INDEX_SERVOS = 2;
-    public static final int SCREEN_SWIPE_INDEX_SENSORS = 3;
-    public static final int SCREEN_SWIPE_INDEX_CURRENTS = 4;
-    public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 5;
-    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 6;
-    public static final int SCREEN_SWIPE_INDEX_DIAG = 7;
+    public static final int SCREEN_SWIPE_INDEX_SPEED_MATCHING = 1;
+    public static final int SCREEN_SWIPE_INDEX_LOCOS = 2;
+    public static final int SCREEN_SWIPE_INDEX_SERVOS = 3;
+    public static final int SCREEN_SWIPE_INDEX_SENSORS = 4;
+    public static final int SCREEN_SWIPE_INDEX_CURRENTS = 5;
+    public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 6;
+    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 7;
+    public static final int SCREEN_SWIPE_INDEX_DIAG = 8;
 
     public boolean prefBackgroundImage = false;
     public String prefBackgroundImageFileName = "";
@@ -795,6 +797,9 @@ public class threaded_application extends Application {
         MenuItem menuItem = menu.findItem(R.id.toolbar_button_cv_programmer);
         if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarCvProgrammerMenuButtons", false));
 
+        menuItem = menu.findItem(R.id.toolbar_button_speed_matching);
+        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarSpeedMatchingMenuButtons", false));
+
         menuItem = menu.findItem(R.id.toolbar_button_servos);
         if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarServosMenuButtons", false));
 
@@ -934,6 +939,11 @@ public class threaded_application extends Application {
 
         try {
             sendMsg(track_manager_msg_handler, msgType, msgBody);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            sendMsg(speed_matching_msg_handler, msgType, msgBody);
         } catch (Exception ignored) {
         }
 
@@ -1387,6 +1397,9 @@ public class threaded_application extends Application {
             case SCREEN_SWIPE_INDEX_CV_PROGRAMMER:
             default:
                 nextIntent = new Intent().setClass(this, cv_programmer.class);
+                break;
+            case SCREEN_SWIPE_INDEX_SPEED_MATCHING:
+                nextIntent = new Intent().setClass(this, speed_matching.class);
                 break;
             case SCREEN_SWIPE_INDEX_LOCOS:
                 nextIntent = new Intent().setClass(this, locos.class);
