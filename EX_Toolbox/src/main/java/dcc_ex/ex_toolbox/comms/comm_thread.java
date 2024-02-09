@@ -1198,56 +1198,9 @@ public class comm_thread extends Thread {
                         }
                     }
 
-                } else { // this a request for details on a specific loco - not part of the main roster request
-
-                    String addr_str = args[1];
-                    addr_str = ((Integer.parseInt(args[1]) <= 127) ? "S" : "L") + addr_str;
-
-                    for (int throttleIndex = 0; throttleIndex<1; throttleIndex++) {  //loco may be the lead on more that one throttle
-
-//                        int whichThrottle = mainapp.getWhichThrottleFromAddress(addr_str, throttleIndex);
-                        int whichThrottle = 0;
-                        if (whichThrottle >= 0) {
-                            String lead = mainapp.consists[whichThrottle].getLeadAddr();
-                            if (lead.equals(addr_str)) {                       // only process the functions for lead engine in consist
-                                if (args[3].length() > 2) {                       // only process the functions for lead engine in consist
-                                    String[] fnArgs = args[3].substring(1, args[3].length() - 1).split("/", 999);
-                                    mainapp.throttleFunctionIsLatchingDccex[whichThrottle] = new boolean[args[3].length()];
-                                    StringBuilder responseStrBuilder = new StringBuilder("RF29}|{1234(L)]\\[");  //prepend some stuff to match old-style
-                                    for (int i = 0; i < fnArgs.length; i++) {
-                                        if (fnArgs[i].length() == 0) {
-                                            responseStrBuilder.append("]\\[");
-                                            mainapp.throttleFunctionIsLatchingDccex[whichThrottle][i] = false;
-                                        } else {
-                                            if (fnArgs[i].charAt(0) == '*') { // is NOT latching
-                                                responseStrBuilder.append(fnArgs[i].substring(1)).append("]\\[");
-                                                mainapp.throttleFunctionIsLatchingDccex[whichThrottle][i] = false;
-                                            } else {
-                                                responseStrBuilder.append(fnArgs[i]).append("]\\[");
-                                                mainapp.throttleFunctionIsLatchingDccex[whichThrottle][i] = true;
-                                            }
-                                        }
-                                    }
-                                    processRosterFunctionString(responseStrBuilder.toString(), whichThrottle);
-
-                                    mainapp.consists[whichThrottle].setFunctionLabels(addr_str, responseStrBuilder.toString(), mainapp);
-                                    skipAlert = false;
-                                } else {
-                                    mainapp.throttleFunctionIsLatchingDccex[whichThrottle] = null;
-                                }
-                            }
-
-                            Consist con = mainapp.consists[whichThrottle];
-                            if (con.getLoco(addr_str) != null) { //loco was added to consist in select_loco
-                                con.setConfirmed(addr_str);
-                                con.setWhichSource(addr_str, 1); //entered by address, not roster
-//                                mainapp.addLocoToRecents(con.getLoco(addr_str));
-                            }
-
-                            throttleIndex = whichThrottle; // skip ahead
-                        }
-                    }
-                }
+                } // else { // this a request for details on a specific loco - not part of the main roster request
+                    // not relevant to EX-Toolbox
+//                }
             }
         }
         return skipAlert;

@@ -205,6 +205,13 @@
             android:summary="@string/prefShowToolbarMenuButtonsSummary"
             android:title="@string/prefShowToolbarSpeedMatchingMenuButtonsTitle" />
 
+        <CheckBoxPreference
+            android:icon="?attr/ed_toolbar_button_roster"
+            android:defaultValue="@bool/prefShowToolbarMenuButtonsDefaultValue"
+            android:key="prefShowToolbarRosterMenuButtons"
+            android:layout="@layout/checkbox_icon_right"
+            android:summary="@string/prefShowToolbarMenuButtonsSummary"
+            android:title="@string/prefShowToolbarRosterMenuButtonsTitle" />
 
         <ListPreference
             android:icon="?attr/ed_clock_icon"

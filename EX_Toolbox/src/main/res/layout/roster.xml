@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/sensors_screen"
+    android:id="@+id/roster_screen"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:keepScreenOn="true"
     android:orientation="vertical">
 
     <android.gesture.GestureOverlayView
-        android:id="@+id/sensors_overlay"
+        android:id="@+id/roster_overlay"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:eventsInterceptionEnabled="false"
@@ -30,7 +30,7 @@
                 android:orientation="vertical" >
 
                 <ImageView
-                    android:id="@+id/sensorsBackgroundImgView"
+                    android:id="@+id/rosterBackgroundImgView"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     tools:ignore="ContentDescription" />
@@ -61,7 +61,7 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:padding="2sp"
-                                android:text="@string/app_name_sensors"
+                                android:text="@string/app_name_roster"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
@@ -73,53 +73,32 @@
                             android:orientation="vertical" />
 
                         <LinearLayout
-                            android:id="@+id/ex_DccexSensorsLinearLayout"
+                            android:id="@+id/ex_DccexRosterLinearLayout"
                             android:layout_width="fill_parent"
-                            android:layout_height="300sp"
+                            android:layout_height="350sp"
                             android:layout_margin="0sp"
                             android:padding="5sp"
-                            android:weightSum="1"
                             android:orientation="horizontal"
-                            tools:ignore="NestedWeights"
-                            android:baselineAligned="false">
+                            tools:ignore="NestedWeights">
 
-                            <LinearLayout
-                                android:id="@+id/ex_DccexSensorsScrollView"
-                                android:layout_width="0sp"
-                                android:layout_height="fill_parent"
-                                android:orientation="vertical"
-                                android:layout_weight=".60">
-
-                                <ListView
-                                    android:id="@+id/sensors_list"
-                                    style="?attr/EDListView"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="#00000000"
-                                    android:footerDividersEnabled="true" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0sp"
+                            <ListView
+                                android:id="@+id/roster_list"
+                                style="?attr/EDListView"
+                                android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="0sp"
-                                android:padding="0sp"
-                                android:layout_weight=".4"
-                                android:orientation="vertical">
+                                android:background="#00000000"
+                                android:footerDividersEnabled="true" />
 
-                            <Button
-                                android:id="@+id/ex_DccexReadSensorsButton"
-                                style="?attr/ed_small_button_style"
+                            <TextView
+                                android:id="@+id/roster_list_empty"
+                                style="?attr/floating_text_style"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:padding="0sp"
-                                android:autoSizeMinTextSize="8sp"
-                                android:autoSizeMaxTextSize="20sp"
-                                android:autoSizeStepGranularity="1sp"
-                                android:text="@string/DccexReadSensorsButtonLabel"
-                                tools:ignore="UnusedAttribute" />
-                            </LinearLayout>
+                                android:layout_marginBottom="2dp"
+                                android:padding="8sp"
+                                android:visibility="gone"
+                                android:text="@string/rosterEmpty" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -165,7 +144,7 @@
                             android:layout_marginTop="0sp"
                             android:background="#00000000"
                             android:orientation="vertical"
-                            android:layout_weight=".2"
+                            android:layout_weight=".4"
                             android:weightSum="1"
                             tools:ignore="NestedWeights">
 
@@ -191,7 +170,7 @@
                                 android:id="@+id/ex_DccexSendsScrollView"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                android:layout_weight=".2">
+                                android:layout_weight=".3">
 
                                 <TextView
                                     android:id="@+id/ex_DccexSendsLabel"
@@ -228,7 +207,7 @@
                                 style="?attr/ed_small_button_style"
                                 android:layout_gravity="left"
                                 android:text="@string/dccexClearCommands"
-                                tools:ignore="RtlHardcoded"
+                                tools:ignore="RtlHardcoded,TooManyViews"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentRight="true" />
 

@@ -374,6 +374,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         mainapp.getCommonPreferences();
 
         setActivityTitle();
+        mainapp.activeScreen = mainapp.ACTIVE_SCREEN_SENSORS;
         mainapp.dccexScreenIsOpen = true;
         refreshDccexView();
         refreshDccexSensorsView();
@@ -518,6 +519,11 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         } else if ( (item.getItemId() == R.id.locos_mnu) || (item.getItemId() == R.id.toolbar_button_locos) ) {
             navigateAway(true, null);
             in = new Intent().setClass(this, locos.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
+        } else if ( (item.getItemId() == R.id.roster_mnu) || (item.getItemId() == R.id.toolbar_button_roster) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, roster.class);
             startACoreActivity(this, in, false, 0);
             return true;
 

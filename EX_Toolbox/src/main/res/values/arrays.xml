@@ -97,7 +97,11 @@
         <item>All Turnouts/Points</item>
         <item>All Outputs</item>
         <item>Track Manager</item>
-        <item>Route/Automation {loco} {id}</item>
+        <item>Roster</item>
+        <item>Roster Entry</item>
+        <item>Route/Automations</item>
+        <item>Route/Automation {id}</item>
+        <item>Start Route/Automation {loco} {id}</item>
         <item>Kill all Automations</item>
         <item>--- Diagnostic Commands ---</item>
         <item>ACK Limit {mA}</item>
@@ -111,6 +115,7 @@
         <item>ETHERNET {ON|OFF}</item>
         <item>WiThrottle {ON|OFF}</item>
         <item>Show free RAM</item>
+        <item>EXRAIL Script logging {ON|OFF}</item>
     </string-array>
     <string-array name="dccExCommonCommandsEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
         <item />
@@ -121,6 +126,10 @@
         <item>T</item>
         <item>Q</item>
         <item>=</item>
+        <item>J R</item>
+        <item>J R</item>
+        <item>J A</item>
+        <item>J A</item>
         <item>/ START</item>
         <item>/ KILL ALL</item>
         <item />
@@ -135,6 +144,7 @@
         <item>D ETHERNET</item>
         <item>D WIT</item>
         <item>D RAM</item>
+        <item>D EXRAIL</item>
     </string-array>
     <integer-array name="dccExCommonCommandsHasParameters" translatable="false">  <!-- DO NOT TRANSLATE -->
         <item>0</item>
@@ -145,6 +155,10 @@
         <item>0</item>  // T
         <item>0</item>  // Q
         <item>0</item>  // =
+        <item>0</item> // JR
+        <item>1</item> // JR id
+        <item>0</item> // JA
+        <item>1</item> // JA id
         <item>1</item>  // /START
         <item>0</item>  // /KILL ALL
         <item>0</item>  // delimeter
@@ -159,7 +173,38 @@
         <item>1</item>  // D ETHERNET
         <item>1</item>  // D WIT
         <item>1</item>  // D RAM
+        <item>1</item> // / D EXRAIL
     </integer-array>
+
+    <string-array name="dccExCommonCommandsAdditionalInfo">
+        <item />
+        <item>Join the Main and Programming tracks temporarily</item>
+        <item>Un-Join the Main and Programming tracks</item>
+        <item>request Command Station Status</item>
+        <item>Request a list of all defined sensors</item>
+        <item>Request a list of all defined turnouts</item>
+        <item>Request a list of all defined sensors</item>
+        <item>Request the current Track Manager configuration</item>
+        <item>Request the list of Roster Entry IDs</item>
+        <item>Request a list of Automations/Routes</item>
+        <item>Request information for a route/automation</item>
+        <item>Request details of a specific Roster Entry</item>
+        <item>Start a new task to send a loco onto a Route, or activate a non-loco Animation or Sequence</item>
+        <item>Kills a currently running script task by ID or "ALL"</item>
+        <item />
+        <item>Override the minimum milliamps (mA) required to detect the ACK pulse,</item>
+        <item>Override the minimum amount of time in microseconds (uS) the pulse needs to be active</item>
+        <item>Override the maximum amount of time required to detect the ACK pulse </item>
+        <item>Re-boot the Command Station</item>
+        <item />
+        <item>List HAL devices and allocated VPINs</item>
+        <item>Override prog track limit if programming decoders trigger current limiting on the programming track</item>
+        <item>When enabled, diagnostic messages will be shown on the the serial monitor</item>
+        <item>Enables/disables Ethernet diagnostics</item>
+        <item>Enables/disables WiThrottle diagnostics</item>
+        <item />
+        <item> Enable or disable EX-RAIL script logging</item>
+    </string-array>
 
     <string-array name="dccExActionTypeEntries">  <!-- display version -->
         <item>Programming Track (Service mode)</item>

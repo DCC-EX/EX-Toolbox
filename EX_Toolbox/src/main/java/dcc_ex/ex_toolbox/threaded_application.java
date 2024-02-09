@@ -231,6 +231,7 @@ public class threaded_application extends Application {
     public volatile Handler sensors_msg_handler;
     public volatile Handler currents_msg_handler;
     public volatile Handler locos_msg_handler;
+    public volatile Handler roster_msg_handler;
 
     public volatile Handler reconnect_status_msg_handler;
     public volatile Handler preferences_msg_handler;
@@ -304,8 +305,19 @@ public class threaded_application extends Application {
     public static final int SCREEN_SWIPE_INDEX_SENSORS = 4;
     public static final int SCREEN_SWIPE_INDEX_CURRENTS = 5;
     public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 6;
-    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 7;
-    public static final int SCREEN_SWIPE_INDEX_DIAG = 8;
+    public static final int SCREEN_SWIPE_INDEX_ROSTER = 7;
+    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 8;
+    public static final int SCREEN_SWIPE_INDEX_DIAG = 9;
+
+    public static final int ACTIVE_SCREEN_CV_PROGRAMMER = 0;
+    public static final int ACTIVE_SCREEN_SPEED_MATCHING = 1;
+    public static final int ACTIVE_SCREEN_SERVOS = 2;
+    public static final int ACTIVE_SCREEN_SENSORS = 3;
+    public static final int ACTIVE_SCREEN_CURRENTS = 4;
+    public static final int ACTIVE_SCREEN_TRACK_MANAGER = 5;
+    public static final int ACTIVE_SCREEN_ROSTER = 6;
+
+    public int activeScreen = 0;
 
     public boolean prefBackgroundImage = false;
     public String prefBackgroundImageFileName = "";
@@ -634,31 +646,6 @@ public class threaded_application extends Application {
         return null;
     }
 
-//    public int getWhichThrottleFromAddress(String addr_str, int startAt) {
-////        if (addr_str.charAt(0) == 'S' || addr_str.charAt(0) == 'L') { //convert from S123 to 123(S) formatting if needed
-////            addr_str = cvtToAddrP(addr_str);
-////        }
-//        // assumes "S123" "L333" type address, not "123(S)"
-//        Consist con = null;
-//        int whichThrottle = -1;
-//        boolean found = false;
-//        if (consists.length>=startAt) {
-//            for (int i=startAt; i<consists.length; i++) {
-//                con = mainapp.consists[i];
-//                for (Consist.ConLoco l : con.getLocos()) {
-//                    if (l.getAddress().equals(addr_str)) {
-//                        found = true;
-//                        whichThrottle = i;
-//                        break;
-//                    }
-//                }
-//                if (found) break;
-//            }
-//        }
-//        return whichThrottle;
-//    }
-
-
     //convert a string of form L123 to 123(L)
     public String cvtToAddrP(String addr_str) {
         return addr_str.substring(1) + "(" + addr_str.substring(0, 1) + ")";
@@ -669,6 +656,16 @@ public class threaded_application extends Application {
         String[] sa = splitByString(addr_str, "(");  //split on the "("
         if (sa.length == 2) {
             return sa[1].substring(0, 1) + sa[0]; //move length to front and return format L123
+        } else {
+            return addr_str; //just return input if format not as expected
+        }
+    }
+
+    //convert a string of form 123(L) to 123
+    public String cvtToAddr(String addr_str) {
+        String[] sa = splitByString(addr_str, "(");  //split on the "("
+        if (sa.length == 2) {
+            return sa[0]; //strip the length indicator
         } else {
             return addr_str; //just return input if format not as expected
         }
@@ -814,6 +811,9 @@ public class threaded_application extends Application {
 
         menuItem = menu.findItem(R.id.toolbar_button_track_manager);
         if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarTrackManagerMenuButtons", false));
+
+        menuItem = menu.findItem(R.id.toolbar_button_roster);
+        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarRosterMenuButtons", false));
     }
 
     public void displayPowerStateMenuButton(Menu menu) {
@@ -949,6 +949,11 @@ public class threaded_application extends Application {
 
         try {
             sendMsg(locos_msg_handler, msgType, msgBody);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            sendMsg(roster_msg_handler, msgType, msgBody);
         } catch (Exception ignored) {
         }
 
@@ -1376,13 +1381,13 @@ public class threaded_application extends Application {
             if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen++;
             }
-            if (nextScreen > SCREEN_SWIPE_INDEX_TRACK_MANGER) {
+            if (nextScreen > SCREEN_SWIPE_INDEX_ROSTER) {
                 nextScreen = SCREEN_SWIPE_INDEX_CV_PROGRAMMER;
             }
         } else {
             nextScreen = currentScreen - 1;
             if (nextScreen < SCREEN_SWIPE_INDEX_CV_PROGRAMMER) {
-                nextScreen = SCREEN_SWIPE_INDEX_TRACK_MANGER;
+                nextScreen = SCREEN_SWIPE_INDEX_ROSTER;
             }
             if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen--;
@@ -1415,6 +1420,9 @@ public class threaded_application extends Application {
                 break;
             case SCREEN_SWIPE_INDEX_TRACK_MANGER:
                 nextIntent = new Intent().setClass(this, track_manager.class);
+                break;
+            case SCREEN_SWIPE_INDEX_ROSTER:
+                nextIntent = new Intent().setClass(this, roster.class);
                 break;
         }
         return nextIntent;

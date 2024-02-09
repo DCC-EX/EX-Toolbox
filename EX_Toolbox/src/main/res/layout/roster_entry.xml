@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rosterEntryView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="?attr/ed_background_highlight"
+                android:layout_weight=".01"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/rosterEntryText"
+                    style="?attr/floating_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="" />
+
+            </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".90"
+            android:layout_margin="10dp">
+
+                <TextView
+                    android:id="@+id/rosterEntryExtraText"
+                    style="?attr/floating_text_style"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="0dp"
+                    android:padding="0dp" />
+            </ScrollView>
+
+
+            <TableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="3dp"
+                android:layout_weight=".06"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp">
+
+                <RelativeLayout
+                    android:id="@+id/dcc_ex_bottom_button_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="0sp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/rosterEntryButtonClose"
+                        style="?attr/ed_small_button_style"
+                        android:text="@string/logviewerClose" />
+
+                </RelativeLayout>
+            </TableLayout>
+    </LinearLayout>
+</LinearLayout>

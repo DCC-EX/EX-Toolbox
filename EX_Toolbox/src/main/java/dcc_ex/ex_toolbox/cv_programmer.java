@@ -56,6 +56,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -118,6 +119,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     String[] dccExCommonCommandsEntryValuesArray;
     String[] dccExCommonCommandsEntriesArray; // display version
     int[] dccExCommonCommandsHasParametersArray; // display version
+    String[] dccExCommonCommandsAdditionalInfoArray;
 
     private int dccExActionTypeIndex = 0;
     String[] dccExActionTypeEntryValuesArray;
@@ -500,6 +502,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         dccExCommonCommandsEntriesArray = this.getResources().getStringArray(R.array.dccExCommonCommandsEntries); // display version
 //        final List<String> dccCommonCommandsEntriesList = new ArrayList<>(Arrays.asList(dccExCommonCommandsEntriesArray));
         dccExCommonCommandsHasParametersArray = this.getResources().getIntArray(R.array.dccExCommonCommandsHasParameters);
+        dccExCommonCommandsAdditionalInfoArray = this.getResources().getStringArray(R.array.dccExCommonCommandsAdditionalInfo);
 
         dccCmdIndex=0;
         dccExCommonCommandsSpinner = findViewById(R.id.ex_common_commands_list);
@@ -634,6 +637,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 
         setActivityTitle();
         mainapp.dccexScreenIsOpen = true;
+        mainapp.activeScreen = mainapp.ACTIVE_SCREEN_CV_PROGRAMMER;
         refreshDccexView();
         refreshDccexTracksView();
 
@@ -796,6 +800,11 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         } else if ( (item.getItemId() == R.id.locos_mnu) || (item.getItemId() == R.id.toolbar_button_locos) ) {
             navigateAway(true, null);
             in = new Intent().setClass(this, locos.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
+        } else if ( (item.getItemId() == R.id.roster_mnu) || (item.getItemId() == R.id.toolbar_button_roster) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, roster.class);
             startACoreActivity(this, in, false, 0);
             return true;
 
@@ -1280,9 +1289,12 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                 etDccexSendCommandValue.requestFocus();
                 etDccexSendCommandValue.setSelection(DccexSendCommandValue.length());
             }
+//            DccexInfoStr = "";
+            if (dccCmdIndex != 0) {
+                DccexInfoStr = dccExCommonCommandsAdditionalInfoArray[dccCmdIndex];
+            }
             dccCmdIndex = 0;
             dccExCommonCommandsSpinner.setSelection(dccCmdIndex);
-            DccexInfoStr = "";
 
             InputMethodManager imm =
                     (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -1367,7 +1379,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     }
 
     void checkCv29(String cv, String cvValueStr) {
-        if (cv.equals("29")) {
+        if ( (cv.equals("29")) && (mainapp.activeScreen==mainapp.ACTIVE_SCREEN_CV_PROGRAMMER) ) {
             try {
                 String rslt = "";
                 int cvValue = Integer.parseInt(cvValueStr);
@@ -1413,6 +1425,11 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                 mainapp.dccexResponsesStr = "<p>"
                         + String.format(getApplicationContext().getResources().getString(R.string.cv29SpeedToggleDirection),
                                         mainapp.toggleBit(cvValue,1) )
+                        + "</p>" + mainapp.dccexResponsesStr;
+
+                mainapp.dccexResponsesStr = "<p>"
+                        + String.format(getApplicationContext().getResources().getString(R.string.cv29SpeedTableToggle),
+                        mainapp.toggleBit(cvValue, 5))
                         + "</p>" + mainapp.dccexResponsesStr;
 
             } catch (Exception e) {

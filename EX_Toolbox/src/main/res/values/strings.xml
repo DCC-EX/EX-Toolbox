@@ -46,6 +46,7 @@
     <string name="app_name_locos_short">Locos</string>
     <string name="app_name_currents">Current Status</string>
     <string name="app_name_currents_short">Currents</string>
+    <string name="app_name_roster">Roster</string>
 
     <string name="app_name_dcc_ex">DCC-EX</string>
 
@@ -139,6 +140,7 @@
     <string name="prefShowToolbarServosMenuButtonsTitle">Servos toolbar button</string>
     <string name="prefShowToolbarTrackManagerMenuButtonsTitle">Track Manager toolbar button</string>
     <string name="prefShowToolbarSpeedMatchingMenuButtonsTitle">Speed Matching toolbar button</string>
+    <string name="prefShowToolbarRosterMenuButtonsTitle">Roster toolbar button</string>
 
 
     <string name="PrefConnectToFirstServerTitle">Auto-Connect to Server?</string>
@@ -443,6 +445,8 @@
     <string name="cv29SpeedTableNo">Speed Table: Not used (uses CV 2,5 &amp; 6)</string>
     <string name="cv29SpeedTableYes">Speed Table: In use</string>
     <string name="cv29SpeedToggleDirection">Write a value of %d to CV29 to toggle the direction.</string>
+    <string name="cv29SpeedTableToggle">Write a value of %d to CV29 to toggle the use of the speed table.</string>
+    <string name="cv29SpeedTableDisable">The decoder is set to use the Speed Table, not the High,Mid &amp; Low values.<br />Changes made on this screen will have no effect until CV29 is altered.<br />Write a value of %d to CV29 to disable the use of the Speed Table.</string>
 
     <string name="speedMatchMaster">Master</string>
     <string name="speedMatchSecond">Second</string>
@@ -452,14 +456,22 @@
     <string name="speedMatchSetSpeed">Set Speed</string>
     <string name="speedMatchStop">Stop</string>
     <string name="speedMatchWrite">Write</string>
+    <string name="speedMatchSaveEmoji">💾</string>
     <string name="speedMatchPlus">+</string>
+    <string name="speedMatchPlusEmoji">➕</string>
     <string name="speedMatchMinus">-</string>
+    <string name="speedMatchMinusEmoji">➖</string>
     <string name="speedMatchStep">Step</string>
     <string name="speedMatchRead">Read -PROG Trk</string>
     <string name="speedMatchAcceleration">Accel</string>
     <string name="speedMatchDeceleration">Decel</string>
     <string name="speedMatchKickStart">Kick</string>
 <!--    <string name="speedMatch"></string>-->
+
+    <string name="rosterEmpty">Unable to find any entries in the Server roster.</string>
+    <string name="rosterDetailsDialogTitle">"Roster details for "</string>
+    <string name="rosterDetailsNoFunctions">"No Functions defined"</string>
+    <string name="rosterDetailsFunctionMomentary">"(momentary)"</string>
 
 </resources>
 

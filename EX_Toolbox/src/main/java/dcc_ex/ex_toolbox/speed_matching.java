@@ -46,8 +46,8 @@ import android.view.View;
 import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
 import dcc_ex.ex_toolbox.type.message_type;
@@ -56,7 +56,7 @@ import dcc_ex.ex_toolbox.util.LocaleHelper;
 public class speed_matching extends AppCompatActivity implements GestureOverlayView.OnGestureListener {
 
     private threaded_application mainapp;  // hold pointer to mainapp
-    private SharedPreferences prefs;
+//    private SharedPreferences prefs;
 
     private Menu tMenu;
 //    private static boolean savedMenuSelected;
@@ -116,6 +116,12 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
     int[] speeds = {5, 63, 126, 0};  // LOW, MID, HIGH, STOP
 
     float vn = 4; // DCC-EC Version number
+
+    private String cv29SpeedSteps;
+    private String cv29AnalogueMode;
+    private String cv29Direction;
+    private String cv29AddressSize;
+    private String cv29SpeedTable;
 
     //**************************************
 
@@ -259,32 +265,31 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
                     if (cvResponseStr.length() > 0) {
                         String[] cvArgs = cvResponseStr.split("(\\|)");
                         int cv = Integer.decode(cvArgs[0]);
-                        if ( !(cvArgs[1].charAt(0)=='-') ) { // response matches what we got back
+                        if ( !(cvArgs[1].charAt(0)=='-') ) {
                             if (cv==speedCVs[LOW]) {
                                 vals[LOW] = Integer.decode(cvArgs[0]);
                                 valsEditText[LOW].setText(cvArgs[1]);
-                                refreshDccexView();
                             } else if (cv==speedCVs[MID]) {
                                 vals[MID] = Integer.decode(cvArgs[0]);
                                 valsEditText[MID].setText(cvArgs[1]);
-                                refreshDccexView();
                             } else if (cv==speedCVs[HIGH]) {
                                 vals[HIGH] = Integer.decode(cvArgs[0]);
                                 valsEditText[HIGH].setText(cvArgs[1]);
-                                refreshDccexView();
                             } else if (cv==speedCVs[ACCEL]) {
                                 vals[ACCEL] = Integer.decode(cvArgs[0]);
                                 valsEditText[ACCEL].setText(cvArgs[1]);
-                                refreshDccexView();
                             } else if (cv==speedCVs[DECEL]) {
                                 vals[DECEL] = Integer.decode(cvArgs[0]);
                                 valsEditText[DECEL].setText(cvArgs[1]);
-                                refreshDccexView();
                             } else if (cv==speedCVs[KICK]) {
                                 vals[KICK] = Integer.decode(cvArgs[0]);
                                 valsEditText[KICK].setText(cvArgs[1]);
-                                refreshDccexView();
+                            } else if (cv==29) {
+                                checkCv29(cvArgs[0], cvArgs[1]);
+                            } else {
+                                break;
                             }
+                            refreshDccexView();
                         }
                     }
                     break;
@@ -351,7 +356,7 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
         Log.d("Engine_Driver", "web_activity.onCreate()");
 
         mainapp = (threaded_application) this.getApplication();
-        prefs = getSharedPreferences("jmri.enginedriver_preferences", 0);
+//        prefs = getSharedPreferences("jmri.enginedriver_preferences", 0);
         mainapp.applyTheme(this);
 
         super.onCreate(savedInstanceState);
@@ -524,6 +529,7 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
 
         setActivityTitle();
         mainapp.dccexScreenIsOpen = true;
+        mainapp.activeScreen = mainapp.ACTIVE_SCREEN_SPEED_MATCHING;
         refreshDccexView();
 
         if (mainapp.isForcingFinish()) {    //expedite
@@ -555,8 +561,8 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
         super.onStart();
         Log.d("EX_Toolbox", "track_manager.onStart() called");
         // put pointer to this activity's handler in main app's shared variable
-        if (mainapp.track_manager_msg_handler == null)
-            mainapp.track_manager_msg_handler = new speed_matching_handler(Looper.getMainLooper());
+        if (mainapp.speed_matching_msg_handler == null)
+            mainapp.speed_matching_msg_handler = new speed_matching_handler(Looper.getMainLooper());
     }
 
     @Override
@@ -662,6 +668,11 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
         } else if ( (item.getItemId() == R.id.locos_mnu) || (item.getItemId() == R.id.toolbar_button_locos) ) {
             navigateAway(true, null);
             in = new Intent().setClass(this, locos.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
+        } else if ( (item.getItemId() == R.id.roster_mnu) || (item.getItemId() == R.id.toolbar_button_roster) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, roster.class);
             startACoreActivity(this, in, false, 0);
             return true;
 
@@ -831,6 +842,7 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
             mainapp.sendMsgDelay(mainapp.comm_msg_handler, 12000L, message_type.REQUEST_CV, "", speedCVs[4], 0);
             mainapp.sendMsgDelay(mainapp.comm_msg_handler, 15000L, message_type.REQUEST_CV, "", speedCVs[5], 0);
             mainapp.sendMsgDelay(mainapp.comm_msg_handler, 18000L, message_type.REQUEST_DECODER_ADDRESS, "", 0, 0);
+            mainapp.sendMsgDelay(mainapp.comm_msg_handler, 21000L, message_type.REQUEST_CV, "", 29, 0);
             refreshDccexView();
 
         }
@@ -883,4 +895,62 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
         DccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
     }
 
+    void checkCv29(String cv, String cvValueStr) {
+        if ( (cv.equals("29")) && (mainapp.activeScreen==mainapp.ACTIVE_SCREEN_SPEED_MATCHING) ) {
+            try {
+                String rslt = "";
+                int cvValue = Integer.parseInt(cvValueStr);
+                if (mainapp.bitExtracted(cvValue,1,1)==0) {
+                    cv29Direction = getApplicationContext().getResources().getString(R.string.cv29DirectionForward);
+                } else {
+                    cv29Direction = getApplicationContext().getResources().getString(R.string.cv29DirectionReverse);
+                }
+                rslt = rslt + cv29Direction + "<br />";
+
+                if (mainapp.bitExtracted(cvValue,1,2)==0) {
+                    cv29SpeedSteps = getApplicationContext().getResources().getString(R.string.cv29SpeedSteps14);
+                } else {
+                    cv29SpeedSteps = getApplicationContext().getResources().getString(R.string.cv29SpeedSteps28);
+                }
+                rslt = rslt + cv29SpeedSteps + "<br />";
+
+                if (mainapp.bitExtracted(cvValue,1,3)==0) {
+                    cv29AnalogueMode = getApplicationContext().getResources().getString(R.string.cv29AnalogueConversionOff);
+                } else {
+                    cv29AnalogueMode = getApplicationContext().getResources().getString(R.string.cv29AnalogueConversionOn);
+                }
+                rslt = rslt + cv29AnalogueMode + "<br />";
+
+                // bit 4 is Railcom
+
+                if (mainapp.bitExtracted(cvValue,1,5)==0) {
+                    cv29SpeedTable = getApplicationContext().getResources().getString(R.string.cv29SpeedTableNo);
+                } else {
+                    cv29SpeedTable = getApplicationContext().getResources().getString(R.string.cv29SpeedTableYes);
+                }
+                rslt = rslt + cv29SpeedTable + "<br />";
+
+                if (mainapp.bitExtracted(cvValue,1,6)==0) {
+                    cv29AddressSize = getApplicationContext().getResources().getString(R.string.cv29AddressSize2bit);
+                } else {
+                    cv29AddressSize = getApplicationContext().getResources().getString(R.string.cv29AddressSize4bit);
+                }
+                rslt = rslt +  cv29AddressSize;
+
+                mainapp.dccexResponsesStr = "<p>" + rslt + "</p>" + mainapp.dccexResponsesStr;
+
+                if (mainapp.bitExtracted(cvValue,1,5)==1) {
+                    mainapp.dccexResponsesStr = "<p>"
+                            + String.format(getApplicationContext().getResources().getString(R.string.cv29SpeedTableDisable),
+                            mainapp.toggleBit(cvValue, 5))
+                            + "</p>" + mainapp.dccexResponsesStr;
+                }
+
+//                refreshDccexView();
+
+            } catch (Exception e) {
+                Log.e("EX_Toolbox", "Error processing cv29: " + e.getMessage());
+            }
+        }
+    }
 }

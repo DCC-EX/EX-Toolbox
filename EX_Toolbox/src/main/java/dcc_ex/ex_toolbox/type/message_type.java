@@ -84,4 +84,5 @@ public interface message_type {
     int STOP_CURRENTS_TIMER = 83;
     int RECEIVED_LOCO_UPDATE = 84;
     int SET_SPEED_DIRECT = 85;
+    int REQUEST_ROSTER = 86;
 }

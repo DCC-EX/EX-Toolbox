@@ -17,11 +17,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package dcc_ex.ex_toolbox;
 
+import static android.view.View.GONE;
 import static dcc_ex.ex_toolbox.threaded_application.context;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,7 +31,6 @@ import android.content.res.Configuration;
 import android.gesture.GestureOverlayView;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -37,29 +38,44 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.CookieSyncManager;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import jmri.jmrit.roster.RosterEntry;
 import dcc_ex.ex_toolbox.type.message_type;
+import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
 import dcc_ex.ex_toolbox.util.LocaleHelper;
 
-public class currents extends AppCompatActivity implements GestureOverlayView.OnGestureListener {
+public class roster extends AppCompatActivity implements GestureOverlayView.OnGestureListener {
 
     private threaded_application mainapp;  // hold pointer to mainapp
     private SharedPreferences prefs;
 
-    private Menu tMenu;
+    private Menu menu;
     private static boolean savedMenuSelected;
 
     protected GestureOverlayView ov;
@@ -82,15 +98,15 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
     private ScrollView DccexResponsesScrollView;
     private ScrollView DccexSendsScrollView;
 
-    Button startCurrentsButton;
-    Button stopCurrentsButton;
     Button clearCommandsButton;
 
-    private LinearLayout[] dccExCurrentLayouts = {null, null, null, null, null,  null, null, null, null, null};
-    private TextView[] dccExCurrentsTextView = {null, null, null, null, null,  null, null, null, null, null};
-    private TextView[] dccExCurrentsHighestTextView = {null, null, null, null, null,  null, null, null, null, null};
-    private TextView[] dccExCurrentsMaxTextView = {null, null, null, null, null,  null, null, null, null, null};
-    private ProgressBar[] dccExCurrentsMaxProgressView = {null, null, null, null, null,  null, null, null, null, null};
+
+    ListView roster_list_view;
+    ArrayList<HashMap<String, String>> roster_list;
+    private RosterSimpleAdapter roster_list_adapter;
+
+    Button buttonClose;
+    String detailsRosterNameString = "";
 
     //**************************************
 
@@ -127,15 +143,15 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         mVelocityTracker.clear();
 
         // start the gesture timeout timer
-        if (mainapp.currents_msg_handler != null)
-            mainapp.currents_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
+        if (mainapp.roster_msg_handler != null)
+            mainapp.roster_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
     }
 
     public void gestureMove(MotionEvent event) {
-        // Log.d("Engine_Driver", "gestureMove action " + event.getAction());
-        if ( (mainapp != null) && (mainapp.currents_msg_handler != null) && (gestureInProgress) ) {
+        // Log.d("EX_Toolbox", "gestureMove action " + event.getAction());
+        if ( (mainapp != null) && (mainapp.roster_msg_handler != null) && (gestureInProgress) ) {
             // stop the gesture timeout timer
-            mainapp.currents_msg_handler.removeCallbacks(gestureStopped);
+            mainapp.roster_msg_handler.removeCallbacks(gestureStopped);
 
             mVelocityTracker.addMovement(event);
             if ((event.getEventTime() - gestureLastCheckTime) > gestureCheckRate) {
@@ -145,31 +161,30 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
                 velocityTracker.computeCurrentVelocity(1000);
                 int velocityX = (int) velocityTracker.getXVelocity();
                 int velocityY = (int) velocityTracker.getYVelocity();
-                // Log.d("Engine_Driver", "gestureVelocity vel " + velocityX);
+                // Log.d("EX_Toolbox", "gestureVelocity vel " + velocityX);
                 if ((Math.abs(velocityX) < threaded_application.min_fling_velocity) && (Math.abs(velocityY) < threaded_application.min_fling_velocity)) {
                     gestureFailed(event);
                 }
             }
             if (gestureInProgress) {
                 // restart the gesture timeout timer
-                mainapp.currents_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
+                mainapp.roster_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
             }
         }
     }
 
     private void gestureEnd(MotionEvent event) {
-        // Log.d("Engine_Driver", "gestureEnd action " + event.getAction() + " inProgress? " + gestureInProgress);
-        if ( (mainapp != null) && (mainapp.currents_msg_handler != null) && (gestureInProgress) ) {
-            mainapp.currents_msg_handler.removeCallbacks(gestureStopped);
+        // Log.d("EX_Toolbox", "gestureEnd action " + event.getAction() + " inProgress? " + gestureInProgress);
+        if ( (mainapp != null) && (mainapp.roster_msg_handler != null) && (gestureInProgress) ) {
+            mainapp.roster_msg_handler.removeCallbacks(gestureStopped);
 
             float deltaX = (event.getX() - gestureStartX);
             float absDeltaX =  Math.abs(deltaX);
             if (absDeltaX > threaded_application.min_fling_distance) { // only process left/right swipes
                 // valid gesture. Change the event action to CANCEL so that it isn't processed by any control below the gesture overlay
                 event.setAction(MotionEvent.ACTION_CANCEL);
-                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.STOP_CURRENTS_TIMER);
                 // process swipe in the direction with the largest change
-                Intent nextScreenIntent = mainapp.getNextIntentInSwipeSequence(threaded_application.SCREEN_SWIPE_INDEX_CURRENTS, deltaX);
+                Intent nextScreenIntent = mainapp.getNextIntentInSwipeSequence(threaded_application.SCREEN_SWIPE_INDEX_ROSTER, deltaX);
                 startACoreActivity(this, nextScreenIntent, true, deltaX);
             } else {
                 // gesture was not long enough
@@ -179,8 +194,8 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
     }
 
     private void gestureCancel(MotionEvent event) {
-        if (mainapp.currents_msg_handler != null)
-            mainapp.currents_msg_handler.removeCallbacks(gestureStopped);
+        if (mainapp.roster_msg_handler != null)
+            mainapp.roster_msg_handler.removeCallbacks(gestureStopped);
         gestureInProgress = false;
     }
 
@@ -206,42 +221,32 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
 
 
     @SuppressLint("HandlerLeak")
-    class currents_handler extends Handler {
-
-        public currents_handler(Looper looper) {
-            super(looper);
-        }
+    class roster_handler extends Handler {
 
         public void handleMessage(Message msg) {
-            String s;
             switch (msg.what) {
 
                 case message_type.RESPONSE: {    //handle messages from server
-                    s = msg.obj.toString();
-//                    String response_str = s.substring(0, Math.min(s.length(), 2));
+                    String s = msg.obj.toString();
+                    String response_str = s.substring(0, Math.min(s.length(), 2));
 
                     if (s.length() >= 3) {
                         String com1 = s.substring(0, 3);
                         //update power icon
                         if ("PPA".equals(com1)) {
-                            mainapp.setPowerStateButton(tMenu);
+                            mainapp.setPowerStateButton(menu);
                         }
                     }
                     break;
                 }
 
-                case message_type.RECEIVED_CURRENTS_MAX:
-                case message_type.RECEIVED_CURRENTS:
-                    setCurrentsFromResponses();
-                    refreshDccexCurrentsView();
-                    break;
-
                 case message_type.DCCEX_COMMAND_ECHO:  // informational response
-                case message_type.DCCEX_RESPONSE:  // informational response
+                case message_type.DCCEX_RESPONSE:
 //                    refreshDccexView();
                     refreshDccexCommandsView();
                     break;
-
+                case message_type.ROSTER_UPDATE:
+                    Log.d("EX_Toolbox", "select_loco: select_loco_handler - ROSTER_UPDATE");
                 case message_type.WIT_CON_RETRY:
                     witRetry(msg.obj.toString());
                     break;
@@ -265,12 +270,12 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         if (mainapp.getFastClockFormat() > 0)
             mainapp.setToolbarTitle(toolbar,
                     "",
-                    getApplicationContext().getResources().getString(R.string.app_name_currents_short),
+                    getApplicationContext().getResources().getString(R.string.app_name_roster),
                     mainapp.getFastClockTime());
         else
             mainapp.setToolbarTitle(toolbar,
                     getApplicationContext().getResources().getString(R.string.app_name),
-                    getApplicationContext().getResources().getString(R.string.app_name_currents),
+                    getApplicationContext().getResources().getString(R.string.app_name_roster),
                     "");
     }
 
@@ -287,7 +292,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d("Engine_Driver", "web_activity.onCreate()");
+        Log.d("EX_Toolbox", "web_activity.onCreate()");
 
         mainapp = (threaded_application) this.getApplication();
         prefs = getSharedPreferences("jmri.enginedriver_preferences", 0);
@@ -299,12 +304,12 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
             return;
         }
 
-        setContentView(R.layout.currents);
+        setContentView(R.layout.roster);
+
+        mainapp.loadBackgroundImage(findViewById(R.id.rosterBackgroundImgView));
 
         //put pointer to this activity's handler in main app's shared variable
-        mainapp.currents_msg_handler = new currents_handler(Looper.getMainLooper());
-
-        mainapp.loadBackgroundImage(findViewById(R.id.currentsBackgroundImgView));
+        mainapp.roster_msg_handler = new roster_handler();
 
         DccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
         DccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
@@ -315,94 +320,31 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         DccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
         DccexSendsLabel.setText("");
 
-        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.START_CURRENTS_TIMER);
-//        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_CURRENTS);
-//        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_CURRENTS_MAX);
+//        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ROSTER);
 
-        for (int i = 0; i< threaded_application.DCCEX_MAX_TRACKS; i++) {
-            switch (i) {
-                default:
-                case 0:
-                    dccExCurrentLayouts[i] = findViewById(R.id.ex_DccexCurrent0layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.ex_current_0_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.ex_current_highest_0_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.ex_current_max_0_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.ex_current_max_0_progress_bar);
-                    break;
-                case 1:
-                    dccExCurrentLayouts[i] = findViewById(R.id.ex_DccexCurrent1layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.ex_current_1_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.ex_current_highest_1_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.ex_current_max_1_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.ex_current_max_1_progress_bar);
-                    break;
-                case 2:
-                    dccExCurrentLayouts[i] = findViewById(R.id.ex_DccexCurrent2layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.ex_current_2_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.ex_current_highest_2_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.ex_current_max_2_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.ex_current_max_2_progress_bar);
-                    break;
-                case 3:
-                    dccExCurrentLayouts[i] = findViewById(R.id.ex_DccexCurrent3layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.ex_current_3_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.ex_current_highest_3_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.ex_current_max_3_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.ex_current_max_3_progress_bar);
-                    break;
-                case 4:
-                    dccExCurrentLayouts[i] = findViewById(R.id.ex_DccexCurrent4layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.ex_current_4_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.ex_current_highest_4_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.ex_current_max_4_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.ex_current_max_4_progress_bar);
-                    break;
-                case 5:
-                    dccExCurrentLayouts[i] = findViewById(R.id.ex_DccexCurrent5layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.ex_current_5_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.ex_current_highest_5_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.ex_current_max_5_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.ex_current_max_5_progress_bar);
-                    break;
-                case 6:
-                    dccExCurrentLayouts[i] = findViewById(R.id.ex_DccexCurrent6layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.ex_current_6_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.ex_current_highest_6_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.ex_current_max_6_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.ex_current_max_6_progress_bar);
-                    break;
-                case 7:
-                    dccExCurrentLayouts[i] = findViewById(R.id.ex_DccexCurrent7layout);
-                    dccExCurrentsTextView[i] = findViewById(R.id.ex_current_7_value);
-                    dccExCurrentsHighestTextView[i] = findViewById(R.id.ex_current_highest_7_value);
-                    dccExCurrentsMaxTextView[i] = findViewById(R.id.ex_current_max_7_value);
-                    dccExCurrentsMaxProgressView[i] = findViewById(R.id.ex_current_max_7_progress_bar);
-                    break;
-            }
+        //Set up a list adapter to allow adding discovered roster to the UI.
+        roster_list = new ArrayList<>();
+        roster_list_adapter = new RosterSimpleAdapter(this, roster_list,
+                R.layout.roster_list_item, new String[]{"roster_name",
+                "roster_address", "roster_icon"}, new int[]{R.id.roster_name_label,
+                R.id.roster_address_label, R.id.roster_icon_image});
+
+        roster_list_view = findViewById(R.id.roster_list);
+        roster_list_view.setAdapter(roster_list_adapter);
+        roster_list_view.setOnItemClickListener(new roster_item_ClickListener());
 
 
-            startCurrentsButton = findViewById(R.id.ex_DccexStartCurrentsButton);
-            start_currents_button_listener startCurrentsClickListener = new start_currents_button_listener();
-            startCurrentsButton.setOnClickListener(startCurrentsClickListener);
+        DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
+        DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
 
-            stopCurrentsButton = findViewById(R.id.ex_DccexStopCurrentsButton);
-            stop_currents_button_listener stopCurrentsClickListener = new stop_currents_button_listener();
-            stopCurrentsButton.setOnClickListener(stopCurrentsClickListener);
+        clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
+        clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
+        clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
-            DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
-            DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
-
-            clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
-            clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
-            clearCommandsButton.setOnClickListener(clearCommandsClickListener);
-        }
-
-        resetCurrentTextFields();
-        refreshDccexCurrentsView();
-
-//        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_CURRENTS, "");
+//        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ROSTER, "");
 //
         mainapp.getCommonPreferences();
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -414,7 +356,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
 
     @Override
     public void onResume() {
-        Log.d("EX_Toolbox", "currents.onResume() called");
+        Log.d("EX_Toolbox", "roster.onResume() called");
         mainapp.applyTheme(this);
 
         super.onResume();
@@ -422,15 +364,10 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         mainapp.getCommonPreferences();
 
         setActivityTitle();
-        mainapp.activeScreen = mainapp.ACTIVE_SCREEN_CURRENTS;
+        mainapp.activeScreen = mainapp.ACTIVE_SCREEN_ROSTER;
         mainapp.dccexScreenIsOpen = true;
-
-        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.START_CURRENTS_TIMER);
-        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_CURRENTS);
-        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_CURRENTS_MAX);
-
+        refresh_roster_list();
         refreshDccexView();
-        refreshDccexCurrentsView();
 
         if (mainapp.isForcingFinish()) {    //expedite
             this.finish();
@@ -441,7 +378,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         CookieSyncManager.getInstance().startSync();
 
         // enable swipe/fling detection if enabled in Prefs
-        ov = findViewById(R.id.currents_overlay);
+        ov = findViewById(R.id.roster_overlay);
         ov.addOnGestureListener(this);
         ov.setEventsInterceptionEnabled(true);
         if (mVelocityTracker == null) {
@@ -451,19 +388,18 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
 
     @Override
     public void onPause() {
-        Log.d("EX_Toolbox", "currents.onPause() called");
+        Log.d("EX_Toolbox", "roster.onPause() called");
         super.onPause();
         CookieSyncManager.getInstance().stopSync();
-        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.STOP_CURRENTS_TIMER);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("EX_Toolbox", "currents.onStart() called");
+        Log.d("EX_Toolbox", "roster.onStart() called");
         // put pointer to this activity's handler in main app's shared variable
-        if (mainapp.currents_msg_handler == null)
-            mainapp.currents_msg_handler = new currents_handler(Looper.getMainLooper());
+        if (mainapp.roster_msg_handler == null)
+            mainapp.roster_msg_handler = new roster_handler();
     }
 
     @Override
@@ -481,11 +417,11 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("EX_Toolbox", "currents.onDestroy() called");
+        Log.d("EX_Toolbox", "roster.onDestroy() called");
 
-        if (mainapp.currents_msg_handler !=null) {
-            mainapp.currents_msg_handler.removeCallbacksAndMessages(null);
-            mainapp.currents_msg_handler = null;
+        if (mainapp.roster_msg_handler !=null) {
+            mainapp.roster_msg_handler.removeCallbacksAndMessages(null);
+            mainapp.roster_msg_handler = null;
         } else {
             Log.d("Engine_Driver", "onDestroy: mainapp.web_msg_handler is null. Unable to removeCallbacksAndMessages");
         }
@@ -503,7 +439,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
     @Override
     public boolean onKeyDown(int key, KeyEvent event) {
         if (key == KeyEvent.KEYCODE_BACK) {
-            if (mainapp.currents_msg_handler!=null) {
+            if (mainapp.roster_msg_handler!=null) {
                 mainapp.checkExit(this);
             } else { // something has gone wrong and the activity did not shut down properly so force it
                 disconnect();
@@ -514,12 +450,14 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu myMenu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.currents_menu, menu);
-        tMenu = menu;
+        inflater.inflate(R.menu.roster_menu, myMenu);
+        menu = myMenu;
+
 
         mainapp.setTrackmanagerMenuOption(menu);
+        mainapp.setCurrentsMenuOption(menu);
 
         mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);
@@ -563,7 +501,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
             return true;
         } else if ( (item.getItemId() == R.id.sensors_mnu) || (item.getItemId() == R.id.toolbar_button_sensors) ) {
             navigateAway(true, null);
-            in = new Intent().setClass(this, sensors.class);
+            in = new Intent().setClass(this, roster.class);
             startACoreActivity(this, in, false, 0);
             return true;
         } else if ( (item.getItemId() == R.id.locos_mnu) || (item.getItemId() == R.id.toolbar_button_locos) ) {
@@ -578,32 +516,35 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
             return true;
 
         } else if (item.getItemId() == R.id.exit_mnu) {
-            mainapp.checkExit(this);
-            return true;
+                mainapp.checkExit(this);
+                return true;
         } else if (item.getItemId() == R.id.power_control_mnu) {
-            navigateAway(false, power_control.class);
-            return true;
+                navigateAway(false, power_control.class);
+                return true;
+/*        } else if (item.getItemId() == R.id.preferences_mnu) {
+                navigateAway(false, SettingsActivity.class);
+                return true;*/
         } else if (item.getItemId() == R.id.settings_mnu) {
-            in = new Intent().setClass(this, SettingsActivity.class);
-            startActivityForResult(in, 0);
-            connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
-            return true;
+                in = new Intent().setClass(this, SettingsActivity.class);
+                startActivityForResult(in, 0);
+                connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
+                return true;
         } else if (item.getItemId() == R.id.logviewer_menu) {
-            navigateAway(false, LogViewerActivity.class);
-            return true;
+                navigateAway(false, LogViewerActivity.class);
+                return true;
         } else if (item.getItemId() == R.id.about_mnu) {
-            navigateAway(false, about_page.class);
-            return true;
+                navigateAway(false, about_page.class);
+                return true;
         } else if (item.getItemId() == R.id.power_layout_button) {
-            if (!mainapp.isPowerControlAllowed()) {
-                mainapp.powerControlNotAllowedDialog(tMenu);
-            } else {
-                mainapp.powerStateMenuButton();
-            }
-            mainapp.buttonVibration();
-            return true;
+                if (!mainapp.isPowerControlAllowed()) {
+                    mainapp.powerControlNotAllowedDialog(menu);
+                } else {
+                    mainapp.powerStateMenuButton();
+                }
+                mainapp.buttonVibration();
+                return true;
         } else {
-            return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -663,7 +604,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
 
     @SuppressLint("ApplySharedPref")
     public void forceRestartApp(int forcedRestartReason) {
-        Log.d("EX-Toolbox", "currents.forceRestartApp() ");
+        Log.d("EX-Toolbox", "roster.forceRestartApp() ");
         Message msg = Message.obtain();
         msg.what = message_type.RESTART_APP;
         msg.arg1 = forcedRestartReason;
@@ -672,46 +613,189 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
 
 //**************************************************************************************
 
-    int progress(int which) {
-        double x = ((double) mainapp.currentsDccex[threaded_application.LATEST_VALUE][which]) / ((double) mainapp.currentsMaxDccex[which]) * 100;
-        return (int) x;
-    }
+    public class RosterSimpleAdapter extends SimpleAdapter {
+        private final Context cont;
 
-    @SuppressLint("SetTextI18n")
-    void setCurrentsFromResponses() {
-        for (int i = 0; i< threaded_application.DCCEX_MAX_TRACKS; i++) {
-            int latest = mainapp.currentsDccex[threaded_application.LATEST_VALUE][i];
-            if ( (latest==0) && (mainapp.currentsDccex[threaded_application.PREVIOUS_VALUE][i]!=0) ) {
-                latest = mainapp.currentsDccex[threaded_application.PREVIOUS_VALUE][i];
+        RosterSimpleAdapter(Context context,
+                            List<? extends Map<String, ?>> data, int resource,
+                            String[] from, int[] to) {
+            super(context, data, resource, from, to);
+            cont = context;
+        }
+
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (position < 0 || position >= roster_list.size())
+                return convertView;
+
+            HashMap<String, String> hm = roster_list.get(position);
+            if (hm == null)
+                return convertView;
+
+            LayoutInflater inflater = (LayoutInflater) cont.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.roster_list_item, null, false);
+
+            String engineName = hm.get("roster_name");
+            if (engineName != null) {
+                TextView name = view.findViewById(R.id.roster_name_label);
+                name.setText(engineName);
             }
-            dccExCurrentsTextView[i].setText(Integer.toString(latest));
-            dccExCurrentsHighestTextView[i].setText(Integer.toString(mainapp.currentsHighestDccex[i]));
-            dccExCurrentsMaxTextView[i].setText(Integer.toString(mainapp.currentsMaxDccex[i]));
-            dccExCurrentsMaxProgressView[i].setProgress(progress(i));
-        }
-        showHideButtons();
-    }
 
-    int getIntFromString(String str) {
-        int result = 0;
-        try {
-            result = Integer.parseInt(str);
-        } catch (Exception ignored) {}
-        return result;
-    }
+            String engineNo = hm.get("roster_address");
+            if (engineNo != null) {
+                TextView secondLine = view.findViewById(R.id.roster_address_label);
+                secondLine.setText(engineNo);
+            }
 
-    public class start_currents_button_listener implements View.OnClickListener {
-        public void onClick(View v) {
-            resetCurrentTextFields();
-            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.START_CURRENTS_TIMER);
+            return view;
         }
     }
 
-    public class stop_currents_button_listener implements View.OnClickListener {
-        public void onClick(View v) {
-            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.STOP_CURRENTS_TIMER);
+    // populate the on-screen roster view from global hashmap
+    public void refresh_roster_list() {
+        // clear and rebuild
+        roster_list.clear();
+        if (((mainapp.roster_entries != null)  // add roster and consist entries if any defined
+                && (mainapp.roster_entries.size() > 0))
+                || ((mainapp.consist_entries != null)
+                && (mainapp.consist_entries.size() > 0))) {
+
+            //only show this warning once, it will be skipped for each entry below
+            if (mainapp.roster == null) {
+                Log.w("Engine_Driver", "select_loco: xml roster not available");
+            }
+
+            //put roster entries into screen list
+            if (mainapp.roster_entries != null) {
+                ArrayList<String> rns = new ArrayList<>(mainapp.roster_entries.keySet());  //copy from synchronized map to avoid holding it while iterating
+                for (String rostername : rns) {
+//                    if ((prefRosterFilter.length() == 0) || (rostername.toUpperCase().contains(prefRosterFilter.toUpperCase()))) {
+                    // put key and values into temp hashmap
+                    HashMap<String, String> hm = new HashMap<>();
+                    hm.put("roster_name", rostername);
+                    hm.put("roster_address", mainapp.roster_entries.get(rostername));
+                    hm.put("roster_entry_type", "loco");
+                    //add icon if url set
+                    if (mainapp.roster != null) {
+                        if (mainapp.roster.get(rostername) != null) {
+                            if (mainapp.roster.get(rostername).getIconPath() != null) {
+                                hm.put("roster_icon", mainapp.roster.get(rostername).getIconPath() + "?maxHeight=52");  //include sizing instructions
+                            } else {
+                                Log.d("Ex_Toolbox", "select_loco: xml roster entry " + rostername + " found, but no icon specified.");
+                            }
+                        } else {
+                            Log.w("Ex_Toolbox", "select_loco: WiThrottle roster entry " + rostername + " not found in xml roster.");
+                        }
+                    }
+                    // add temp hashmap to list which view is hooked to
+                    roster_list.add(hm);
+//                    }
+                }
+            }
+
+//            //add consist entries to screen list
+//            if (mainapp.consist_entries != null) {
+//                ArrayList<String> ces = new ArrayList<>(mainapp.consist_entries.keySet());  //copy from synchronized map to avoid holding it while iterating
+//                for (String consist_addr : ces) {
+//                    // put key and values into temp hashmap
+//                    HashMap<String, String> hm = new HashMap<>();
+//                    hm.put("roster_name", mainapp.consist_entries.get(consist_addr));
+//                    hm.put("roster_address", consist_addr);
+//                    hm.put("roster_entry_type", "consist");
+//
+//                    // add temp hashmap to list which view is hooked to
+//                    roster_list.add(hm);
+//                }
+//            }
+
+            Comparator<HashMap<String, String>> comparator = new Comparator<HashMap<String, String>>() {
+                @Override
+                public int compare(HashMap<String, String> arg0, HashMap<String, String> arg1) {
+                    String s0 = arg0.get("roster_name").replaceAll("_", " ").toLowerCase();
+                    String s1 = arg1.get("roster_name").replaceAll("_", " ").toLowerCase();
+                    return s0.compareTo(s1);
+                }
+            };
+            Collections.sort(roster_list, comparator);
+
+            roster_list_adapter.notifyDataSetChanged();
+            View v = findViewById(R.id.roster_list);
+            v.setVisibility(View.VISIBLE);
+            v = findViewById(R.id.roster_list_empty);
+            v.setVisibility(GONE);
+
+        } else { // hide roster section if nothing to show
+            View v = findViewById(R.id.roster_list);
+            v.setVisibility(GONE);
+            v = findViewById(R.id.roster_list_empty);
+            v.setVisibility(View.VISIBLE);
+        } // if roster_entries not null
+    }
+
+    // onClick Listener for the Roster list items
+    public class roster_item_ClickListener implements
+            AdapterView.OnItemClickListener {
+        // When a roster item is clicked, send request to acquire that engine.
+        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+            //use clicked position in list to retrieve roster item object from roster_list
+            String functions = "";
+            HashMap<String, String> hm = roster_list.get(position);
+            String rosterNameString = hm.get("roster_name");
+            String rosterAddressString = hm.get("roster_address");
+            try {
+                int rosterAddress = Integer.parseInt(mainapp.cvtToAddr(rosterAddressString));
+                if ((mainapp.rosterIDsDccex != null) && (mainapp.rosterIDsDccex.length > 0)) {
+                    for (int i = 0; i < mainapp.rosterIDsDccex.length; i++) {
+                        String[] functionList = threaded_application.splitByString(mainapp.rosterLocoFunctionsDccex[i].substring(1,mainapp.rosterLocoFunctionsDccex[i].length()-1), "/");
+                        if (mainapp.rosterIDsDccex[i] == rosterAddress) {
+                            for (int j = 0; j < functionList.length; j++) {
+                                functions = functions + "F" + j + ": <b>" + functionList[j] + "</b>";
+                                if (functionList[j].charAt(0) == '*') {
+                                    functions = functions + "<i><small> &nbsp; " + getApplicationContext().getResources().getString(R.string.rosterDetailsFunctionMomentary) + "</small></i>";
+                                }
+                                functions = functions + "<br />";
+                            }
+                            break;
+                        }
+                    }
+                }
+            } catch (Exception e ){
+                Log.d("Ex_Toolbox", "roster_item_ClickListener: invalid roster entry");
+            }
+            showRosterDetailsDialog(rosterNameString, rosterAddressString, functions);
+            return;
+
         }
     }
+
+    protected void showRosterDetailsDialog(String rosterNameString, String rosterAddressString, String functions) {
+        String rslt;
+        Log.d("Engine_Driver", "select_loco: Showing details for roster entry " + rosterNameString);
+        final Dialog dialog = new Dialog(this, mainapp.getSelectedTheme());
+        dialog.setTitle(getApplicationContext().getResources().getString(R.string.rosterDetailsDialogTitle) + rosterNameString);
+        dialog.setContentView(R.layout.roster_entry);
+        TextView tv = dialog.findViewById(R.id.rosterEntryText);
+        rslt = "<small>" + getApplicationContext().getResources().getString(R.string.rosterDetailsDialogTitle)
+                + " ID/Address:</small> <b>" + rosterAddressString +"</b>"
+                + "<br /><small>Name:</small> <b>" + rosterNameString + "</b>";
+        tv.setText(Html.fromHtml(rslt));
+        tv = dialog.findViewById(R.id.rosterEntryExtraText);
+        tv.setText(Html.fromHtml(functions));
+
+        buttonClose = dialog.findViewById(R.id.rosterEntryButtonClose);
+        buttonClose.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dialog.dismiss();
+                mainapp.buttonVibration();
+            }
+        });
+
+        dialog.setCancelable(true);
+        dialog.show();
+
+    }
+
+
 
     public class clear_commands_button_listener implements View.OnClickListener {
         public void onClick(View v) {
@@ -723,45 +807,14 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private void resetCurrentTextFields() {
-        for (int i = 0; i < threaded_application.DCCEX_MAX_TRACKS; i++) {
-            mainapp.currentsDccex[threaded_application.LATEST_VALUE][i] = 0;
-            mainapp.currentsDccex[threaded_application.PREVIOUS_VALUE][i] = 0;
-            mainapp.currentsHighestDccex[i] = 0;
-            mainapp.currentsMaxDccex[i] = 0;
-
-            dccExCurrentsTextView[i].setText(Integer.toString(mainapp.currentsDccex[threaded_application.LATEST_VALUE][i]));
-            dccExCurrentsHighestTextView[i].setText(Integer.toString(mainapp.currentsHighestDccex[i]));
-            dccExCurrentsMaxTextView[i].setText(Integer.toString(mainapp.currentsMaxDccex[i]));
-        }
-    }
-
-
-    private void showHideButtons() {
-        for (int i = 0; i < threaded_application.DCCEX_MAX_TRACKS; i++) {
-            if ( (mainapp.currentsDccex[threaded_application.LATEST_VALUE][i] != 0) || (mainapp.currentsMaxDccex[i] != 0) ) {
-                dccExCurrentLayouts[i].setVisibility(View.VISIBLE);
-            } else {
-                dccExCurrentLayouts[i].setVisibility(View.GONE);
-            }
-        }
-    }
-
     public void refreshDccexView() {
         DccexWriteInfoLabel.setText(DccexInfoStr);
         refreshDccexCommandsView();
-        showHideButtons();
-
+//        showHideButtons();
     }
 
     public void refreshDccexCommandsView() {
         DccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
         DccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
     }
-
-    public void refreshDccexCurrentsView() {
-        showHideButtons();
-    }
-
 }

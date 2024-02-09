@@ -586,7 +586,6 @@
                                 android:layout_marginBottom="1sp"
                                 android:padding="2sp"
                                 android:text=""
-                                android:textAlignment="viewEnd"
                                 android:textColor="?android:attr/textColorSecondary" />
 
                         </LinearLayout>

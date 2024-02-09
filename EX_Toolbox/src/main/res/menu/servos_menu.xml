@@ -66,6 +66,13 @@
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
 
+    <item android:id="@+id/toolbar_button_roster"
+        android:icon="?attr/ed_toolbar_button_roster"
+        android:title="@string/app_name_roster"
+        android:visible="false"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
     <item android:id="@+id/power_layout_button"
         android:title="@string/PowerButtonBar"
         android:visible="false"
@@ -79,6 +86,7 @@
     <item android:id="@+id/locos_mnu" android:title="@string/app_name_locos" />
     <item android:id="@+id/currents_mnu" android:title="@string/app_name_currents" />
     <item android:id="@+id/track_manager_mnu" android:title="@string/app_name_track_manager" />
+    <item android:id="@+id/roster_mnu" android:title="@string/app_name_roster" />
 
     <item android:id="@+id/power_control_mnu" android:title="@string/power" />
     <item android:id="@+id/settings_mnu" android:title="@string/preferences" />

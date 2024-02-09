@@ -144,6 +144,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     String[] dccExCommonCommandsEntryValuesArray;
     String[] dccExCommonCommandsEntriesArray; // display version
     int[] dccExCommonCommandsHasParametersArray; // display version
+    String[] dccExCommonCommandsAdditionalInfoArray;
 
     Button dccExServoThrowButton;
     Button dccExServoMidButton;
@@ -473,6 +474,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         dccExCommonCommandsEntryValuesArray = this.getResources().getStringArray(R.array.dccExCommonCommandsEntryValues);
         dccExCommonCommandsEntriesArray = this.getResources().getStringArray(R.array.dccExCommonCommandsEntries); // display version
         dccExCommonCommandsHasParametersArray = this.getResources().getIntArray(R.array.dccExCommonCommandsHasParameters);
+        dccExCommonCommandsAdditionalInfoArray = this.getResources().getStringArray(R.array.dccExCommonCommandsAdditionalInfo);
 
         dccCmdIndex=0;
         dccExCommonCommandsSpinner = findViewById(R.id.ex_common_commands_list);
@@ -551,6 +553,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         mainapp.getCommonPreferences();
 
         setActivityTitle();
+        mainapp.activeScreen = mainapp.ACTIVE_SCREEN_SERVOS;
         mainapp.dccexScreenIsOpen = true;
         refreshDccexView();
         setActivateServoButtons(activeServoButtonNo);
@@ -703,6 +706,11 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         } else if ( (item.getItemId() == R.id.locos_mnu) || (item.getItemId() == R.id.toolbar_button_locos) ) {
             navigateAway(true, null);
             in = new Intent().setClass(this, locos.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
+        } else if ( (item.getItemId() == R.id.roster_mnu) || (item.getItemId() == R.id.toolbar_button_roster) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, roster.class);
             startACoreActivity(this, in, false, 0);
             return true;
 
@@ -1251,9 +1259,12 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 etDccexSendCommandValue.requestFocus();
                 etDccexSendCommandValue.setSelection(DccexSendCommandValue.length());
             }
+//            DccexInfoStr = "";
+            if (dccCmdIndex != 0) {
+                DccexInfoStr = dccExCommonCommandsAdditionalInfoArray[dccCmdIndex];
+            }
             dccCmdIndex = 0;
             dccExCommonCommandsSpinner.setSelection(dccCmdIndex);
-            DccexInfoStr = "";
 
             InputMethodManager imm =
                     (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
