@@ -416,7 +416,7 @@ public class threaded_application extends Application {
         }
         androidVersion = android.os.Build.VERSION.SDK_INT;
 
-        Log.i("EX_Toolbox", "Engine Driver:" + appVersion + ", SDK:" + androidVersion);
+        Log.i("EX_Toolbox", "EX-ToolBox:" + appVersion + ", SDK:" + androidVersion);
 
         context = getApplicationContext();
 

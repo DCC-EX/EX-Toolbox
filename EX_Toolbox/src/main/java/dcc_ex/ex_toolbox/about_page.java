@@ -56,8 +56,8 @@ public class about_page extends AppCompatActivity {
         // format and show version info
         TextView v = findViewById(R.id.about_info);
         String s;
-        // ED version info
-        s = "EngineDriver:" + mainapp.appVersion;
+        // version info
+        s = "EX-ToolBox: " + mainapp.appVersion;
         if (mainapp.getHostIp() != null) {
             // WiT info
             if (!mainapp.isDccex) {

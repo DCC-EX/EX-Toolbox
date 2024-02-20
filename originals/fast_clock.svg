@@ -2,29 +2,28 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="171.33333mm"
    height="171.33333mm"
    viewBox="0 0 607.0866 607.08659"
    id="svg2"
    version="1.1"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
    sodipodi:docname="fast_clock.svg"
    inkscape:export-filename="C:\Users\akers\StudioProjects\EngineDriver\EngineDriver\src\main\res\drawable-xhdpi\fast_clock.png"
    inkscape:export-xdpi="14.497166"
-   inkscape:export-ydpi="14.497166">
+   inkscape:export-ydpi="14.497166"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs4">
     <linearGradient
        id="linearGradient4155"
-       osb:paint="solid">
+       inkscape:swatch="solid">
       <stop
          style="stop-color:#000000;stop-opacity:1;"
          offset="0"
@@ -39,7 +38,7 @@
     </linearGradient>
     <linearGradient
        id="linearGradient4139"
-       osb:paint="gradient">
+       inkscape:swatch="gradient">
       <stop
          style="stop-color:#2b2200;stop-opacity:1;"
          offset="0"
@@ -58,8 +57,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="284.5872"
-     inkscape:cy="445.60807"
+     inkscape:cx="166"
+     inkscape:cy="446"
      inkscape:document-units="px"
      inkscape:current-layer="g4165"
      showgrid="false"
@@ -69,10 +68,13 @@
      fit-margin-bottom="1"
      units="mm"
      inkscape:window-width="2400"
-     inkscape:window-height="1271"
-     inkscape:window-x="2389"
+     inkscape:window-height="1244"
+     inkscape:window-x="2869"
      inkscape:window-y="-11"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     inkscape:showpageshadow="0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -81,7 +83,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -96,16 +97,17 @@
       <flowRoot
          xml:space="preserve"
          id="flowRoot825"
-         style="fill:black;fill-opacity:1;stroke:none;font-family:DigifaceWide;font-style:italic;font-weight:normal;font-size:192px;line-height:1.25;letter-spacing:0px;word-spacing:0px;-inkscape-font-specification:'DigifaceWide weight=101 Italic';font-stretch:normal;font-variant:normal;"><flowRegion
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:192px;line-height:1.25;font-family:DigifaceWide;-inkscape-font-specification:'DigifaceWide weight=101 Italic';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
            id="flowRegion827"
-           style="-inkscape-font-specification:'DigifaceWide weight=101 Italic';font-family:DigifaceWide;font-weight:normal;font-style:italic;font-stretch:normal;font-variant:normal;"><rect
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DigifaceWide;-inkscape-font-specification:'DigifaceWide weight=101 Italic'"><rect
              id="rect829"
              width="497"
              height="286"
              x="-724"
              y="70.559036"
              style="-inkscape-font-specification:'DigifaceWide weight=101 Italic';font-family:DigifaceWide;font-weight:normal;font-style:italic;font-stretch:normal;font-variant:normal;" /></flowRegion><flowPara
-           id="flowPara831"></flowPara></flowRoot>      <g
+           id="flowPara831" /></flowRoot>
+      <g
          aria-label="12:00"
          transform="matrix(0.53856872,0.53856872,-0.92838663,0.92838663,0,0)"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:269.25692749px;line-height:1.25;font-family:Impact;-inkscape-font-specification:Impact;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.40237975"

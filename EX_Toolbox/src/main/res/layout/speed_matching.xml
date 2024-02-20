@@ -103,7 +103,7 @@
                                 <EditText
                                     android:id="@+id/ex_DccexSpeedMatchingMasterAddrValue"
                                     style="?attr/edit_label_style"
-                                    android:layout_width="60dp"
+                                    android:layout_width="56dp"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="8sp"
                                     android:layout_marginRight="8sp"
@@ -122,6 +122,8 @@
                                     style="?attr/floating_text_style"
                                     android:layout_width="50dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="134dp"
+                                    android:layout_marginLeft="134dp"
                                     android:text="@string/speedMatchStep"
                                     android:textSize="14sp"
                                     tools:ignore="HardcodedText" />
@@ -166,7 +168,7 @@
                                 <EditText
                                     android:id="@+id/ex_DccexSpeedMatchingSecondAddrValue"
                                     style="?attr/edit_label_style"
-                                    android:layout_width="60dp"
+                                    android:layout_width="56dp"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="8sp"
                                     android:layout_marginRight="8sp"
@@ -183,23 +185,43 @@
 
                                 <Button
                                     android:id="@+id/ex_DccexSpeedMatchingReadSecondButton"
-                                    android:layout_width="117dp"
+                                    android:layout_width="100dp"
                                     android:layout_height="28dp"
                                     android:layout_gravity="center"
                                     android:text="@string/speedMatchRead"
+                                    android:textSize="12sp"
                                     style="?attr/ed_small_button_style"
                                     android:src="?attr/ed_power_yellow_button" />
 
                                 <Button
-                                    android:id="@+id/ex_DccexSpeedMatchingStopButton"
+                                    android:id="@+id/ex_DccexSpeedMatchingStep1Button"
                                     style="?attr/ed_small_button_style"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="26dp"
                                     android:layout_height="28dp"
-                                    android:layout_marginStart="24dp"
-                                    android:layout_marginLeft="24dp"
+                                    android:layout_marginStart="28dp"
+                                    android:layout_marginLeft="28dp"
                                     android:layout_gravity="center"
-                                    android:text="@string/speedMatchStop" />
+                                    android:text="@string/speedMatchStep1" />
 
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingStep5Button"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_width="26dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_gravity="center"
+                                    android:text="@string/speedMatchStep5" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingStep10Button"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_width="26dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_gravity="center"
+                                    android:text="@string/speedMatchStep10" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -278,12 +300,13 @@
                                 <Button
                                     android:id="@+id/ex_DccexSpeedMatchingLowSetSpeedButton"
                                     style="?attr/ed_small_button_style"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="64dp"
                                     android:layout_height="28dp"
-                                    android:layout_marginStart="25dp"
-                                    android:layout_marginLeft="25dp"
+                                    android:layout_marginStart="42dp"
+                                    android:layout_marginLeft="42dp"
                                     android:layout_gravity="center"
-                                    android:text="@string/speedMatchSetSpeed" />
+                                    android:text="@string/speedMatchSpeed5"
+                                    android:fontFamily="@font/notoemoji_variablefont_wght" />
 
                             </LinearLayout>
 
@@ -356,12 +379,13 @@
                                 <Button
                                     android:id="@+id/ex_DccexSpeedMatchingMidSetSpeedButton"
                                     style="?attr/ed_small_button_style"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="64dp"
                                     android:layout_height="28dp"
-                                    android:layout_marginStart="25dp"
-                                    android:layout_marginLeft="25dp"
+                                    android:layout_marginStart="42dp"
+                                    android:layout_marginLeft="42dp"
                                     android:layout_gravity="center"
-                                    android:text="@string/speedMatchSetSpeed" />
+                                    android:text="@string/speedMatchSpeed50"
+                                    android:fontFamily="@font/notoemoji_variablefont_wght" />
 
                             </LinearLayout>
 
@@ -434,17 +458,18 @@
                                 <Button
                                     android:id="@+id/ex_DccexSpeedMatchingHighSetSpeedButton"
                                     style="?attr/ed_small_button_style"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="64dp"
                                     android:layout_height="28dp"
-                                    android:layout_marginStart="25dp"
-                                    android:layout_marginLeft="25dp"
+                                    android:layout_marginStart="42dp"
+                                    android:layout_marginLeft="42dp"
                                     android:layout_gravity="center"
-                                    android:text="@string/speedMatchSetSpeed" />
+                                    android:text="@string/speedMatchSpeed100"
+                                    android:fontFamily="@font/notoemoji_variablefont_wght" />
 
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_width="fill_parent"
+                                android:layout_width="260dp"
                                 android:layout_height="2dp"
                                 android:layout_marginBottom="6sp"
                                 android:background="#888888"
@@ -516,6 +541,16 @@
                                     android:text="@string/speedMatchPlusEmoji"
                                     android:fontFamily="@font/notoemoji_variablefont_wght" />
 
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingStopButton"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_width="64dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginStart="42dp"
+                                    android:layout_marginLeft="42dp"
+                                    android:layout_gravity="center"
+                                    android:text="@string/speedMatchStop"
+                                    android:fontFamily="@font/notoemoji_variablefont_wght" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -584,12 +619,20 @@
                                     android:text="@string/speedMatchPlusEmoji"
                                     android:fontFamily="@font/notoemoji_variablefont_wght" />
 
+
                             </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="260dp"
+                                android:layout_height="2dp"
+                                android:layout_marginBottom="6sp"
+                                android:background="#888888"
+                                android:orientation="vertical" />
 
                             <LinearLayout
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4sp"
+                                android:layout_marginTop="0sp"
                                 android:background="#00000000"
                                 android:orientation="horizontal"
                                 tools:ignore="TooDeepLayout">
@@ -651,6 +694,29 @@
                                     style="?attr/ed_small_button_style"                                    android:textFontWeight="900"
                                     android:text="@string/speedMatchPlusEmoji"
                                     android:fontFamily="@font/notoemoji_variablefont_wght" />
+
+
+                                <TextView
+                                    android:id="@+id/ex_DccexSpeedMatchingDirection"
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="1sp"
+                                    android:layout_marginStart="34dp"
+                                    android:layout_marginLeft="34dp"
+                                    android:text="@string/speedMatchDirectionForward"
+                                    android:textSize="20sp"
+                                    tools:ignore="HardcodedText" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexSpeedMatchingDirectionButton"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_width="44dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginStart="4dp"
+                                    android:layout_marginLeft="4dp"
+                                    android:layout_gravity="center"
+                                    android:text="@string/speedMatchDirection" />
 
                             </LinearLayout>
 

@@ -446,7 +446,7 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
         }
 
         // ED version info
-        s += ", EngineDriver: " + mainapp.appVersion;
+        s += ", EX-ToolBox: " + mainapp.appVersion;
         if (mainapp.getHostIp() != null) {
             // WiT info
 //            if (mainapp.getWithrottleVersion() != 0.0) {

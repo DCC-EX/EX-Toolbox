@@ -155,7 +155,7 @@ public class RosterEntry {
         for (int k = 0; k < nm.getLength(); k++) {
             if ("id".compareTo(nm.item(k).getNodeName()) == 0) {
                 _id = nm.item(k).getNodeValue();
-                Log.d("Engine_Driver", "RosterEntry: adding id " + _id);
+                Log.d("EX_Toolbox", "RosterEntry: adding id " + _id);
                 continue;
             }
             if ("fileName".compareTo(nm.item(k).getNodeName()) == 0) {
@@ -348,7 +348,7 @@ public class RosterEntry {
         if (fn >= 0 && fn <= getMAXFNNUM()) {
             functionLabels[fn] = label;
         } else {
-            Log.w("Engine_Driver", "RosterEntry: Fn " + fn + " out of range, not added for '" + getId() + "'");
+            Log.w("EX_Toolbox", "RosterEntry: Fn " + fn + " out of range, not added for '" + getId() + "'");
         }
     }
 

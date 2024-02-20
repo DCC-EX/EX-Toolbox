@@ -295,7 +295,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
         Log.d("EX_Toolbox", "web_activity.onCreate()");
 
         mainapp = (threaded_application) this.getApplication();
-        prefs = getSharedPreferences("jmri.enginedriver_preferences", 0);
+        prefs = getSharedPreferences("dcc_ex.ex_toolbox_preferences", 0);
         mainapp.applyTheme(this);
 
         super.onCreate(savedInstanceState);
@@ -423,7 +423,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
             mainapp.roster_msg_handler.removeCallbacksAndMessages(null);
             mainapp.roster_msg_handler = null;
         } else {
-            Log.d("Engine_Driver", "onDestroy: mainapp.web_msg_handler is null. Unable to removeCallbacksAndMessages");
+            Log.d("EX_Toolbox", "onDestroy: mainapp.web_msg_handler is null. Unable to removeCallbacksAndMessages");
         }
     }
 
@@ -662,7 +662,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
 
             //only show this warning once, it will be skipped for each entry below
             if (mainapp.roster == null) {
-                Log.w("Engine_Driver", "select_loco: xml roster not available");
+                Log.w("EX_Toolbox", "select_loco: xml roster not available");
             }
 
             //put roster entries into screen list
@@ -770,7 +770,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
 
     protected void showRosterDetailsDialog(String rosterNameString, String rosterAddressString, String functions) {
         String rslt;
-        Log.d("Engine_Driver", "select_loco: Showing details for roster entry " + rosterNameString);
+        Log.d("EX_Toolbox", "select_loco: Showing details for roster entry " + rosterNameString);
         final Dialog dialog = new Dialog(this, mainapp.getSelectedTheme());
         dialog.setTitle(getApplicationContext().getResources().getString(R.string.rosterDetailsDialogTitle) + rosterNameString);
         dialog.setContentView(R.layout.roster_entry);

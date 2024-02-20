@@ -178,7 +178,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
     }
 
     public void gestureMove(MotionEvent event) {
-        // Log.d("Engine_Driver", "gestureMove action " + event.getAction());
+        // Log.d("EX_Toolbox", "gestureMove action " + event.getAction());
         if ( (mainapp != null) && (mainapp.track_manager_msg_handler != null) && (gestureInProgress) ) {
             // stop the gesture timeout timer
             mainapp.track_manager_msg_handler.removeCallbacks(gestureStopped);
@@ -191,7 +191,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
                 velocityTracker.computeCurrentVelocity(1000);
                 int velocityX = (int) velocityTracker.getXVelocity();
                 int velocityY = (int) velocityTracker.getYVelocity();
-                // Log.d("Engine_Driver", "gestureVelocity vel " + velocityX);
+                // Log.d("EX_Toolbox", "gestureVelocity vel " + velocityX);
                 if ((Math.abs(velocityX) < threaded_application.min_fling_velocity) && (Math.abs(velocityY) < threaded_application.min_fling_velocity)) {
                     gestureFailed(event);
                 }
@@ -204,7 +204,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
     }
 
     private void gestureEnd(MotionEvent event) {
-        // Log.d("Engine_Driver", "gestureEnd action " + event.getAction() + " inProgress? " + gestureInProgress);
+        // Log.d("EX_Toolbox", "gestureEnd action " + event.getAction() + " inProgress? " + gestureInProgress);
         if ( (mainapp != null) && (mainapp.track_manager_msg_handler != null) && (gestureInProgress) ) {
             mainapp.track_manager_msg_handler.removeCallbacks(gestureStopped);
 
@@ -329,10 +329,10 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d("Engine_Driver", "web_activity.onCreate()");
+        Log.d("EX_Toolbox", "web_activity.onCreate()");
 
         mainapp = (threaded_application) this.getApplication();
-        prefs = getSharedPreferences("jmri.enginedriver_preferences", 0);
+        prefs = getSharedPreferences("dcc_ex.ex_toolbox_preferences", 0);
         mainapp.applyTheme(this);
 
         super.onCreate(savedInstanceState);
@@ -605,7 +605,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
             mainapp.track_manager_msg_handler.removeCallbacksAndMessages(null);
             mainapp.track_manager_msg_handler = null;
         } else {
-            Log.d("Engine_Driver", "onDestroy: mainapp.web_msg_handler is null. Unable to removeCallbacksAndMessages");
+            Log.d("EX_Toolbox", "onDestroy: mainapp.web_msg_handler is null. Unable to removeCallbacksAndMessages");
         }
     }
 

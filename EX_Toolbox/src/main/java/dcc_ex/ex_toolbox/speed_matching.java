@@ -93,6 +93,11 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
     Button[] writePlusButtons = {null, null, null, null, null, null};
 
     Button[] setSpeedButtons = {null, null, null, null};  // LOW, MID, HIGH, STOP
+    Button setDirectionButton = null;
+    TextView tvSetDirection;
+    Button setStep1Button;
+    Button setStep5Button;
+    Button setStep10Button;
 
     EditText[] valsEditText = {null, null, null, null, null, null};  // LOW, MID, HIGH, Acceleration, Deceleration, Kick Start
     int [] vals = {0, 0, 0, 0, 0, 0};  // LOW, MID, HIGH, Acceleration, Deceleration, Kick Start
@@ -104,6 +109,10 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
     EditText locoAddrSecondEditText;
     int locoAddrMaster = 0;
     int locoAddrSecond = 0;
+    int locoDirection = 1;
+
+    static int FORWARD = 1;
+    static int REVERSE = 0;
 
     static int LOW = 0;
     static int MID = 1;
@@ -165,7 +174,7 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
     }
 
     public void gestureMove(MotionEvent event) {
-        // Log.d("Engine_Driver", "gestureMove action " + event.getAction());
+        // Log.d("EX_Toolbox", "gestureMove action " + event.getAction());
         if ( (mainapp != null) && (mainapp.speed_matching_msg_handler != null) && (gestureInProgress) ) {
             // stop the gesture timeout timer
             mainapp.speed_matching_msg_handler.removeCallbacks(gestureStopped);
@@ -178,7 +187,7 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
                 velocityTracker.computeCurrentVelocity(1000);
                 int velocityX = (int) velocityTracker.getXVelocity();
                 int velocityY = (int) velocityTracker.getYVelocity();
-                // Log.d("Engine_Driver", "gestureVelocity vel " + velocityX);
+                // Log.d(""EX_Toolbox", "gestureVelocity vel " + velocityX);
                 if ((Math.abs(velocityX) < threaded_application.min_fling_velocity) && (Math.abs(velocityY) < threaded_application.min_fling_velocity)) {
                     gestureFailed(event);
                 }
@@ -191,7 +200,7 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
     }
 
     private void gestureEnd(MotionEvent event) {
-        // Log.d("Engine_Driver", "gestureEnd action " + event.getAction() + " inProgress? " + gestureInProgress);
+        // Log.d(""EX_Toolbox", "gestureEnd action " + event.getAction() + " inProgress? " + gestureInProgress);
         if ( (mainapp != null) && (mainapp.speed_matching_msg_handler != null) && (gestureInProgress) ) {
             mainapp.speed_matching_msg_handler.removeCallbacks(gestureStopped);
 
@@ -353,10 +362,10 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d("Engine_Driver", "web_activity.onCreate()");
+        Log.d("EX_Toolbox", "web_activity.onCreate()");
 
         mainapp = (threaded_application) this.getApplication();
-//        prefs = getSharedPreferences("jmri.enginedriver_preferences", 0);
+//        prefs = getSharedPreferences("dcc_ex.ex_toolbox_preferences", 0);
         mainapp.applyTheme(this);
 
         super.onCreate(savedInstanceState);
@@ -500,6 +509,25 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
         setSpeedButtonListener = new SetSpeedButtonListener(STOP);
         setSpeedButtons[STOP].setOnClickListener(setSpeedButtonListener);
 
+        setDirectionButton = findViewById(R.id.ex_DccexSpeedMatchingDirectionButton);
+        SetDirectionButtonListener setDirectionButtonListener = new SetDirectionButtonListener();
+        setDirectionButton.setOnClickListener(setDirectionButtonListener);
+        tvSetDirection = findViewById(R.id.ex_DccexSpeedMatchingDirection);
+
+        // ********************************
+
+        setStep1Button = findViewById(R.id.ex_DccexSpeedMatchingStep1Button);
+        SetStepButtonListener setStepButtonListener = new SetStepButtonListener(1);
+        setStep1Button.setOnClickListener(setStepButtonListener);
+
+        setStep5Button = findViewById(R.id.ex_DccexSpeedMatchingStep5Button);
+        setStepButtonListener = new SetStepButtonListener(5);
+        setStep5Button.setOnClickListener(setStepButtonListener);
+
+        setStep10Button = findViewById(R.id.ex_DccexSpeedMatchingStep10Button);
+        setStepButtonListener = new SetStepButtonListener(10);
+        setStep10Button.setOnClickListener(setStepButtonListener);
+
         // ********************************
 
         Button readSecondLocoButton = findViewById(R.id.ex_DccexSpeedMatchingReadSecondButton);
@@ -586,7 +614,7 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
             mainapp.speed_matching_msg_handler.removeCallbacksAndMessages(null);
             mainapp.speed_matching_msg_handler = null;
         } else {
-            Log.d("Engine_Driver", "onDestroy: mainapp.web_msg_handler is null. Unable to removeCallbacksAndMessages");
+            Log.d("EX_Toolbox", "onDestroy: mainapp.web_msg_handler is null. Unable to removeCallbacksAndMessages");
         }
     }
 
@@ -821,14 +849,50 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
 
             if (locoAddrMaster>0) {
                 mainapp.buttonVibration();
-                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SET_SPEED_DIRECT, "" + speeds[myWhich] + " 1", locoAddrMaster);
+                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SET_SPEED_DIRECT, "" + speeds[myWhich] + " " + locoDirection, locoAddrMaster);
             }
             if (locoAddrSecond>0) {
                 mainapp.buttonVibration();
-                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SET_SPEED_DIRECT, "" + speeds[myWhich] + " 1", locoAddrSecond);
+                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SET_SPEED_DIRECT, "" + speeds[myWhich] + " " + locoDirection, locoAddrSecond);
             }
         }
     }
+
+public class SetDirectionButtonListener implements View.OnClickListener {
+
+        public void onClick(View v) {
+            mainapp.buttonVibration();
+            getLocoAddresses();
+            mainapp.hideSoftKeyboard(v);
+
+            if (locoDirection==FORWARD) {
+                locoDirection=REVERSE;
+                tvSetDirection.setText(getApplicationContext().getResources().getString(R.string.speedMatchDirectionReverse));
+            } else {
+                locoDirection=FORWARD;
+                tvSetDirection.setText(getApplicationContext().getResources().getString(R.string.speedMatchDirectionForward));
+            }
+        }
+    }
+
+    public class SetStepButtonListener implements View.OnClickListener {
+        int myStep;
+
+        public SetStepButtonListener(int step) {
+            myStep = step;
+        }
+
+        public void onClick(View v) {
+            mainapp.buttonVibration();
+            getLocoAddresses();
+            mainapp.hideSoftKeyboard(v);
+
+            stepValueEditText.setText(""+myStep);
+            stepValue = myStep;
+        }
+    }
+
+
 
     public class ReadSecondButtonListener implements View.OnClickListener {
 

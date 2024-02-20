@@ -585,7 +585,7 @@ public class comm_thread extends Thread {
         if (mainapp.isDccex) { //DCC-EX
             String msgTxt = String.format("<%d %s>", pState, trackLetter);
             wifiSend(msgTxt);
-//            Log.d("Engine_Driver", "comm_thread.sendPower DCC-EX: " + msgTxt);
+//            Log.d(""EX_Toolbox", "comm_thread.sendPower DCC-EX: " + msgTxt);
         }
     }
 

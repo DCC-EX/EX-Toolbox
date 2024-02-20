@@ -37,21 +37,21 @@
 <!--            android:title="@string/prefLocaleTitle"-->
 <!--            android:layout="@layout/checkbox_no_icon" />-->
 
-        <PreferenceScreen
-            android:icon="?attr/ed_folder_icon"
-            android:key="prefLeftRightSwipePreferences"
-            android:layout="@layout/checkbox_icon_left_highlight"
-            android:persistent="false"
-            android:summary="@string/prefLeftRightSwipePreferencesSummary"
-            android:title="@string/prefLeftRightSwipePreferencesTitle">
+<!--        <PreferenceScreen-->
+<!--            android:icon="?attr/ed_folder_icon"-->
+<!--            android:key="prefLeftRightSwipePreferences"-->
+<!--            android:layout="@layout/checkbox_icon_left_highlight"-->
+<!--            android:persistent="false"-->
+<!--            android:summary="@string/prefLeftRightSwipePreferencesSummary"-->
+<!--            android:title="@string/prefLeftRightSwipePreferencesTitle">-->
 
-            <PreferenceCategory
-                android:title="@string/prefLeftRightSwipePreferencesTitle"
-                android:layout="@layout/category_icon_left"
-                android:icon="@drawable/category_swipe_left_right_black">
+<!--            <PreferenceCategory-->
+<!--                android:title="@string/prefLeftRightSwipePreferencesTitle"-->
+<!--                android:layout="@layout/category_icon_left"-->
+<!--                android:icon="@drawable/category_swipe_left_right_black">-->
 
-            </PreferenceCategory>
-        </PreferenceScreen>
+<!--            </PreferenceCategory>-->
+<!--        </PreferenceScreen>-->
 
     </PreferenceCategory>
 

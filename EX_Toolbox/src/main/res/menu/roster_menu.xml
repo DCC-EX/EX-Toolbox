@@ -17,12 +17,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
-<!--    <item android:id="@+id/toolbar_button_cv_programmer"-->
-<!--        android:icon="?attr/ed_toolbar_button_cv_programmer"-->
-<!--        android:title="@string/app_name_cv_programmer"-->
-<!--        android:visible="true"-->
-<!--        app:showAsAction="always"-->
-<!--        tools:ignore="AlwaysShowAction" />-->
+    <item android:id="@+id/toolbar_button_cv_programmer"
+        android:icon="?attr/ed_toolbar_button_cv_programmer"
+        android:title="@string/app_name_cv_programmer"
+        android:visible="true"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
 
     <item android:id="@+id/toolbar_button_speed_matching"
         android:icon="?attr/ed_toolbar_button_speed_matching"
@@ -65,6 +65,13 @@
         android:visible="true"
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
+
+<!--    <item android:id="@+id/toolbar_button_roster"-->
+<!--        android:icon="?attr/ed_toolbar_button_roster"-->
+<!--        android:title="@string/app_name_roster"-->
+<!--        android:visible="false"-->
+<!--        app:showAsAction="always"-->
+<!--        tools:ignore="AlwaysShowAction" />-->
 
     <item android:id="@+id/power_layout_button"
         android:title="@string/PowerButtonBar"

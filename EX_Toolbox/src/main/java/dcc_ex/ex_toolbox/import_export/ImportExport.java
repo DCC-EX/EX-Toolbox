@@ -179,7 +179,7 @@ public class ImportExport {
                 }
                 list_reader.close();
             }
-//            Log.d("Engine_Driver", "getRecentLocosListFromFile: readServoListFromFile: Read servos from file complete successfully");
+//            Log.d("EX_Toolbox", "getRecentLocosListFromFile: readServoListFromFile: Read servos from file complete successfully");
 
         } catch (IOException except) {
             Log.e("EX_Toolbox", "ImportExport: readServoListFromFile: Error reading servos file. "

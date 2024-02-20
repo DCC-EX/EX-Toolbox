@@ -171,7 +171,7 @@
     <string name="prefThrottleImportExportSummary">Import/Export/Reset and Log Preferences</string>
 
     <string name="prefImportExportTitle">Import, Export or Reset</string>
-    <string name="prefImportExportSummary">\'Import\' or \'Export\' preferences to the \'\\Android\\data\\jmri.enginedriver\\files\\\' folder, or \'Reset\' them.\nWill occur IMMEDIATELY on selecting the option.\nWARNING! With \'Reset\' and \'Import\', Engine Driver will restart!\n(You can transfer the preferences to a different phone by copying the file.)</string>
+    <string name="prefImportExportSummary">\'Import\' or \'Export\' preferences to the \'\\Android\\data\\dcc_ex.ex_toolbox\\files\\\' folder, or \'Reset\' them.\nWill occur IMMEDIATELY on selecting the option.\nWARNING! With \'Reset\' and \'Import\', Engine Driver will restart!\n(You can transfer the preferences to a different phone by copying the file.)</string>
     <string name="prefImportExportDefaultValue" translatable="false">None</string>  <!-- DO NOT TRANSLATE -->
 
 <!--    <string name="prefImportExportLocoListTitle">Include recent loco list?</string>-->
@@ -179,7 +179,7 @@
 
 <!--    <string name="prefImportExportOverwite">File \'%1$s\' already exists. Overwite?</string>-->
     <string name="prefImportExportErrorReadingList">Error reading recent connections list:</string>
-<!--    <string name="prefImportExportErrorReadingFrom">Import from \'\\Android\\data\\jmri.enginedriver\\files\\ %1$s\' failed! You may not have saved the preferences for this host yet.</string>-->
+<!--    <string name="prefImportExportErrorReadingFrom">Import from \'\\Android\\data\\dcc_ex.ex_toolbox\\files\\ %1$s\' failed! You may not have saved the preferences for this host yet.</string>-->
 <!--    <string name="prefImportExportErrorNotConnected">Not connected to a host.</string>-->
 
 
@@ -453,8 +453,16 @@
     <string name="speedMatchLow">Low</string>
     <string name="speedMatchMid">Mid</string>
     <string name="speedMatchHigh">High</string>
-    <string name="speedMatchSetSpeed">Set Speed</string>
-    <string name="speedMatchStop">Stop</string>
+    <string name="speedMatchSpeed5">🏃Low</string>
+    <string name="speedMatchSpeed50">🏃Mid</string>
+    <string name="speedMatchSpeed100">🏃High</string>
+    <string name="speedMatchStop">🛑Stop</string>
+    <string name="speedMatchDirection">Dir</string>
+    <string name="speedMatchDirectionForward">▲</string>
+    <string name="speedMatchDirectionReverse">▼</string>
+    <string name="speedMatchStep1">1</string>
+    <string name="speedMatchStep5">5</string>
+    <string name="speedMatchStep10">10</string>
     <string name="speedMatchWrite">Write</string>
     <string name="speedMatchSaveEmoji">💾</string>
     <string name="speedMatchPlus">+</string>
@@ -462,7 +470,7 @@
     <string name="speedMatchMinus">-</string>
     <string name="speedMatchMinusEmoji">➖</string>
     <string name="speedMatchStep">Step</string>
-    <string name="speedMatchRead">Read -PROG Trk</string>
+    <string name="speedMatchRead">Read-PROG Trk</string>
     <string name="speedMatchAcceleration">Accel</string>
     <string name="speedMatchDeceleration">Decel</string>
     <string name="speedMatchKickStart">Kick</string>

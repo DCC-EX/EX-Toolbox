@@ -1,4 +1,7 @@
-**Version 0.1.4-11
+**Version 0.1.14
+ * Updates to the Speed Matching screen
+ * shift to .svg files for the buttons
+**Version 0.1.4-13
  * New Speed Matching screen
  * support for individual track power
  * support for AUTO, EXT and BOOST Track types
