@@ -445,7 +445,7 @@
     <string name="cv29SpeedTableNo">Speed Table: Not used (uses CV 2,5 &amp; 6)</string>
     <string name="cv29SpeedTableYes">Speed Table: In use</string>
     <string name="cv29SpeedToggleDirection">Write a value of %d to CV29 to toggle the direction.</string>
-    <string name="cv29SpeedTableToggle">Write a value of %d to CV29 to toggle the use of the speed table.</string>
+    <string name="cv29SpeedTableToggle">Write a value of %d to CV29 c</string>
     <string name="cv29SpeedTableDisable">The decoder is set to use the Speed Table, not the High,Mid &amp; Low values.<br />Changes made on this screen will have no effect until CV29 is altered.<br />Write a value of %d to CV29 to disable the use of the Speed Table.</string>
 
     <string name="speedMatchMaster">Master</string>

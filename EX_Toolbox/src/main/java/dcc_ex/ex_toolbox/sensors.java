@@ -237,7 +237,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
                     }
                     break;
                 }
-                case message_type.RECEIVED_SENSOR:
+                case message_type.RECEIVED_SENSOR: {
                     String s = msg.obj.toString();
                     if (s.length() > 0) {
                         String[] sArgs = s.split("(\\|)");
@@ -247,6 +247,15 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
                         refreshDccexSensorsView();
                     }
                     break;
+                }
+                case message_type.RECEIVED_ADDITIONAL_SENSOR: {
+                    String s = msg.obj.toString();
+                    if (s.length() > 0) {
+                        setIdsFromResponses();
+                        refreshDccexSensorsView();
+                    }
+                    break;
+                }
 
                 case message_type.DCCEX_COMMAND_ECHO:  // informational response
                 case message_type.DCCEX_RESPONSE:
@@ -378,6 +387,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         mainapp.dccexScreenIsOpen = true;
         refreshDccexView();
         refreshDccexSensorsView();
+        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ALL_SENSORS,"");
 
         if (mainapp.isForcingFinish()) {    //expedite
             this.finish();
@@ -662,24 +672,30 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         for (int index = 0; index < sensors_list.size(); index++) {
             tm = sensors_list.get(index);
             if (tm.get("sensorId").equals(foundSensorId)) {
-                entryExists = true;
                 sensors_list.set(index, hm);
+                entryExists = true;
                 break;
             }
         }
-        if (!entryExists) {                // if new loco, add to discovered list on screen
+        if (entryExists==false) {                // if new sensor, add to discovered list on screen
             sensors_list.add(hm);
+            sensors_list_adapter.notifyDataSetChanged();
         }
     }
 
     void updateASensorListItem(String id, String status) {
         HashMap<String, String> tm;
+        boolean entryExists = false;
         for (int index = 0; index < sensors_list.size(); index++) {
             tm = sensors_list.get(index);
             if (tm.get("sensorId").equals(id)) {
                 updateSensorsList(id, tm.get("vpin"), tm.get("pullup"), status);
+                entryExists = true;
                 break;
             }
+        }
+        if (entryExists==false) {                // sensor not in the list.  go get all the details again
+            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ALL_SENSOR_DETAILS);
         }
     }
 
@@ -693,6 +709,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
     public class read_sensors_button_listener implements View.OnClickListener {
         public void onClick(View v) {
+            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ALL_SENSORS,"");
             for (int i=0; i<mainapp.sensorDccexCount; i++) {
                 if (mainapp.sensorIdsDccex[i]!=0) {
                     mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_SENSOR,

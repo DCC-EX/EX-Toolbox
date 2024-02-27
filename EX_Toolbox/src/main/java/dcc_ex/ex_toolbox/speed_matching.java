@@ -298,6 +298,10 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
                             } else {
                                 break;
                             }
+                            DccexInfoStr = "";
+                            refreshDccexView();
+                        } else {
+                            DccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexFailed);
                             refreshDccexView();
                         }
                     }
@@ -307,6 +311,10 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
                     if ( (response_str.length() > 0) && !(response_str.charAt(0)=='-') ) {  //refresh address
                         locoAddrSecond = Integer.decode(response_str);
                         locoAddrSecondEditText.setText(response_str);
+                        DccexInfoStr = "";
+                        refreshDccexView();
+                    } else {
+                        DccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexFailed);
                         refreshDccexView();
                     }
                     break;

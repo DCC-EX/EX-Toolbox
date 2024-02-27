@@ -236,6 +236,12 @@ public class comm_handler extends Handler {
             break;
          }
 
+         case message_type.REQUEST_ALL_SENSORS: { // DCC-EX only
+            String [] args = msg.obj.toString().split(" ");
+            comm_thread.sendAllSensorsRequest();
+            break;
+         }
+
          case message_type.REQUEST_ALL_SENSOR_DETAILS: { // DCC-EX only
             comm_thread.sendAllSensorDetailsRequest();
             break;

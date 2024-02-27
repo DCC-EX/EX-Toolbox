@@ -501,7 +501,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
             return true;
         } else if ( (item.getItemId() == R.id.sensors_mnu) || (item.getItemId() == R.id.toolbar_button_sensors) ) {
             navigateAway(true, null);
-            in = new Intent().setClass(this, roster.class);
+            in = new Intent().setClass(this, sensors.class);
             startACoreActivity(this, in, false, 0);
             return true;
         } else if ( (item.getItemId() == R.id.locos_mnu) || (item.getItemId() == R.id.toolbar_button_locos) ) {

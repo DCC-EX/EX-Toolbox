@@ -85,4 +85,6 @@ public interface message_type {
     int RECEIVED_LOCO_UPDATE = 84;
     int SET_SPEED_DIRECT = 85;
     int REQUEST_ROSTER = 86;
+    int REQUEST_ALL_SENSORS = 87;
+    int RECEIVED_ADDITIONAL_SENSOR = 88;
 }

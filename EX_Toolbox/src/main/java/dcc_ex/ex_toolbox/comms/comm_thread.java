@@ -505,6 +505,13 @@ public class comm_thread extends Thread {
         Log.d("EX_Toolbox", "comm_thread.sendSensorRequest DCC-EX: " + msgTxt);
     }
 
+    static void sendAllSensorsRequest(){
+        String msgTxt;
+        msgTxt = "<Q>";
+        wifiSend(msgTxt);
+        Log.d("EX_Toolbox", "comm_thread.sendSensorRequest DCC-EX: " + msgTxt);
+    }
+
     static void sendMoveServo(String cmd) {
         String msgTxt;
         msgTxt = "<D SERVO " + cmd + ">";
@@ -965,6 +972,27 @@ public class comm_thread extends Thread {
     private static void processDccexSensorResponse (String [] args, boolean active) {
         String id = args[1];
 
+        // make sure it is in the sensor list
+        boolean valid = true;
+        int idValue = 0;
+        try {
+            idValue = Integer.parseInt(id);
+        } catch (Exception ignore) {
+            valid = false;
+        }
+        if (valid) {
+            boolean found = false;
+            for (int i = 0; i < mainapp.sensorDccexCount; i++) {
+                if (mainapp.sensorIdsDccex[i] == idValue) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {  // received a response from a sensor that was not in the list.  Request the full list again
+                mainapp.alert_activities(message_type.RECEIVED_ADDITIONAL_SENSOR,id);
+            }
+        }
+
         mainapp.alert_activities(message_type.RECEIVED_SENSOR, id + "|" + ((active) ? "1" : "0"));  //send response to running activities
     }
 
@@ -998,6 +1026,7 @@ public class comm_thread extends Thread {
                 mainapp.sensorVpinsDccex[mainapp.sensorDccexCount] = vpinValue;
                 mainapp.sensorPullupsDccex[mainapp.sensorDccexCount] = pullupValue;
                 mainapp.sensorDccexCount++;
+                mainapp.alert_activities(message_type.RECEIVED_ADDITIONAL_SENSOR,id);
             }
         }
     }
