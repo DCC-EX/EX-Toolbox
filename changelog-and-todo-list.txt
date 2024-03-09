@@ -1,5 +1,6 @@
 **Version 0.1.15
  * updates to the sensor state page
+ * support for alert messages
 **Version 0.1.14
  * Updates to the Speed Matching screen
  * shift to .svg files for the buttons

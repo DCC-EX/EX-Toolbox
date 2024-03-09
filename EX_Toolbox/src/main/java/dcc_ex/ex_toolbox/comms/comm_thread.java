@@ -859,6 +859,10 @@ public class comm_thread extends Thread {
                         skipAlert = true;
                         break;
 
+                    case 'm': //info message sent from server to throttle
+                        threaded_application.safeToast(args[1], Toast.LENGTH_LONG); // copy to UI as toast message
+                        break;
+
                     case 'Q': // sensor active
                         if (args.length == 2) {
                             processDccexSensorResponse(args, true);
