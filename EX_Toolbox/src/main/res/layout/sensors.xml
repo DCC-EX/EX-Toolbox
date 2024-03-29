@@ -118,6 +118,19 @@
                                 android:autoSizeMaxTextSize="20sp"
                                 android:autoSizeStepGranularity="1sp"
                                 android:text="@string/DccexReadSensorsButtonLabel"
+                                tools:ignore="UnusedAttribute"
+                                android:visibility="gone"/>
+
+                            <Button
+                                android:id="@+id/ex_DccexResetSensorsButton"
+                                style="?attr/ed_small_button_style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="0sp"
+                                android:autoSizeMinTextSize="8sp"
+                                android:autoSizeMaxTextSize="20sp"
+                                android:autoSizeStepGranularity="1sp"
+                                android:text="@string/DccexResetSensorsButtonLabel"
                                 tools:ignore="UnusedAttribute" />
                             </LinearLayout>
                         </LinearLayout>

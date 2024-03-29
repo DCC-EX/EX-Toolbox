@@ -413,6 +413,7 @@
     <string name="dccexRouteHandoff">HandOff</string>
 
     <string name="DccexReadSensorsButtonLabel">Watch</string>
+    <string name="DccexResetSensorsButtonLabel">Reset</string>
     <string name="dccexIncrementSensorsButtonLabel">Increment Ids</string>
     <string name="dccexSensorActive">Active</string>
     <string name="DccexSensorInactive">InActive</string>

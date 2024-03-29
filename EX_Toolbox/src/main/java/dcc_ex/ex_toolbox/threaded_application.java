@@ -180,7 +180,7 @@ public class threaded_application extends Application {
     public String [] rosterLocoFunctionsDccex;  // used to process the roster list
     public boolean [] rosterDetailsReceivedDccex;  // used to process the roster list
 
-    public final static int DCCEX_MAX_SENSORS = 10;
+    public final static int DCCEX_MAX_SENSORS = 20;
     public int sensorDccexCount = 0;
     public int [] sensorIdsDccex;  // used to process the sensor list
     public int [] sensorVpinsDccex;  // used to process the sensor list

@@ -86,6 +86,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
     private ScrollView DccexSendsScrollView;
 
     Button readSensorsButton;
+    Button resetSensorsButton;
     Button clearCommandsButton;
 
 //    private LinearLayout[] dccExSensorLayouts = {null, null, null, null, null,  null, null, null, null, null};
@@ -105,6 +106,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
     private ArrayList<HashMap<String, String>> sensors_list;
     private SimpleAdapter sensors_list_adapter;
+    private ListView sensorsListView;
 
     //**************************************
 
@@ -343,13 +345,16 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         sensors_list_adapter = new SimpleAdapter(this, sensors_list, R.layout.sensors_list_item,
                 new String[]{"sensorId", "vpin", "pullup", "status"},
                 new int[]{R.id.sensor_id_value, R.id.sensor_vpin_value, R.id.sensor_pullup_value, R.id.sensor_status});
-        ListView locos_list = findViewById(R.id.sensors_list);
-        locos_list.setAdapter(sensors_list_adapter);
+        sensorsListView = findViewById(R.id.sensors_list);
+        sensorsListView.setAdapter(sensors_list_adapter);
 
         readSensorsButton = findViewById(R.id.ex_DccexReadSensorsButton);
         read_sensors_button_listener readSensorsClickListener = new read_sensors_button_listener();
         readSensorsButton.setOnClickListener(readSensorsClickListener);
 
+        resetSensorsButton = findViewById(R.id.ex_DccexResetSensorsButton);
+        reset_sensors_button_listener resetSensorsClickListener = new reset_sensors_button_listener();
+        resetSensorsButton.setOnClickListener(resetSensorsClickListener);
 
         DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
         DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
@@ -680,6 +685,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         if (entryExists==false) {                // if new sensor, add to discovered list on screen
             sensors_list.add(hm);
             sensors_list_adapter.notifyDataSetChanged();
+//            sensorsListView.invalidateViews();
         }
     }
 
@@ -696,6 +702,8 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         }
         if (entryExists==false) {                // sensor not in the list.  go get all the details again
             mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ALL_SENSOR_DETAILS);
+            sensors_list_adapter.notifyDataSetChanged();
+            sensorsListView.invalidateViews();
         }
     }
 
@@ -717,6 +725,27 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
                 }
             }
             mainapp.hideSoftKeyboard(v);
+        }
+    }
+
+    public class reset_sensors_button_listener implements View.OnClickListener {
+        public void onClick(View v) {
+            sensors_list.clear();
+            for (int i = 0; i < mainapp.sensorDccexCount; i++) {
+                mainapp.sensorIdsDccex[i] = 0;
+                mainapp.sensorVpinsDccex[i] = 0;
+                mainapp.sensorPullupsDccex[i] = 0;
+            }
+            mainapp.sensorDccexCount = 0;
+
+            sensors_list_adapter.notifyDataSetChanged();
+            sensorsListView.invalidateViews();
+
+            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ALL_SENSORS,"");
+            mainapp.hideSoftKeyboard(v);
+
+            mainapp.sendMsgDelay(mainapp.comm_msg_handler, 1000, message_type.REQUEST_ALL_SENSOR_DETAILS);
+            mainapp.sendMsgDelay(mainapp.comm_msg_handler, 1500, message_type.REQUEST_ALL_SENSORS);
         }
     }
 
