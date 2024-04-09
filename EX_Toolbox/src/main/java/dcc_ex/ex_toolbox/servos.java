@@ -537,7 +537,9 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
 
         mainapp.getCommonPreferences();
 
+        screenNameLine = findViewById(R.id.screen_name_line);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        statusLine = (LinearLayout) findViewById(R.id.status_line);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
