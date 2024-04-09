@@ -34,6 +34,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
@@ -47,7 +48,9 @@ public class reconnect_status extends AppCompatActivity {
     private boolean backOk = true;
     private boolean retryFirst = false;
 
+    private LinearLayout screenNameLine;
     private Toolbar toolbar;
+    private LinearLayout statusLine;
 
     //Handle messages from the communication thread back to this thread (responses from withrottle)
     @SuppressLint("HandlerLeak")
@@ -159,11 +162,13 @@ public class reconnect_status extends AppCompatActivity {
             mainapp.vibrate(new long[]{1000, 500, 1000, 500, 1000, 500});
         }
 
+        screenNameLine = findViewById(R.id.screen_name_line);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        statusLine = findViewById(R.id.status_line);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
-            mainapp.setToolbarTitle(toolbar,
+            mainapp.setToolbarTitle(toolbar, statusLine, screenNameLine,
                     getApplicationContext().getResources().getString(R.string.app_name),
                     getApplicationContext().getResources().getString(R.string.app_name_reconnect_status),
                     "");
@@ -204,6 +209,7 @@ public class reconnect_status extends AppCompatActivity {
             mainapp.checkExit(this, true);
             return true;
         }
+        mainapp.exitDoubleBackButtonInitiated = 0;
         return (super.onKeyDown(key, event));
     }
 
@@ -238,7 +244,7 @@ public class reconnect_status extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
         if (item.getItemId() == R.id.exit_mnu) {
-            mainapp.checkExit(this, true);
+            mainapp.checkAskExit(this, true);
             return true;
         } else if (item.getItemId() == R.id.logviewer_menu) {
             Intent logviewer = new Intent().setClass(this, LogViewerActivity.class);

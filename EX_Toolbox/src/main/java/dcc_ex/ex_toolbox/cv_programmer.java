@@ -184,7 +184,9 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     //**************************************
 
 
+    private LinearLayout screenNameLine;
     private Toolbar toolbar;
+    private LinearLayout statusLine;
     private int toolbarHeight;
 
     @Override
@@ -378,12 +380,12 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     //	set the title, optionally adding the current time.
     private void setActivityTitle() {
         if (mainapp.getFastClockFormat() > 0)
-            mainapp.setToolbarTitle(toolbar,
+            mainapp.setToolbarTitle(toolbar, statusLine, screenNameLine,
                     "",
                     getApplicationContext().getResources().getString(R.string.app_name_cv_programmer_short),
                     mainapp.getFastClockTime());
         else
-            mainapp.setToolbarTitle(toolbar,
+            mainapp.setToolbarTitle(toolbar, statusLine, screenNameLine,
                     getApplicationContext().getResources().getString(R.string.app_name),
                     getApplicationContext().getResources().getString(R.string.app_name_cv_programmer),
                     "");
@@ -619,7 +621,9 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         }
         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_TRACKS, "");
 
+        screenNameLine = findViewById(R.id.screen_name_line);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        statusLine = (LinearLayout) findViewById(R.id.status_line);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -740,6 +744,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
             }
             return (true); // stop processing this key
         }
+        mainapp.exitDoubleBackButtonInitiated = 0;
         return (super.onKeyDown(key, event));
     }
 
@@ -809,7 +814,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
             return true;
 
         } else if (item.getItemId() == R.id.exit_mnu) {
-            mainapp.checkExit(this);
+            mainapp.checkAskExit(this);
             return true;
         } else if (item.getItemId() == R.id.power_control_mnu) {
             navigateAway(false, power_control.class);
@@ -1248,6 +1253,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         @SuppressLint("ApplySharedPref")
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            mainapp.exitDoubleBackButtonInitiated = 0;
 
             dccCvsIndex = dccExCommonCvsSpinner.getSelectedItemPosition();
             if (dccCvsIndex > 0) {
@@ -1279,6 +1285,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         @SuppressLint("ApplySharedPref")
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            mainapp.exitDoubleBackButtonInitiated = 0;
 
             dccCmdIndex = dccExCommonCommandsSpinner.getSelectedItemPosition();
             if (dccCmdIndex > 0) {
@@ -1316,6 +1323,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         @SuppressLint("ApplySharedPref")
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            mainapp.exitDoubleBackButtonInitiated = 0;
 
             Spinner spinner = findViewById(R.id.ex_action_type_list);
             dccExActionTypeIndex = spinner.getSelectedItemPosition();
@@ -1354,6 +1362,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         @SuppressLint("ApplySharedPref")
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            mainapp.exitDoubleBackButtonInitiated = 0;
 
             dccExTrackTypeIndex[myIndex] = mySpinner.getSelectedItemPosition();
             if (dccExTrackTypeIndex[myIndex] == TRACK_TYPE_DCC_PROG_INDEX) {

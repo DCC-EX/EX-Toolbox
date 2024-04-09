@@ -47,7 +47,7 @@
                 android:layout_gravity="center"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                app:srcCompat="@drawable/icon_xl"
+                app:srcCompat="@drawable/icon_vector"
                 tools:ignore="ContentDescription" />
 
 

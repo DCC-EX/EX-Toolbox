@@ -123,7 +123,9 @@ public class connection_activity extends AppCompatActivity implements Permission
 
     boolean prefAllowMobileData = false;
 
+    private LinearLayout screenNameLine;
     private Toolbar toolbar;
+    private LinearLayout statusLine;
 
     static {
         try {
@@ -562,12 +564,14 @@ public class connection_activity extends AppCompatActivity implements Permission
         });
 
 
+        screenNameLine = findViewById(R.id.screen_name_line);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        statusLine = findViewById(R.id.status_line);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             toolbar.showOverflowMenu();
-            mainapp.setToolbarTitle(toolbar,
+            mainapp.setToolbarTitle(toolbar, statusLine, screenNameLine,
                     getApplicationContext().getResources().getString(R.string.app_name),
                     getApplicationContext().getResources().getString(R.string.app_name_connect),
                     "");
@@ -658,7 +662,7 @@ public class connection_activity extends AppCompatActivity implements Permission
     private void set_labels() {
         //sets the tile to include throttle name.
         if (toolbar != null) {
-            mainapp.setToolbarTitle(toolbar,
+            mainapp.setToolbarTitle(toolbar, statusLine, screenNameLine,
                     getApplicationContext().getResources().getString(R.string.app_name),
                     getApplicationContext().getResources().getString(R.string.app_name_connect),
                     "");
@@ -766,7 +770,7 @@ public class connection_activity extends AppCompatActivity implements Permission
         // Handle all of the possible menu actions.
         Intent in;
         if (item.getItemId() == R.id.exit_mnu) {
-            mainapp.checkExit(this);
+            mainapp.checkAskExit(this);
             return true;
         } else if (item.getItemId() == R.id.settings_mnu ) {
             in = new Intent().setClass(this, SettingsActivity.class);
@@ -810,6 +814,7 @@ public class connection_activity extends AppCompatActivity implements Permission
             mainapp.checkExit(this);
             return true;
         }
+        mainapp.exitDoubleBackButtonInitiated = 0;
         return (super.onKeyDown(key, event));
     }
 

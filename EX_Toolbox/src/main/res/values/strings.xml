@@ -100,13 +100,6 @@
     <string name="prefSummary">Preferences for EX-Toolbox</string>
     <string name="preferences">Preferences</string>
 
-<!--    <string name="prefSwipeThroughRoutesTitle">Swipe through Routes?</string>-->
-<!--    <string name="prefSwipeThroughRoutesSummary">Include Routes screen when swiping between screens</string>-->
-<!--    <string name="prefSwipeThroughWebTitle">Swipe through Web?</string>-->
-<!--    <string name="prefSwipeThroughWebSummary">Include Web Screen when swiping between screens</string>-->
-<!--    <string name="prefSwipeThroughTurnoutsTitle">Swipe Through Turnouts?</string>-->
-<!--    <string name="prefSwipeThroughTurnoutsSummary">Include Turnouts Screen when swiping between screens</string>-->
-
     <string name="prefConnectTitle">Connect Preferences</string>
     <string name="prefMaximumRecentConnectionsTitle">Maximum Recent Connections</string>
     <string name="prefMaximumRecentConnectionsDefaultValue" translatable="false">10</string>  <!-- DO NOT TRANSLATE -->
@@ -121,7 +114,10 @@
     <string name="prefHeartbeatResponseFactorSummary">Percentage of the heartbeat period for when to sent the heartbeat (50%-90%).\nWill take effect on next connection.</string>
     <string name="prefHeartbeatResponseFactorDefaultValue" translatable="false">80</string>  <!-- DO NOT TRANSLATE -->
 
-<!--    <string name="prefScreenBrightnessDimTitle">Screen Dimming % Value</string>-->
+    <string name="prefDoubleBackButtonToExitTitle">Double Back button to Exit?</string>
+    <string name="prefDoubleBackButtonToExitSummary">Pressing the Android \'Back\' button twice within 3 seconds on the \'Throttle\' or \'Connection\' screen will exit EX-Toolbox</string>
+
+    <!--    <string name="prefScreenBrightnessDimTitle">Screen Dimming % Value</string>-->
 <!--    <string name="prefScreenBrightnessDimSummary">Brightness setting to use when dimming the screen (0%-99%). Disables Auto or Adaptive Brightness if set.</string>-->
 <!--    <string name="prefScreenBrightnessDimDefaultValue" translatable="false">"5"</string>  &lt;!&ndash; DO NOT TRANSLATE &ndash;&gt;-->
 
@@ -200,6 +196,7 @@
     <string name="statusThreadedAppNotConnected">Not connected to a network.  Check WiFi settings.\n\nRetrying</string>
     <string name="statusThreadedAppNoResponse">No response from server %1$s:%2$s for %3$dms. Check that the WiThrottle Server is running.\n\nRetrying</string>
     <string name="statusThreadedAppUnableToConnect">Unable to connect to server at %1$s:%2$s from %3$s.  Retrying</string>
+    <string name="toastDoubleBackButtonToExit">Press \'Back\' again to exit Engine Driver</string>
 
     <!--    Toast messages for the Throttle page-->
     <string name="toastUnableToSetBrightness">Unable to set the Auto Brightness/ Adaptive Brightness.</string>

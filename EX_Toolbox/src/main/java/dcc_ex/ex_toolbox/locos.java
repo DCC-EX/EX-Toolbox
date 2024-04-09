@@ -96,7 +96,9 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
 
     //**************************************
 
+    private LinearLayout screenNameLine;
     private Toolbar toolbar;
+    private LinearLayout statusLine;
 
     @Override
     public void onGesture(GestureOverlayView arg0, MotionEvent event) {
@@ -287,12 +289,12 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
     //	set the title, optionally adding the current time.
     private void setActivityTitle() {
         if (mainapp.getFastClockFormat() > 0)
-            mainapp.setToolbarTitle(toolbar,
+            mainapp.setToolbarTitle(toolbar, statusLine, screenNameLine,
                     "",
                     getApplicationContext().getResources().getString(R.string.app_name_locos_short),
                     mainapp.getFastClockTime());
         else
-            mainapp.setToolbarTitle(toolbar,
+            mainapp.setToolbarTitle(toolbar, statusLine, screenNameLine,
                     getApplicationContext().getResources().getString(R.string.app_name),
                     getApplicationContext().getResources().getString(R.string.app_name_locos),
                     "");
@@ -464,6 +466,7 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
             }
             return (true); // stop processing this key
         }
+        mainapp.exitDoubleBackButtonInitiated = 0;
         return (super.onKeyDown(key, event));
     }
 
@@ -529,7 +532,7 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
             return true;
 
         } else if (item.getItemId() == R.id.exit_mnu) {
-                mainapp.checkExit(this);
+                mainapp.checkAskExit(this);
                 return true;
         } else if (item.getItemId() == R.id.power_control_mnu) {
                 navigateAway(false, power_control.class);

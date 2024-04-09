@@ -322,7 +322,7 @@
 
   <style name="actionBarStyle_black" parent="@android:style/Widget.ActionBar">
     <item name="android:background">#00000000</item>
-    <item name="android:icon">@drawable/icon</item>
+    <item name="android:icon">@drawable/icon_vector</item>
     <item name="android:titleTextStyle">@style/actionBarStyle_black.TitleTextStyle</item>
     <item name="android:layout_marginLeft">0dp</item>
     <item name="android:layout_marginRight">0dp</item>
@@ -357,6 +357,13 @@
     <item name="android:textColorPrimary">@color/solidWhite</item>
     <item name="android:textColor">@color/solidWhite</item>
     <item name="android:windowTitleStyle">@style/dialogTitle_black</item>
+  </style>
+
+  <style name="ActionMenuView" parent="Widget.AppCompat.ActionBar.TabView">
+  </style>
+
+  <style name="OverflowMenuButton" parent="Widget.AppCompat.ActionButton.Overflow">
+    <item name="android:tint">@color/solidWhite</item>
   </style>
 
   <style name="windowTitleBackground_black">
@@ -1111,7 +1118,7 @@
 
   <style name="actionBarStyle_colorful" parent="@android:style/Widget.Holo.Light.ActionBar">
     <item name="android:background">@color/windowBackground_colorful</item>
-    <item name="android:icon">@drawable/icon</item>
+    <item name="android:icon">@drawable/icon_vector</item>
     <item name="android:panelColorBackground">@color/windowBackground_colorful</item>
     <item name="android:colorBackground">@color/windowBackground_colorful</item>
     <item name="android:titleTextStyle">@style/actionBarStyle_colorful.TitleTextStyle</item>
@@ -1154,6 +1161,9 @@
     <item name="android:width">46dp</item>
   </style>
 
+  <style name="OverflowMenuButton_colorful" parent="Widget.AppCompat.ActionButton.Overflow">
+    <item name="android:tint">@color/solidWhite</item>
+  </style>
   <style name="OverflowMenu_colorful" parent="Widget.AppCompat.PopupMenu.Overflow">
     <!--<item name="android:popupBackground">@color/colorPrimary</item>-->
     <item name="android:popupBackground">@color/windowBackground_colorful</item>

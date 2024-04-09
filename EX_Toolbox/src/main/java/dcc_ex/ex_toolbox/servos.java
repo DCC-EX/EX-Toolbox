@@ -183,7 +183,9 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     //**************************************
 
 
+    private LinearLayout screenNameLine;
     private Toolbar toolbar;
+    private LinearLayout statusLine;
     private int toolbarHeight;
 
     @Override
@@ -344,12 +346,12 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     //	set the title, optionally adding the current time.
     private void setActivityTitle() {
         if (mainapp.getFastClockFormat() > 0)
-            mainapp.setToolbarTitle(toolbar,
+            mainapp.setToolbarTitle(toolbar, statusLine, screenNameLine,
                     "",
                     getApplicationContext().getResources().getString(R.string.app_name_servos_short),
                     mainapp.getFastClockTime());
         else
-            mainapp.setToolbarTitle(toolbar,
+            mainapp.setToolbarTitle(toolbar, statusLine, screenNameLine,
                     getApplicationContext().getResources().getString(R.string.app_name),
                     getApplicationContext().getResources().getString(R.string.app_name_servos),
                     "");
@@ -646,6 +648,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
             }
             return (true); // stop processing this key
         }
+        mainapp.exitDoubleBackButtonInitiated = 0;
         return (super.onKeyDown(key, event));
     }
 
@@ -715,7 +718,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
             return true;
 
         } else if (item.getItemId() == R.id.exit_mnu) {
-            mainapp.checkExit(this);
+            mainapp.checkAskExit(this);
             return true;
         } else if (item.getItemId() == R.id.power_control_mnu) {
             navigateAway(false, power_control.class);
@@ -1233,6 +1236,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         @SuppressLint("ApplySharedPref")
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            mainapp.exitDoubleBackButtonInitiated = 0;
             dccExServoProfilesIndex = dccExServoProfilesSpinner.getSelectedItemPosition();
             dccExServoProfile = Integer.parseInt(dccExServoProfilesEntryValuesArray[dccExServoProfilesIndex]);
 
@@ -1249,6 +1253,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         @SuppressLint("ApplySharedPref")
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            mainapp.exitDoubleBackButtonInitiated = 0;
 
             dccCmdIndex = dccExCommonCommandsSpinner.getSelectedItemPosition();
             if (dccCmdIndex > 0) {
@@ -1318,6 +1323,8 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         @SuppressLint("DefaultLocale")
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            mainapp.exitDoubleBackButtonInitiated = 0;
+
             Spinner spinner = findViewById(R.id.ex_ServosList);
             int index = spinner.getSelectedItemPosition();
             if (index>0) {

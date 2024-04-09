@@ -199,7 +199,7 @@
         <item />
         <item>List HAL devices and allocated VPINs</item>
         <item>Override prog track limit if programming decoders trigger current limiting on the programming track</item>
-        <item>When enabled, diagnostic messages will be shown on the the serial monitor</item>
+        <item>When enabled, diagnostic messages will be shown on the serial monitor</item>
         <item>Enables/disables Ethernet diagnostics</item>
         <item>Enables/disables WiThrottle diagnostics</item>
         <item />
@@ -353,6 +353,7 @@
 
     <!-- no need to include the sub preference here if the whole PreferenceScreen is hidden-->
     <string-array name="advancedSubPreferences" translatable="false">
+        <item>prefDoubleBackButtonToExit</item>
         <item>prefHapticFeedback</item>
         <item>prefHapticFeedbackSteps</item>
         <item>prefHapticFeedbackDuration</item>

@@ -30,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import dcc_ex.ex_toolbox.type.message_type;
@@ -104,12 +105,14 @@ public class about_page extends AppCompatActivity {
         //put pointer to this activity's handler in main app's shared variable
         mainapp.about_page_msg_handler = new about_page_handler(Looper.getMainLooper());
 
+        LinearLayout screenNameLine = findViewById(R.id.screen_name_line);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        LinearLayout statusLine = findViewById(R.id.status_line);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             toolbar.showOverflowMenu();
-            mainapp.setToolbarTitle(toolbar,
+            mainapp.setToolbarTitle(toolbar, statusLine, screenNameLine,
                     getApplicationContext().getResources().getString(R.string.app_name),
                     getApplicationContext().getResources().getString(R.string.app_name_about),
                     "");
@@ -168,6 +171,7 @@ public class about_page extends AppCompatActivity {
             connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
             return true;
         }
+        mainapp.exitDoubleBackButtonInitiated = 0;
         return (super.onKeyDown(key, event));
     }
 

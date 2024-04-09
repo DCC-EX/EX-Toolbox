@@ -46,6 +46,7 @@ import android.view.View;
 import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -135,7 +136,9 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
     //**************************************
 
 
+    private LinearLayout screenNameLine;
     private Toolbar toolbar;
+    private LinearLayout statusLine;
     private int toolbarHeight;
 
     @Override
@@ -346,12 +349,12 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
     //	set the title, optionally adding the current time.
     private void setActivityTitle() {
         if (mainapp.getFastClockFormat() > 0)
-            mainapp.setToolbarTitle(toolbar,
+            mainapp.setToolbarTitle(toolbar, statusLine, screenNameLine,
                     "",
                     getApplicationContext().getResources().getString(R.string.app_name_speed_matching_short),
                     mainapp.getFastClockTime());
         else
-            mainapp.setToolbarTitle(toolbar,
+            mainapp.setToolbarTitle(toolbar, statusLine, screenNameLine,
                     getApplicationContext().getResources().getString(R.string.app_name),
                     getApplicationContext().getResources().getString(R.string.app_name_speed_matching),
                     "");
@@ -645,6 +648,7 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
             }
             return (true); // stop processing this key
         }
+        mainapp.exitDoubleBackButtonInitiated = 0;
         return (super.onKeyDown(key, event));
     }
 
@@ -713,7 +717,7 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
             return true;
 
         } else if (item.getItemId() == R.id.exit_mnu) {
-            mainapp.checkExit(this);
+            mainapp.checkAskExit(this);
             return true;
         } else if (item.getItemId() == R.id.power_control_mnu) {
             navigateAway(false, power_control.class);

@@ -58,6 +58,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -268,6 +269,8 @@ public class threaded_application extends Application {
     private boolean exitConfirmed = false;
     private ApplicationLifecycleHandler lifecycleHandler;
     public static Context context;
+
+    public long exitDoubleBackButtonInitiated = 0;
 
     public static final int FORCED_RESTART_REASON_NONE = 0;
     public static final int FORCED_RESTART_REASON_RESET = 1;
@@ -1181,12 +1184,48 @@ public class threaded_application extends Application {
     }
 
     public void checkExit(final Activity activity) {
-        checkExit(activity, false);
+        boolean prefDoubleBackButtonToExit = prefs.getBoolean("prefDoubleBackButtonToExit", getResources().getBoolean(R.bool.prefDoubleBackButtonToExitDefaultValue));
+        if (!prefDoubleBackButtonToExit) {
+            checkAskExit(activity, false);
+        } else {
+            long time = System.currentTimeMillis();
+            if ( (time==0) || ((time - exitDoubleBackButtonInitiated) > 3000)) {
+                exitDoubleBackButtonInitiated = time;
+                Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.toastDoubleBackButtonToExit), Toast.LENGTH_SHORT).show();
+            } else {
+                exitConfirmed = true;
+                exitDoubleBackButtonInitiated = 0;
+                sendMsg(comm_msg_handler, message_type.DISCONNECT, "");  //trigger disconnect / shutdown sequence
+                buttonVibration();
+            }
+        }
     }
 
-        // prompt for Exit
-    // must be called on the UI thread
     public void checkExit(final Activity activity, boolean forceFastDisconnect) {
+        boolean  prefDoubleBackButtonToExit = prefs.getBoolean("prefDoubleBackButtonToExit", getResources().getBoolean(R.bool.prefDoubleBackButtonToExitDefaultValue));
+        if (!prefDoubleBackButtonToExit) {
+            checkAskExit(activity, forceFastDisconnect);
+        } else {
+            long time = System.currentTimeMillis();
+            if ( (time==0) || ((time - exitDoubleBackButtonInitiated) > 3000)) {
+                exitDoubleBackButtonInitiated = time;
+                Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.toastDoubleBackButtonToExit), Toast.LENGTH_SHORT).show();
+            } else {
+                exitConfirmed = true;
+                exitDoubleBackButtonInitiated = 0;
+                sendMsg(comm_msg_handler, message_type.DISCONNECT, "", 1);  //trigger fast disconnect / shutdown sequence
+                buttonVibration();
+            }
+        }
+    }
+
+    public void checkAskExit(final Activity activity) {
+        checkAskExit(activity, false);
+    }
+    // prompt for Exit
+    // must be called on the UI thread
+    public void checkAskExit(final Activity activity, boolean forceFastDisconnect) {
+        mainapp.exitDoubleBackButtonInitiated = 0;
         final AlertDialog.Builder b = new AlertDialog.Builder(activity);
         b.setIcon(android.R.drawable.ic_dialog_alert);
         b.setTitle(R.string.exit_title);
@@ -1194,6 +1233,7 @@ public class threaded_application extends Application {
         b.setCancelable(true);
         b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                mainapp.exitDoubleBackButtonInitiated = 0;
                 exitConfirmed = true;
                 if (!forceFastDisconnect) {
                     sendMsg(comm_msg_handler, message_type.DISCONNECT, "");  //trigger disconnect / shutdown sequence
@@ -1519,16 +1559,16 @@ public class threaded_application extends Application {
         return newVal;
     }
 
-    public void setToolbarTitle(Toolbar toolbar, String title, String iconTitle, String clockText) {
-        if (toolbar != null) {
+    public void setToolbarTitle(Toolbar toolbar, LinearLayout statusLine,  LinearLayout screenNameLine, String title, String iconTitle, String clockText) {
+        if ((toolbar != null) && (statusLine != null) && (screenNameLine != null)) {
             toolbar.setTitle("");
             TextView tvTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
             tvTitle.setText(title);
 
-            TextView tvIconTitle = (TextView) toolbar.findViewById(R.id.toolbar_icon_title);
+            TextView tvIconTitle = (TextView) screenNameLine.findViewById(R.id.toolbar_icon_title);
             tvIconTitle.setText(iconTitle);
 
-            TextView tvIconHelp = (TextView) toolbar.findViewById(R.id.toolbar_icon_help);
+            TextView tvIconHelp = (TextView) statusLine.findViewById(R.id.toolbar_icon_help);
             tvIconHelp.setText("");
 
             TextView tvToolbarServerDesc;
@@ -1537,7 +1577,7 @@ public class threaded_application extends Application {
             if (screenLayout >= Configuration.SCREENLAYOUT_SIZE_XLARGE) {
                 tvToolbarServerDesc = (TextView) toolbar.findViewById(R.id.toolbar_server_desc_x_large);
             } else {
-                tvToolbarServerDesc = (TextView) toolbar.findViewById(R.id.toolbar_server_desc);
+                tvToolbarServerDesc = (TextView) statusLine.findViewById(R.id.toolbar_server_desc);
             }
             if (prefActionBarShowServerDescription) {
                 tvToolbarServerDesc.setText(getServerDescription());

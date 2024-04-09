@@ -33,4 +33,6 @@
 
     <bool name="prefTickMarksOnSlidersDefaultValue">true</bool>
 
+    <bool name="prefDoubleBackButtonToExitDefaultValue">false</bool>
+
 </resources>

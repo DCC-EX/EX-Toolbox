@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,7 +57,9 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
 //    private static final String EX_TOOLBOX_DIR = "Android\\data\\dcc_ex.ex_toolbox\\files";
 
     private Menu AMenu;
+    private LinearLayout screenNameLine;
     private Toolbar toolbar;
+    private LinearLayout statusLine;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +114,9 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
         //put pointer to this activity's handler in main app's shared variable
         mainapp.logviewer_msg_handler = new logviewer_handler(Looper.getMainLooper());
 
+        screenNameLine = findViewById(R.id.screen_name_line);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        statusLine = findViewById(R.id.status_line);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -119,7 +124,7 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
 
             SharedPreferences prefs = getSharedPreferences("dcc_ex.ex_toolbox_preferences", 0);
 
-            mainapp.setToolbarTitle(toolbar,
+            mainapp.setToolbarTitle(toolbar, statusLine, screenNameLine,
                     getApplicationContext().getResources().getString(R.string.app_name) + " | ",
                     getApplicationContext().getResources().getString(R.string.app_name_log_viewer),
                     "");

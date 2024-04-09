@@ -53,7 +53,7 @@
                 android:layout_height="167dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/app_name"
-                app:srcCompat="@drawable/icon_xl" />
+                app:srcCompat="@drawable/icon_vector" />
 
             <TextView
                 android:id="@+id/intro_finish_summary2"

@@ -1,4 +1,7 @@
-**Version 0.1.15
+**Version 0.1.17
+ * UI improvements to the Action Bar
+ * New preference to allow for double back button presses to exit the app
+**Version 0.1.15-16
  * updates to the sensor state page
  * support for alert messages
 **Version 0.1.14
