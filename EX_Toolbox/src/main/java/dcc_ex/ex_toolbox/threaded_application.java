@@ -795,7 +795,8 @@ public class threaded_application extends Application {
 
     public void displayToolbarMenuButtons(Menu menu) {
         MenuItem menuItem = menu.findItem(R.id.toolbar_button_cv_programmer);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarCvProgrammerMenuButtons", false));
+        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarCvProgrammerMenuButtons",
+                                getResources().getBoolean(R.bool.prefShowToolbarMenuButtonsCvProgrammerDefaultValue)));
 
         menuItem = menu.findItem(R.id.toolbar_button_speed_matching);
         if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarSpeedMatchingMenuButtons", false));
@@ -813,7 +814,8 @@ public class threaded_application extends Application {
         if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarCurrentsMenuButtons", false));
 
         menuItem = menu.findItem(R.id.toolbar_button_track_manager);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarTrackManagerMenuButtons", false));
+        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarTrackManagerMenuButtons",
+                                getResources().getBoolean(R.bool.prefShowToolbarMenuButtonsTrackManagerDefaultValue)));
 
         menuItem = menu.findItem(R.id.toolbar_button_roster);
         if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarRosterMenuButtons", false));
