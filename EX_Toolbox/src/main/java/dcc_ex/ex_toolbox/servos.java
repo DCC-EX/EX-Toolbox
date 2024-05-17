@@ -155,6 +155,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
 
     Button dccExServoPositionSwapButton;
     Button dccExServoResetButton;
+    Button dccExServoRetrieveButton;
 
     Button sendCommandButton;
     Button previousCommandButton;
@@ -333,6 +334,17 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 case message_type.TIME_CHANGED:
                     setActivityTitle();
                     break;
+                case message_type.RECEIVED_SERVO_DETAILS:
+                    String s = msg.obj.toString();
+                    if (s.length()==6) {
+                        String[] sArgs = s.split("(\\|)");
+                        processServoDetails(sArgs[0], sArgs[1], sArgs[2], sArgs[3], sArgs[4], sArgs[5]);
+                    }
+
+                    break;
+                case message_type.REQUEST_REFRESH_MENU:
+                    mainapp.displayToolbarMenuButtons(tMenu);
+                    break;
                 case message_type.RESTART_APP:
                 case message_type.RELAUNCH_APP:
                 case message_type.DISCONNECT:
@@ -420,6 +432,10 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         dccExServoResetButton = findViewById(R.id.ex_DccexServoResetButton);
         servo_reset_button_listener servo_reset_click_listener = new servo_reset_button_listener();
         dccExServoResetButton.setOnClickListener(servo_reset_click_listener);
+
+        dccExServoRetrieveButton = findViewById(R.id.ex_DccexServoRetrieveButton);
+        servo_retrieve_button_listener servo_retrieve_click_listener = new servo_retrieve_button_listener();
+        dccExServoRetrieveButton.setOnClickListener(servo_retrieve_click_listener);
 
         //-----------------------------------------
 
@@ -1075,6 +1091,46 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         }
     }
 
+    private void retrieveServo() {
+        String msgTxt = String.format("%s", dccexServoVpin);
+        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_SERVO_DETAILS, msgTxt, 0);
+    }
+
+    private void processServoDetails(String id, String vpin, String thrownPosition, String closedPosition, String profile, String state) {
+        int receivedId = Integer.parseInt(id);
+        int receivedVpin = Integer.parseInt(vpin);
+        if (receivedVpin == dccexServoVpinValue) {
+            int receivedThrownPosition = Integer.parseInt(thrownPosition);
+            int receivedClosedPosition = Integer.parseInt(closedPosition);
+            int receivedProfile = Integer.parseInt(profile);
+            int receivedState = Integer.parseInt(state);
+
+
+            dccexServoThrownPosition = thrownPosition;
+            dccexServoThrownPositionValue = Integer.parseInt(thrownPosition);
+            dccexServoClosedPosition = closedPosition;
+            dccexServoClosedPositionValue = Integer.parseInt(closedPosition);
+
+            dccexServoMidPositionValue = (dccexServoThrownPositionValue - dccexServoClosedPositionValue) / 2 + dccexServoClosedPositionValue;
+            dccexServoMidPosition = dccexServoMidPositionValue.toString();
+
+            etDccexServoClosedPositionValue.setText(dccexServoClosedPosition);
+            etDccexServoMidPositionValue.setText(dccexServoMidPosition);
+            etDccexServoThrownPositionValue.setText(dccexServoThrownPosition);
+
+
+
+        }
+    }
+
+    private class servo_retrieve_button_listener implements View.OnClickListener {
+        public void onClick(View v) {
+            mainapp.buttonVibration();
+            retrieveServo();
+            mainapp.hideSoftKeyboard(v);
+        }
+    }
+
         // ------------------------------------
 
 
@@ -1200,6 +1256,9 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
             case WHICH_THROWN_POSITION:
                 dccexServoThrownPosition = etDccexServoThrownPositionValue.getText().toString();
                 dccexServoThrownPositionValue = getIntFromString(dccexServoThrownPosition);
+
+                dccexServoMidPositionValue = (dccexServoThrownPositionValue - dccexServoClosedPositionValue) / 2 + dccexServoClosedPositionValue;
+                etDccexServoMidPositionValue.setText(dccexServoMidPositionValue);
                 break;
             case WHICH_MID_POSITION:
                 dccexServoMidPosition = etDccexServoMidPositionValue.getText().toString();
@@ -1208,6 +1267,9 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
             case WHICH_CLOSED_POSITION:
                 dccexServoClosedPosition = etDccexServoClosedPositionValue.getText().toString();
                 dccexServoClosedPositionValue = getIntFromString(dccexServoClosedPosition);
+
+                dccexServoMidPositionValue = (dccexServoThrownPositionValue - dccexServoClosedPositionValue) / 2 + dccexServoClosedPositionValue;
+                etDccexServoMidPositionValue.setText(dccexServoMidPositionValue);
                 break;
             case WHICH_COMMAND:
                 DccexSendCommandValue = etDccexSendCommandValue.getText().toString();

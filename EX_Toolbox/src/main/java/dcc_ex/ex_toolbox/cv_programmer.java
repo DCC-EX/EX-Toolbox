@@ -21,6 +21,7 @@ import static android.text.InputType.TYPE_TEXT_FLAG_AUTO_CORRECT;
 import static dcc_ex.ex_toolbox.threaded_application.context;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -28,6 +29,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.gesture.GestureOverlayView;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -46,6 +50,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieSyncManager;
 import android.widget.AdapterView;
@@ -107,6 +112,8 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 //    private String dccexSendsStr = "";
     private ScrollView DccexResponsesScrollView;
     private ScrollView DccexSendsScrollView;
+
+    private Spinner dcc_action_type_spinner;
 
 //    ArrayList<String> DccexResponsesListHtml = new ArrayList<>();
 //    ArrayList<String> dccexSendsListHtml = new ArrayList<>();
@@ -215,7 +222,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         gestureStartY = event.getY();
 //        Log.d("EX_Toolbox", "gestureStart x=" + gestureStartX + " y=" + gestureStartY);
 
-        toolbarHeight = toolbar.getHeight();
+        toolbarHeight = toolbar.getHeight() + statusLine.getHeight() + screenNameLine.getHeight();
 
         gestureInProgress = true;
         gestureLastCheckTime = event.getEventTime();
@@ -364,6 +371,9 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                     break;
                 case message_type.TIME_CHANGED:
                     setActivityTitle();
+                    break;
+                case message_type.REQUEST_REFRESH_MENU:
+                    mainapp.displayToolbarMenuButtons(tMenu);
                     break;
                 case message_type.RESTART_APP:
                     startNewCvProgrammerActivity();
@@ -529,13 +539,21 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         final List<String> dccActionTypeEntriesList = new ArrayList<>(Arrays.asList(dccExActionTypeEntriesArray));
 
         dccExActionTypeIndex = PROGRAMMING_TRACK;
-        Spinner dcc_action_type_spinner = findViewById(R.id.ex_action_type_list);
+        dcc_action_type_spinner = findViewById(R.id.ex_action_type_list);
 //        ArrayAdapter<?> action_type_spinner_adapter = ArrayAdapter.createFromResource(this, R.array.dccExActionTypeEntries, android.R.layout.simple_spinner_item);
         ArrayAdapter<?> action_type_spinner_adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dccExActionTypeEntriesArray);
         action_type_spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dcc_action_type_spinner.setAdapter(action_type_spinner_adapter);
         dcc_action_type_spinner.setOnItemSelectedListener(new action_type_spinner_listener());
         dcc_action_type_spinner.setSelection(dccExActionTypeIndex);
+
+        LinearLayout cv_programmer_button = findViewById(R.id.dccex_cv_programmer_prog_track_layout);
+        dccex_navigation_button_listener navigation_button_listener = new dccex_navigation_button_listener(0);
+        cv_programmer_button.setOnClickListener(navigation_button_listener);
+
+        cv_programmer_button = findViewById(R.id.dccex_cv_programmer_pom_layout);
+        navigation_button_listener = new dccex_navigation_button_listener(1);
+        cv_programmer_button.setOnClickListener(navigation_button_listener);
 
         dexcProgrammingCommonCvsLayout = findViewById(R.id.ex_programmingCommonCvsLayout);
         dexcProgrammingAddressLayout = findViewById(R.id.ex_programmingAddressLayout);
@@ -1446,4 +1464,19 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
             }
         }
     }
+
+    public class dccex_navigation_button_listener implements View.OnClickListener {
+        int myIndex;
+
+        dccex_navigation_button_listener(int index) {
+            myIndex = index;
+        }
+
+        public void onClick(View v) {
+            mainapp.buttonVibration();
+            dcc_action_type_spinner.setSelection(myIndex);
+            mainapp.hideSoftKeyboard(v);
+        }
+    }
+
 }

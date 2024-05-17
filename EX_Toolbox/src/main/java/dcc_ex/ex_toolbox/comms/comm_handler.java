@@ -162,6 +162,11 @@ public class comm_handler extends Handler {
             break;
          }
 
+         case message_type.REQUEST_REFRESH_MENU: {
+            mainapp.alert_activities(message_type.REQUEST_REFRESH_MENU, "");
+            break;
+         }
+
          case message_type.RESTART_APP: {
             SharedPreferences sharedPreferences = mainapp.getSharedPreferences("dcc_ex.ex_toolbox_preferences", 0);
             sharedPreferences.edit().putBoolean("prefForcedRestart", true).commit();
@@ -244,6 +249,12 @@ public class comm_handler extends Handler {
 
          case message_type.REQUEST_ALL_SENSOR_DETAILS: { // DCC-EX only
             comm_thread.sendAllSensorDetailsRequest();
+            break;
+         }
+
+         case message_type.REQUEST_SERVO_DETAILS: {
+            String [] args = msg.obj.toString().split(" ");
+            comm_thread.sendServoDetailsRequest(args[0]);
             break;
          }
 

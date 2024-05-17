@@ -28,9 +28,9 @@
             android:layout_height="fill_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/screen_name_line" />
+            <include layout="@layout/toolbar_screen_name_line" />
             <include layout="@layout/toolbar" />
-            <include layout="@layout/status_line" />
+            <include layout="@layout/toolbar_status_line" />
 
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -234,35 +234,39 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8sp"
                             android:background="#00000000"
-                            android:orientation="horizontal"
-                            android:weightSum="1">
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/ex_DccexServoRetrieveButton"
+                                style="?attr/ed_small_button_style"
+                                android:layout_width="50dp"
+                                android:layout_height="30sp"
+                                android:padding="4sp"
+                                android:text="@string/dccexServoRetrieveButtonLabel" />
 
                             <Button
                                 android:id="@+id/ex_DccexServoResetButton"
                                 style="?attr/ed_small_button_style"
-                                android:layout_width="0dp"
+                                android:layout_width="50dp"
                                 android:layout_height="30sp"
-                                android:layout_weight=".15"
                                 android:padding="4sp"
                                 android:text="@string/dccexServoResetButtonLabel" />
 
                             <Button
                                 android:id="@+id/ex_DccexServoPositionSwapButton"
                                 style="?attr/ed_small_button_style"
-                                android:layout_width="0dp"
+                                android:layout_width="50dp"
                                 android:layout_height="30sp"
-                                android:layout_weight=".15"
                                 android:padding="4sp"
-                                android:layout_marginRight="45sp"
-                                android:layout_marginEnd="45sp"
+                                android:layout_marginRight="30dp"
+                                android:layout_marginEnd="30sp"
                                 android:text="@string/dccexServoPositionSwapButtonLabel" />
 
                             <Button
                                 android:id="@+id/ex_DccexServoPositionIncrementButton"
                                 style="?attr/ed_small_button_style"
-                                android:layout_width="0dp"
+                                android:layout_width="90dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".35"
                                 android:padding="4sp"
                                 android:text="@string/dccexServoIncrementButtonLabel"
                                 android:textSize="24sp"
@@ -271,9 +275,8 @@
                             <Button
                                 android:id="@+id/ex_DccexServoPositionDecrementButton"
                                 style="?attr/ed_small_button_style"
-                                android:layout_width="0dp"
+                                android:layout_width="90dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".35"
                                 android:padding="4sp"
                                 android:text="@string/dccexServoDecrementButtonLabel"
                                 android:textSize="24sp"

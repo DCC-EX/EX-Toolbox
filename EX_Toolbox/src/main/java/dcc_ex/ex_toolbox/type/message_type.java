@@ -87,4 +87,7 @@ public interface message_type {
     int REQUEST_ROSTER = 86;
     int REQUEST_ALL_SENSORS = 87;
     int RECEIVED_ADDITIONAL_SENSOR = 88;
+    int REQUEST_REFRESH_MENU = 89;
+    int REQUEST_SERVO_DETAILS = 90;
+    int RECEIVED_SERVO_DETAILS = 91;
 }

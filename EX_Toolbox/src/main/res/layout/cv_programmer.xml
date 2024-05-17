@@ -22,9 +22,9 @@
             android:layout_height="fill_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/screen_name_line" />
+            <include layout="@layout/toolbar_screen_name_line" />
             <include layout="@layout/toolbar" />
-            <include layout="@layout/status_line" />
+            <include layout="@layout/toolbar_status_line" />
 
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -44,11 +44,78 @@
                     android:padding="10dp"
                     android:weightSum="1">
 
+
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="0dp"
                         android:layout_weight=".94"
                         android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:layout_marginBottom="15sp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/dccex_cv_programmer_prog_track_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="0sp"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:orientation="horizontal">
+
+                                <Button
+                                    android:id="@+id/dccex_cv_programmer_prog_track_button"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:layout_gravity="center"
+                                    android:padding="10dp"
+                                    android:background="?attr/ed_dccex_button_cv_programmer_prog_track" />
+
+                                <TextView
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="220px"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="10dp"
+                                    android:text="@string/DccexButtonCvProgrammerProgTrack"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/dccex_cv_programmer_pom_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="0sp"
+                                android:paddingLeft="0dp"
+                                android:paddingRight="10dp"
+                                android:orientation="horizontal">
+
+                                <Button
+                                    android:id="@+id/dccex_cv_programmer_pom_button"
+                                    android:layout_width="28dp"
+                                    android:layout_height="28dp"
+                                    android:layout_gravity="center"
+                                    android:padding="10dp"
+                                    android:background="?attr/ed_dccex_button_cv_programmer_pom" />
+
+                                <TextView
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="220px"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="10dp"
+                                    android:text="@string/DccexButtonCvProgrammerPoM"
+                                    android:layout_gravity="center"
+                                    android:textSize="10sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="fill_parent"

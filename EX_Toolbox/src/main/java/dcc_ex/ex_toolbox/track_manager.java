@@ -294,6 +294,9 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
                 case message_type.TIME_CHANGED:
                     setActivityTitle();
                     break;
+                case message_type.REQUEST_REFRESH_MENU:
+                    mainapp.displayToolbarMenuButtons(tMenu);
+                    break;
                 case message_type.RESTART_APP:
                 case message_type.RELAUNCH_APP:
                 case message_type.DISCONNECT:

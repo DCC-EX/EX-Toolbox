@@ -75,7 +75,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
     private threaded_application mainapp;  // hold pointer to mainapp
     private SharedPreferences prefs;
 
-    private Menu menu;
+    private Menu tMenu;
     private static boolean savedMenuSelected;
 
     protected GestureOverlayView ov;
@@ -236,7 +236,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
                         String com1 = s.substring(0, 3);
                         //update power icon
                         if ("PPA".equals(com1)) {
-                            mainapp.setPowerStateButton(menu);
+                            mainapp.setPowerStateButton(tMenu);
                         }
                     }
                     break;
@@ -256,6 +256,9 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
                     break;
                 case message_type.TIME_CHANGED:
                     setActivityTitle();
+                    break;
+                case message_type.REQUEST_REFRESH_MENU:
+                    mainapp.displayToolbarMenuButtons(tMenu);
                     break;
                 case message_type.RESTART_APP:
                 case message_type.RELAUNCH_APP:
@@ -458,20 +461,20 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
     public boolean onCreateOptionsMenu(Menu myMenu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.roster_menu, myMenu);
-        menu = myMenu;
+        tMenu = myMenu;
 
 
-        mainapp.setTrackmanagerMenuOption(menu);
-        mainapp.setCurrentsMenuOption(menu);
+        mainapp.setTrackmanagerMenuOption(tMenu);
+        mainapp.setCurrentsMenuOption(tMenu);
 
-        mainapp.displayToolbarMenuButtons(menu);
-        mainapp.displayPowerStateMenuButton(menu);
-        mainapp.setPowerMenuOption(menu);
-        mainapp.setPowerStateButton(menu);
+        mainapp.displayToolbarMenuButtons(tMenu);
+        mainapp.displayPowerStateMenuButton(tMenu);
+        mainapp.setPowerMenuOption(tMenu);
+        mainapp.setPowerStateButton(tMenu);
 
-        mainapp.setPowerMenuOption(menu);
+        mainapp.setPowerMenuOption(tMenu);
 
-        return  super.onCreateOptionsMenu(menu);
+        return  super.onCreateOptionsMenu(tMenu);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -542,7 +545,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
                 return true;
         } else if (item.getItemId() == R.id.power_layout_button) {
                 if (!mainapp.isPowerControlAllowed()) {
-                    mainapp.powerControlNotAllowedDialog(menu);
+                    mainapp.powerControlNotAllowedDialog(tMenu);
                 } else {
                     mainapp.powerStateMenuButton();
                 }

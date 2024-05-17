@@ -437,13 +437,13 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     //Handle pressing of the back button to end this activity
     @Override
     public boolean onKeyDown(int key, KeyEvent event) {
+        mainapp.exitDoubleBackButtonInitiated = 0;
         if ((key == KeyEvent.KEYCODE_BACK) && (!isInSubScreen) ) {
             setResult(result);
             finish();  //end this activity
             connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
             return true;
         }
-        mainapp.exitDoubleBackButtonInitiated = 0;
         isInSubScreen = false;
         return (super.onKeyDown(key, event));
     }
@@ -789,12 +789,16 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                         mainapp.prefHapticFeedbackButtons = prefs.getBoolean("prefHapticFeedbackButtons", getResources().getBoolean(R.bool.prefHapticFeedbackButtonsDefaultValue));
                         break;
 
-//                    case "prefShowToolbarCvProgrammerMenuButtons":
-//                    case "prefShowToolbarLocosMenuButtons":
-//                    case "prefShowToolbarCurrentsMenuButtons":
-//                    case "prefShowToolbarSensorsMenuButtons":
-//                    case "prefShowToolbarServosMenuButtons":
-//                    case "prefShowToolbarTrackManagerMenuButtons":
+                    case "show_layout_power_button_preference":
+                    case "prefShowToolbarCvProgrammerMenuButtons":
+                    case "prefShowToolbarCurrentsMenuButtons":
+                    case "prefShowToolbarLocosMenuButtons":
+                    case "prefShowToolbarSensorsMenuButtons":
+                    case "prefShowToolbarServosMenuButtons":
+                    case "prefShowToolbarTrackManagerMenuButtons":
+                    case "prefShowToolbarSpeedMatchingMenuButtons":
+                    case "prefShowToolbarRosterMenuButtons":
+                        parentActivity.mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_REFRESH_MENU, "");
 //                        parentActivity.forceReLaunchAppOnPreferencesClose = true;
 //                        parentActivity.forceRestartAppOnPreferencesCloseReason = threaded_application.FORCED_RESTART_REASON_TOOLBAR_BUTTONS;
 //                        break;

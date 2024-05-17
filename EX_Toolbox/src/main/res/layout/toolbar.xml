@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="34dp"
+    android:layout_height="33dp"
     android:layout_marginBottom="0dp"
     android:background="?attr/ed_toolbar_background"
     android:orientation="vertical"
@@ -13,7 +13,7 @@
     app:contentInsetLeft="5dp"
     app:contentInsetStart="5dp"
     app:contentInsetStartWithNavigation="0dp"
-    app:navigationContentDescription="Overflow Menu">
+    app:navigationContentDescription="Overflow Menu" >
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
         <LinearLayout
             android:id="@+id/toolbar_icon_layout"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
+            android:layout_height="33dp"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:orientation="vertical"

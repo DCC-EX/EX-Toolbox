@@ -31,6 +31,7 @@ android {
     lint {
         abortOnError false
     }
+    namespace 'dcc_ex.ex_toolbox'
 }
 
 dependencies {

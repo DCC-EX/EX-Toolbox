@@ -586,9 +586,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="-58.689863"
-     inkscape:cy="123.03658"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="380.777"
+     inkscape:cy="316.07673"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -652,7 +652,7 @@
        inkscape:export-filename="..\EX_Toolbox\src\main\res\drawable\toolbar_button_track_manager.png" /><a
        id="a4201"><g
          id="g4205" /></a><path
-       d="m 348.58006,621.58403 46.75523,-65.62112 0,46.87241 h 149.98965 v 37.49743 H 395.33529 l 0,46.9896 z m -140.73183,18.74872 v -37.49743 h 112.49224 v 37.49743 z m 74.99483,-65.85421 V 527.8405 h -74.99483 v -37.49722 h 74.99483 v -47.10679 l 46.63804,65.8554 z m 74.99481,-46.63804 v -37.49722 h 187.48707 v 37.49722 z m 65.73703,-131.24075 46.75522,-65.50393 v 46.75522 h 74.99482 v 37.49743 h -74.99482 v 47.34115 z m -215.72667,18.74872 v -37.49743 h 187.48706 v 37.49743 z"
+       d="m 334.166,621.58403 61.16929,-79.37656 v 60.62785 h 149.98965 v 37.49743 H 395.33529 v 61.24222 z m -126.31777,18.74872 v -37.49743 h 112.49224 l -14.17969,18.80465 14.17969,18.69278 z m 75.16056,-51.27013 -0.16573,-61.22212 h -74.99483 v -37.49722 h 74.99483 v -60.6965 l 61.0521,79.44511 z m 74.82908,-61.22212 14.0332,-18.72983 -14.0332,-18.76739 h 187.48707 v 37.49722 z m 51.44015,-131.24075 60.72064,-79.42509 0.33146,60.67638 h 74.99482 v 37.49743 h -74.99482 v 61.26231 z m -201.42979,18.74872 v -37.49743 h 187.48706 l -14.09093,18.73831 14.09093,18.75912 z"
        id="path11001"
        style="fill:#ffffff;stroke-width:0.468717"
-       sodipodi:nodetypes="ccccccccccccccccccccccccccccccccccccccc" /></g></svg>
+       sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccccccccc" /></g></svg>

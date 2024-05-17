@@ -102,6 +102,9 @@
 
         <item name="ed_advanced_preferences">@drawable/advanced_preferences</item>
 
+        <item name="ed_dccex_button_cv_programmer_pom">@drawable/dccex_button_cv_programmer_pom</item>
+        <item name="ed_dccex_button_cv_programmer_prog_track">@drawable/dccex_button_cv_programmer_prog_track</item>
+
         <item name="ed_icon">@drawable/icon_vector</item>
     </style>
 
@@ -188,6 +191,9 @@
 
         <item name="ed_advanced_preferences">@drawable/advanced_preferences</item>
         <item name="ed_icon">@drawable/icon_vector</item>
+
+        <item name="ed_dccex_button_cv_programmer_pom">@drawable/dccex_button_cv_programmer_pom_outline</item>
+        <item name="ed_dccex_button_cv_programmer_prog_track">@drawable/dccex_button_cv_programmer_prog_track_outline</item>
     </style>
 
     <style name="app_theme_outline" parent="Theme.AppCompat.NoActionBar">
@@ -270,6 +276,9 @@
 
         <item name="ed_advanced_preferences">@drawable/advanced_preferences</item>
         <item name="ed_icon">@drawable/icon_vector</item>
+
+        <item name="ed_dccex_button_cv_programmer_pom">@drawable/dccex_button_cv_programmer_pom_outline</item>
+        <item name="ed_dccex_button_cv_programmer_prog_track">@drawable/dccex_button_cv_programmer_prog_track_outline</item>
     </style>
 
     <!-- appears as 'dark' theme -->
@@ -355,6 +364,9 @@
 
         <item name="ed_advanced_preferences">@drawable/advanced_preferences</item>
         <item name="ed_icon">@drawable/icon_vector</item>
+
+        <item name="ed_dccex_button_cv_programmer_pom">@drawable/dccex_button_cv_programmer_pom_ultra</item>
+        <item name="ed_dccex_button_cv_programmer_prog_track">@drawable/dccex_button_cv_programmer_prog_track_ultra</item>
     </style>
 
     <style name="app_theme_colorful" parent="Theme.AppCompat.Light.NoActionBar">
@@ -447,6 +459,9 @@
 
         <item name="ed_advanced_preferences">@drawable/advanced_preferences_black</item>
         <item name="ed_icon">@drawable/icon_vector</item>
+
+        <item name="ed_dccex_button_cv_programmer_pom">@drawable/dccex_button_cv_programmer_pom</item>
+        <item name="ed_dccex_button_cv_programmer_prog_track">@drawable/dccex_button_cv_programmer_prog_track</item>
     </style>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
