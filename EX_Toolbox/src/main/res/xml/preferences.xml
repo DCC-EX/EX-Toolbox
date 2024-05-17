@@ -160,7 +160,7 @@
 
         <CheckBoxPreference
             android:icon="?attr/ed_toolbar_button_cv_programmer"
-            android:defaultValue="@bool/prefShowToolbarMenuButtonsDefaultValue"
+            android:defaultValue="@bool/prefShowToolbarMenuButtonsCvProgrammerDefaultValue"
             android:key="prefShowToolbarCvProgrammerMenuButtons"
             android:layout="@layout/checkbox_icon_right"
             android:summary="@string/prefShowToolbarMenuButtonsSummary"
@@ -200,7 +200,7 @@
 
         <CheckBoxPreference
             android:icon="?attr/ed_toolbar_button_track_manager"
-            android:defaultValue="@bool/prefShowToolbarMenuButtonsDefaultValue"
+            android:defaultValue="@bool/prefShowToolbarMenuButtonsTrackManagerDefaultValue"
             android:key="prefShowToolbarTrackManagerMenuButtons"
             android:layout="@layout/checkbox_icon_right"
             android:summary="@string/prefShowToolbarMenuButtonsSummary"

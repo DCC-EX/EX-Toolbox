@@ -16,6 +16,8 @@
 <resources>
     <bool name="prefLayoutPowerButtonDefaultValue">true</bool>
     <bool name="prefShowToolbarMenuButtonsDefaultValue">false</bool>
+    <bool name="prefShowToolbarMenuButtonsCvProgrammerDefaultValue">true</bool>
+    <bool name="prefShowToolbarMenuButtonsTrackManagerDefaultValue">true</bool>
     <bool name="prefConnectToFirstServer">false</bool>
 
     <bool name="prefShowAdvancedPreferencesDefaultValue">false</bool>

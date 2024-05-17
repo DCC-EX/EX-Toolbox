@@ -363,7 +363,7 @@
         <item name="ed_background_highlight_secondary">@drawable/background_highlight_secondary_black</item>
 
         <item name="ed_advanced_preferences">@drawable/advanced_preferences</item>
-        <item name="ed_icon">@drawable/icon_vector</item>
+        <item name="ed_icon">@drawable/icon_vector_ultra</item>
 
         <item name="ed_dccex_button_cv_programmer_pom">@drawable/dccex_button_cv_programmer_pom_ultra</item>
         <item name="ed_dccex_button_cv_programmer_prog_track">@drawable/dccex_button_cv_programmer_prog_track_ultra</item>
