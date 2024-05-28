@@ -91,6 +91,10 @@ public class threaded_application extends Application {
 
     private threaded_application mainapp = this;
     public comm_thread commThread;
+
+    public String JMDNS_SERVICE_WITHROTTLE = "_withrottle._tcp.local.";
+    public String JMDNS_SERVICE_JMRI_DCCPP_OVERTCP = "_dccppovertcpserver._tcp.local.";
+
     public volatile String host_ip = null; //The IP address of the WiThrottle server.
     public volatile String logged_host_ip = null;
     public volatile int port = 0; //The TCP port that the WiThrottle server is running on
@@ -260,6 +264,7 @@ public class threaded_application extends Application {
     }
     public int connectedPort = 0;
     public String connectedSsid = "";
+    public String connectedServiceType = "";
 
     public String languageCountry = "en";
 

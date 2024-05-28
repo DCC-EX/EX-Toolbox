@@ -96,6 +96,7 @@ public class connection_activity extends AppCompatActivity implements Permission
     private String connected_hostname;
     private int connected_port;
     private String connected_ssid;
+    private String connected_serviceType;
 
     private static final String DUMMY_HOST = "999";
     private static final String DUMMY_ADDRESS = "999";
@@ -215,6 +216,8 @@ public class connection_activity extends AppCompatActivity implements Permission
                         TextView hpv = (TextView) vg.getChildAt(2); // get port from 3rd box
                         connected_port = Integer.parseInt(hpv.getText().toString());
                         connected_ssid = mainapp.client_ssid;
+                        TextView hstv = (TextView) vg.getChildAt(3); // get from 4th box
+                        connected_serviceType = hstv.getText().toString();
                         break;
                 }
                 connect();
@@ -291,6 +294,7 @@ public class connection_activity extends AppCompatActivity implements Permission
             connected_hostname = DUMMY_HOST;
             connected_port = DUMMY_PORT;
             connected_ssid = DUMMY_SSID;
+            connected_serviceType = mainapp.JMDNS_SERVICE_WITHROTTLE;
 
             Animation anim = AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right);
             anim.setDuration(500);
@@ -304,7 +308,7 @@ public class connection_activity extends AppCompatActivity implements Permission
                 public void onAnimationEnd(Animation animation) {
                     Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.toastConnectRemoved), Toast.LENGTH_SHORT).show();
 //                        new saveConnectionsList().execute();
-                    importExportConnectionList.saveConnectionsListExecute(mainapp, connected_hostip, connected_hostname, connected_port, "", connected_ssid);
+                    importExportConnectionList.saveConnectionsListExecute(mainapp, connected_hostip, connected_hostname, connected_port, "", connected_ssid, connected_serviceType);
                 }
 
                 @Override
@@ -362,13 +366,18 @@ public class connection_activity extends AppCompatActivity implements Permission
                 case message_type.SERVICE_RESOLVED:
                     HashMap<String, String> hm = (HashMap<String, String>) msg.obj;  //payload is already a hashmap
                     String found_host_name = hm.get("host_name");
+                    String found_ip_address = hm.get("ip_address");
+                    String found_port = hm.get("port");
+                    String found_service_type = hm.get("service_type");
                     boolean entryExists = false;
 
                     //stop if new address is already in the list
                     HashMap<String, String> tm;
                     for (int index = 0; index < discovery_list.size(); index++) {
                         tm = discovery_list.get(index);
-                        if (tm.get("host_name").equals(found_host_name)) {
+//                        if (tm.get("host_name").equals(found_host_name)) {
+                        if ( (tm.get("ip_address").equals(found_ip_address))
+                                && (tm.get("port").equals(found_port)) ) {
                             entryExists = true;
                             break;
                         }
@@ -398,11 +407,13 @@ public class connection_activity extends AppCompatActivity implements Permission
 
                 case message_type.CONNECTED:
                     //use asynctask to save the updated connections list to the connections_list.txt file
-                    importExportConnectionList.saveConnectionsListExecute(mainapp, connected_hostip, connected_hostname, connected_port, "", mainapp.client_ssid);
+                    importExportConnectionList.saveConnectionsListExecute(mainapp, connected_hostip,
+                            connected_hostname, connected_port, "", mainapp.client_ssid, connected_serviceType);
                     mainapp.connectedHostName = connected_hostname;
                     mainapp.connectedHostip = connected_hostip;
                     mainapp.connectedPort = connected_port;
                     mainapp.connectedSsid = mainapp.client_ssid;
+                    mainapp.connectedServiceType = connected_serviceType;
 
                     start_cv_programmer_activity();
                     break;
@@ -464,8 +475,8 @@ public class connection_activity extends AppCompatActivity implements Permission
         //Set up a list adapter to allow adding discovered servers to the UI.
         discovery_list = new ArrayList<>();
         discovery_list_adapter = new SimpleAdapter(this, discovery_list, R.layout.connections_list_item,
-                new String[]{"ip_address", "host_name", "port", "ssid"},
-                new int[]{R.id.ip_item_label, R.id.host_item_label, R.id.port_item_label, R.id.ssid_item_label});
+                new String[]{"ip_address", "host_name", "port", "ssid", "serverType"},
+                new int[]{R.id.ip_item_label, R.id.host_item_label, R.id.port_item_label, R.id.ssid_item_label, R.id.serverType_item_label});
         ListView discover_list = findViewById(R.id.discovery_list);
         discover_list.setAdapter(discovery_list_adapter);
         discover_list.setOnItemClickListener(new connect_item(server_list_type.DISCOVERED_SERVER));
@@ -474,8 +485,8 @@ public class connection_activity extends AppCompatActivity implements Permission
         //Set up a list adapter to allow adding the list of recent connections to the UI.
 //            connections_list = new ArrayList<>();
         connection_list_adapter = new SimpleAdapter(this, importExportConnectionList.connections_list, R.layout.connections_list_item,
-                new String[]{"ip_address", "host_name", "port", "ssid"},
-                new int[]{R.id.ip_item_label, R.id.host_item_label, R.id.port_item_label, R.id.ssid_item_label});
+                new String[]{"ip_address", "host_name", "port", "ssid", "serverType"},
+                new int[]{R.id.ip_item_label, R.id.host_item_label, R.id.port_item_label, R.id.ssid_item_label, R.id.serverType_item_label});
         ListView conn_list = findViewById(R.id.connections_list);
         conn_list.setAdapter(connection_list_adapter);
         conn_list.setOnTouchListener(connectionsListSwipeDetector = new SwipeDetector());

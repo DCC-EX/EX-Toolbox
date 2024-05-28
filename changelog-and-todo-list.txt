@@ -1,8 +1,9 @@
-**Version 0.1.17-18
+**Version 0.1.17-19
  * UI improvements to the Action Bar
  * New preference to allow for double back button presses to exit the app
  * Change the original button styling to vectors - not identical to the original but close
  * Gradle update
+ * Support for JMRI DCCppOverTCP Server. Now also checks for the mDNS service "_dccppovertcpserver._tcp.local."
 **Version 0.1.15-16
  * updates to the sensor state page
  * support for alert messages

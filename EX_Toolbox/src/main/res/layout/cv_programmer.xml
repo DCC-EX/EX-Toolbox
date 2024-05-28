@@ -77,7 +77,7 @@
 
                                 <TextView
                                     style="?attr/floating_text_style"
-                                    android:layout_width="220px"
+                                    android:layout_width="100dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:paddingLeft="5dp"
@@ -105,7 +105,7 @@
 
                                 <TextView
                                     style="?attr/floating_text_style"
-                                    android:layout_width="220px"
+                                    android:layout_width="100dp"
                                     android:layout_height="wrap_content"
                                     android:paddingLeft="5dp"
                                     android:paddingRight="10dp"

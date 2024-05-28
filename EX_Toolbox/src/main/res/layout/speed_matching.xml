@@ -295,7 +295,8 @@
                                     android:layout_marginStart="14dp"
                                     android:layout_marginLeft="14dp"
                                     android:layout_gravity="center"
-                                    style="?attr/ed_small_button_style"                                    android:textFontWeight="900"
+                                    style="?attr/ed_small_button_style"
+                                    android:textFontWeight="900"
                                     android:text="@string/speedMatchPlusEmoji"
                                     android:fontFamily="@font/notoemoji_variablefont_wght" />
 
@@ -374,7 +375,8 @@
                                     android:layout_marginStart="14dp"
                                     android:layout_marginLeft="14dp"
                                     android:layout_gravity="center"
-                                    style="?attr/ed_small_button_style"                                    android:textFontWeight="900"
+                                    style="?attr/ed_small_button_style"
+                                    android:textFontWeight="900"
                                     android:text="@string/speedMatchPlusEmoji"
                                     android:fontFamily="@font/notoemoji_variablefont_wght" />
 
@@ -453,7 +455,8 @@
                                     android:layout_marginStart="14dp"
                                     android:layout_marginLeft="14dp"
                                     android:layout_gravity="center"
-                                    style="?attr/ed_small_button_style"                                    android:textFontWeight="900"
+                                    style="?attr/ed_small_button_style"
+                                    android:textFontWeight="900"
                                     android:text="@string/speedMatchPlusEmoji"
                                     android:fontFamily="@font/notoemoji_variablefont_wght" />
 
@@ -539,7 +542,8 @@
                                     android:layout_marginStart="14dp"
                                     android:layout_marginLeft="14dp"
                                     android:layout_gravity="center"
-                                    style="?attr/ed_small_button_style"                                    android:textFontWeight="900"
+                                    style="?attr/ed_small_button_style"
+                                    android:textFontWeight="900"
                                     android:text="@string/speedMatchPlusEmoji"
                                     android:fontFamily="@font/notoemoji_variablefont_wght" />
 
@@ -617,7 +621,8 @@
                                     android:layout_marginStart="14dp"
                                     android:layout_marginLeft="14dp"
                                     android:layout_gravity="center"
-                                    style="?attr/ed_small_button_style"                                    android:textFontWeight="900"
+                                    style="?attr/ed_small_button_style"
+                                    android:textFontWeight="900"
                                     android:text="@string/speedMatchPlusEmoji"
                                     android:fontFamily="@font/notoemoji_variablefont_wght" />
 
@@ -693,7 +698,8 @@
                                     android:layout_marginStart="14dp"
                                     android:layout_marginLeft="14dp"
                                     android:layout_gravity="center"
-                                    style="?attr/ed_small_button_style"                                    android:textFontWeight="900"
+                                    style="?attr/ed_small_button_style"
+                                    android:textFontWeight="900"
                                     android:text="@string/speedMatchPlusEmoji"
                                     android:fontFamily="@font/notoemoji_variablefont_wght" />
 

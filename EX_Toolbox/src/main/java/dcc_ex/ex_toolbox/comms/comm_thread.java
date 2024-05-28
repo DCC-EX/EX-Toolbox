@@ -126,7 +126,10 @@ public class comm_thread extends Thread {
                 serverType = "DCCEX";
             }
 
-            String host_name = event.getInfo().getName(); //
+            String host_name = event.getInfo().getName();
+            if (event.getInfo().getType().toString().equals(mainapp.JMDNS_SERVICE_JMRI_DCCPP_OVERTCP)) {
+                host_name = host_name + " [DCC-EX]";
+            }
             Inet4Address[] ip_addresses = event.getInfo().getInet4Addresses();  //only get ipV4 address
             String ip_address = ip_addresses[0].toString().substring(1);  //use first one, since WiThrottle is only putting one in (for now), and remove leading slash
 
@@ -136,8 +139,10 @@ public class comm_thread extends Thread {
             hm.put("port", ((Integer) port).toString());
             hm.put("host_name", host_name);
             hm.put("ssid", mainapp.client_ssid);
+            hm.put("service_type", event.getInfo().getType().toString());
 
-            mainapp.knownDccexServerIps.put(ip_address, serverType);
+            String key = ""+ip_address+":"+port;
+            mainapp.knownDccexServerIps.put(key, serverType);
 
             Message service_message = Message.obtain();
             service_message.what = message_type.SERVICE_RESOLVED;
@@ -191,7 +196,8 @@ public class comm_thread extends Thread {
             public void run() {
                 try {
                     Log.d("EX_Toolbox", "comm_thread.endJmdns: removing jmdns listener");
-                    jmdns.removeServiceListener("_withrottle._tcp.local.", listener);
+                    jmdns.removeServiceListener(mainapp.JMDNS_SERVICE_WITHROTTLE, listener);
+                    jmdns.removeServiceListener(mainapp.JMDNS_SERVICE_JMRI_DCCPP_OVERTCP, listener);
 
                     multicast_lock.release();
                 } catch (Exception e) {
@@ -239,8 +245,11 @@ public class comm_thread extends Thread {
         hm.put("port", entryPort);
         hm.put("host_name", entryName);
         hm.put("ssid", mainapp.client_ssid);
+        hm.put("service_type",(serverType.equals("DCC-EX") ? mainapp.JMDNS_SERVICE_JMRI_DCCPP_OVERTCP : mainapp.JMDNS_SERVICE_WITHROTTLE) );
 
-        mainapp.knownDccexServerIps.put(server_addr, serverType);
+//        mainapp.knownDCCEXserverIps.put(server_addr, serverType);
+        String key = ""+server_addr+":"+entryPort;
+        mainapp.knownDccexServerIps.put(key, serverType);
 
         Message service_message = Message.obtain();
         service_message.what = message_type.SERVICE_RESOLVED;
