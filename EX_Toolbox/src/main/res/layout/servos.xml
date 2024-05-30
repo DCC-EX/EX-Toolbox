@@ -239,14 +239,6 @@
                             android:orientation="horizontal">
 
                             <Button
-                                android:id="@+id/ex_DccexServoRetrieveButton"
-                                style="?attr/ed_small_button_style"
-                                android:layout_width="50dp"
-                                android:layout_height="30sp"
-                                android:padding="4sp"
-                                android:text="@string/dccexServoRetrieveButtonLabel" />
-
-                            <Button
                                 android:id="@+id/ex_DccexServoResetButton"
                                 style="?attr/ed_small_button_style"
                                 android:layout_width="50dp"
@@ -286,133 +278,92 @@
 
                         </LinearLayout>
 
-    <!--                    <LinearLayout-->
-    <!--                        android:id="@+id/ex_ServoMidPositionLayout"-->
-    <!--                        android:layout_width="fill_parent"-->
-    <!--                        android:layout_height="wrap_content"-->
-    <!--                        android:layout_marginTop="8sp"-->
-    <!--                        android:background="#00000000"-->
-    <!--                        android:orientation="horizontal"-->
-    <!--                        android:weightSum="1">-->
-
-    <!--                        <TextView-->
-    <!--                            style="?attr/floating_text_style"-->
-    <!--                            android:layout_width="0dp"-->
-    <!--                            android:layout_height="wrap_content"-->
-    <!--                            android:layout_weight=".5"-->
-    <!--                            android:gravity="end"-->
-    <!--                            android:padding="4sp"-->
-    <!--                            android:text="@string/dccexServoMidPositionLabel"-->
-    <!--                            android:textAlignment="viewEnd" />-->
-
-    <!--                        <EditText-->
-    <!--                            android:id="@+id/ex_DccexServoMidPositionValue"-->
-    <!--                            style="?attr/edit_label_style"-->
-    <!--                            android:layout_width="0dp"-->
-    <!--                            android:layout_height="wrap_content"-->
-    <!--                            android:layout_marginEnd="8sp"-->
-    <!--                            android:layout_marginRight="8sp"-->
-    <!--                            android:layout_weight=".2"-->
-    <!--                            android:inputType="number"-->
-    <!--                            android:maxLength="5"-->
-    <!--                            android:paddingRight="8sp"-->
-    <!--                            android:shadowColor="#FFFFFFFF"-->
-    <!--                            android:shadowDx="1"-->
-    <!--                            android:shadowDy="1"-->
-    <!--                            android:shadowRadius="0.3"-->
-    <!--                            android:singleLine="true"-->
-    <!--                            android:text=""-->
-    <!--                            tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />-->
-    <!--                    </LinearLayout>-->
-
-    <!--                    <LinearLayout-->
-    <!--                        android:id="@+id/ex_ServoThrownPositionLayout"-->
-    <!--                        android:layout_width="fill_parent"-->
-    <!--                        android:layout_height="wrap_content"-->
-    <!--                        android:layout_marginTop="8sp"-->
-    <!--                        android:background="#00000000"-->
-    <!--                        android:orientation="horizontal"-->
-    <!--                        android:weightSum="1">-->
-
-    <!--                        <Button-->
-    <!--                            android:id="@+id/ex_DccexServoResetButton"-->
-    <!--                            style="?attr/ed_small_button_style"-->
-    <!--                            android:layout_width="0dp"-->
-    <!--                            android:layout_height="38sp"-->
-    <!--                            android:layout_weight=".15"-->
-    <!--                            android:padding="4sp"-->
-    <!--                            android:text="@string/dccexServoResetButtonLabel" />-->
-
-    <!--                        <TextView-->
-    <!--                            style="?attr/floating_text_style"-->
-    <!--                            android:layout_width="0dp"-->
-    <!--                            android:layout_height="wrap_content"-->
-    <!--                            android:layout_weight=".35"-->
-    <!--                            android:gravity="end"-->
-    <!--                            android:padding="4sp"-->
-    <!--                            android:text="@string/dccexServoThrownPositionLabel"-->
-    <!--                            android:textAlignment="viewEnd" />-->
-
-    <!--                        <EditText-->
-    <!--                            android:id="@+id/ex_DccexServoThrownPositionValue"-->
-    <!--                            style="?attr/edit_label_style"-->
-    <!--                            android:layout_width="0dp"-->
-    <!--                            android:layout_height="wrap_content"-->
-    <!--                            android:layout_marginEnd="8sp"-->
-    <!--                            android:layout_marginRight="8sp"-->
-    <!--                            android:layout_weight=".2"-->
-    <!--                            android:inputType="number"-->
-    <!--                            android:maxLength="5"-->
-    <!--                            android:paddingRight="8sp"-->
-    <!--                            android:shadowColor="#FFFFFFFF"-->
-    <!--                            android:shadowDx="1"-->
-    <!--                            android:shadowDy="1"-->
-    <!--                            android:shadowRadius="0.3"-->
-    <!--                            android:singleLine="true"-->
-    <!--                            android:text=""-->
-    <!--                            tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />-->
-
-    <!--                    </LinearLayout>-->
 
                         <LinearLayout
-                            android:id="@+id/ex_servoProfilesLayout"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8sp"
-                            android:layout_marginBottom="8sp"
-                            android:layout_marginLeft="20sp"
-                            android:background="?attr/ed_background_highlight_secondary"
-                            android:orientation="horizontal"
-                            android:weightSum="1"
-                            tools:ignore="RtlHardcoded">
+                            android:background="#00000000"
+                            android:orientation="horizontal">
+
 
                             <TextView
                                 style="?attr/floating_text_style"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".2"
-                                android:padding="2sp"
-                                android:layout_marginBottom="2sp"
-                                android:text="@string/dccexServoProfilesLabel"
-                                android:textSize="12sp"
-                                android:textAlignment="viewEnd"
-                                android:gravity="end"
-                                android:textColor="?android:attr/textColorSecondary" />
+                                android:padding="4sp"
+                                android:text="@string/dccexServoIdLabel" />
 
-                            <Spinner
-                                android:id="@+id/ex_servoProfilesList"
-                                android:layout_width="0dp"
+                            <EditText
+                                android:id="@+id/ex_DccexServoIdValue"
+                                style="?attr/edit_label_style"
+                                android:layout_width="40dp"
                                 android:layout_height="wrap_content"
-                                android:ellipsize="none"
-                                android:paddingLeft="0dp"
-                                android:paddingRight="0dp"
-                                android:paddingTop="0dp"
-                                android:paddingBottom="2dp"
-                                android:layout_marginRight="0dp"
-                                android:layout_marginLeft="0dp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="8sp"
+                                android:layout_marginRight="8sp"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:paddingLeft="5sp"
+                                android:shadowColor="#FFFFFFFF"
+                                android:shadowDx="1"
+                                android:shadowDy="1"
+                                android:shadowRadius="0.3"
+                                android:singleLine="true"
                                 android:text=""
-                                android:layout_weight=".8"
-                                tools:ignore="RtlHardcoded" />
+                                tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry"
+                                android:layout_marginLeft="8sp" />
+
+                            <Button
+                                android:id="@+id/ex_DccexServoRetrieveButton"
+                                style="?attr/ed_small_button_style"
+                                android:layout_width="50dp"
+                                android:layout_height="30sp"
+                                android:padding="4sp"
+                                android:text="@string/dccexServoRetrieveButtonLabel" />
+
+                            <LinearLayout
+                                android:id="@+id/ex_servoProfilesLayout"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8sp"
+                                android:layout_marginBottom="8sp"
+                                android:layout_marginLeft="20sp"
+                                android:background="?attr/ed_background_highlight_secondary"
+                                android:orientation="horizontal"
+                                android:weightSum="1"
+                                tools:ignore="RtlHardcoded">
+
+
+                                <TextView
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".2"
+                                    android:padding="2sp"
+                                    android:layout_marginBottom="2sp"
+                                    android:text="@string/dccexServoProfilesLabel"
+                                    android:textSize="12sp"
+                                    android:textAlignment="viewEnd"
+                                    android:gravity="end"
+                                    android:textColor="?android:attr/textColorSecondary" />
+
+                                <Spinner
+                                    android:id="@+id/ex_servoProfilesList"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="none"
+                                    android:paddingLeft="0dp"
+                                    android:paddingRight="0dp"
+                                    android:paddingTop="0dp"
+                                    android:paddingBottom="2dp"
+                                    android:layout_marginRight="0dp"
+                                    android:layout_marginLeft="0dp"
+                                    android:text=""
+                                    android:layout_weight=".8"
+                                    tools:ignore="RtlHardcoded" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 

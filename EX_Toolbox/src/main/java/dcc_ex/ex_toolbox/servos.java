@@ -92,6 +92,11 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     static final String SERVO_THROWN_POSITION_DEFAULT = "409";
     static final String SERVO_MID_POSITION_DEFAULT = "307";
     static final String SERVO_CLOSED_POSITION_DEFAULT = "205";
+    static final String SERVO_ID_DEFAULT = "1";
+
+    private String dccexServoId = SERVO_ID_DEFAULT;
+    private Integer dccexServoIdValue = Integer.parseInt(SERVO_ID_DEFAULT);
+    private EditText etDccexServoIdValue;
 
     private String dccexServoVpin = SERVO_VPIN_DEFAULT;
     private Integer dccexServoVpinValue = Integer.parseInt(SERVO_VPIN_DEFAULT);
@@ -172,6 +177,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     static final int WHICH_MID_POSITION = 2;
     static final int WHICH_CLOSED_POSITION = 3;
     static final int WHICH_COMMAND = 4;
+    static final int WHICH_ID = 5;
 
     static final int DELTA_INCREMENT = 1;
     static final int DELTA_DECREMENT = -1;
@@ -436,6 +442,14 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         dccExServoRetrieveButton = findViewById(R.id.ex_DccexServoRetrieveButton);
         servo_retrieve_button_listener servo_retrieve_click_listener = new servo_retrieve_button_listener();
         dccExServoRetrieveButton.setOnClickListener(servo_retrieve_click_listener);
+
+        etDccexServoIdValue = findViewById(R.id.ex_DccexServoIdValue);
+        etDccexServoIdValue.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) { readTextField(WHICH_ID); showHideButtons(); }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+        });
+
 
         //-----------------------------------------
 
@@ -1093,7 +1107,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     }
 
     private void retrieveServo() {
-        String msgTxt = String.format("%s", dccexServoVpin);
+        String msgTxt = String.format("%s", dccexServoId);
         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_SERVO_DETAILS, msgTxt, 0);
     }
 
@@ -1239,7 +1253,13 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
             case WHICH_COMMAND:
                 DccexSendCommandValue = "";
                 etDccexSendCommandValue.setText("");
-        }
+                break;
+            case WHICH_ID:
+                dccexServoId = SERVO_ID_DEFAULT;
+                dccexServoIdValue = Integer.parseInt(SERVO_ID_DEFAULT);
+                etDccexServoIdValue.setText(SERVO_ID_DEFAULT);
+                setExRailInstruction();
+                break;        }
     }
 
     private void setExRailInstruction() {
@@ -1277,6 +1297,11 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
             case WHICH_COMMAND:
                 DccexSendCommandValue = etDccexSendCommandValue.getText().toString();
                 break;
+            case WHICH_ID:
+                dccexServoId = etDccexServoIdValue.getText().toString();
+                dccexServoIdValue = getIntFromString(dccexServoId);
+                break;
+
         }
         setActivateServoButtons(which);
     }

@@ -530,7 +530,7 @@ public class comm_thread extends Thread {
 
     static void sendServoDetailsRequest(String cmd) {
         String msgTxt;
-        msgTxt = "<T " + cmd + "X>";
+        msgTxt = "<T " + cmd + " X>";
         wifiSend(msgTxt);
         Log.d("EX_Toolbox", "comm_thread.sendServoDetailsRequest DCC-EX: " + msgTxt);
     }

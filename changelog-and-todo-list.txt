@@ -5,6 +5,7 @@
  * Gradle update
  * Support for JMRI DCCppOverTCP Server. Now also checks for the mDNS service "_dccppovertcpserver._tcp.local."
  * bug fix on the Server programmer 'reset' and 'swap' buttons
+ * bug fix the 'Get' button on the servo programmer page
 **Version 0.1.15-16
  * updates to the sensor state page
  * support for alert messages
