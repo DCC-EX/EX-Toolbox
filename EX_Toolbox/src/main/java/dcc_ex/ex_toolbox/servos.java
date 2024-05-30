@@ -1258,7 +1258,8 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 dccexServoThrownPositionValue = getIntFromString(dccexServoThrownPosition);
 
                 dccexServoMidPositionValue = (dccexServoThrownPositionValue - dccexServoClosedPositionValue) / 2 + dccexServoClosedPositionValue;
-                etDccexServoMidPositionValue.setText(dccexServoMidPositionValue);
+                dccexServoMidPosition = dccexServoMidPositionValue.toString();
+                etDccexServoMidPositionValue.setText(dccexServoMidPosition);
                 break;
             case WHICH_MID_POSITION:
                 dccexServoMidPosition = etDccexServoMidPositionValue.getText().toString();
@@ -1269,7 +1270,8 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 dccexServoClosedPositionValue = getIntFromString(dccexServoClosedPosition);
 
                 dccexServoMidPositionValue = (dccexServoThrownPositionValue - dccexServoClosedPositionValue) / 2 + dccexServoClosedPositionValue;
-                etDccexServoMidPositionValue.setText(dccexServoMidPositionValue);
+                dccexServoMidPosition = dccexServoMidPositionValue.toString();
+                etDccexServoMidPositionValue.setText(dccexServoMidPosition);
                 break;
             case WHICH_COMMAND:
                 DccexSendCommandValue = etDccexSendCommandValue.getText().toString();
