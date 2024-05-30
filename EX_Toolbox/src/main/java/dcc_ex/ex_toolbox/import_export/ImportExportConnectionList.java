@@ -58,7 +58,7 @@ public class ImportExportConnectionList {
                     Integer port = 0;
                     String ssid_str;
                     String service_type = "_withrottle._tcp.local.";
-                    List<String> parts = Arrays.asList(line.split(":", 4)); //split record from file, max of 4 parts
+                    List<String> parts = Arrays.asList(line.split(":", 5)); //split record from file, max of 4 parts
                     if (parts.size() > 1) {  //skip if not split
                         if (parts.size() == 2) {  //old style, use part 1 for ip and host
                             host_name = parts.get(0);

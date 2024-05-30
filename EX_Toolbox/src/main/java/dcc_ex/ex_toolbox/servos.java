@@ -13,6 +13,21 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*//*Copyright (C) 2017 M. Steve Todd mstevetodd@gmail.com
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package dcc_ex.ex_toolbox;
@@ -92,10 +107,10 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     static final String SERVO_THROWN_POSITION_DEFAULT = "409";
     static final String SERVO_MID_POSITION_DEFAULT = "307";
     static final String SERVO_CLOSED_POSITION_DEFAULT = "205";
-    static final String SERVO_ID_DEFAULT = "1";
+    static final String SERVO_ID_DEFAULT = "";
 
     private String dccexServoId = SERVO_ID_DEFAULT;
-    private Integer dccexServoIdValue = Integer.parseInt(SERVO_ID_DEFAULT);
+    private Integer dccexServoIdValue = 0;
     private EditText etDccexServoIdValue;
 
     private String dccexServoVpin = SERVO_VPIN_DEFAULT;
@@ -118,8 +133,8 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
 
     private TextView etDccexServoExRailInstruction;
 
-    private boolean [] autoIncrement = {false, false, false, false};
-    private boolean [] autoDecrement = {false, false, false, false};
+    private boolean [] autoIncrement = {false, false, false, false, false};
+    private boolean [] autoDecrement = {false, false, false, false, false};
 
     Spinner dccExServoProfilesSpinner;
     Integer dccExServoProfilesIndex = 0;
@@ -342,9 +357,9 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                     break;
                 case message_type.RECEIVED_SERVO_DETAILS:
                     String s = msg.obj.toString();
-                    if (s.length()==6) {
-                        String[] sArgs = s.split("(\\|)");
-                        processServoDetails(sArgs[0], sArgs[1], sArgs[2], sArgs[3], sArgs[4], sArgs[5]);
+                    String[] sArgs = s.split(" ");
+                    if (sArgs.length==7) { // e.g. 1 SERVO 101 409 205 3 0
+                        processServoDetails(sArgs[0], sArgs[2], sArgs[3], sArgs[4], sArgs[5], sArgs[6]);
                     }
 
                     break;
@@ -860,6 +875,8 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         sendCommandButton.setEnabled((DccexSendCommandValue.length() != 0) && (DccexSendCommandValue.charAt(0) != '<'));
         previousCommandButton.setEnabled((mainapp.dccexPreviousCommandIndex >= 0));
         nextCommandButton.setEnabled((mainapp.dccexPreviousCommandIndex >= 0));
+
+        dccExServoRetrieveButton.setEnabled(dccexServoIdValue>0);
     }
 
 
@@ -898,19 +915,21 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     }
 
     void setActivateServoButtons(int buttonNo) {
-        activeServoButtonNo = buttonNo;
         switch (buttonNo) {
             default:
             case WHICH_CLOSED_POSITION:
+                activeServoButtonNo = WHICH_CLOSED_POSITION;
                 setActivateServoButton(dccExServoCloseButton, true);
                 setActivateServoButton(dccExServoMidButton, false);
                 setActivateServoButton(dccExServoThrowButton, false);
                 break;
             case WHICH_MID_POSITION:
+                activeServoButtonNo = WHICH_CLOSED_POSITION; // set to closed
                 setActivateServoButton(dccExServoCloseButton, false);
                 setActivateServoButton(dccExServoMidButton, true);
                 setActivateServoButton(dccExServoThrowButton, false);                break;
             case WHICH_THROWN_POSITION:
+                activeServoButtonNo = WHICH_THROWN_POSITION;
                 setActivateServoButton(dccExServoCloseButton, false);
                 setActivateServoButton(dccExServoMidButton, false);
                 setActivateServoButton(dccExServoThrowButton, true);
@@ -975,16 +994,18 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 msgTxt = String.format("%s %d %d", dccexServoVpin, dccexServoThrownPositionValue, dccExServoProfile);
                 mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, msgTxt, 0);
 //                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, dccexServoVpin, dccexServoThrownPositionValue);
+                setTextSelection(which);
                 break;
             case WHICH_MID_POSITION:
-//                dccexServoMidPositionValue = dccexServoMidPositionValue + delta;
-//                dccexServoMidPosition = Integer.toString(dccexServoMidPositionValue);
-//                etDccexServoMidPositionValue.setText(dccexServoMidPosition);
-//                setExRailInstruction();
-//                msgTxt = String.format("%s %d %d", dccexServoVpin, dccexServoMidPositionValue, dccExServoProfile);
-//                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, msgTxt, 0);
-////              mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, dccexServoVpin, dccexServoMidPositionValue);
-//                break;
+                dccexServoMidPositionValue = dccexServoMidPositionValue + delta;
+                dccexServoMidPosition = Integer.toString(dccexServoMidPositionValue);
+                etDccexServoMidPositionValue.setText(dccexServoMidPosition);
+                setExRailInstruction();
+                msgTxt = String.format("%s %d %d", dccexServoVpin, dccexServoMidPositionValue, dccExServoProfile);
+                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, msgTxt, 0);
+//              mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, dccexServoVpin, dccexServoMidPositionValue);
+                setTextSelection(WHICH_CLOSED_POSITION);
+                break;
             case WHICH_CLOSED_POSITION:
                 dccexServoClosedPositionValue = dccexServoClosedPositionValue + delta;
                 dccexServoClosedPosition = Integer.toString(dccexServoClosedPositionValue);
@@ -993,9 +1014,9 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 msgTxt = String.format("%s %d %d", dccexServoVpin, dccexServoClosedPositionValue, dccExServoProfile);
                 mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, msgTxt, 0);
 //              mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, dccexServoVpin, dccexServoClosedPositionValue);
+                setTextSelection(which);
                 break;
         }
-        setTextSelection(which);
         reloadServosSpinner();
     }
 
@@ -1046,7 +1067,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         @Override
         public boolean onLongClick(View v) {
             autoDecrement[activeServoButtonNo] = true;
-            repeatUpdateHandler.post(new RptUpdater(activeServoButtonNo, 0) );
+            repeatUpdateHandler.post(new RptUpdater(activeServoButtonNo, 0));
             return false;
         }
 
@@ -1114,7 +1135,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     private void processServoDetails(String id, String vpin, String thrownPosition, String closedPosition, String profile, String state) {
         int receivedId = Integer.parseInt(id);
         int receivedVpin = Integer.parseInt(vpin);
-        if (receivedVpin == dccexServoVpinValue) {
+        if (receivedId == dccexServoIdValue) {
             int receivedThrownPosition = Integer.parseInt(thrownPosition);
             int receivedClosedPosition = Integer.parseInt(closedPosition);
             int receivedProfile = Integer.parseInt(profile);
@@ -1133,8 +1154,9 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
             etDccexServoMidPositionValue.setText(dccexServoMidPosition);
             etDccexServoThrownPositionValue.setText(dccexServoThrownPosition);
 
-
-
+            dccexServoVpin = vpin;
+            dccexServoVpinValue = receivedVpin;
+            etDccexServoVpinValue.setText(dccexServoVpin);
         }
     }
 
@@ -1273,6 +1295,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
             case WHICH_VPIN:
                 dccexServoVpin = etDccexServoVpinValue.getText().toString();
                 dccexServoVpinValue = getIntFromString(dccexServoVpin);
+                setActivateServoButtons(WHICH_CLOSED_POSITION);
                 break;
             case WHICH_THROWN_POSITION:
                 dccexServoThrownPosition = etDccexServoThrownPositionValue.getText().toString();
@@ -1281,10 +1304,12 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 dccexServoMidPositionValue = (dccexServoThrownPositionValue - dccexServoClosedPositionValue) / 2 + dccexServoClosedPositionValue;
                 dccexServoMidPosition = dccexServoMidPositionValue.toString();
                 etDccexServoMidPositionValue.setText(dccexServoMidPosition);
+                setActivateServoButtons(WHICH_THROWN_POSITION);
                 break;
             case WHICH_MID_POSITION:
                 dccexServoMidPosition = etDccexServoMidPositionValue.getText().toString();
                 dccexServoMidPositionValue = getIntFromString(dccexServoMidPosition);
+                setActivateServoButtons(WHICH_CLOSED_POSITION);
                 break;
             case WHICH_CLOSED_POSITION:
                 dccexServoClosedPosition = etDccexServoClosedPositionValue.getText().toString();
@@ -1293,17 +1318,19 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 dccexServoMidPositionValue = (dccexServoThrownPositionValue - dccexServoClosedPositionValue) / 2 + dccexServoClosedPositionValue;
                 dccexServoMidPosition = dccexServoMidPositionValue.toString();
                 etDccexServoMidPositionValue.setText(dccexServoMidPosition);
+                setActivateServoButtons(WHICH_CLOSED_POSITION);
                 break;
             case WHICH_COMMAND:
                 DccexSendCommandValue = etDccexSendCommandValue.getText().toString();
+                setActivateServoButtons(WHICH_CLOSED_POSITION);
                 break;
             case WHICH_ID:
                 dccexServoId = etDccexServoIdValue.getText().toString();
                 dccexServoIdValue = getIntFromString(dccexServoId);
+                setActivateServoButtons(WHICH_CLOSED_POSITION);
                 break;
 
         }
-        setActivateServoButtons(which);
     }
 
 

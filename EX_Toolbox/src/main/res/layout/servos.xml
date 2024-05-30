@@ -252,8 +252,8 @@
                                 android:layout_width="50dp"
                                 android:layout_height="30sp"
                                 android:padding="4sp"
-                                android:layout_marginRight="30dp"
-                                android:layout_marginEnd="30sp"
+                                android:layout_marginRight="50dp"
+                                android:layout_marginEnd="50sp"
                                 android:text="@string/dccexServoPositionSwapButtonLabel" />
 
                             <Button
@@ -299,9 +299,9 @@
                                 style="?attr/edit_label_style"
                                 android:layout_width="40dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8sp"
-                                android:layout_marginEnd="8sp"
-                                android:layout_marginRight="8sp"
+                                android:layout_marginStart="2sp"
+                                android:layout_marginEnd="4sp"
+                                android:layout_marginRight="4sp"
                                 android:inputType="number"
                                 android:maxLength="5"
                                 android:paddingLeft="5sp"
@@ -317,7 +317,7 @@
                             <Button
                                 android:id="@+id/ex_DccexServoRetrieveButton"
                                 style="?attr/ed_small_button_style"
-                                android:layout_width="50dp"
+                                android:layout_width="90dp"
                                 android:layout_height="30sp"
                                 android:padding="4sp"
                                 android:text="@string/dccexServoRetrieveButtonLabel" />

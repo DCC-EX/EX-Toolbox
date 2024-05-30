@@ -375,7 +375,7 @@
 
     <string name="dccexServoPositionSwapButtonLabel">Swap</string>
     <string name="dccexServoResetButtonLabel">Reset</string>
-    <string name="dccexServoRetrieveButtonLabel">Get Id</string>
+    <string name="dccexServoRetrieveButtonLabel">Get (via id)</string>
 
     <string name="dccexServoProfilesLabel" >Profile</string>
 

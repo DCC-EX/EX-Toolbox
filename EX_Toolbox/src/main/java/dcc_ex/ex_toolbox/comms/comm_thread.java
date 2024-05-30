@@ -871,7 +871,7 @@ public class comm_thread extends Thread {
                         if (args.length==2) {
                             responseStr = "PTA" + (((args[2].equals("T")) || (args[2].equals("1"))) ? 4 : 2) + args[1];
                             processTurnoutChange(responseStr);
-                        } else if (args.length==7) {
+                        } else if (args.length==8) {
                             processTurnoutDetails(args);
                         }
                         break;
@@ -1569,8 +1569,8 @@ public class comm_thread extends Thread {
 
     static void processTurnoutDetails(String [] args) {
         if (args[2].equals("SERVO")) {
-            String responseStr = args[1] + " " + args[2] + " " + args[3] + " " + args[4] + " " + args[5] + " " + args[6];
-            mainapp.alert_activities(message_type.WRITE_DECODER_FAIL, responseStr);
+            String responseStr = args[1] + " " + args[2] + " " + args[3] + " " + args[4] + " " + args[5] + " " + args[6] + " " + args[7];
+            mainapp.alert_activities(message_type.RECEIVED_SERVO_DETAILS, responseStr);
         } // ignore the others
     }
 
