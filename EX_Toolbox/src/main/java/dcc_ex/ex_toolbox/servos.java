@@ -104,7 +104,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
 
     private String dccexServoMidPosition = SERVO_MID_POSITION_DEFAULT;
     private Integer dccexServoMidPositionValue = Integer.parseInt(SERVO_MID_POSITION_DEFAULT);
-    private EditText etDccexServoMidPositionValue;
+    private TextView etDccexServoMidPositionValue;
     private boolean autoIncrementMidPosition = false;
 
     private String dccexServoClosedPosition = SERVO_CLOSED_POSITION_DEFAULT;
@@ -457,11 +457,11 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
 
         etDccexServoMidPositionValue = findViewById(R.id.ex_DccexServoMidPositionValue);
         etDccexServoMidPositionValue.setText(SERVO_MID_POSITION_DEFAULT);
-        etDccexServoMidPositionValue.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) { readTextField(WHICH_MID_POSITION); showHideButtons(); }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
-        });
+//        etDccexServoMidPositionValue.addTextChangedListener(new TextWatcher() {
+//            public void afterTextChanged(Editable s) { readTextField(WHICH_MID_POSITION); showHideButtons(); }
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+//            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+//        });
 
         etDccexServoThrownPositionValue = findViewById(R.id.ex_DccexServoThrownPositionValue);
         etDccexServoThrownPositionValue.setText(SERVO_THROWN_POSITION_DEFAULT);
@@ -907,16 +907,17 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     private void setTextSelection(int buttonNo) {
         switch (buttonNo) {
             default:
+            case WHICH_MID_POSITION:
             case WHICH_CLOSED_POSITION:
                 etDccexServoClosedPositionValue.requestFocus();
                 etDccexServoClosedPositionValue.setSelection(dccexServoClosedPosition.length());
 //                    msgTxt = String.format("%s %d %d", dccexServoVpin, dccexServoClosedPositionValue, dccExServoProfile);
                 break;
-            case WHICH_MID_POSITION:
-                etDccexServoMidPositionValue.requestFocus();
-                etDccexServoMidPositionValue.setSelection(dccexServoMidPosition.length());
-//                    msgTxt = String.format("%s %d %d", dccexServoVpin, dccexServoMidPositionValue, dccExServoProfile);
-                break;
+//            case WHICH_MID_POSITION:
+//                etDccexServoMidPositionValue.requestFocus();
+//                etDccexServoMidPositionValue.setSelection(dccexServoMidPosition.length());
+////                    msgTxt = String.format("%s %d %d", dccexServoVpin, dccexServoMidPositionValue, dccExServoProfile);
+//                break;
             case WHICH_THROWN_POSITION:
                 etDccexServoThrownPositionValue.requestFocus();
                 etDccexServoThrownPositionValue.setSelection(dccexServoThrownPosition.length());
@@ -962,14 +963,14 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
 //                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, dccexServoVpin, dccexServoThrownPositionValue);
                 break;
             case WHICH_MID_POSITION:
-                dccexServoMidPositionValue = dccexServoMidPositionValue + delta;
-                dccexServoMidPosition = Integer.toString(dccexServoMidPositionValue);
-                etDccexServoMidPositionValue.setText(dccexServoMidPosition);
-                setExRailInstruction();
-                msgTxt = String.format("%s %d %d", dccexServoVpin, dccexServoMidPositionValue, dccExServoProfile);
-                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, msgTxt, 0);
-//              mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, dccexServoVpin, dccexServoMidPositionValue);
-                break;
+//                dccexServoMidPositionValue = dccexServoMidPositionValue + delta;
+//                dccexServoMidPosition = Integer.toString(dccexServoMidPositionValue);
+//                etDccexServoMidPositionValue.setText(dccexServoMidPosition);
+//                setExRailInstruction();
+//                msgTxt = String.format("%s %d %d", dccexServoVpin, dccexServoMidPositionValue, dccExServoProfile);
+//                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, msgTxt, 0);
+////              mainapp.sendMsg(mainapp.comm_msg_handler, message_type.MOVE_SERVO, dccexServoVpin, dccexServoMidPositionValue);
+//                break;
             case WHICH_CLOSED_POSITION:
                 dccexServoClosedPositionValue = dccexServoClosedPositionValue + delta;
                 dccexServoClosedPosition = Integer.toString(dccexServoClosedPositionValue);

@@ -186,7 +186,7 @@
                                 android:text=""
                                 tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/ex_DccexServoMidPositionValue"
                                 style="?attr/edit_label_style"
                                 android:layout_width="0dp"
@@ -195,6 +195,8 @@
                                 android:layout_marginEnd="18sp"
                                 android:layout_marginRight="8sp"
                                 android:layout_weight=".25"
+                                android:cursorVisible="false"
+                                android:focusable="false"
                                 android:inputType="number"
                                 android:maxLength="5"
                                 android:paddingRight="8sp"
