@@ -363,7 +363,8 @@
 <!--    <string name="dccexTurnoutInconsistent">Inconsistent</string>-->
 
     <string name="dccexServoVpinLabel">VPin</string>
-    <string name="dccexServoIdLabel">Id</string>
+    <string name="dccexServoIdLabel">CS Id</string>
+    <string name="dccexServoPreviousVpinLabel">Previous</string>
     <string name="dccexServoThrowButtonLabel">Throw\n(active)</string>
     <string name="dccexServoMidButtonLabel">Mid</string>
     <string name="dccexServoCloseButtonLabel">Close\n(inactive)</string>
@@ -375,7 +376,7 @@
 
     <string name="dccexServoPositionSwapButtonLabel">Swap</string>
     <string name="dccexServoResetButtonLabel">Reset</string>
-    <string name="dccexServoRetrieveButtonLabel">Get (via id)</string>
+    <string name="dccexServoRetrieveButtonLabel">Get from CS</string>
 
     <string name="dccexServoProfilesLabel" >Profile</string>
 
