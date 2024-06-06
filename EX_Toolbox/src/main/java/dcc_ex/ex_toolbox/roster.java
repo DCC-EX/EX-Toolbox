@@ -759,7 +759,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
                         if (mainapp.rosterIDsDccex[i] == rosterAddress) {
                             for (int j = 0; j < functionList.length; j++) {
                                 functions = functions + "F" + j + ": <b>" + functionList[j] + "</b>";
-                                if (functionList[j].charAt(0) == '*') {
+                                if ( (functionList[j].length()>0) && (functionList[j].charAt(0) == '*') ) {
                                     functions = functions + "<i><small> &nbsp; " + getApplicationContext().getResources().getString(R.string.rosterDetailsFunctionMomentary) + "</small></i>";
                                 }
                                 functions = functions + "<br />";
