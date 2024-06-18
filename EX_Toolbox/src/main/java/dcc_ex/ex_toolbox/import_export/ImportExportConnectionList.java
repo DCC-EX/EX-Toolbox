@@ -199,7 +199,6 @@ public class ImportExportConnectionList {
             if (mainapp.logged_host_ip == null) {
                 mainapp.logged_host_ip = connected_hostip;
                 try {
-                    //noinspection SpellCheckingInspection
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
                     String currentDateAndTime = sdf.format(new Date());
                     String connection_log_file_name = "connections_log.txt";

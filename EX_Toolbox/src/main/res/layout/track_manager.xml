@@ -819,7 +819,8 @@
                         android:layout_margin="3dp"
                         android:layout_weight=".06"
                         android:paddingLeft="6dp"
-                        android:paddingRight="6dp">
+                        android:paddingRight="6dp"
+                        tools:ignore="TooManyViews">
 
                         <RelativeLayout
                             android:id="@+id/dcc_ex_bottom_button_layout"

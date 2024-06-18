@@ -355,7 +355,6 @@ public class connection_activity extends AppCompatActivity implements Permission
     //Handle messages from the communication thread back to the UI thread.
     @SuppressLint("HandlerLeak")
     private class ui_handler extends Handler {
-        @SuppressWarnings("unchecked")
 
         public ui_handler(Looper looper) {
             super(looper);

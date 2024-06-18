@@ -83,7 +83,8 @@
                                     android:paddingLeft="5dp"
                                     android:paddingRight="10dp"
                                     android:text="@string/DccexButtonCvProgrammerProgTrack"
-                                    android:textSize="10sp" />
+                                    android:textSize="10sp"
+                                    tools:ignore="RtlHardcoded,SmallSp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -93,7 +94,8 @@
                                 android:layout_margin="0sp"
                                 android:paddingLeft="0dp"
                                 android:paddingRight="10dp"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                tools:ignore="RtlHardcoded">
 
                                 <Button
                                     android:id="@+id/dccex_cv_programmer_pom_button"
@@ -111,7 +113,8 @@
                                     android:paddingRight="10dp"
                                     android:text="@string/DccexButtonCvProgrammerPoM"
                                     android:layout_gravity="center"
-                                    android:textSize="10sp" />
+                                    android:textSize="10sp"
+                                    tools:ignore="RtlHardcoded,SmallSp" />
 
                             </LinearLayout>
 
@@ -877,7 +880,8 @@
                                         android:padding="2sp"
                                         android:text="@string/dccexPreviousCommandButtonLabel" />
                                 </TableRow>
-                                <TableRow android:gravity="center_horizontal">
+                                <TableRow android:gravity="center_horizontal"
+                                    tools:ignore="TooManyViews">
                                     <Button
                                         android:id="@+id/ex_DccexNextCommandButton"
                                         style="?attr/ed_small_button_style"

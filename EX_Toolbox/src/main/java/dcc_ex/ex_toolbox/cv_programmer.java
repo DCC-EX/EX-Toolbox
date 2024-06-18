@@ -351,6 +351,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                             DccexCvValue = cvArgs[1];
                             DccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexSucceeded);
                             checkCv29(DccexCv, DccexCvValue);
+                            checkCv8(DccexCv, DccexCvValue);
                         } else {
                             resetTextField(WHICH_CV_VALUE);
                             DccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexFailed);
@@ -1469,6 +1470,24 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 
             } catch (Exception e) {
                 Log.e("EX_Toolbox", "Error processing cv29: " + e.getMessage());
+            }
+        }
+    }
+
+    void checkCv8(String cv, String cvValueStr) {
+        if ((cv.equals("8")) && (mainapp.activeScreen == mainapp.ACTIVE_SCREEN_CV_PROGRAMMER)) {
+            try {
+            String rslt = "";
+            int cvValue = Integer.parseInt(cvValueStr);
+
+            if ( (cvValue>0) && (cvValue<this.getResources().getStringArray(R.array.dccManufacturers).length) ) {
+                rslt = getApplicationContext().getResources().getString(R.string.manufacturer) + ": "
+                        + this.getResources().getStringArray(R.array.dccManufacturers)[cvValue];
+                mainapp.dccexResponsesStr = "<p>" + rslt + "</p>" + mainapp.dccexResponsesStr;
+            }
+
+            } catch (Exception e) {
+                Log.e("EX_Toolbox", "Error processing cv8: " + e.getMessage());
             }
         }
     }

@@ -463,7 +463,6 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
-        //noinspection SwitchStatementWithTooFewBranches
         if (item.getItemId() == R.id.power_layout_button) {
             if (!mainapp.isPowerControlAllowed()) {
                 mainapp.powerControlNotAllowedDialog(SAMenu);

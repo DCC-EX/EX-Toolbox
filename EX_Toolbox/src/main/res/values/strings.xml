@@ -173,7 +173,7 @@
 <!--    <string name="prefImportExportLocoListTitle">Include recent loco list?</string>-->
 <!--    <string name="prefImportExportLocoListSummary">Include the locos in the recent loco list in \'Imports\' and \'Exports\'</string>-->
 
-<!--    <string name="prefImportExportOverwite">File \'%1$s\' already exists. Overwite?</string>-->
+<!--    <string name="prefImportExportOverwite">File \'%1$s\' already exists. Overwrite?</string>-->
     <string name="prefImportExportErrorReadingList">Error reading recent connections list:</string>
 <!--    <string name="prefImportExportErrorReadingFrom">Import from \'\\Android\\data\\dcc_ex.ex_toolbox\\files\\ %1$s\' failed! You may not have saved the preferences for this host yet.</string>-->
 <!--    <string name="prefImportExportErrorNotConnected">Not connected to a host.</string>-->
@@ -485,5 +485,6 @@
     <string name="rosterDetailsNoFunctions">"No Functions defined"</string>
     <string name="rosterDetailsFunctionMomentary">"(momentary)"</string>
 
+    <string name="manufacturer">"Manufacturer"</string>
 </resources>
 

@@ -146,7 +146,7 @@
                                     android:shadowRadius="0.3"
                                     android:singleLine="true"
                                     android:text="1"
-                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+                                    tools:ignore="Autofill,HardcodedText,LabelFor,RtlHardcoded,RtlSymmetry" />
 
                             </LinearLayout>
 
@@ -266,7 +266,7 @@
                                     android:shadowRadius="0.3"
                                     android:singleLine="true"
                                     android:text="0"
-                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+                                    tools:ignore="Autofill,HardcodedText,LabelFor,RtlHardcoded,RtlSymmetry" />
 
                                 <Button
                                     android:id="@+id/ex_DccexSpeedMatchingLowWriteButton"
@@ -298,7 +298,8 @@
                                     style="?attr/ed_small_button_style"
                                     android:textFontWeight="900"
                                     android:text="@string/speedMatchPlusEmoji"
-                                    android:fontFamily="@font/notoemoji_variablefont_wght" />
+                                    android:fontFamily="@font/notoemoji_variablefont_wght"
+                                    tools:targetApi="p" />
 
                                 <Button
                                     android:id="@+id/ex_DccexSpeedMatchingLowSetSpeedButton"
@@ -346,7 +347,7 @@
                                     android:shadowRadius="0.3"
                                     android:singleLine="true"
                                     android:text="0"
-                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+                                    tools:ignore="Autofill,HardcodedText,LabelFor,RtlHardcoded,RtlSymmetry" />
 
                                 <Button
                                     android:id="@+id/ex_DccexSpeedMatchingMidWriteButton"
@@ -378,7 +379,8 @@
                                     style="?attr/ed_small_button_style"
                                     android:textFontWeight="900"
                                     android:text="@string/speedMatchPlusEmoji"
-                                    android:fontFamily="@font/notoemoji_variablefont_wght" />
+                                    android:fontFamily="@font/notoemoji_variablefont_wght"
+                                    tools:targetApi="p" />
 
                                 <Button
                                     android:id="@+id/ex_DccexSpeedMatchingMidSetSpeedButton"
@@ -426,7 +428,7 @@
                                     android:shadowRadius="0.3"
                                     android:singleLine="true"
                                     android:text="0"
-                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+                                    tools:ignore="Autofill,HardcodedText,LabelFor,RtlHardcoded,RtlSymmetry" />
 
                                 <Button
                                     android:id="@+id/ex_DccexSpeedMatchingHighWriteButton"
@@ -458,7 +460,8 @@
                                     style="?attr/ed_small_button_style"
                                     android:textFontWeight="900"
                                     android:text="@string/speedMatchPlusEmoji"
-                                    android:fontFamily="@font/notoemoji_variablefont_wght" />
+                                    android:fontFamily="@font/notoemoji_variablefont_wght"
+                                    tools:targetApi="p" />
 
                                 <Button
                                     android:id="@+id/ex_DccexSpeedMatchingHighSetSpeedButton"
@@ -513,7 +516,7 @@
                                     android:shadowRadius="0.3"
                                     android:singleLine="true"
                                     android:text="0"
-                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+                                    tools:ignore="Autofill,HardcodedText,LabelFor,RtlHardcoded,RtlSymmetry" />
 
                                 <Button
                                     android:id="@+id/ex_DccexSpeedMatchingAccelerationWriteButton"
@@ -545,7 +548,8 @@
                                     style="?attr/ed_small_button_style"
                                     android:textFontWeight="900"
                                     android:text="@string/speedMatchPlusEmoji"
-                                    android:fontFamily="@font/notoemoji_variablefont_wght" />
+                                    android:fontFamily="@font/notoemoji_variablefont_wght"
+                                    tools:targetApi="p" />
 
                                 <Button
                                     android:id="@+id/ex_DccexSpeedMatchingStopButton"
@@ -592,7 +596,7 @@
                                     android:shadowRadius="0.3"
                                     android:singleLine="true"
                                     android:text="0"
-                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+                                    tools:ignore="Autofill,HardcodedText,LabelFor,RtlHardcoded,RtlSymmetry" />
 
                                 <Button
                                     android:id="@+id/ex_DccexSpeedMatchingDecelerationWriteButton"
@@ -624,7 +628,8 @@
                                     style="?attr/ed_small_button_style"
                                     android:textFontWeight="900"
                                     android:text="@string/speedMatchPlusEmoji"
-                                    android:fontFamily="@font/notoemoji_variablefont_wght" />
+                                    android:fontFamily="@font/notoemoji_variablefont_wght"
+                                    tools:targetApi="p" />
 
 
                             </LinearLayout>
@@ -669,7 +674,7 @@
                                     android:shadowRadius="0.3"
                                     android:singleLine="true"
                                     android:text="0"
-                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+                                    tools:ignore="Autofill,HardcodedText,LabelFor,RtlHardcoded,RtlSymmetry" />
 
                                 <Button
                                     android:id="@+id/ex_DccexSpeedMatchingKickStartWriteButton"
@@ -701,7 +706,8 @@
                                     style="?attr/ed_small_button_style"
                                     android:textFontWeight="900"
                                     android:text="@string/speedMatchPlusEmoji"
-                                    android:fontFamily="@font/notoemoji_variablefont_wght" />
+                                    android:fontFamily="@font/notoemoji_variablefont_wght"
+                                    tools:targetApi="p" />
 
 
                                 <TextView
@@ -809,7 +815,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="8sp"
                                     android:text=""
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"
+                                    tools:ignore="TooManyViews" />
 
                             </ScrollView>
                         </LinearLayout>

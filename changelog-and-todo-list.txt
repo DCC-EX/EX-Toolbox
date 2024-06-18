@@ -1,4 +1,5 @@
 **Version 0.1.21
+ * Show manufacturer names and IDs (if you query CV8)
  * bug fix for the functions list on a roster entry
 **Version 0.1.17-20
  * UI improvements to the Action Bar
@@ -8,6 +9,8 @@
  * Support for JMRI DCCppOverTCP Server. Now also checks for the mDNS service "_dccppovertcpserver._tcp.local."
  * bug fix on the Server programmer 'reset' and 'swap' buttons
  * bug fix the 'Get' button on the servo programmer page
+ * Improvements to the log screen
+ * Cleanup of the connection screen
 **Version 0.1.15-16
  * updates to the sensor state page
  * support for alert messages

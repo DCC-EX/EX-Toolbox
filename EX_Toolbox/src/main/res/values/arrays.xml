@@ -161,7 +161,7 @@
         <item>1</item> // JA id
         <item>1</item>  // /START
         <item>0</item>  // /KILL ALL
-        <item>0</item>  // delimeter
+        <item>0</item>  // delimiter
         <item>1</item>  // D ACK LIMIT
         <item>1</item>  // D ACK MIN
         <item>1</item>  // D ACK MAX
@@ -365,5 +365,247 @@
 
     <string-array name="dccServoListEntries">
         <item>&lt;select&gt;</item>
+    </string-array>
+
+    <string-array name="dccManufacturers" translatable="false">
+        <item />
+        <item>1: CML Electronics Limited</item>
+        <item>2: Train Technology</item>
+        <item>3: Unknown</item>
+        <item>4: Unknown</item>
+        <item>5: Unknown</item>
+        <item>6: Unknown</item>
+        <item>7: Unknown</item>
+        <item>8: Unknown</item>
+        <item>9: Unknown</item>
+        <item>10: Unknown</item>
+        <item>11: NCE Corporation</item>
+        <item>12: Wangrow</item>
+        <item>13: Public Domain &amp; Do-It-Yourself Decoders</item>
+        <item>14: PSI - Dynatrol</item>
+        <item>15: Ramfixx Technologies (Wangrow)</item>
+        <item>16: Unknown</item>
+        <item>17: Advanced IC Engineering, Inc.</item>
+        <item>18: JMRI</item>
+        <item>19: AMW</item>
+        <item>20: T4T - Technology for Trains GmbH</item>
+        <item>21: Kreischer Datentechnik</item>
+        <item>22: KAM Industries</item>
+        <item>23: S Helper Service</item>
+        <item>24: MoBaTron.de</item>
+        <item>25: Team Digital, LLC</item>
+        <item>26: MBTronik - PiN GITmBH</item>
+        <item>27: MTH Electric Trains, Inc.</item>
+        <item>28: Heljan A/S</item>
+        <item>29: Mistral Train Models</item>
+        <item>30: Digsight</item>
+        <item>31: Brelec</item>
+        <item>32: Regal Way Co. Ltd</item>
+        <item>33: Silicon Railway (Praecipuus)</item>
+        <item>34: Aristo-Craft</item>
+        <item>35: Elektronik &amp; Modell Produktion</item>
+        <item>36: DCCConcepts</item>
+        <item>37: NAC Services, Inc.</item>
+        <item>38: Broadway Limited Imports, LLC</item>
+        <item>39: Educational Computer, Inc (DCCdevices.com)</item>
+        <item>40: KATO Precision Models</item>
+        <item>41: Passmann Modellbahnzubehoer</item>
+        <item>42: Digirails</item>
+        <item>43: Ngineering</item>
+        <item>44: SPROG-DCC</item>
+        <item>45: ANE Model Co., LTD.</item>
+        <item>46: GFB Designs</item>
+        <item>47: Capecom</item>
+        <item>48: Hornby Hobbies Ltd.</item>
+        <item>49: Joka Electronic</item>
+        <item>50: N &amp; Q Electronics</item>
+        <item>51: DCC Supplies, Ltd</item>
+        <item>52: Krois-Modell</item>
+        <item>53: Rautenhaus Digital</item>
+        <item>54: TCH Technology</item>
+        <item>55: QElectronics GmbH</item>
+        <item>56: LDH</item>
+        <item>57: Rampino Elektronik</item>
+        <item>58: KRES GmbH</item>
+        <item>59: Tam Valley Depot</item>
+        <item>60: Bluecher-Elektronik</item>
+        <item>61: TrainModules</item>
+        <item>62: Tams Elektronik GmbH</item>
+        <item>63: Noarail</item>
+        <item>64: Digital Bahn</item>
+        <item>65: Gaugemaster</item>
+        <item>66: Railnet Solutions, LLC</item>
+        <item>67: Heller Modelbahn</item>
+        <item>68: MAWE Elektronik</item>
+        <item>69: E-Modell</item>
+        <item>70: Rocrail</item>
+        <item>71: New York Byano Limited</item>
+        <item>72: MTB Model</item>
+        <item>73: The Electric Railroad Company</item>
+        <item>74: PpP Digital</item>
+        <item>75: DigiTools Electronics Servicing and Contractor Ltd.</item>
+        <item>76: Auvidel</item>
+        <item>77: LS Models Sprl</item>
+        <item>78: Tehnologistic (train-O-matic)</item>
+        <item>79: Hattons Model Railways</item>
+        <item>80: Spectrum Engineering</item>
+        <item>81: GooVerModels</item>
+        <item>82: HAG Modelleisenbahn AG</item>
+        <item>83: JSS-Elektronic</item>
+        <item>84: Railflyer Model Prototypes, Inc.</item>
+        <item>85: Uhlenbrock Elektronik GmbH</item>
+        <item>86: Unknown</item>
+        <item>87: RR-CirKits</item>
+        <item>88: HONS Model</item>
+        <item>89: Pojezdy.EU</item>
+        <item>90: Shourt Line</item>
+        <item>91: Railstars Limited</item>
+        <item>92: Tawcrafts</item>
+        <item>93: Kevtronics cc</item>
+        <item>94: Electroniscript, inc</item>
+        <item>95: Sanda Kan Industrial (1981) Ltd.</item>
+        <item>96: PRICOM Design</item>
+        <item>97: Doehler &amp; Haas</item>
+        <item>98: Harman DCC</item>
+        <item>99: Lenz Elektronik GmbH</item>
+        <item>100: Trenes Digitales</item>
+        <item>101: Bachmann Trains</item>
+        <item>102: Integrated Signal Systems</item>
+        <item>103: Nagasue System Design Office</item>
+        <item>104: TrainTech</item>
+        <item>105: Computer Dialysis France</item>
+        <item>106: Opherline1</item>
+        <item>107: Phoenix Sound Systems, Inc.</item>
+        <item>108: Nagoden</item>
+        <item>109: Viessmann Modellspielwaren GmbH</item>
+        <item>110: AXJ Electronics</item>
+        <item>111: aber &amp; Koenig Electronics GmbH</item>
+        <item>112: LSdigital</item>
+        <item>113: QS Industries</item>
+        <item>114: Benezan Electronics</item>
+        <item>115: Dietz Modellbahntechnik</item>
+        <item>116: MyLocoSound</item>
+        <item>117: cT Elektronik</item>
+        <item>118: MÜT GmbH</item>
+        <item>119: W. S. Ataras Engineering</item>
+        <item>120: csikos-muhely</item>
+        <item>121: ECCO GmbH</item>
+        <item>122: Berros</item>
+        <item>123: Mssoth Elektronik, GmbH</item>
+        <item>124: DCC-Gaspar-Electronic</item>
+        <item>125: ProfiLok Modellbahntechnik GmbH</item>
+        <item>126: Möllehem Gårdsproduktion</item>
+        <item>127: Atlas Model Railroad Co., Inc.</item>
+        <item>128: Frateschi Model Trains</item>
+        <item>129: Digitrax</item>
+        <item>130: CMos Engineering</item>
+        <item>131: Trix Modelleisenbahn</item>
+        <item>132: ZTC Controls Ltd.</item>
+        <item>133: Intelligent Command Control</item>
+        <item>134: LaisDCC</item>
+        <item>135: CVP Products</item>
+        <item>136: NYRS</item>
+        <item>137: A-Train Electronics</item>
+        <item>138: Train ID Systems</item>
+        <item>139: RealRail Effects</item>
+        <item>140: Desktop Station</item>
+        <item>141: Throttle-Up (Soundtraxx)</item>
+        <item>142: SLOMO Railroad Models</item>
+        <item>143: Model Rectifier Corp.</item>
+        <item>144: DCC Train Automation</item>
+        <item>145: Zimo Elektronik</item>
+        <item>146: Rails Europ Express</item>
+        <item>147: Umelec Ing. Buero</item>
+        <item>148: BLOCKsignalling</item>
+        <item>149: Rock Junction Controls</item>
+        <item>150: Wm. K. Walthers, Inc</item>
+        <item>151: Electronic Solutions Ulm GmbH &amp; Co KG</item>
+        <item>152: Digi-CZ</item>
+        <item>153: Train Control Systems</item>
+        <item>154: Dapol Limited</item>
+        <item>155: Gebr. Fleischmann GmbH &amp; Co.</item>
+        <item>156: Nucky</item>
+        <item>157: Kuehn Ing.</item>
+        <item>158: Fucik</item>
+        <item>159: LGB (Ernst Paul Lehmann Patentwerk)</item>
+        <item>160: MD Electronics</item>
+        <item>161: Modelleisenbahn GmbH (formerly Roco)</item>
+        <item>162: PIKO</item>
+        <item>163: WP Railshops</item>
+        <item>164: drM</item>
+        <item>165: Model Electronic Railway Group</item>
+        <item>166: Maison de DCC</item>
+        <item>167: Helvest Systems GmbH</item>
+        <item>168: Model Train Technology</item>
+        <item>169: AE Electronic Ltd</item>
+        <item>170: AuroTrains</item>
+        <item>171: Unknown</item>
+        <item>172: Unknown</item>
+        <item>173: Arnold - Rivarossi</item>
+        <item>174: Unknown</item>
+        <item>175: Unknown</item>
+        <item>176: Unknown</item>
+        <item>177: Unknown</item>
+        <item>178: Unknown</item>
+        <item>179: Unknown</item>
+        <item>180: Unknown</item>
+        <item>181: Unknown</item>
+        <item>182: Unknown</item>
+        <item>183: Unknown</item>
+        <item>184: Unknown</item>
+        <item>185: Unknown</item>
+        <item>186: br /AWA Modellspielwaren GmbH &amp; Co.</item>
+        <item>187: Unknown</item>
+        <item>188: Unknown</item>
+        <item>189: Unknown</item>
+        <item>190: Unknown</item>
+        <item>191: Unknown</item>
+        <item>192: Unknown</item>
+        <item>193: Unknown</item>
+        <item>194: Unknown</item>
+        <item>195: Unknown</item>
+        <item>196: Unknown</item>
+        <item>197: Unknown</item>
+        <item>198: Unknown</item>
+        <item>199: Unknown</item>
+        <item>200: Unknown</item>
+        <item>201: Unknown</item>
+        <item>202: Unknown</item>
+        <item>203: Unknown</item>
+        <item>204: Con-Com GmBH</item>
+        <item>205: Unknown</item>
+        <item>206: Unknown</item>
+        <item>207: Unknown</item>
+        <item>208: Unknown</item>
+        <item>209: Unknown</item>
+        <item>210: Unknown</item>
+        <item>211: Unknown</item>
+        <item>212: Unknown</item>
+        <item>213: Unknown</item>
+        <item>214: Unknown</item>
+        <item>215: Unknown</item>
+        <item>216: Unknown</item>
+        <item>217: Unknown</item>
+        <item>218: Unknown</item>
+        <item>219: Unknown</item>
+        <item>220: Unknown</item>
+        <item>221: Unknown</item>
+        <item>222: Unknown</item>
+        <item>223: Unknown</item>
+        <item>224: Unknown</item>
+        <item>225: Elproma Electronics Poland</item>
+        <item>226: Unknown</item>
+        <item>227: Unknown</item>
+        <item>228: Unknown</item>
+        <item>229: Unknown</item>
+        <item>230: Unknown</item>
+        <item>231: Unknown</item>
+        <item>232: Unknown</item>
+        <item>233: Unknown</item>
+        <item>234: Unknown</item>
+        <item>235: Unknown</item>
+        <item>236: Unknown</item>
+        <item>237: Unknown</item>
+        <item>238: NMRA reserved</item>
     </string-array>
 </resources>

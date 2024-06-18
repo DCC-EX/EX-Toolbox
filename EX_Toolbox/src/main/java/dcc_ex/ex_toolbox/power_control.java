@@ -334,7 +334,6 @@ public class power_control extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
-        //noinspection SwitchStatementWithTooFewBranches
         if (item.getItemId() == R.id.power_layout_button) {
             if (!mainapp.isPowerControlAllowed()) {
                 mainapp.powerControlNotAllowedDialog(PMenu);
