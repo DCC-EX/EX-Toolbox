@@ -25,6 +25,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,47 +56,7 @@ public class about_page extends AppCompatActivity {
 
         // format and show version info
         TextView v = findViewById(R.id.about_info);
-        String s;
-        // version info
-        s = "EX-ToolBox: " + mainapp.appVersion;
-        if (mainapp.getHostIp() != null) {
-            // WiT info
-            if (!mainapp.isDccex) {
-                s += ", WiThrottle:v" + mainapp.getDccexVersion();
-            } else {
-                s += ", DCC-EX CS:v" + mainapp.getDccexVersion();
-            }
-            s += String.format(", Heartbeat:%dms", mainapp.heartbeatInterval);
-            s += String.format(", Host:%s", mainapp.getHostIp());
-            s += String.format(", Port:%s", mainapp.getConnectedPort());
-            //show server type and description if set
-            String sServer;
-            if (mainapp.getServerDescription().contains(mainapp.getServerType())) {
-                sServer = mainapp.getServerDescription();
-            } else {
-                sServer = mainapp.getServerType() + " " + mainapp.getServerDescription();
-            }
-            if (!sServer.isEmpty()) {
-                s += String.format(", Server:%s", sServer);
-//            } else {
-//                // otherwise show JMRI version info from web if populated
-//                HashMap<String, String> JmriMetadata = threaded_application.jmriMetadata;
-//                if (JmriMetadata != null && JmriMetadata.size() > 0) {
-//                    s += ", JMRI v" + JmriMetadata.get("JMRIVERCANON") + " build:" + JmriMetadata.get("JMRIVERSION");
-//                    if (JmriMetadata.get("activeProfile") != null) {
-//                        s += ", ActiveProfile:" + JmriMetadata.get("activeProfile");
-//                    }
-//                }
-            }
-        }
-        s += String.format(", SSID:%s, Net:%s", mainapp.client_ssid, mainapp.client_type);
-        if (mainapp.client_address_inet4 != null) {
-            s += String.format(", IP:%s", mainapp.client_address_inet4.toString().replaceAll("/", ""));
-        }
-        s += String.format(", OS: %s, SDK: %s ", android.os.Build.VERSION.RELEASE, Build.VERSION.SDK_INT);
-
-        // show info
-        v.setText(s);
+        v.setText(Html.fromHtml(mainapp.getAboutInfo()));
 
         // show ED webpage
         WebView webview = findViewById(R.id.about_webview);

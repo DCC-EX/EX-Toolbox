@@ -131,6 +131,7 @@
 
     <!-- Ultra (Dark) Theme -->
 
+    <color name="buttonCommonFillGradiantVeryLight_ultra">#5b5b5b</color>
     <color name="buttonCommonFillGradiantLight_ultra">#FF303030</color>
     <color name="buttonCommonFillGradiantCenter_ultra">#FF2a2a2a</color>
     <color name="buttonCommonFillGradiantDark_ultra">#FF181818</color>

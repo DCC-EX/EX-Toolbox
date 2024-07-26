@@ -237,6 +237,7 @@ public class threaded_application extends Application {
     public volatile Handler currents_msg_handler;
     public volatile Handler locos_msg_handler;
     public volatile Handler roster_msg_handler;
+    public volatile Handler speed_trap_msg_handler;
 
     public volatile Handler reconnect_status_msg_handler;
     public volatile Handler preferences_msg_handler;
@@ -314,8 +315,9 @@ public class threaded_application extends Application {
     public static final int SCREEN_SWIPE_INDEX_CURRENTS = 5;
     public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 6;
     public static final int SCREEN_SWIPE_INDEX_ROSTER = 7;
-    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 8;
-    public static final int SCREEN_SWIPE_INDEX_DIAG = 9;
+    public static final int SCREEN_SWIPE_INDEX_SPEED_TRAP = 8;
+    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 9;
+    public static final int SCREEN_SWIPE_INDEX_DIAG = 10;
 
     public static final int ACTIVE_SCREEN_CV_PROGRAMMER = 0;
     public static final int ACTIVE_SCREEN_SPEED_MATCHING = 1;
@@ -324,6 +326,7 @@ public class threaded_application extends Application {
     public static final int ACTIVE_SCREEN_CURRENTS = 4;
     public static final int ACTIVE_SCREEN_TRACK_MANAGER = 5;
     public static final int ACTIVE_SCREEN_ROSTER = 6;
+    public static final int ACTIVE_SCREEN_SPEED_TRAP = 7;
 
     public int activeScreen = 0;
 
@@ -703,6 +706,42 @@ public class threaded_application extends Application {
         this.serverDescription = serverDescription;
     }
 
+
+    @SuppressLint("DefaultLocale")
+    public String getAboutInfo() {
+        String s = "<span>";
+        // device info
+        s += "About: " + String.format("<small>OS: </small><b>%s</b> <small>SDK: </small><b>%s</b>", android.os.Build.VERSION.RELEASE, Build.VERSION.SDK_INT);
+
+        if (client_address_inet4 != null) {
+            s += String.format("<small>, IP: </small><b>%s</b>", client_address_inet4.toString().replaceAll("/", ""));
+            s += String.format("<small>, SSID: </small><b>%s</b> <small>Net: </small><b>%s</b>", client_ssid, client_type);
+        }
+
+        // EX-Toolbox version info
+        s += "<small>, EngineDriver: </small><b>" + appVersion + "</b>";
+        if (getHostIp() != null) {
+            s += "<small>, Protocol: </small>";
+            s += "<b>DCC-EX</b>";
+            s += String.format("<small>, Host: </small><b>%s</b>", getHostIp() );
+            s += String.format("<small> Port: </small><b>%s</b>", connectedPort);
+            //show server type and description if set
+            String sServer;
+            if (getServerDescription().contains(getServerType())) {
+                sServer = getServerDescription();
+            } else {
+                sServer = getServerType() + " " + getServerDescription();
+            }
+            if (!sServer.isEmpty()) {
+                s += "<small>, Server: </small><b>" + sServer + "</b>";
+            }
+        } else {
+            s += "<small><br/>Not Connected</small>";
+        }
+        s += "</span>";
+        return s;
+    }
+
     //reinitialize statics in activities as required to be ready for next launch
     public static void reinitStatics() {
 //        throttle.initStatics();
@@ -824,6 +863,10 @@ public class threaded_application extends Application {
 
         menuItem = menu.findItem(R.id.toolbar_button_roster);
         if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarRosterMenuButtons", false));
+
+        menuItem = menu.findItem(R.id.toolbar_button_speed_trap);
+        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarSpeedTrapMenuButtons", false));
+
     }
 
     public void displayPowerStateMenuButton(Menu menu) {
@@ -964,6 +1007,11 @@ public class threaded_application extends Application {
 
         try {
             sendMsg(roster_msg_handler, msgType, msgBody);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            sendMsg(speed_trap_msg_handler, msgType, msgBody);
         } catch (Exception ignored) {
         }
 
@@ -1428,13 +1476,13 @@ public class threaded_application extends Application {
             if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen++;
             }
-            if (nextScreen > SCREEN_SWIPE_INDEX_ROSTER) {
+            if (nextScreen > SCREEN_SWIPE_INDEX_SPEED_TRAP) {
                 nextScreen = SCREEN_SWIPE_INDEX_CV_PROGRAMMER;
             }
         } else {
             nextScreen = currentScreen - 1;
             if (nextScreen < SCREEN_SWIPE_INDEX_CV_PROGRAMMER) {
-                nextScreen = SCREEN_SWIPE_INDEX_ROSTER;
+                nextScreen = SCREEN_SWIPE_INDEX_SPEED_TRAP;
             }
             if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen--;
@@ -1469,6 +1517,9 @@ public class threaded_application extends Application {
                 nextIntent = new Intent().setClass(this, track_manager.class);
                 break;
             case SCREEN_SWIPE_INDEX_ROSTER:
+                nextIntent = new Intent().setClass(this, roster.class);
+                break;
+            case SCREEN_SWIPE_INDEX_SPEED_TRAP:
                 nextIntent = new Intent().setClass(this, roster.class);
                 break;
         }

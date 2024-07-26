@@ -608,4 +608,216 @@
         <item>237: Unknown</item>
         <item>238: NMRA reserved</item>
     </string-array>
+
+    <string-array name="scaleNames" translatable="false">
+        <item># I or 45 mm - Japanese (1:30)</item>
+        <item>#16 - Japanese (1:80)</item>
+        <item>0 - Live steam (1:76)</item>
+        <item>0 - NEM (1:45)</item>
+        <item>0 or 7 mm - British (1:43.5)</item>
+        <item>00 or 4 mm - British (1:76)</item>
+        <item>000 or 2 mm - British (1:152)</item>
+        <item>1 - NEM (1:32)</item>
+        <item>1 in - NMRA (1:12)</item>
+        <item>1:11 - Live steam (1:11)</item>
+        <item>1:12 - Live steam (1:12)</item>
+        <item>1:16 - Live steam (1:16)</item>
+        <item>1:7.5 - Live steam (1:7.5)</item>
+        <item>1:8 - Live steam (1:8)</item>
+        <item>13 mm - Japanese (1:80)</item>
+        <item>3/4 in - NMRA (1:16)</item>
+        <item>35 mm - Japanese (1:30)</item>
+        <item>EM or 4 mm - British (1:76)</item>
+        <item>F or 15 mm - NMRA (1:20.32)</item>
+        <item>Fine:HO - NMRA finescale (1:87.1)</item>
+        <item>Fine:HOn3 - NMRA finescale (1:87.1)</item>
+        <item>Fine:N - NMRA finescale (1:160)</item>
+        <item>Fine:Nn3 - NMRA finescale (1:160)</item>
+        <item>Fine:TT - NMRA finescale (1:120)</item>
+        <item>Fn3 or 15 mm - NMRA (1:20.32)</item>
+        <item>G - NMRA deep flange scales (1:20.3)</item>
+        <item>G - NMRA deep flange scales (1:22.5)</item>
+        <item>G - NMRA deep flange scales (1:24)</item>
+        <item>G - NMRA deep flange scales (1:29)</item>
+        <item>G or 3/8 in - NMRA deep flange scales (1:32)</item>
+        <item>H0 - NEM (1:87)</item>
+        <item>H0 or 3.5 mm - British (1:87)</item>
+        <item>HO - Japanese (1:87)</item>
+        <item>HO or 3.5 mm - NMRA (1:87.1)</item>
+        <item>HOj or HOn3-1/2 - Japanese (1:87)</item>
+        <item>HOm or 3.5 mm - NMRA (1:87.1)</item>
+        <item>HOn2 or 3.5 mm - NMRA (1:87.1)</item>
+        <item>HOn2+1⁄2 - Japanese (1:87)</item>
+        <item>HOn3 or 3.5 mm - NMRA (1:87.1)</item>
+        <item>HOn30 or 3.5 mm - NMRA (1:87.1)</item>
+        <item>II - NEM (1:22.5)</item>
+        <item>III - NEM (1:16)</item>
+        <item>N - British (1:148)</item>
+        <item>N - Japanese (1:150)</item>
+        <item>N - Japanese (1:160)</item>
+        <item>N - NEM (1:160)</item>
+        <item>N - NMRA (1:160)</item>
+        <item>Nn2 - NMRA (1:160)</item>
+        <item>Nn3 - NMRA (1:160)</item>
+        <item>No. 1 or 3/8 in - NMRA (1:32)</item>
+        <item>No. 1n2 or 3/8 in - NMRA (1:32)</item>
+        <item>No. 1n3 or 3/8 in - NMRA (1:32)</item>
+        <item>No.1 - Live steam (1:32)</item>
+        <item>No.3 - Live steam (1:22.6)</item>
+        <item>O - Japanese (1:40)</item>
+        <item>O - Japanese (1:42)</item>
+        <item>O - Japanese (1:45)</item>
+        <item>O - Live steam (1:45)</item>
+        <item>O or 1/4 in - NMRA (1:48)</item>
+        <item>O14 - British (1:43.5)</item>
+        <item>OHR or 1/4 in - NMRA deep flange scales (1:48)</item>
+        <item>OJ - Japanese (1:45)</item>
+        <item>On2 or 1/4 in - NMRA (1:48)</item>
+        <item>On3 or 1/4 in - NMRA (1:48)</item>
+        <item>On30 or 1/4 in - NMRA (1:48)</item>
+        <item>OO or 4 mm - NMRA (1:76.2)</item>
+        <item>P4/S4 or 4 mm - British (1:76.2)</item>
+        <item>Proto:20.32 - NMRA proto scales (1:20.32)</item>
+        <item>Proto:20.32n3 - NMRA proto scales (1:20.32)</item>
+        <item>Proto:32 - NMRA proto scales (1:32)</item>
+        <item>Proto:32n3 - NMRA proto scales (1:32)</item>
+        <item>Proto:48 - NMRA proto scales (1:48)</item>
+        <item>Proto:48n3 - NMRA proto scales (1:48)</item>
+        <item>Proto:48w5 - NMRA proto scales (1:48)</item>
+        <item>Proto:64 - NMRA proto scales (1:64)</item>
+        <item>Proto:64n3 - NMRA proto scales (1:64)</item>
+        <item>Proto:87 - NMRA proto scales (1:87.1)</item>
+        <item>Proto:87n3 - NMRA proto scales (1:87.1)</item>
+        <item>S - British (1:64)</item>
+        <item>S - NEM (1:64)</item>
+        <item>S or 3/16 in - NMRA (1:64)</item>
+        <item>ScaleSeven (S7) 7 mm - British (1:43.5)</item>
+        <item>SHR or 3/16 in - NMRA deep flange scales (1:64)</item>
+        <item>Sn3 or 3/16 in - NMRA (1:64)</item>
+        <item>Sn3+1⁄2 - Japanese (1:64)</item>
+        <item>T - Japanese (1:450)</item>
+        <item>T - Japanese (1:480)</item>
+        <item>TT - NEM (1:120)</item>
+        <item>TT - NMRA (1:120)</item>
+        <item>TT:120 or 2.54 mm - British (1:120)</item>
+        <item>TT3 or 3 mm - British (1:102)</item>
+        <item>TT9 - Japanese (1:120)</item>
+        <item>V - NEM (1:11)</item>
+        <item>VII - NEM (1:8)</item>
+        <item>X - NEM (1:5.5)</item>
+        <item>Z - NEM (1:220)</item>
+        <item>Z - NMRA (1:220)</item>
+        <item>Z or ZJ - Japanese (1:220)</item>
+        <item>ZZ - Japanese (1:300)</item>
+    </string-array>>
+    <string-array name="scaleRatios" translatable="false">
+        <item>0.033333333</item>
+        <item>0.0125</item>
+        <item>0.013157894</item>
+        <item>0.022222222</item>
+        <item>0.022988505</item>
+        <item>0.013157894</item>
+        <item>0.006578947</item>
+        <item>0.03125</item>
+        <item>0.083333333</item>
+        <item>0.090909090</item>
+        <item>0.083333333</item>
+        <item>0.0625</item>
+        <item>0.133333333</item>
+        <item>0.125</item>
+        <item>0.0125</item>
+        <item>0.0625</item>
+        <item>0.033333333</item>
+        <item>0.013157894</item>
+        <item>0.049212598</item>
+        <item>0.011481056</item>
+        <item>0.011481056</item>
+        <item>0.00625</item>
+        <item>0.00625</item>
+        <item>0.008333333</item>
+        <item>0.049212598</item>
+        <item>0.049261083</item>
+        <item>0.044444444</item>
+        <item>0.041666666</item>
+        <item>0.034482758</item>
+        <item>0.03125</item>
+        <item>0.011494252</item>
+        <item>0.011494252</item>
+        <item>0.011494252</item>
+        <item>0.011481056</item>
+        <item>0.011494252</item>
+        <item>0.011481056</item>
+        <item>0.011481056</item>
+        <item>0.011494252</item>
+        <item>0.011481056</item>
+        <item>0.011481056</item>
+        <item>0.044444444</item>
+        <item>0.0625</item>
+        <item>0.006756756</item>
+        <item>0.006666666</item>
+        <item>0.00625</item>
+        <item>0.00625</item>
+        <item>0.00625</item>
+        <item>0.00625</item>
+        <item>0.00625</item>
+        <item>0.03125</item>
+        <item>0.03125</item>
+        <item>0.03125</item>
+        <item>0.03125</item>
+        <item>0.044247787</item>
+        <item>0.025</item>
+        <item>0.023809523</item>
+        <item>0.022222222</item>
+        <item>0.022222222</item>
+        <item>0.020833333</item>
+        <item>0.022988505</item>
+        <item>0.020833333</item>
+        <item>0.022222222</item>
+        <item>0.020833333</item>
+        <item>0.020833333</item>
+        <item>0.020833333</item>
+        <item>0.013123359</item>
+        <item>0.013123359</item>
+        <item>0.049212598</item>
+        <item>0.049212598</item>
+        <item>0.03125</item>
+        <item>0.03125</item>
+        <item>0.020833333</item>
+        <item>0.020833333</item>
+        <item>0.020833333</item>
+        <item>0.015625</item>
+        <item>0.015625</item>
+        <item>0.011481056</item>
+        <item>0.011481056</item>
+        <item>0.015625</item>
+        <item>0.015625</item>
+        <item>0.015625</item>
+        <item>0.022988505</item>
+        <item>0.015625</item>
+        <item>0.015625</item>
+        <item>0.015625</item>
+        <item>0.002222222</item>
+        <item>0.002083333</item>
+        <item>0.008333333</item>
+        <item>0.008333333</item>
+        <item>0.008333333</item>
+        <item>0.009803921</item>
+        <item>0.008333333</item>
+        <item>0.090909090</item>
+        <item>0.125</item>
+        <item>0.181818181</item>
+        <item>0.004545454</item>
+        <item>0.004545454</item>
+        <item>0.004545454</item>
+        <item>0.003333333</item>
+    </string-array>
+
+    <string-array name="unitNames" translatable="false">
+        <item>Metric (kph)</item>
+        <item>Imperial (mph)</item>
+    </string-array>
+    <string-array name="unitRatios" translatable="false">
+        <item>1</item>
+        <item>0.621371</item>
+    </string-array>
 </resources>

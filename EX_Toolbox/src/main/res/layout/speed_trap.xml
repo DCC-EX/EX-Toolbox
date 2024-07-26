@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/speed_trap_screen"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:keepScreenOn="true"
+    android:orientation="vertical">
+
+    <android.gesture.GestureOverlayView
+        android:id="@+id/speed_trap_overlay"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:eventsInterceptionEnabled="false"
+        android:gestureColor="@color/transparent"
+        android:gestureStrokeType="single"
+        android:orientation="vertical"
+        android:uncertainGestureColor="@color/transparent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/toolbar_screen_name_line" />
+            <include layout="@layout/toolbar" />
+            <include layout="@layout/toolbar_status_line" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/speed_trapBackgroundImgView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:weightSum="1">
+
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight=".94"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="?attr/floating_text_style"
+                            android:textSize="12sp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="1sp"
+                            android:layout_marginBottom="1sp"
+                            android:padding="2sp"
+                            android:text="@string/dccexSpeedTrapInstructions"
+                            android:textColor="?android:attr/textColorSecondary" />
+
+
+                        <LinearLayout
+                            android:id="@+id/ex_programmingCvLayout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8sp"
+                            android:background="#00000000"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <TextView
+                                style="?attr/floating_text_style"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".25"
+                                android:gravity="end"
+                                android:padding="4sp"
+                                android:text="@string/dccexSpeedTrapStartPinLabel"
+                                android:textAlignment="viewEnd" />
+
+                            <EditText
+                                android:id="@+id/ex_startPin"
+                                style="?attr/edit_label_style"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8sp"
+                                android:layout_marginRight="8sp"
+                                android:layout_weight=".1"
+                                android:inputType="number"
+                                android:maxLength="3"
+                                android:shadowColor="#FFFFFFFF"
+                                android:shadowDx="1"
+                                android:shadowDy="1"
+                                android:shadowRadius="0.3"
+                                android:singleLine="true"
+                                android:text="22"
+                                tools:ignore="Autofill,LabelFor" />
+
+                            <TextView
+                                style="?attr/floating_text_style"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".2"
+                                android:gravity="end"
+                                android:padding="4sp"
+                                android:text="@string/dccexSpeedTrapEndPinLabel"
+                                android:textAlignment="viewEnd" />
+
+                            <EditText
+                                android:id="@+id/ex_endPin"
+                                style="?attr/edit_label_style"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8sp"
+                                android:layout_marginRight="8sp"
+                                android:layout_weight=".1"
+                                android:inputType="number"
+                                android:maxLength="3"
+                                android:paddingRight="8sp"
+                                android:shadowColor="#FFFFFFFF"
+                                android:shadowDx="1"
+                                android:shadowDy="1"
+                                android:shadowRadius="0.3"
+                                android:singleLine="true"
+                                android:text="24" />
+
+                            <Button
+                                android:id="@+id/ex_startButton"
+                                style="?attr/ed_small_button_style"
+                                android:layout_width="0dp"
+                                android:layout_gravity="end"
+                                android:layout_height="38sp"
+                                android:layout_weight=".3"
+                                android:padding="4sp"
+                                android:text="@string/dccexSpeedTrapStartLabel" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ex_programmingCvLayout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8sp"
+                            android:background="#00000000"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="?attr/floating_text_style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:padding="4sp"
+                                android:text="@string/dccexSpeedTrapDistanceLabel"
+                                android:textAlignment="viewEnd" />
+
+                            <EditText
+                                android:id="@+id/ex_distance"
+                                style="?attr/edit_label_style"
+                                android:layout_width="60dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8sp"
+                                android:layout_marginRight="8sp"
+                                android:inputType="number|numberDecimal"
+                                android:maxLength="8"
+                                android:shadowColor="#FFFFFFFF"
+                                android:shadowDx="1"
+                                android:shadowDy="1"
+                                android:shadowRadius="0.3"
+                                android:singleLine="true"
+                                android:text="10"
+                                tools:ignore="Autofill,LabelFor" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:layout_marginBottom="10sp"
+                            android:layout_marginLeft="20sp"
+                            android:background="?attr/ed_background_highlight_secondary"
+                            android:orientation="horizontal"
+                            android:weightSum="1"
+                            tools:ignore="RtlHardcoded">
+
+                            <TextView
+                                style="?attr/floating_text_style"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".2"
+                                android:padding="2sp"
+                                android:layout_marginBottom="2sp"
+                                android:text="@string/dccexSpeedTrapScaleLabel"
+                                android:textSize="12sp"
+                                android:textAlignment="viewEnd"
+                                android:gravity="end"
+                                android:textColor="?android:attr/textColorSecondary" />
+
+                            <Spinner
+                                android:id="@+id/ex_scales_list"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="none"
+                                android:paddingLeft="0dp"
+                                android:paddingRight="0dp"
+                                android:paddingTop="0dp"
+                                android:paddingBottom="2dp"
+                                android:layout_marginRight="0dp"
+                                android:layout_marginLeft="0dp"
+                                android:text=""
+                                android:layout_weight=".7"
+                                tools:ignore="RtlHardcoded" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10sp"
+                            android:layout_marginBottom="10sp"
+                            android:layout_marginLeft="20sp"
+                            android:background="?attr/ed_background_highlight_secondary"
+                            android:orientation="horizontal"
+                            android:weightSum="1"
+                            tools:ignore="RtlHardcoded"
+                            android:visibility="gone">
+
+                            <TextView
+                                style="?attr/floating_text_style"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".2"
+                                android:padding="2sp"
+                                android:layout_marginBottom="2sp"
+                                android:text="@string/dccexSpeedTrapUnitsLabel"
+                                android:textSize="12sp"
+                                android:textAlignment="viewEnd"
+                                android:gravity="end"
+                                android:textColor="?android:attr/textColorSecondary" />
+
+                            <Spinner
+                                android:id="@+id/ex_units_list"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="none"
+                                android:paddingLeft="0dp"
+                                android:paddingRight="0dp"
+                                android:paddingTop="0dp"
+                                android:paddingBottom="2dp"
+                                android:layout_marginRight="0dp"
+                                android:layout_marginLeft="0dp"
+                                android:text=""
+                                android:layout_weight=".7"
+                                tools:ignore="RtlHardcoded" />
+
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0sp"
+                            android:background="#00000000"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="?attr/floating_text_style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1sp"
+                                android:layout_marginBottom="1sp"
+                                android:padding="2sp"
+                                android:text="@string/dccexSpeedTrapScaleSpeedLabel"
+                                android:textColor="?android:attr/textColorSecondary" />
+
+                            <TextView
+                                android:id="@+id/ex_ScaleSpeed"
+                                style="?attr/floating_text_style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:layout_marginTop="1sp"
+                                android:layout_marginBottom="1sp"
+                                android:padding="2sp"
+                                android:text=""
+                                android:textSize="16sp"
+                                android:textColor="?android:attr/textColorPrimary" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ex_writeInfoLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0sp"
+                            android:background="#00000000"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="2dp"
+                                android:layout_marginTop="6sp"
+                                android:background="#888888"
+                                android:orientation="vertical" />
+
+                            <TextView
+                                android:id="@+id/ex_writeInfoLabel"
+                                style="?attr/floating_text_style"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:layout_marginTop="1sp"
+                                android:layout_marginBottom="1sp"
+                                android:padding="2sp"
+                                android:text=""
+                                android:textColor="?android:attr/textColorSecondary" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="2dp"
+                            android:paddingTop="2dp"
+                            android:background="#888888"
+                            android:orientation="vertical" />
+
+                        <LinearLayout
+                            android:id="@+id/ex_responsesAndSendsLayout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0sp"
+                            android:layout_marginTop="0sp"
+                            android:background="#00000000"
+                            android:orientation="vertical"
+                            android:layout_weight=".4"
+                            android:weightSum="1"
+                            tools:ignore="NestedWeights,TooManyViews">
+
+                            <ScrollView
+                                android:id="@+id/ex_responsesScrollView"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight=".7"
+                                tools:ignore="NestedWeights">
+
+                                <TextView
+                                    android:id="@+id/ex_responsesLabel"
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8sp"
+                                    android:text=""
+                                    android:textSize="12sp" />
+
+                            </ScrollView>
+
+                            <ScrollView
+                                android:id="@+id/ex_sendsScrollView"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight=".3">
+
+                                <TextView
+                                    android:id="@+id/ex_sendsLabel"
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8sp"
+                                    android:text=""
+                                    android:textSize="12sp" />
+
+                            </ScrollView>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="3dp"
+                        android:layout_weight=".06"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp">
+
+                        <RelativeLayout
+                            android:id="@+id/dcc_ex_bottom_button_layout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0sp"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/ex_clearCommandsButton"
+                                style="?attr/ed_small_button_style"
+                                android:layout_gravity="left"
+                                android:text="@string/dccexClearCommands"
+                                tools:ignore="RtlHardcoded"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true" />
+
+                        </RelativeLayout>
+
+                    </TableLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.gesture.GestureOverlayView>
+
+</LinearLayout>

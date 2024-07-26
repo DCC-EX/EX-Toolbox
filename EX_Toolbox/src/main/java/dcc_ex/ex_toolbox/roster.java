@@ -522,6 +522,11 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
             in = new Intent().setClass(this, roster.class);
             startACoreActivity(this, in, false, 0);
             return true;
+        } else if ( (item.getItemId() == R.id.speed_trap_mnu) || (item.getItemId() == R.id.toolbar_button_speed_trap) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, speed_trap.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
 
         } else if (item.getItemId() == R.id.exit_mnu) {
                 mainapp.checkAskExit(this);

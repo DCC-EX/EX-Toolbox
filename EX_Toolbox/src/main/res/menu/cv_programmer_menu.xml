@@ -66,6 +66,13 @@
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
 
+    <item android:id="@+id/toolbar_button_speed_trap"
+        android:icon="?attr/ed_toolbar_button_speed_trap"
+        android:title="@string/app_name_speed_trap"
+        android:visible="false"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
     <item android:id="@+id/toolbar_button_track_manager"
         android:icon="?attr/ed_toolbar_button_track_manager"
         android:title="@string/app_name_track_manager"
@@ -87,6 +94,7 @@
     <item android:id="@+id/currents_mnu" android:title="@string/app_name_currents" />
     <item android:id="@+id/track_manager_mnu" android:title="@string/app_name_track_manager" />
     <item android:id="@+id/roster_mnu" android:title="@string/app_name_roster" />
+    <item android:id="@+id/speed_trap_mnu" android:title="@string/app_name_speed_trap" />
 
     <item android:id="@+id/power_control_mnu" android:title="@string/power" />
     <item android:id="@+id/settings_mnu" android:title="@string/preferences" />

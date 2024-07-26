@@ -47,6 +47,7 @@
     <string name="app_name_currents">Current Status</string>
     <string name="app_name_currents_short">Currents</string>
     <string name="app_name_roster">Roster</string>
+    <string name="app_name_speed_trap">Speed Trap</string>
 
     <string name="app_name_dcc_ex">DCC-EX</string>
 
@@ -137,6 +138,7 @@
     <string name="prefShowToolbarTrackManagerMenuButtonsTitle">Track Manager toolbar button</string>
     <string name="prefShowToolbarSpeedMatchingMenuButtonsTitle">Speed Matching toolbar button</string>
     <string name="prefShowToolbarRosterMenuButtonsTitle">Roster toolbar button</string>
+    <string name="prefShowToolbarSpeedTrapMenuButtonsTitle">Speed Trap toolbar button</string>
 
 
     <string name="PrefConnectToFirstServerTitle">Auto-Connect to Server?</string>
@@ -396,6 +398,19 @@
 
     <string name="dccexCommonCvsLabel" >NMRA CVs</string>
     <string name="dccexCommonCommandsLabel" >Common CMDs</string>
+
+    <string name="dccexSpeedTrapScaleLabel">Scale</string>
+    <string name="dccexSpeedTrapUnitsLabel">Output Units</string>
+    <string name="dccexSpeedTrapStartLabel">Start</string>
+    <string name="dccexSpeedTrapStartPinLabel">Start PIN</string>
+    <string name="dccexSpeedTrapEndPinLabel">End PIN</string>
+    <string name="dccexSpeedTrapDistanceLabel">Distance between sensors (in cm)</string>
+    <string name="dccexSpeedTrapScaleSpeedLabel">Scale Speed</string>
+    <string name="dccexSpeedTrapRunStarted">Run Started</string>
+    <string name="dccexSpeedTrapRunFinished">Run Finished</string>
+    <string name="dccexSpeedTrapInstructions">a) Set the PINs for the Start and End sensors.
+        \nb) Set the Distance between the sensors. c) Set the Scale.
+        \nd) Click \`Start\` e) Run the loco past the sensors.</string>
 
     <string name="dccexSetTrackButtonLabel">Set</string>
 

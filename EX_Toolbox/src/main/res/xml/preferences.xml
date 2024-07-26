@@ -222,6 +222,14 @@
             android:summary="@string/prefShowToolbarMenuButtonsSummary"
             android:title="@string/prefShowToolbarRosterMenuButtonsTitle" />
 
+        <CheckBoxPreference
+            android:icon="?attr/ed_toolbar_button_speed_trap"
+            android:defaultValue="@bool/prefShowToolbarMenuButtonsDefaultValue"
+            android:key="prefShowToolbarSpeedTrapMenuButtons"
+            android:layout="@layout/checkbox_icon_right"
+            android:summary="@string/prefShowToolbarMenuButtonsSummary"
+            android:title="@string/prefShowToolbarSpeedTrapMenuButtonsTitle" />
+
         <ListPreference
             android:icon="?attr/ed_clock_icon"
             android:defaultValue="@string/prefDisplayClockDefaultValue"

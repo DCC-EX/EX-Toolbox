@@ -1,6 +1,11 @@
+**Version 0.1.2-23
+ * Move targetSDK from 33 to 34 per Google requirement by 2024-08-30
+ * UI/Theme updates
+ * added Speed Trap page
 **Version 0.1.21
  * Show manufacturer names and IDs (if you query CV8)
  * bug fix for the functions list on a roster entry
+ * Move targetSDK from 33 to 34 per Google requirement by 2024-08-30
 **Version 0.1.17-20
  * UI improvements to the Action Bar
  * New preference to allow for double back button presses to exit the app

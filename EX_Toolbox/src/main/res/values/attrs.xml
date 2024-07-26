@@ -40,6 +40,7 @@
     <attr name="ed_toolbar_button_track_manager" format="reference" />
     <attr name="ed_toolbar_button_speed_matching" format="reference" />
     <attr name="ed_toolbar_button_roster" format="reference" />
+    <attr name="ed_toolbar_button_speed_trap" format="reference" />
 
     <attr name="ed_folder_icon" format="reference" />
     <attr name="ed_clock_icon" format="reference" />

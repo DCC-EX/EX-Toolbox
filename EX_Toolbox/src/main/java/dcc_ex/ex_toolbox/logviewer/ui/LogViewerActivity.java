@@ -131,7 +131,7 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
                     "");
         }
 
-        logAboutInfo();
+        Log.d("EX_Toolbox", mainapp.getAboutInfo());
 
     } // end onCreate
 
@@ -242,7 +242,7 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
             mainapp.logSaveFilename = logFile.toString();
             showHideSaveButton();
             Log.d("EX_Toolbox", "Logging started to: " + logFile.toString());
-            logAboutInfo();
+            Log.d("EX_Toolbox", mainapp.getAboutInfo());
         } catch ( IOException e ) {
             e.printStackTrace();
         }
@@ -331,7 +331,7 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
                 String msg = data;
                 int msgStart = data.indexOf("EX_Toolbox: "); //post-marshmallow format
                 if (msgStart > 0) {
-                    msg = data.substring(msgStart + 15);
+                    msg = data.substring(msgStart + 12);
                     if (mainapp.prefShowTimeOnLogEntry) {
                         int tmStart = data.indexOf(" "); //post-marshmallow format
                         String tm = data.substring(tmStart + 1,tmStart+12);
@@ -343,24 +343,26 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
                         msg = data.substring(msgStart + 3);
                     }
                 }
-                msg = msg.replaceAll("&", "&amp;");
-                msg = msg.replaceAll("<", "&lt;");
-                msg = msg.replaceAll(">", "&gt;");
-                if (msg.indexOf("About: ") < 0) {
-                    if (mainapp.getSelectedTheme() == R.style.app_theme_colorful) {
-                        msg = "<span style=\"color: #404040\">" + msg;
+                if (!msg.substring(0,6).equals("<span>")) {
+                    msg = msg.replaceAll("&", "&amp;");
+                    msg = msg.replaceAll("<", "&lt;");
+                    msg = msg.replaceAll(">", "&gt;");
+                    if (msg.indexOf("About: ") < 0) {
+                        if (mainapp.getSelectedTheme() == R.style.app_theme_colorful) {
+                            msg = "<span style=\"color: #404040\">" + msg;
+                        } else {
+                            msg = "<span style=\"color: #CCCCCC\">" + msg;
+                        }
                     } else {
-                        msg = "<span style=\"color: #CCCCCC\">" + msg;
+                        msg = "<br/><span>" + msg;
                     }
-                } else {
-                    msg = "<br/><span>" + msg;
-                }
-                if (msg.indexOf("--&gt;") > 0) {
-                    msg = msg.replace("--&gt;", "</span><br/><b>--&gt;") + "</b>";
-                } else if (msg.indexOf("&lt;--") > 0) {
-                    msg = msg.replace("&lt;--", "</span><br/><b>&lt;--") + "</b>";
-                } else {
-                    msg = msg + "</span>";
+                    if (msg.indexOf("--&gt;") > 0) {
+                        msg = msg.replace("--&gt;", "</span><br/><b>--&gt;") + "</b>";
+                    } else if (msg.indexOf("&lt;--") > 0) {
+                        msg = msg.replace("&lt;--", "</span><br/><b>&lt;--") + "</b>";
+                    } else {
+                        msg = msg + "</span>";
+                    }
                 }
                 textview.setText(Html.fromHtml(msg));
 
@@ -460,46 +462,48 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
         }
     }
 
-    @SuppressLint("DefaultLocale")
-    private void logAboutInfo() {
-        String s = "";
-        // device info
-        s += "About: " + String.format("OS:%s, SDK:%s ", android.os.Build.VERSION.RELEASE, Build.VERSION.SDK_INT);
-        if (mainapp.client_address_inet4 != null) {
-            s += ", " + String.format("IP:%s", mainapp.client_address_inet4.toString().replaceAll("/", ""));
-            s += String.format(" SSID:%s Net:%s", mainapp.client_ssid, mainapp.client_type);
-        }
-
-        // ED version info
-        s += ", EX-ToolBox: " + mainapp.appVersion;
-        if (mainapp.getHostIp() != null) {
-            // WiT info
-//            if (mainapp.getWithrottleVersion() != 0.0) {
-                s += ", WiThrottle:v" + mainapp.getDccexVersion();
-                s +=  String.format(", Heartbeat:%dms", mainapp.heartbeatInterval);
-//            }
-            s += String.format(", Host:%s", mainapp.getHostIp() );
-            s += String.format(", Port:%s", mainapp.connectedPort);
-            //show server type and description if set
-            String sServer;
-            if (mainapp.getServerDescription().contains(mainapp.getServerType())) {
-                sServer = mainapp.getServerDescription();
-            } else {
-                sServer = mainapp.getServerType() + " " + mainapp.getServerDescription();
-            }
-            if (!sServer.isEmpty()) {
-                s += ", Server:" + sServer;
+//    @SuppressLint("DefaultLocale")
+//    private void logAboutInfo() {
+//        String s = "";
+//        // device info
+//        s += "About: " + String.format("OS:%s, SDK:%s ", android.os.Build.VERSION.RELEASE, Build.VERSION.SDK_INT);
+//        if (mainapp.client_address_inet4 != null) {
+//            s += ", " + String.format("IP:%s", mainapp.client_address_inet4.toString().replaceAll("/", ""));
+//            s += String.format(" SSID:%s Net:%s", mainapp.client_ssid, mainapp.client_type);
+//        }
+//
+//        // EX-Toolbox version info
+//        s += ", EX-ToolBox: " + mainapp.appVersion;
+//        if (mainapp.getHostIp() != null) {
+//            // WiT info
+////            if (mainapp.getWithrottleVersion() != 0.0) {
+//                s += ", WiThrottle:v" + mainapp.getDccexVersion();
+//                s +=  String.format(", Heartbeat:%dms", mainapp.heartbeatInterval);
+////            }
+//            s += String.format(", Host:%s", mainapp.getHostIp() );
+//            s += String.format(", Port:%s", mainapp.connectedPort);
+//            //show server type and description if set
+//            String sServer;
+//            if (mainapp.getServerDescription().contains(mainapp.getServerType())) {
+//                sServer = mainapp.getServerDescription();
 //            } else {
-//                // otherwise show JMRI version info from web if populated
-//                HashMap<String, String> JmriMetadata = threaded_application.jmriMetadata;
-//                if (JmriMetadata != null && JmriMetadata.size() > 0) {
-//                    s += ", JMRI v" + JmriMetadata.get("JMRIVERCANON") + " build:" + JmriMetadata.get("JMRIVERSION");
-//                    if (JmriMetadata.get("activeProfile") != null) {
-//                        s += ", Active Profile:" + JmriMetadata.get("activeProfile");
-//                    }
-//                }
-            }
-        }
-        Log.d("EX_Toolbox", s);
-    }
+//                sServer = mainapp.getServerType() + " " + mainapp.getServerDescription();
+//            }
+//            if (!sServer.isEmpty()) {
+//                s += ", Server:" + sServer;
+////            } else {
+////                // otherwise show JMRI version info from web if populated
+////                HashMap<String, String> JmriMetadata = threaded_application.jmriMetadata;
+////                if (JmriMetadata != null && JmriMetadata.size() > 0) {
+////                    s += ", JMRI v" + JmriMetadata.get("JMRIVERCANON") + " build:" + JmriMetadata.get("JMRIVERSION");
+////                    if (JmriMetadata.get("activeProfile") != null) {
+////                        s += ", Active Profile:" + JmriMetadata.get("activeProfile");
+////                    }
+////                }
+//            }
+//        }
+//        Log.d("EX_Toolbox", s);
+//    }
+
+
 }
