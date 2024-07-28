@@ -328,6 +328,8 @@ public class power_control extends AppCompatActivity {
         inflater.inflate(R.menu.power_menu, menu);
         PMenu = menu;
 
+        mainapp.reformatMenu(menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 

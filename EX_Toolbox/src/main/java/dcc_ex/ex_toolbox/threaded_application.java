@@ -38,6 +38,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,7 +48,11 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -308,16 +313,18 @@ public class threaded_application extends Application {
 
     /// swipe right sequence
     public static final int SCREEN_SWIPE_INDEX_CV_PROGRAMMER = 0;
-    public static final int SCREEN_SWIPE_INDEX_SPEED_MATCHING = 1;
-    public static final int SCREEN_SWIPE_INDEX_LOCOS = 2;
-    public static final int SCREEN_SWIPE_INDEX_SERVOS = 3;
-    public static final int SCREEN_SWIPE_INDEX_SENSORS = 4;
-    public static final int SCREEN_SWIPE_INDEX_CURRENTS = 5;
-    public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 6;
-    public static final int SCREEN_SWIPE_INDEX_ROSTER = 7;
-    public static final int SCREEN_SWIPE_INDEX_SPEED_TRAP = 8;
-    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 9;
-    public static final int SCREEN_SWIPE_INDEX_DIAG = 10;
+    public static final int SCREEN_SWIPE_INDEX_LOCOS = 1;
+    public static final int SCREEN_SWIPE_INDEX_ROSTER = 2;
+    public static final int SCREEN_SWIPE_INDEX_SPEED_MATCHING = 3;
+    public static final int SCREEN_SWIPE_INDEX_SPEED_TRAP = 4;
+    public static final int SCREEN_SWIPE_INDEX_SERVOS = 5;
+    public static final int SCREEN_SWIPE_INDEX_SENSORS = 6;
+    public static final int SCREEN_SWIPE_INDEX_CURRENTS = 7;
+    public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 8;
+//    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 9;
+//    public static final int SCREEN_SWIPE_INDEX_DIAG = 10;
+
+    public static final int SCREEN_SWIPE_INDEX_LAST = 8;
 
     public static final int ACTIVE_SCREEN_CV_PROGRAMMER = 0;
     public static final int ACTIVE_SCREEN_SPEED_MATCHING = 1;
@@ -1476,13 +1483,13 @@ public class threaded_application extends Application {
             if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen++;
             }
-            if (nextScreen > SCREEN_SWIPE_INDEX_SPEED_TRAP) {
-                nextScreen = SCREEN_SWIPE_INDEX_CV_PROGRAMMER;
+            if (nextScreen > SCREEN_SWIPE_INDEX_LAST) {
+                nextScreen = 0;
             }
         } else {
             nextScreen = currentScreen - 1;
-            if (nextScreen < SCREEN_SWIPE_INDEX_CV_PROGRAMMER) {
-                nextScreen = SCREEN_SWIPE_INDEX_SPEED_TRAP;
+            if (nextScreen < 0) {
+                nextScreen = SCREEN_SWIPE_INDEX_LAST;
             }
             if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen--;
@@ -1520,7 +1527,7 @@ public class threaded_application extends Application {
                 nextIntent = new Intent().setClass(this, roster.class);
                 break;
             case SCREEN_SWIPE_INDEX_SPEED_TRAP:
-                nextIntent = new Intent().setClass(this, roster.class);
+                nextIntent = new Intent().setClass(this, speed_trap.class);
                 break;
         }
         return nextIntent;
@@ -1782,6 +1789,24 @@ public class threaded_application extends Application {
         } catch (Exception e) {
             Log.d("ex_toolbox", "Throttle: failed loading background image");
         }
+    }
+
+    public void reformatMenu(Menu menu) {
+
+        MenuItem menuItem = menu.findItem(R.id.extras_menu_item);
+        if (menuItem == null) return;
+
+//        Typeface face = ResourcesCompat.getFont(context, R.font.notoemoji_variablefont_wght);
+//        Typeface face = ResourcesCompat.getFont(context, R.font.notosanssymbols_variablefont_wght);
+//        Typeface face = ResourcesCompat.getFont(context, R.font.notosanssymbols2_regular);
+//        Typeface face = ResourcesCompat.getFont(context, R.font.notoemoji);
+        SpannableString spanString = new SpannableString(menuItem.getTitle().toString());
+        int end = spanString.length();
+//        spanString.setSpan(face, 0, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        spanString.setSpan(new StyleSpan(Typeface.ITALIC), 0, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        menuItem.setTitle(spanString);
+
     }
 
 }

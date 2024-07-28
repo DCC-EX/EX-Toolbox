@@ -788,8 +788,8 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
         mainapp.setPowerStateButton(menu);
-
         mainapp.setPowerMenuOption(menu);
+        mainapp.reformatMenu(menu);
 
         return  super.onCreateOptionsMenu(menu);
     }

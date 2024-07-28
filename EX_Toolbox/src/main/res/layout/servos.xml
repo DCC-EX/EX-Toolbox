@@ -68,7 +68,10 @@
                                 style="?attr/floating_text_style"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:padding="2sp"
+                                android:paddingLeft="6sp"
+                                android:paddingTop="2sp"
+                                android:paddingRight="2sp"
+                                android:paddingBottom="2sp"
                                 android:text="@string/app_name_servos"
                                 android:textSize="14sp" />
                         </LinearLayout>

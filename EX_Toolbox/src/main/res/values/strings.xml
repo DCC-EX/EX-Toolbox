@@ -47,9 +47,13 @@
     <string name="app_name_currents">Current Status</string>
     <string name="app_name_currents_short">Currents</string>
     <string name="app_name_roster">Roster</string>
-    <string name="app_name_speed_trap">Speed Trap</string>
-
+    <string name="app_name_speed_trap">Speedometer</string>
     <string name="app_name_dcc_ex">DCC-EX</string>
+
+    <string name="menu_item_name_extras">\☰ Additional Options</string>
+    <string name="menu_item_name_preferences">Preferences</string>
+    <string name="menu_item_name_about">About</string>
+    <string name="menu_item_name_logViewer">View Log</string>
 
     <string name="notification_title">EX-Toolbox is running</string>
     <string name="notification_text">Tap to reopen EX-Toolbox</string>
@@ -138,7 +142,7 @@
     <string name="prefShowToolbarTrackManagerMenuButtonsTitle">Track Manager toolbar button</string>
     <string name="prefShowToolbarSpeedMatchingMenuButtonsTitle">Speed Matching toolbar button</string>
     <string name="prefShowToolbarRosterMenuButtonsTitle">Roster toolbar button</string>
-    <string name="prefShowToolbarSpeedTrapMenuButtonsTitle">Speed Trap toolbar button</string>
+    <string name="prefShowToolbarSpeedTrapMenuButtonsTitle">Speedometer toolbar button</string>
 
 
     <string name="PrefConnectToFirstServerTitle">Auto-Connect to Server?</string>
@@ -405,12 +409,16 @@
     <string name="dccexSpeedTrapStartPinLabel">Start PIN</string>
     <string name="dccexSpeedTrapEndPinLabel">End PIN</string>
     <string name="dccexSpeedTrapDistanceLabel">Distance between sensors (in cm)</string>
-    <string name="dccexSpeedTrapScaleSpeedLabel">Scale Speed</string>
-    <string name="dccexSpeedTrapRunStarted">Run Started</string>
-    <string name="dccexSpeedTrapRunFinished">Run Finished</string>
-    <string name="dccexSpeedTrapInstructions">a) Set the PINs for the Start and End sensors.
-        \nb) Set the Distance between the sensors. c) Set the Scale.
-        \nd) Click \`Start\` e) Run the loco past the sensors.</string>
+    <string name="dccexSpeedTrapScaleSpeedLabel">Scale\nSpeed</string>
+    <string name="dccexSpeedTrapRunDisabled">Not Started</string>
+    <string name="dccexSpeedTrapRunWaitingToStart">Waiting to pass Start Sensor</string>
+    <string name="dccexSpeedTrapRunStarted">Run Started - Waiting to pass End Sensor</string>
+    <string name="dccexSpeedTrapRunFinished">Run Finished - Waiting to pass Start Sensor again</string>
+    <string name="dccexSpeedTrapInstructions">a) Set the PINs for the Start and End sensors
+        \nb) Set the Distance between the sensors
+        \nc) Select the Scale
+        \nd) Click \`Start\`
+        \ne) Run the loco past the sensors</string>
 
     <string name="dccexSetTrackButtonLabel">Set</string>
 

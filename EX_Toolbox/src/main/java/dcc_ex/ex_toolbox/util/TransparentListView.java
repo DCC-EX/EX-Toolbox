@@ -16,6 +16,7 @@ import android.widget.ListView;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/** @noinspection CallToPrintStackTrace*/
 public class TransparentListView extends ListView {
 
     private void makeTransparent() {

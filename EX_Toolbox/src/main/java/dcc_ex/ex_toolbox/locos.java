@@ -489,8 +489,8 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
         mainapp.setPowerStateButton(menu);
-
         mainapp.setPowerMenuOption(menu);
+        mainapp.reformatMenu(menu);
 
         return  super.onCreateOptionsMenu(menu);
     }

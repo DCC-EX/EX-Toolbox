@@ -498,7 +498,6 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
         mainapp.setPowerStateButton(menu);
-
         mainapp.setPowerMenuOption(menu);
 
         return  super.onCreateOptionsMenu(menu);

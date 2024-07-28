@@ -102,6 +102,7 @@ public class about_page extends AppCompatActivity {
         AMenu = menu;
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerStateButton(menu);
+        mainapp.reformatMenu(menu);
 
         return super.onCreateOptionsMenu(menu);
     }

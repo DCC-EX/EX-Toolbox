@@ -28,3 +28,6 @@ ex_toolbox.iml
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Other
+java_*.hprof

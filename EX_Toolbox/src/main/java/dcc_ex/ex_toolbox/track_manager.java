@@ -651,8 +651,8 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
         mainapp.setPowerStateButton(menu);
-
         mainapp.setPowerMenuOption(menu);
+        mainapp.reformatMenu(menu);
 
         return  super.onCreateOptionsMenu(menu);
     }

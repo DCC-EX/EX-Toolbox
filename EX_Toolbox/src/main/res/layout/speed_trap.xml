@@ -44,6 +44,26 @@
                     android:padding="10dp"
                     android:weightSum="1">
 
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0sp"
+                        android:background="?attr/ed_background_highlight"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            style="?attr/floating_text_style"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="6sp"
+                            android:paddingTop="2sp"
+                            android:paddingRight="2sp"
+                            android:paddingBottom="2sp"
+                            android:text="@string/app_name_speed_trap"
+                            android:textSize="14sp"
+                            tools:ignore="RtlHardcoded" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="fill_parent"
@@ -53,7 +73,6 @@
 
                         <TextView
                             style="?attr/floating_text_style"
-                            android:textSize="12sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
@@ -61,23 +80,20 @@
                             android:layout_marginBottom="1sp"
                             android:padding="2sp"
                             android:text="@string/dccexSpeedTrapInstructions"
-                            android:textColor="?android:attr/textColorSecondary" />
-
+                            android:textColor="?android:attr/textColorSecondary"
+                            android:textSize="12sp" />
 
                         <LinearLayout
-                            android:id="@+id/ex_programmingCvLayout"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8sp"
                             android:background="#00000000"
-                            android:orientation="horizontal"
-                            android:weightSum="1">
+                            android:orientation="horizontal">
 
                             <TextView
                                 style="?attr/floating_text_style"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".25"
                                 android:gravity="end"
                                 android:padding="4sp"
                                 android:text="@string/dccexSpeedTrapStartPinLabel"
@@ -86,11 +102,10 @@
                             <EditText
                                 android:id="@+id/ex_startPin"
                                 style="?attr/edit_label_style"
-                                android:layout_width="0dp"
+                                android:layout_width="40dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="8sp"
                                 android:layout_marginRight="8sp"
-                                android:layout_weight=".1"
                                 android:inputType="number"
                                 android:maxLength="3"
                                 android:shadowColor="#FFFFFFFF"
@@ -99,13 +114,12 @@
                                 android:shadowRadius="0.3"
                                 android:singleLine="true"
                                 android:text="22"
-                                tools:ignore="Autofill,LabelFor" />
+                                tools:ignore="Autofill,HardcodedText,LabelFor" />
 
                             <TextView
                                 style="?attr/floating_text_style"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".2"
                                 android:gravity="end"
                                 android:padding="4sp"
                                 android:text="@string/dccexSpeedTrapEndPinLabel"
@@ -114,11 +128,10 @@
                             <EditText
                                 android:id="@+id/ex_endPin"
                                 style="?attr/edit_label_style"
-                                android:layout_width="0dp"
+                                android:layout_width="40dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="8sp"
                                 android:layout_marginRight="8sp"
-                                android:layout_weight=".1"
                                 android:inputType="number"
                                 android:maxLength="3"
                                 android:paddingRight="8sp"
@@ -127,17 +140,17 @@
                                 android:shadowDy="1"
                                 android:shadowRadius="0.3"
                                 android:singleLine="true"
-                                android:text="24" />
+                                android:text="24"
+                                tools:ignore="HardcodedText,RtlHardcoded,RtlSymmetry" />
 
                             <Button
                                 android:id="@+id/ex_startButton"
                                 style="?attr/ed_small_button_style"
-                                android:layout_width="0dp"
-                                android:layout_gravity="end"
+                                android:layout_width="wrap_content"
                                 android:layout_height="38sp"
-                                android:layout_weight=".3"
-                                android:padding="4sp"
-                                android:text="@string/dccexSpeedTrapStartLabel" />
+                                android:layout_marginLeft="40dp"
+                                android:text="@string/dccexSpeedTrapStartLabel"
+                                tools:ignore="RtlHardcoded" />
 
                         </LinearLayout>
 
@@ -173,7 +186,7 @@
                                 android:shadowRadius="0.3"
                                 android:singleLine="true"
                                 android:text="10"
-                                tools:ignore="Autofill,LabelFor" />
+                                tools:ignore="Autofill,HardcodedText,LabelFor" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="fill_parent"
@@ -183,14 +196,12 @@
                             android:layout_marginLeft="20sp"
                             android:background="?attr/ed_background_highlight_secondary"
                             android:orientation="horizontal"
-                            android:weightSum="1"
                             tools:ignore="RtlHardcoded">
 
                             <TextView
                                 style="?attr/floating_text_style"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".2"
                                 android:padding="2sp"
                                 android:layout_marginBottom="2sp"
                                 android:text="@string/dccexSpeedTrapScaleLabel"
@@ -201,7 +212,7 @@
 
                             <Spinner
                                 android:id="@+id/ex_scales_list"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="none"
                                 android:paddingLeft="0dp"
@@ -211,7 +222,6 @@
                                 android:layout_marginRight="0dp"
                                 android:layout_marginLeft="0dp"
                                 android:text=""
-                                android:layout_weight=".7"
                                 tools:ignore="RtlHardcoded" />
 
                         </LinearLayout>
@@ -265,6 +275,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="0sp"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
                             android:background="#00000000"
                             android:orientation="horizontal">
 
@@ -276,6 +288,7 @@
                                 android:layout_marginBottom="1sp"
                                 android:padding="2sp"
                                 android:text="@string/dccexSpeedTrapScaleSpeedLabel"
+                                android:textSize="12sp"
                                 android:textColor="?android:attr/textColorSecondary" />
 
                             <TextView
@@ -286,10 +299,12 @@
                                 android:layout_gravity="end"
                                 android:layout_marginTop="1sp"
                                 android:layout_marginBottom="1sp"
-                                android:padding="2sp"
+                                android:paddingLeft="5dp"
+                                android:paddingTop="8dp"
                                 android:text=""
-                                android:textSize="16sp"
-                                android:textColor="?android:attr/textColorPrimary" />
+                                android:textSize="18sp"
+                                android:textColor="?android:attr/textColorPrimary"
+                                tools:ignore="RtlHardcoded,RtlSymmetry" />
 
                         </LinearLayout>
 

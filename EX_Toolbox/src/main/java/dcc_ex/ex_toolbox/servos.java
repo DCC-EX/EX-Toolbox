@@ -49,11 +49,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.Html;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -714,6 +717,8 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         mainapp.setPowerStateButton(menu);
 
         mainapp.setPowerMenuOption(menu);
+
+        mainapp.reformatMenu(menu);
 
         return  super.onCreateOptionsMenu(menu);
     }

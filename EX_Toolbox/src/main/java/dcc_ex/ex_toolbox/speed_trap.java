@@ -104,10 +104,6 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
     private ScrollView dccexResponsesScrollView;
     private ScrollView dccexSendsScrollView;
 
-    boolean speedTrapStarted = false;
-    double speedTrapStartTime = 0;
-    double speedTrapEndTime = 0;
-
     private TextView tvScaleSpeed;
     double scaleSpeed;
     String scaleSpeedText = "";
@@ -138,6 +134,7 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
 
     private long startTime;
     private long endTime;
+    private double runTime = 0;
 
     int runState = DISABLED;
 
@@ -358,9 +355,11 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
 
         // *****************************
 
+
+        dccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexSpeedTrapRunStarted);
         dccexWriteInfoLayout = findViewById(R.id.ex_writeInfoLayout);
         dccexWriteInfoLabel = findViewById(R.id.ex_writeInfoLabel);
-        dccexWriteInfoLabel.setText("");
+        dccexWriteInfoLabel.setText(dccexInfoStr);
 
         dccexResponsesLabel = findViewById(R.id.ex_responsesLabel);
         dccexResponsesLabel.setText("");
@@ -572,8 +571,8 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
         mainapp.setPowerStateButton(menu);
-
         mainapp.setPowerMenuOption(menu);
+        mainapp.reformatMenu(menu);
 
         return  super.onCreateOptionsMenu(menu);
     }
@@ -749,20 +748,32 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
                 refreshDccexView();
             } else if ( (pinId == endPin) && (runState == RUN_STARTED) )  {
                 endTime = System.currentTimeMillis();
-                double seconds = (endTime - startTime) / 1000.0;
-                double speedCmPerSec = distance / seconds;
-                double speedKmPerHour = speedCmPerSec * 3600 / 100000;
-                double scaleSpeedKph = speedKmPerHour / scaleRatio;
-                double scaleSpeedMph = speedKmPerHour * 0.621371 / scaleRatio;
-//                scaleSpeed = ( distance / (endTime - startTime)) * scaleRatio * unitsRatio;
-                scaleSpeedText = String.format("kph: %.2f  mph: %.2f  - sec: %.2f" , scaleSpeedKph, scaleSpeedMph, seconds);
+                runTime = (endTime - startTime) / 1000.0;
+                refreshScaleSpeed();
+//                double speedCmPerSec = distance / runTime;
+//                double speedKmPerHour = speedCmPerSec * 3600 / 100000;
+//                double scaleSpeedKph = speedKmPerHour / scaleRatio;
+//                double scaleSpeedMph = speedKmPerHour * 0.621371 / scaleRatio;
+//                scaleSpeedText = String.format("kph: %.2f  mph: %.2f    (%.2fs)" , scaleSpeedKph, scaleSpeedMph, runTime);
                 runState = RUN_FINISHED;
                 startTime = 0; endTime = 0;
-                dccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexSpeedTrapRunFinished);
-                refreshDccexView();
+//                dccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexSpeedTrapRunFinished);
+//                refreshDccexView();
             }
         }
         // otherwise ignore
+    }
+
+    private void refreshScaleSpeed() {
+        if (runState != DISABLED) {
+            double speedCmPerSec = distance / runTime;
+            double speedKmPerHour = speedCmPerSec * 3600 / 100000;
+            double scaleSpeedKph = speedKmPerHour / scaleRatio;
+            double scaleSpeedMph = speedKmPerHour * 0.621371 / scaleRatio;
+            scaleSpeedText = String.format("kph: %.2f  mph: %.2f    (%.2fs)", scaleSpeedKph, scaleSpeedMph, runTime);
+            dccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexSpeedTrapRunFinished);
+            refreshDccexView();
+        }
     }
 
     public class ClearCommandsButtonListener implements View.OnClickListener {
@@ -782,6 +793,7 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
             dccexInfoStr = "";
             resetTextFields();
             mainapp.buttonVibration();
+            dccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexSpeedTrapRunStarted);
             refreshDccexView();
             mainapp.hideSoftKeyboard(v);
         }
@@ -854,6 +866,7 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
             try {
                 scaleRatio = Double.parseDouble(scaleRatiosArray[scalesIndex]);
                 prefs.edit().putString("prefSpeedTrapScalesIndex", String.valueOf(scalesIndex)).commit();
+                refreshScaleSpeed();
             } catch (Exception e) {
                 // do nothing for now
             }

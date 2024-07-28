@@ -1,7 +1,10 @@
-**Version 0.1.2-23
+**Version 0.1.22-23
  * Move targetSDK from 33 to 34 per Google requirement by 2024-08-30
  * UI/Theme updates
- * added Speed Trap page
+ * Added Speedometer page
+ * Fixes for the screen swipes and reoganising the screen menu order
+ * Add sub menu for Preferences, About and Log Viewer
+ * Linting
 **Version 0.1.21
  * Show manufacturer names and IDs (if you query CV8)
  * bug fix for the functions list on a roster entry
@@ -54,5 +57,7 @@
  * Initial release
 
 /*
+ * general/global
+ *   TODO: Auto speed matching page
  *
  * */

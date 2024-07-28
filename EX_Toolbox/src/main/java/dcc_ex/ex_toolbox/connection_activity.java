@@ -17,6 +17,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package dcc_ex.ex_toolbox;
 
+import static android.app.PendingIntent.getActivity;
 import static dcc_ex.ex_toolbox.threaded_application.context;
 
 import android.annotation.SuppressLint;
@@ -62,7 +63,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -771,6 +771,27 @@ public class connection_activity extends AppCompatActivity implements Permission
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.connection_menu, menu);
+
+//        Typeface face = ResourcesCompat.getFont(context, R.font.notoemoji_variablefont_wght);
+
+//        for(int i = 0; i < menu.size(); i++) {
+//            MenuItem item = menu.getItem(i);
+//            SpannableString spanString = new SpannableString(menu.getItem(i).getTitle().toString());
+//            int end = spanString.length();
+////            spanString.setSpan(new RelativeSizeSpan(1.5f), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            spanString.setSpan(face, 0, end, 0);
+//            spanString.setSpan(new StyleSpan(Typeface.ITALIC), 0, end, 0);
+//            item.setTitle(spanString);
+//        }
+
+//        MenuItem menuItem = menu.findItem(R.id.extras_menu_item);
+//        SpannableString spanString = new SpannableString(menuItem.getTitle().toString());
+//        int end = spanString.length();
+//        spanString.setSpan(face, 0, end, 0);
+//        spanString.setSpan(new StyleSpan(Typeface.ITALIC), 0, end, 0);
+//        menuItem.setTitle(spanString);
+
+        mainapp.reformatMenu(menu);
 
         return super.onCreateOptionsMenu(menu);
     }

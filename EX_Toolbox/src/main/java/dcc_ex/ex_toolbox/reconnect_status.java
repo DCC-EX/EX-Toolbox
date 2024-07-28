@@ -237,6 +237,9 @@ public class reconnect_status extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.reconnect_status_menu, menu);
+
+        mainapp.reformatMenu(menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 

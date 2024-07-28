@@ -1,6 +1,5 @@
 package dcc_ex.ex_toolbox.logviewer.ui;
 
-import static android.view.View.GONE;
 import static dcc_ex.ex_toolbox.threaded_application.context;
 
 import android.annotation.SuppressLint;
@@ -47,6 +46,7 @@ import dcc_ex.ex_toolbox.util.PermissionsHelper.RequestCodes;
 
 //import dcc_ex.ex_toolbox.logviewer.R;
 
+/** @noinspection CallToPrintStackTrace*/
 public class LogViewerActivity extends AppCompatActivity implements PermissionsHelper.PermissionsHelperGrantedCallback {
     private ArrayAdapter adaptor = null;
     private LogReaderTask logReaderTask = null;
@@ -155,6 +155,7 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
         AMenu = menu;
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerStateButton(menu);
+        mainapp.reformatMenu(menu);
 
         return  super.onCreateOptionsMenu(menu);
     }

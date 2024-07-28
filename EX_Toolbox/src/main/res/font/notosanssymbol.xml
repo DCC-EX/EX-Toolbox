@@ -1,0 +1,9 @@
+<font-family xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <font
+        name="noto_symbol"
+        app:fontStyle="normal"
+        app:fontWeight="700"
+        app:font="@font/notosanssymbols_variablefont_wght"/>
+
+</font-family>
