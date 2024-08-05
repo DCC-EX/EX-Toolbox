@@ -409,13 +409,15 @@
     <string name="dccexSpeedTrapStartPinLabel">Start PIN</string>
     <string name="dccexSpeedTrapEndPinLabel">End PIN</string>
     <string name="dccexSpeedTrapDistanceLabel">Distance between sensors (in cm)</string>
+    <string name="dccexSpeedTrapDelayLabel">Delay till restart (in seconds)</string>
     <string name="dccexSpeedTrapScaleSpeedLabel">Scale\nSpeed</string>
     <string name="dccexSpeedTrapRunDisabled">Not Started</string>
     <string name="dccexSpeedTrapRunWaitingToStart">Waiting to pass Start Sensor</string>
     <string name="dccexSpeedTrapRunStarted">Run Started - Waiting to pass End Sensor</string>
-    <string name="dccexSpeedTrapRunFinished">Run Finished - Waiting to pass Start Sensor again</string>
+    <string name="dccexSpeedTrapRunFinishedWait">Too Soon - Wait %d seconds</string>
+    <string name="dccexSpeedTrapRunFinished">Run Finished - Wait %d sec before passing Start Sensor again</string>
     <string name="dccexSpeedTrapInstructions">a) Set the PINs for the Start and End sensors
-        \nb) Set the Distance between the sensors
+        \nb) Set the Distance between the sensors and Delay if wanted
         \nc) Select the Scale
         \nd) Click \`Start\`
         \ne) Run the loco past the sensors</string>

@@ -22,7 +22,7 @@ public interface message_type {
     int NONE = -1;
     int ERROR = 0;
     int CONNECT = 1;            // ca(select)->ta ipaddr, port (sends CONNECTED if no error)
-    int DISCONNECT = 2;         // sl(exit)->ta  -- (send Q, turns off heartbeat, ends read timer)
+    int DISCONNECT = 2;         // sl(exit)->ta  -- (send Q, turns off heartbeat, ends readtimer)
     int REQ_LOCO_ADDR = 3;      // sl(acquire) -> ta engineaddr, size (sends Tengineaddr to WiT)
     int VELOCITY = 4;           // ed(sliderchg) -> ta speed (sends TVspeed to WiT)
     int DIRECTION = 5;          // ed(fwd/rev) -> ta direction (sends TRx to WiT)

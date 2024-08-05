@@ -932,7 +932,15 @@ public class comm_thread extends Thread {
     private static  void processDccexPowerResponse ( String [] args) { // <p0|1 [A|B|C|D|E|F|G|H|MAIN|PROG|DC|DCX]>
         String oldState = mainapp.power_state;
         String responseStr;
-        if (args.length==1) {  // <p0|1>
+        if ( (args.length==1)   // <p0|1>
+                || ((args.length==2) && (args[0].length()==1) && (args[1].charAt(0)<='2')) ) {  // <p 0|1>
+            char power;
+            if ( (args[0].length() == 1) && (args[1].charAt(0) <= '2') ) {  // <p 0|1 A...
+                power = args[1].charAt(0);
+            } else { // <p0|1 A...
+                power = args[0].charAt(1);
+            }
+
             mainapp.power_state = args[0].substring(1, 2);
             if (!mainapp.power_state.equals(oldState)) {
                 responseStr = "PPA" + args[0].charAt(1);
@@ -946,7 +954,16 @@ public class comm_thread extends Thread {
                 }
             }
 
-        } else { // <p0|1 A|B|C|D|E|F|G|H|MAIN|PROG|DC|DCX>
+        } else { // <p0|1 A|B|C|D|E|F|G|H|MAIN|PROG|DC|DCX>  or  <p 0|1 A|B|C|D|E|F|G|H|MAIN|PROG|DC|DCX>
+            int trackOffset = 0;
+            char power;
+            if ( (args[0].length() == 1) && (args[1].charAt(0) <= '2') ) {  // <p 0|1 A...
+                trackOffset = 1;
+                power = args[1].charAt(0);
+            } else { // <p0|1 A...
+                power = args[0].charAt(1);
+            }
+
             if (args[1].length()==1) {  // <p0|1 A|B|C|D|E|F|G|H|>
                 int trackNo = args[1].charAt(0) - 'A';
                 mainapp.dccexTrackPower[trackNo] = args[0].charAt(1) - '0';
@@ -956,7 +973,12 @@ public class comm_thread extends Thread {
             } else { // <p0|1 MAIN|PROG|DC|DCX>
                 int trackType = 0;
                 for (int i=0; i<TRACK_TYPES.length; i++) {
-                    if (args[1].equals(TRACK_TYPES[i])) {
+                    String trackTypeStr = args[1+trackOffset];
+                    if ( (args.length>(2+trackOffset)) && (args[1+trackOffset].equals("MAIN")) && (args[2+trackOffset].charAt(0)>='A') && (args[2+trackOffset].charAt(0)<='H') ) {
+                        trackTypeStr = "AUTO";
+                    }
+                    if (trackTypeStr.equals(TRACK_TYPES[i])) {
+
                         trackType = i;
                         break;
                     }
@@ -1074,9 +1096,12 @@ public class comm_thread extends Thread {
     private static void processDccexTrackManagerResponse(String [] args) {
         int trackNo;
         String type = args[2];
-        if (type.charAt(type.length() - 1) == '+')
+        if (type.charAt(type.length() - 1) == '+') {
             type = type.substring(0, type.length() - 1);
-
+        }
+        if ( (args.length>3) && (args[2].equals("MAIN")) && (args[3].charAt(0)>='A') && (args[3].charAt(0)<='H') ) {
+            type = "AUTO";
+        }
         if (args.length>=2) {
             trackNo = args[1].charAt(0)-65;
             if ( (trackNo>=0) && (trackNo<= threaded_application.DCCEX_MAX_TRACKS) ) {
@@ -1220,7 +1245,7 @@ public class comm_thread extends Thread {
 
         if ( (args!=null) && (args.length>1)) {
             if ( (args.length<3) || (args[2].charAt(0) != '"') ) {  // loco list
-                if (mainapp.rosterStringDccex.equals("")) {
+                if (mainapp.rosterStringDccex.isEmpty()) {
                     mainapp.rosterStringDccex = "";
                     mainapp.rosterIDsDccex = new int[args.length - 1];
                     mainapp.rosterLocoNamesDccex = new String[args.length - 1];
@@ -1351,7 +1376,7 @@ public class comm_thread extends Thread {
                 Log.d("EX_Toolbox", "comm_thread.processDccexTurnouts: Turnouts list received.");
                 if (!mainapp.turnoutsBeingProcessedDccex) {
                     mainapp.turnoutsBeingProcessedDccex = true;
-                    if (mainapp.turnoutStringDccex.equals("")) {
+                    if (mainapp.turnoutStringDccex.isEmpty()) {
                         mainapp.turnoutStringDccex = "";
                         mainapp.turnoutIDsDccex = new int[args.length - 1];
                         mainapp.turnoutNamesDccex = new String[args.length - 1];
@@ -1429,7 +1454,7 @@ public class comm_thread extends Thread {
                 Log.d("EX_Toolbox", "comm_thread.processDccexRoutes: Routes list received.");
                 if (!mainapp.routesBeingProcessedDccex) {
                     mainapp.routesBeingProcessedDccex = true;
-                    if (mainapp.routeStringDccex.equals("")) {
+                    if (mainapp.routeStringDccex.isEmpty()) {
                         mainapp.routeStringDccex = "";
                         mainapp.routeIDsDccex = new int[args.length - 1];
                         mainapp.routeNamesDccex = new String[args.length - 1];
@@ -2186,7 +2211,7 @@ public class comm_thread extends Thread {
                     // prior to JMRI 4.20 there were cases where WiT might not respond to
                     // speed and direction request.  If inboundTimeout handling is in progress
                     // then we always send the Throttle Name to ensure a response
-                    if (!anySent || (mainapp.getServerType().equals("") && socketWiT.inboundTimeoutRecovery)) {
+                    if (!anySent || (mainapp.getServerType().isEmpty() && socketWiT.inboundTimeoutRecovery)) {
                         sendThrottleName(false);    //send message that will get a response
                     }
                     mainapp.comm_msg_handler.postDelayed(this, heartbeatOutboundInterval);   //set next beat
