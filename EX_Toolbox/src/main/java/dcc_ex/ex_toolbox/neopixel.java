@@ -834,7 +834,7 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
             if (!dragInProgress) {
                 sendResult();
             } else if ((fromUser) && (!isRepeatRunning)) {
-                colorSliderRptHandler.postDelayed(new ColorSliderRptUpdater(500), 500);
+                colorSliderRptHandler.post(new ColorSliderRptUpdater());
             }
             mainapp.buttonVibration();
         }
@@ -856,10 +856,8 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
 
     // For Semi Realistic Air update repeater
     protected class ColorSliderRptUpdater implements Runnable {
-        int delayMillis;
 
-        protected ColorSliderRptUpdater(int myRepeatDelay) {
-            delayMillis = myRepeatDelay;
+        protected ColorSliderRptUpdater() {
         }
 
         @Override
@@ -867,16 +865,15 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
             Log.d("EX_Toolbox","ColorSliderRptUpdater: run()");
             if (mainapp.appIsFinishing) { return; }
 
-
-            Log.d("EX_Toolbox","ColorSliderRptUpdater(): run(): " + String.format("lR: %d  lG: %d  lB: %d", lastRedSeekbarSliderPositionSent, lastGreenSeekbarSliderPositionSent, lastBlueSeekbarSliderPositionSent));
-            Log.d("EX_Toolbox","ColorSliderRptUpdater(): run(): " + String.format("R: %d  G: %d  B: %d", red, green, blue));
+//            Log.d("EX_Toolbox","ColorSliderRptUpdater(): run(): " + String.format("lR: %d  lG: %d  lB: %d", lastRedSeekbarSliderPositionSent, lastGreenSeekbarSliderPositionSent, lastBlueSeekbarSliderPositionSent));
+//            Log.d("EX_Toolbox","ColorSliderRptUpdater(): run(): " + String.format("R: %d  G: %d  B: %d", red, green, blue));
 
             if ( (lastRedSeekbarSliderPositionSent != red)
                     || (lastGreenSeekbarSliderPositionSent != green)
                     || (lastBlueSeekbarSliderPositionSent != blue) ) {
                 sendResult();
                 isRepeatRunning = true;
-                colorSliderRptHandler.postDelayed(new ColorSliderRptUpdater(delayMillis), delayMillis);
+                colorSliderRptHandler.postDelayed(new ColorSliderRptUpdater(), 250);
             } else {
                 isRepeatRunning = false;
             }
