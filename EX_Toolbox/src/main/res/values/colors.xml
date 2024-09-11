@@ -27,6 +27,9 @@
     <color name="solidBlack">#ff000000</color>
     <color name="solidWhite">#ffffffff</color>
     <color name="holoBlue">#ff33b5e5</color>
+    <color name="blue">#002AFF</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#009F00</color>
     <color name="divider">#4A4A4A</color>
 
     <color name="primary_text">#ffffffff</color>
@@ -69,6 +72,8 @@
     <color name="buttonStopFillGradiantCenter_original">#BD9193</color>
     <color name="buttonStopFillGradiantDark_original">#876364</color>
 
+    <color name="spinner_background_original">#252525</color>
+    <color name="spinner_divider_original">#4A4A4A</color>
 
     <!-- Black Theme -->
 
@@ -98,6 +103,9 @@
     <color name="buttonStopSelectedFill_black">#ffff0000</color>
     <color name="buttonStopSelectedStroke_black">#d50000</color>
     <color name="buttonStopInsideStroke_black">#ff000000</color>
+
+    <color name="spinner_background_black">#252525</color>
+    <color name="spinner_divider_black">#4A4A4A</color>
 
     <!-- Outline Theme -->
 
@@ -159,6 +167,8 @@
     <color name="buttonFnSelectedFill_ultra">#FF262626</color>
     <color name="buttonFnSelectedInsideStroke_ultra">#7f0074b3</color>
 
+    <color name="spinner_background_ultra">#131313</color>
+    <color name="spinner_divider_ultra">#4A4A4A</color>
 
     <!-- Colorful Theme -->
 
@@ -222,6 +232,7 @@
     <color name="background_highlight_secondary_black">#75363636</color>
     <color name="background_highlight_secondary_colorful">#12FFA600</color>
 
-
+    <color name="spinner_background_colorful">#f2b465</color>
+    <color name="spinner_divider_colorful">@color/solidBlack</color>
 
 </resources>

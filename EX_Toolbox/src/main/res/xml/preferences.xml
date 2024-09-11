@@ -167,7 +167,7 @@
             android:title="@string/prefShowToolbarCvProgrammerMenuButtonsTitle" />
 
         <CheckBoxPreference
-            android:icon="?attr/ed_toolbar_button_current"
+            android:icon="?attr/ed_toolbar_button_currents"
             android:defaultValue="@bool/prefShowToolbarMenuButtonsDefaultValue"
             android:key="prefShowToolbarCurrentsMenuButtons"
             android:layout="@layout/checkbox_icon_right"
@@ -229,6 +229,14 @@
             android:layout="@layout/checkbox_icon_right"
             android:summary="@string/prefShowToolbarMenuButtonsSummary"
             android:title="@string/prefShowToolbarSpeedTrapMenuButtonsTitle" />
+
+        <CheckBoxPreference
+            android:icon="?attr/ed_toolbar_button_neopixel"
+            android:defaultValue="@bool/prefShowToolbarMenuButtonsDefaultValue"
+            android:key="prefShowToolbarNeopixelMenuButtons"
+            android:layout="@layout/checkbox_icon_right"
+            android:summary="@string/prefShowToolbarMenuButtonsSummary"
+            android:title="@string/prefShowToolbarNeopixelMenuButtonsTitle" />
 
         <ListPreference
             android:icon="?attr/ed_clock_icon"

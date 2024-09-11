@@ -321,6 +321,25 @@ public class comm_handler extends Handler {
             break;
          }
 
+         case message_type.SEND_NEOPIXEL: {
+            String [] args = msg.obj.toString().split(" ");
+            if (args.length == 4) {
+               comm_thread.sendNeopixel(args[0], args[1], args[2], args[3], "");
+            } else if (args.length == 5) {
+               comm_thread.sendNeopixel(args[0], args[1], args[2], args[3], args[4]);
+            }
+            break;
+         }
+         case message_type.SEND_NEOPIXEL_ON_OFF: {
+            String [] args = msg.obj.toString().split(" ");
+            if (args.length == 1) {
+               comm_thread.sendNeopixelOnOff(args[0], "");
+            } else if (args.length == 2) {
+               comm_thread.sendNeopixelOnOff(args[0], args[1]);
+            }
+            break;
+         }
+
          case message_type.SET_SPEED_DIRECT: { // DCC-EX only
             int addr = msg.arg1;
             String [] args = msg.obj.toString().split(" ");  // [0]=speed [1]=direction

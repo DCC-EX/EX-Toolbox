@@ -90,4 +90,6 @@ public interface message_type {
     int REQUEST_REFRESH_MENU = 89;
     int REQUEST_SERVO_DETAILS = 90;
     int RECEIVED_SERVO_DETAILS = 91;
+    int SEND_NEOPIXEL = 92;
+    int SEND_NEOPIXEL_ON_OFF = 93;
 }

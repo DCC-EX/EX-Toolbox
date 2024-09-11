@@ -529,6 +529,11 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
             in = new Intent().setClass(this, speed_trap.class);
             startACoreActivity(this, in, false, 0);
             return true;
+        } else if ( (item.getItemId() == R.id.neopixel_mnu) || (item.getItemId() == R.id.toolbar_button_neopixel) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, neopixel.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
 
         } else if (item.getItemId() == R.id.exit_mnu) {
                 mainapp.checkAskExit(this);
@@ -603,7 +608,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
     }
 
     // common startActivity()
-    // used for swipes for the main activities only - Throttle, Turnouts, Routs, Web
+    // used for swipes for the main activities only
     void startACoreActivity(Activity activity, Intent in, boolean swipe, float deltaX) {
         if (activity != null && in != null) {
             in.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

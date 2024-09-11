@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/neopixel_screen"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:keepScreenOn="true"
+    android:orientation="vertical">
+
+    <android.gesture.GestureOverlayView
+        android:id="@+id/neopixel_overlay"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:eventsInterceptionEnabled="false"
+        android:gestureColor="@color/transparent"
+        android:gestureStrokeType="single"
+        android:orientation="vertical"
+        android:uncertainGestureColor="@color/transparent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/toolbar_screen_name_line" />
+            <include layout="@layout/toolbar" />
+            <include layout="@layout/toolbar_status_line" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/neopixelBackgroundImgView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0sp"
+                            android:background="?attr/ed_background_highlight"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <TextView
+                                style="?attr/floating_text_style"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="6sp"
+                                android:paddingTop="2sp"
+                                android:paddingRight="2sp"
+                                android:paddingBottom="2sp"
+                                android:text="@string/app_name_neopixel"
+                                android:textSize="14sp"
+                                tools:ignore="RtlHardcoded" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="8sp"
+                            android:background="#888888"
+                            android:orientation="vertical" />
+
+                        <LinearLayout
+                            android:id="@+id/ex_neoPixelSliderArea"
+                            android:layout_width="fill_parent"
+                            android:layout_height="280sp"
+                            android:layout_margin="0sp"
+                            android:padding="0sp"
+                            android:weightSum="1"
+                            android:orientation="vertical"
+                            tools:ignore="NestedWeights"
+                            android:baselineAligned="false">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8sp"
+                                android:background="#00000000"
+                                android:layout_weight=".25"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="0sp"
+                                    android:layout_marginLeft="0sp"
+                                    android:padding="4sp"
+                                    android:text="@string/dccexNeopixelVpinLabel" />
+
+                                <EditText
+                                    android:id="@+id/ex_DccexNeopixelVpinValue"
+                                    style="?attr/edit_label_style"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="0sp"
+                                    android:layout_marginEnd="0sp"
+                                    android:layout_marginRight="4sp"
+                                    android:layout_gravity="center"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:paddingLeft="5sp"
+                                    android:shadowColor="#FFFFFFFF"
+                                    android:shadowDx="1"
+                                    android:shadowDy="1"
+                                    android:shadowRadius="0.3"
+                                    android:singleLine="true"
+                                    android:text=""
+                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry"
+                                    android:layout_marginLeft="8sp" />
+
+                                <TextView
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="0sp"
+                                    android:layout_marginLeft="0sp"
+                                    android:padding="4sp"
+                                    android:text="@string/dccexNeopixelVpinCountLabel" />
+
+                                <EditText
+                                    android:id="@+id/ex_DccexNeopixelVpinCountValue"
+                                    style="?attr/edit_label_style"
+                                    android:layout_width="60dp"
+                                    android:paddingLeft="5sp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="0sp"
+                                    android:layout_marginLeft="0sp"
+                                    android:layout_marginEnd="4sp"
+                                    android:layout_marginRight="4sp"
+                                    android:layout_gravity="center"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:shadowColor="#FFFFFFFF"
+                                    android:shadowDx="1"
+                                    android:shadowDy="1"
+                                    android:shadowRadius="0.3"
+                                    android:singleLine="true"
+                                    android:text=""
+                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexNeopixelOnButton"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_gravity="center"
+                                    android:text="@string/dccexNeopixelOnLabel"
+                                    tools:ignore="RtlHardcoded"
+                                    android:layout_height="30dp"
+                                    android:layout_width="30sp"
+                                    android:layout_marginStart="8sp"
+                                    android:layout_marginLeft="8sp"/>
+
+                                <Button
+                                    android:id="@+id/ex_DccexNeopixelOffButton"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_gravity="center"
+                                    android:text="@string/dccexNeopixelOffLabel"
+                                    tools:ignore="RtlHardcoded"
+                                    android:layout_height="30dp"
+                                    android:layout_width="30sp"
+                                    android:layout_marginStart="8sp"
+                                    android:layout_marginLeft="8sp"/>
+
+                                <TextView
+                                    android:id="@+id/ex_DccexNeopixelSampleLabel"
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="8sp"
+                                    android:layout_marginLeft="8sp"
+                                    android:gravity="center"
+                                    android:padding="4sp"
+                                    android:fontFamily="sans-serif-condensed"
+                                    android:textSize="12sp"
+                                    android:text="@string/dccexNeopixelSampleLabel" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8sp"
+                                android:background="#00000000"
+                                android:layout_weight=".25"
+                                android:weightSum="1"
+                                android:orientation="horizontal">
+
+                                <Button
+                                    android:id="@+id/ex_RedMinusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="0dp"
+                                    android:layout_marginLeft="0dp"
+                                    android:layout_gravity="center"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchMinusEmoji"
+                                    android:layout_weight=".2"
+                                    android:fontFamily="@font/notoemoji_variablefont_wght"/>
+
+                                <dcc_ex.ex_toolbox.util.HorizontalSeekBar
+                                    android:id="@+id/redSeekBar"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="50dp"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:progress="0"
+                                    android:max="255"
+                                    android:layout_weight=".6"
+                                    android:layout_gravity="center"
+                                    android:thumb="?attr/ed_thumb_red" />
+
+                                <Button
+                                    android:id="@+id/ex_RedPlusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="0dp"
+                                    android:layout_marginLeft="0dp"
+                                    android:layout_gravity="center"
+                                    style="?attr/ed_small_button_style"
+                                    android:textFontWeight="900"
+                                    android:text="@string/speedMatchPlusEmoji"
+                                    android:layout_weight=".2"
+                                    android:fontFamily="@font/notoemoji_variablefont_wght"
+                                    tools:targetApi="p" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8sp"
+                                android:background="#00000000"
+                                android:layout_weight=".25"
+                                android:weightSum="1"
+                                android:orientation="horizontal">
+
+                                <Button
+                                    android:id="@+id/ex_GreenMinusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="0dp"
+                                    android:layout_marginLeft="0dp"
+                                    android:layout_gravity="center"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchMinusEmoji"
+                                    android:layout_weight=".2"
+                                    android:fontFamily="@font/notoemoji_variablefont_wght"/>
+
+                                <dcc_ex.ex_toolbox.util.HorizontalSeekBar
+                                    android:id="@+id/greenSeekBar"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="50dp"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:progress="0"
+                                    android:max="255"
+                                    android:layout_weight=".6"
+                                    android:layout_gravity="center"
+                                    android:thumb="?attr/ed_thumb_green" />
+
+                                <Button
+                                    android:id="@+id/ex_GreenPlusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="0dp"
+                                    android:layout_marginLeft="0dp"
+                                    android:layout_gravity="center"
+                                    style="?attr/ed_small_button_style"
+                                    android:textFontWeight="900"
+                                    android:text="@string/speedMatchPlusEmoji"
+                                    android:layout_weight=".2"
+                                    android:fontFamily="@font/notoemoji_variablefont_wght"
+                                    tools:targetApi="p" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8sp"
+                                android:background="#00000000"
+                                android:layout_weight=".25"
+                                android:weightSum="1"
+                                android:orientation="horizontal">
+
+                                <Button
+                                    android:id="@+id/ex_BlueMinusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="0dp"
+                                    android:layout_marginLeft="0dp"
+                                    android:layout_gravity="center"
+                                    style="?attr/ed_small_button_style"
+                                    android:text="@string/speedMatchMinusEmoji"
+                                    android:layout_weight=".2"
+                                    android:fontFamily="@font/notoemoji_variablefont_wght"/>
+
+                                <dcc_ex.ex_toolbox.util.HorizontalSeekBar
+                                    android:id="@+id/blueSeekBar"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:layout_weight=".6"
+                                    android:max="255"
+                                    android:progress="0"
+                                    android:thumb="?attr/ed_thumb_blue" />
+
+                                <Button
+                                    android:id="@+id/ex_BluePlusButton"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginStart="0dp"
+                                    android:layout_marginLeft="0dp"
+                                    android:layout_gravity="center"
+                                    style="?attr/ed_small_button_style"
+                                    android:textFontWeight="900"
+                                    android:text="@string/speedMatchPlusEmoji"
+                                    android:layout_weight=".2"
+                                    android:fontFamily="@font/notoemoji_variablefont_wght"
+                                    tools:targetApi="p" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ex_DccexWriteInfoLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0sp"
+                            android:background="#00000000"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="2dp"
+                                android:layout_marginTop="6sp"
+                                android:background="#888888"
+                                android:orientation="vertical" />
+
+                            <TextView
+                                android:id="@+id/ex_DccexWriteInfoLabel"
+                                style="?attr/floating_text_style"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:layout_marginTop="1sp"
+                                android:layout_marginBottom="1sp"
+                                android:padding="2sp"
+                                android:text=""
+                                android:textAlignment="viewEnd"
+                                android:textColor="?android:attr/textColorSecondary" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="2dp"
+                            android:paddingTop="2dp"
+                            android:background="#888888"
+                            android:orientation="vertical" />
+
+                        <LinearLayout
+                            android:id="@+id/ex_DccexResponsesAndSendsLayout"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="0sp"
+                            android:background="#00000000"
+                            android:orientation="vertical"
+                            android:weightSum="1"
+                            tools:ignore="NestedWeights">
+
+                            <ScrollView
+                                android:id="@+id/ex_DccexResponsesScrollView"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight=".5"
+                                tools:ignore="NestedWeights">
+
+                                <TextView
+                                    android:id="@+id/ex_DccexResponsesLabel"
+                                    style="?attr/floating_text_style"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8sp"
+                                    android:text=""
+                                    android:textSize="12sp" />
+
+                            </ScrollView>
+
+                            <RelativeLayout
+                                android:id="@+id/dcc_ex_bottom_button_layout"
+                                android:layout_width="fill_parent"
+                                android:layout_height="0sp"
+                                android:layout_margin="0sp"
+                                android:layout_weight=".5"
+                                android:orientation="horizontal">
+
+                                <ScrollView
+                                    android:id="@+id/ex_DccexSendsScrollView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    tools:ignore="TooManyViews">
+
+                                    <TextView
+                                        android:id="@+id/ex_DccexSendsLabel"
+                                        style="?attr/floating_text_style"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="8sp"
+                                        android:text=""
+                                        android:textSize="12sp" />
+
+                                </ScrollView>
+
+                                <Button
+                                    android:id="@+id/ex_dccexClearCommandsButton"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_gravity="left"
+                                    android:text="@string/dccexClearCommands"
+                                    tools:ignore="RtlHardcoded"
+                                    android:layout_height="30dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_alignParentBottom="true" />
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.gesture.GestureOverlayView>
+
+</LinearLayout>

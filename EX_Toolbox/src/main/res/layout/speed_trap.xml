@@ -41,7 +41,10 @@
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:weightSum="1">
 
                     <LinearLayout
@@ -67,8 +70,7 @@
 
                     <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight=".94"
+                        android:layout_height="match_parent"
                         android:orientation="vertical">
 
                         <TextView
@@ -380,11 +382,10 @@
                         <LinearLayout
                             android:id="@+id/ex_responsesAndSendsLayout"
                             android:layout_width="fill_parent"
-                            android:layout_height="0sp"
+                            android:layout_height="match_parent"
                             android:layout_marginTop="0sp"
                             android:background="#00000000"
                             android:orientation="vertical"
-                            android:layout_weight=".4"
                             android:weightSum="1"
                             tools:ignore="NestedWeights,TooManyViews">
 
@@ -406,54 +407,48 @@
 
                             </ScrollView>
 
-                            <ScrollView
-                                android:id="@+id/ex_sendsScrollView"
-                                android:layout_width="match_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight=".3">
 
-                                <TextView
-                                    android:id="@+id/ex_sendsLabel"
-                                    style="?attr/floating_text_style"
+                            <RelativeLayout
+                                android:id="@+id/dcc_ex_bottom_button_layout"
+                                android:layout_width="fill_parent"
+                                android:layout_height="0sp"
+                                android:layout_margin="0sp"
+                                android:layout_weight=".3"
+                                android:orientation="horizontal">
+
+                                <ScrollView
+                                    android:id="@+id/ex_DccexSendsScrollView"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="8sp"
-                                    android:text=""
-                                    android:textSize="12sp" />
+                                    android:layout_height="match_parent"
+                                    tools:ignore="TooManyViews">
 
-                            </ScrollView>
+                                    <TextView
+                                        android:id="@+id/ex_DccexSendsLabel"
+                                        style="?attr/floating_text_style"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="8sp"
+                                        android:text=""
+                                        android:textSize="12sp" />
+
+                                </ScrollView>
+
+                                <Button
+                                    android:id="@+id/ex_dccexClearCommandsButton"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_gravity="left"
+                                    android:text="@string/dccexClearCommands"
+                                    tools:ignore="RtlHardcoded"
+                                    android:layout_height="30dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_alignParentBottom="true" />
+
+                            </RelativeLayout>
+
                         </LinearLayout>
 
                     </LinearLayout>
-
-                    <TableLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_margin="3dp"
-                        android:layout_weight=".06"
-                        android:paddingLeft="6dp"
-                        android:paddingRight="6dp">
-
-                        <RelativeLayout
-                            android:id="@+id/dcc_ex_bottom_button_layout"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="0sp"
-                            android:orientation="horizontal">
-
-                            <Button
-                                android:id="@+id/ex_clearCommandsButton"
-                                style="?attr/ed_small_button_style"
-                                android:layout_gravity="left"
-                                android:text="@string/dccexClearCommands"
-                                tools:ignore="RtlHardcoded"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentRight="true" />
-
-                        </RelativeLayout>
-
-                    </TableLayout>
 
                 </LinearLayout>
 

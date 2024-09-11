@@ -712,6 +712,28 @@ public class comm_thread extends Thread {
     }
 
     @SuppressLint("DefaultLocale")
+    public static void sendNeopixel(String vpin, String red, String green, String blue, String count) {
+        String msgTxt = "";
+        if (count.isEmpty()) {
+            msgTxt = String.format("<o %s %s %s %s>", vpin, red, green, blue);
+        } else {
+            msgTxt = String.format("<o %s %s %s %s %s>", vpin, red, green, blue, count);
+        }
+        wifiSend(msgTxt);
+    }
+
+    @SuppressLint("DefaultLocale")
+    public static void sendNeopixelOnOff(String vpin, String count) {
+        String msgTxt = "";
+        if (count.isEmpty()) {
+            msgTxt = String.format("<o %s>", vpin);
+        } else {
+            msgTxt = String.format("<o %s %s>", vpin, count);
+        }
+        wifiSend(msgTxt);
+    }
+
+    @SuppressLint("DefaultLocale")
     public static void sendWritePomCv(int cv, int cvValue, int addr) {
         // DCC-EX only
         String msgTxt = String.format("<w %d %d %d>", addr, cv, cvValue);
@@ -1721,7 +1743,7 @@ public class comm_thread extends Thread {
     //send formatted msg to the socket using multithrottle format
     //  intermessage gap enforced by requeueing messages as needed
     protected static void wifiSend(String msg) {
-//            Log.d("EX_Toolbox", "comm_thread.wifiSend: WiT send '" + msg + "'");
+        Log.d("EX_Toolbox", "comm_thread.wifiSend: WiT send '" + msg + "'");
         if (msg == null) { //exit if no message
             Log.d("EX_Toolbox", "comm_thread.wifiSend: --> null msg");
             return;

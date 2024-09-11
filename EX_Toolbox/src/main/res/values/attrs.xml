@@ -21,6 +21,9 @@
     <attr name="ed_list_button_style" format="reference" />
 
     <attr name="ed_thumb" format="reference" />
+    <attr name="ed_thumb_red" format="reference" />
+    <attr name="ed_thumb_green" format="reference" />
+    <attr name="ed_thumb_blue" format="reference" />
     <attr name="ed_vertical_thumb" format="reference" />
 
     <attr name="ed_fn_scrollview_style" format="reference" />
@@ -34,13 +37,14 @@
 
     <attr name="ed_toolbar_button_loco" format="reference" />
     <attr name="ed_toolbar_button_cv_programmer" format="reference" />
-    <attr name="ed_toolbar_button_current" format="reference" />
+    <attr name="ed_toolbar_button_currents" format="reference" />
     <attr name="ed_toolbar_button_sensors" format="reference" />
     <attr name="ed_toolbar_button_servos" format="reference" />
     <attr name="ed_toolbar_button_track_manager" format="reference" />
     <attr name="ed_toolbar_button_speed_matching" format="reference" />
     <attr name="ed_toolbar_button_roster" format="reference" />
     <attr name="ed_toolbar_button_speed_trap" format="reference" />
+    <attr name="ed_toolbar_button_neopixel" format="reference" />
 
     <attr name="ed_folder_icon" format="reference" />
     <attr name="ed_clock_icon" format="reference" />

@@ -385,22 +385,22 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
                     break;
             }
 
-
-            startCurrentsButton = findViewById(R.id.ex_DccexStartCurrentsButton);
-            start_currents_button_listener startCurrentsClickListener = new start_currents_button_listener();
-            startCurrentsButton.setOnClickListener(startCurrentsClickListener);
-
-            stopCurrentsButton = findViewById(R.id.ex_DccexStopCurrentsButton);
-            stop_currents_button_listener stopCurrentsClickListener = new stop_currents_button_listener();
-            stopCurrentsButton.setOnClickListener(stopCurrentsClickListener);
-
-            DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
-            DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
-
-            clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
-            clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
-            clearCommandsButton.setOnClickListener(clearCommandsClickListener);
         }
+
+        startCurrentsButton = findViewById(R.id.ex_DccexStartCurrentsButton);
+        start_currents_button_listener startCurrentsClickListener = new start_currents_button_listener();
+        startCurrentsButton.setOnClickListener(startCurrentsClickListener);
+
+        stopCurrentsButton = findViewById(R.id.ex_DccexStopCurrentsButton);
+        stop_currents_button_listener stopCurrentsClickListener = new stop_currents_button_listener();
+        stopCurrentsButton.setOnClickListener(stopCurrentsClickListener);
+
+        DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
+        DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
+
+        clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
+        clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
+        clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
         resetCurrentTextFields();
         refreshDccexCurrentsView();
@@ -589,6 +589,11 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
             in = new Intent().setClass(this, speed_trap.class);
             startACoreActivity(this, in, false, 0);
             return true;
+        } else if ( (item.getItemId() == R.id.neopixel_mnu) || (item.getItemId() == R.id.toolbar_button_neopixel) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, neopixel.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
 
         } else if (item.getItemId() == R.id.exit_mnu) {
             mainapp.checkAskExit(this);
@@ -660,7 +665,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
     }
 
     // common startActivity()
-    // used for swipes for the main activities only - Throttle, Turnouts, Routs, Web
+    // used for swipes for the main activities only
     void startACoreActivity(Activity activity, Intent in, boolean swipe, float deltaX) {
         if (activity != null && in != null) {
             in.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

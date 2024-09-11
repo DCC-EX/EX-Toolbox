@@ -240,6 +240,7 @@ public class threaded_application extends Application {
     public volatile Handler speed_matching_msg_handler;
     public volatile Handler sensors_msg_handler;
     public volatile Handler currents_msg_handler;
+    public volatile Handler neopixel_msg_handler;
     public volatile Handler locos_msg_handler;
     public volatile Handler roster_msg_handler;
     public volatile Handler speed_trap_msg_handler;
@@ -321,10 +322,11 @@ public class threaded_application extends Application {
     public static final int SCREEN_SWIPE_INDEX_SENSORS = 6;
     public static final int SCREEN_SWIPE_INDEX_CURRENTS = 7;
     public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 8;
-//    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 9;
-//    public static final int SCREEN_SWIPE_INDEX_DIAG = 10;
+    public static final int SCREEN_SWIPE_INDEX_NEOPIXEL = 9;
+//    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 10;
+//    public static final int SCREEN_SWIPE_INDEX_DIAG = 11;
 
-    public static final int SCREEN_SWIPE_INDEX_LAST = 8;
+    public static final int SCREEN_SWIPE_INDEX_LAST = 9;
 
     public static final int ACTIVE_SCREEN_CV_PROGRAMMER = 0;
     public static final int ACTIVE_SCREEN_SPEED_MATCHING = 1;
@@ -334,6 +336,8 @@ public class threaded_application extends Application {
     public static final int ACTIVE_SCREEN_TRACK_MANAGER = 5;
     public static final int ACTIVE_SCREEN_ROSTER = 6;
     public static final int ACTIVE_SCREEN_SPEED_TRAP = 7;
+    public static final int ACTIVE_SCREEN_TRACK_MANGER = 8;
+    public static final int ACTIVE_SCREEN_NEOPIXEL = 9;
 
     public int activeScreen = 0;
 
@@ -874,6 +878,9 @@ public class threaded_application extends Application {
         menuItem = menu.findItem(R.id.toolbar_button_speed_trap);
         if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarSpeedTrapMenuButtons", false));
 
+        menuItem = menu.findItem(R.id.toolbar_button_neopixel);
+        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarNeopixelMenuButtons", false));
+
     }
 
     public void displayPowerStateMenuButton(Menu menu) {
@@ -994,6 +1001,11 @@ public class threaded_application extends Application {
 
         try {
             sendMsg(currents_msg_handler, msgType, msgBody);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            sendMsg(neopixel_msg_handler, msgType, msgBody);
         } catch (Exception ignored) {
         }
 
@@ -1528,6 +1540,9 @@ public class threaded_application extends Application {
                 break;
             case SCREEN_SWIPE_INDEX_SPEED_TRAP:
                 nextIntent = new Intent().setClass(this, speed_trap.class);
+                break;
+            case SCREEN_SWIPE_INDEX_NEOPIXEL:
+                nextIntent = new Intent().setClass(this, neopixel.class);
                 break;
         }
         return nextIntent;

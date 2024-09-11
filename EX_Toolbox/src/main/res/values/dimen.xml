@@ -25,6 +25,7 @@
     <dimen name="buttonStopStroke_original">2dip</dimen>
     <dimen name="buttonStopCornerRadius_original">5dip</dimen>
 
+    <dimen name="spinnerBackgroundCornerRadius_original">3dp</dimen>
 
     <!-- Black theme -->
 
@@ -44,6 +45,7 @@
     <dimen name="buttonStopStroke_black">2dip</dimen>
     <dimen name="buttonStopCornerRadius_black">5dip</dimen>
 
+    <dimen name="spinnerBackgroundCornerRadius_black">3dp</dimen>
 
     <!-- Outline theme -->
 
@@ -70,6 +72,7 @@
     <dimen name="buttonStopStroke_outline">1dip</dimen>
     <dimen name="buttonStopCornerRadius_outline">5dip</dimen>
 
+    <dimen name="spinnerBackgroundCornerRadius_outline">3dp</dimen>
 
     <!-- Ultra Black theme -->
 
@@ -96,6 +99,7 @@
     <dimen name="buttonStopStroke_ultra">1dp</dimen>
     <dimen name="buttonStopCornerRadius_ultra">2dp</dimen>
 
+    <dimen name="spinnerBackgroundCornerRadius_ultra">3dp</dimen>
 
     <!-- Colorful theme -->
 
@@ -121,5 +125,7 @@
     <dimen name="buttonStopSelectedInsideStrokePadding_colorful">2dp</dimen>
     <dimen name="buttonStopStroke_colorful">1dp</dimen>
     <dimen name="buttonStopCornerRadius_colorful">8dp</dimen>
+
+    <dimen name="spinnerBackgroundCornerRadius_colorful">3dp</dimen>
 
 </resources>

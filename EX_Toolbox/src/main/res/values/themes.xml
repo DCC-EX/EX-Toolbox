@@ -73,6 +73,9 @@
         <item name="ed_list_button_style">@style/list_button_style</item>
 
         <item name="ed_thumb">@drawable/thumb</item>
+        <item name="ed_thumb_red">@drawable/thumb_red</item>
+        <item name="ed_thumb_green">@drawable/thumb_green</item>
+        <item name="ed_thumb_blue">@drawable/thumb_blue</item>
         <item name="ed_vertical_thumb">@drawable/vertical_thumb</item>
 
         <item name="android:actionButtonStyle">@style/ActionButton</item>
@@ -87,13 +90,14 @@
 
         <item name="ed_toolbar_button_loco">@drawable/toolbar_button_loco</item>
         <item name="ed_toolbar_button_cv_programmer">@drawable/toolbar_button_cv_programmer</item>
-        <item name="ed_toolbar_button_current">@drawable/toolbar_button_current</item>
+        <item name="ed_toolbar_button_currents">@drawable/toolbar_button_current</item>
         <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors</item>
         <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos</item>
         <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager</item>
         <item name="ed_toolbar_button_speed_matching">@drawable/toolbar_button_speed_matching</item>
         <item name="ed_toolbar_button_roster">@drawable/toolbar_button_roster</item>
         <item name="ed_toolbar_button_speed_trap">@drawable/toolbar_button_speed_trap</item>
+        <item name="ed_toolbar_button_neopixel">@drawable/toolbar_button_neopixel</item>
 
         <item name="ed_folder_icon">@drawable/folder_outline</item>
         <item name="ed_clock_icon">@drawable/fast_clock</item>
@@ -163,6 +167,9 @@
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
 
         <item name="ed_thumb">@drawable/thumb_round</item>
+        <item name="ed_thumb_red">@drawable/thumb_red</item>
+        <item name="ed_thumb_green">@drawable/thumb_green</item>
+        <item name="ed_thumb_blue">@drawable/thumb_blue</item>
         <item name="ed_vertical_thumb">@drawable/vertical_thumb_round</item>
 
         <item name="android:actionButtonStyle">@style/ActionButton</item>
@@ -177,13 +184,14 @@
 
         <item name="ed_toolbar_button_loco">@drawable/toolbar_button_loco</item>
         <item name="ed_toolbar_button_cv_programmer">@drawable/toolbar_button_cv_programmer</item>
-        <item name="ed_toolbar_button_current">@drawable/toolbar_button_current</item>
+        <item name="ed_toolbar_button_currents">@drawable/toolbar_button_current</item>
         <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors</item>
         <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos</item>
         <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager</item>
         <item name="ed_toolbar_button_speed_matching">@drawable/toolbar_button_speed_matching</item>
         <item name="ed_toolbar_button_roster">@drawable/toolbar_button_roster</item>
         <item name="ed_toolbar_button_speed_trap">@drawable/toolbar_button_speed_trap</item>
+        <item name="ed_toolbar_button_neopixel">@drawable/toolbar_button_neopixel</item>
 
         <item name="ed_folder_icon">@drawable/folder_outline</item>
         <item name="ed_clock_icon">@drawable/fast_clock</item>
@@ -249,6 +257,9 @@
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
 
         <item name="ed_thumb">@drawable/thumb_round_outline</item>
+        <item name="ed_thumb_red">@drawable/thumb_red</item>
+        <item name="ed_thumb_green">@drawable/thumb_green</item>
+        <item name="ed_thumb_blue">@drawable/thumb_blue</item>
         <item name="ed_vertical_thumb">@drawable/vertical_thumb_round_outline</item>
 
         <item name="android:actionButtonStyle">@style/ActionButton</item>
@@ -263,13 +274,14 @@
 
         <item name="ed_toolbar_button_loco">@drawable/toolbar_button_loco</item>
         <item name="ed_toolbar_button_cv_programmer">@drawable/toolbar_button_cv_programmer</item>
-        <item name="ed_toolbar_button_current">@drawable/toolbar_button_current</item>
+        <item name="ed_toolbar_button_currents">@drawable/toolbar_button_current</item>
         <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors</item>
         <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos</item>
         <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager</item>
         <item name="ed_toolbar_button_speed_matching">@drawable/toolbar_button_speed_matching</item>
         <item name="ed_toolbar_button_roster">@drawable/toolbar_button_roster</item>
         <item name="ed_toolbar_button_speed_trap">@drawable/toolbar_button_speed_trap</item>
+        <item name="ed_toolbar_button_neopixel">@drawable/toolbar_button_neopixel</item>
 
         <item name="ed_folder_icon">@drawable/folder_outline</item>
         <item name="ed_clock_icon">@drawable/fast_clock</item>
@@ -338,6 +350,9 @@
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
 
         <item name="ed_thumb">@drawable/thumb_ultra</item>
+        <item name="ed_thumb_red">@drawable/thumb_red</item>
+        <item name="ed_thumb_green">@drawable/thumb_green</item>
+        <item name="ed_thumb_blue">@drawable/thumb_blue</item>
         <item name="ed_vertical_thumb">@drawable/vertical_thumb_ultra</item>
 
         <item name="android:actionButtonStyle">@style/ActionButton</item>
@@ -352,13 +367,14 @@
 
         <item name="ed_toolbar_button_loco">@drawable/toolbar_button_loco_ultra</item>
         <item name="ed_toolbar_button_cv_programmer">@drawable/toolbar_button_cv_programmer_ultra</item>
-        <item name="ed_toolbar_button_current">@drawable/toolbar_button_current_ultra</item>
+        <item name="ed_toolbar_button_currents">@drawable/toolbar_button_current_ultra</item>
         <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors_ultra</item>
         <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos_ultra</item>
         <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager_ultra</item>
         <item name="ed_toolbar_button_speed_matching">@drawable/toolbar_button_speed_matching_ultra</item>
         <item name="ed_toolbar_button_roster">@drawable/toolbar_button_roster_ultra</item>
         <item name="ed_toolbar_button_speed_trap">@drawable/toolbar_button_speed_trap_ultra</item>
+        <item name="ed_toolbar_button_neopixel">@drawable/toolbar_button_neopixel_ultra</item>
 
         <item name="ed_folder_icon">@drawable/folder_outline</item>
         <item name="ed_clock_icon">@drawable/fast_clock</item>
@@ -434,6 +450,9 @@
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
 
         <item name="ed_thumb">@drawable/thumb_colorful</item>
+        <item name="ed_thumb_red">@drawable/thumb_red</item>
+        <item name="ed_thumb_green">@drawable/thumb_green</item>
+        <item name="ed_thumb_blue">@drawable/thumb_blue</item>
         <item name="ed_vertical_thumb">@drawable/vertical_thumb_colorful</item>
 
         <item name="android:actionButtonStyle">@style/ActionButton</item>
@@ -448,13 +467,14 @@
 
         <item name="ed_toolbar_button_loco">@drawable/toolbar_button_loco</item>
         <item name="ed_toolbar_button_cv_programmer">@drawable/toolbar_button_cv_programmer</item>
-        <item name="ed_toolbar_button_current">@drawable/toolbar_button_current</item>
+        <item name="ed_toolbar_button_currents">@drawable/toolbar_button_current</item>
         <item name="ed_toolbar_button_sensors">@drawable/toolbar_button_sensors</item>
         <item name="ed_toolbar_button_servos">@drawable/toolbar_button_servos</item>
         <item name="ed_toolbar_button_track_manager">@drawable/toolbar_button_track_manager</item>
         <item name="ed_toolbar_button_speed_matching">@drawable/toolbar_button_speed_matching</item>
         <item name="ed_toolbar_button_roster">@drawable/toolbar_button_roster</item>
         <item name="ed_toolbar_button_speed_trap">@drawable/toolbar_button_speed_trap</item>
+        <item name="ed_toolbar_button_neopixel">@drawable/toolbar_button_neopixel</item>
 
         <item name="ed_folder_icon">@drawable/folder</item>
         <item name="ed_clock_icon">@drawable/fast_clock_black</item>

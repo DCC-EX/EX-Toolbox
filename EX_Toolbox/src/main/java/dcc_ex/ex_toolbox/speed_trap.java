@@ -366,7 +366,7 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
 
         dccexResponsesLabel = findViewById(R.id.ex_responsesLabel);
         dccexResponsesLabel.setText("");
-        dccexSendsLabel = findViewById(R.id.ex_sendsLabel);
+        dccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
         dccexSendsLabel.setText("");
 
         // *****************************
@@ -442,7 +442,7 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
 
         tvScaleSpeed = findViewById(R.id.ex_ScaleSpeed);
 
-        clearCommandsButton = findViewById(R.id.ex_clearCommandsButton);
+        clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
         ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
         clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
@@ -639,6 +639,11 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
         } else if ( (item.getItemId() == R.id.speed_trap_mnu) || (item.getItemId() == R.id.toolbar_button_speed_trap) ) {
             navigateAway(true, null);
             in = new Intent().setClass(this, speed_trap.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
+        } else if ( (item.getItemId() == R.id.neopixel_mnu) || (item.getItemId() == R.id.toolbar_button_neopixel) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, neopixel.class);
             startACoreActivity(this, in, false, 0);
             return true;
 

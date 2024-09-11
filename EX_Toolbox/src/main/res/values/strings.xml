@@ -46,6 +46,8 @@
     <string name="app_name_locos_short">Locos</string>
     <string name="app_name_currents">Current Status</string>
     <string name="app_name_currents_short">Currents</string>
+    <string name="app_name_neopixel">Neopixel Setup</string>
+    <string name="app_name_neopixel_short">Neopixel</string>
     <string name="app_name_roster">Roster</string>
     <string name="app_name_speed_trap">Speedometer</string>
     <string name="app_name_dcc_ex">DCC-EX</string>
@@ -143,6 +145,7 @@
     <string name="prefShowToolbarSpeedMatchingMenuButtonsTitle">Speed Matching toolbar button</string>
     <string name="prefShowToolbarRosterMenuButtonsTitle">Roster toolbar button</string>
     <string name="prefShowToolbarSpeedTrapMenuButtonsTitle">Speedometer toolbar button</string>
+    <string name="prefShowToolbarNeopixelMenuButtonsTitle">Neopixel Setup toolbar button</string>
 
 
     <string name="PrefConnectToFirstServerTitle">Auto-Connect to Server?</string>
@@ -388,6 +391,13 @@
 
     <string name="dccexServoExRailInstruction" >SERVO_TURNOUT( id, %d, %d, %d, %s , \"description\")</string>
 
+    <string name="dccexNeopixelVpinLabel">VPin</string>
+    <string name="dccexNeopixelValueLabel">Value</string>
+    <string name="dccexNeopixelVpinCountLabel">Count</string>
+    <string name="dccexNeopixelSampleLabel">Sample</string>
+    <string name="dccexNeopixelOnLabel">On</string>
+    <string name="dccexNeopixelOffLabel">Off</string>
+
     <string name="dccexActionTypeLabel">Action</string>
     <string name="dccexWriteAddressLabel">DCC Address</string>
     <string name="dccexWriteCvLabel">CV</string>
@@ -397,7 +407,7 @@
     <string name="dccexSendCommandButtonLabel">Send</string>
     <string name="dccexPreviousCommandButtonLabel">Prior</string>
     <string name="dccexNextCommandButtonLabel">Next</string>
-    <string name="dccexSendCommandLabel">DCC-EX Cmd\n<small>(exclude \'&lt;\' and \'&gt;\')</small></string>
+    <string name="dccexSendCommandLabel">DCC-EX Cmd\n<small>(exclude \'&lt;\' &amp; \'&gt;\')</small></string>
     <string name="dccexClearCommands">Clear</string>
 
     <string name="dccexCommonCvsLabel" >NMRA CVs</string>

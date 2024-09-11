@@ -803,6 +803,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                     case "prefShowToolbarSpeedMatchingMenuButtons":
                     case "prefShowToolbarRosterMenuButtons":
                     case "prefShowToolbarSpeedTrapMenuButtons":
+                    case "prefShowToolbarNeopixelMenuButtons":
                         parentActivity.mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_REFRESH_MENU, "");
 //                        parentActivity.forceReLaunchAppOnPreferencesClose = true;
 //                        parentActivity.forceRestartAppOnPreferencesCloseReason = threaded_application.FORCED_RESTART_REASON_TOOLBAR_BUTTONS;

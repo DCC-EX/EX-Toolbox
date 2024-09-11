@@ -707,6 +707,11 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
             in = new Intent().setClass(this, speed_trap.class);
             startACoreActivity(this, in, false, 0);
             return true;
+        } else if ( (item.getItemId() == R.id.neopixel_mnu) || (item.getItemId() == R.id.toolbar_button_neopixel) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, neopixel.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
 
         } else if (item.getItemId() == R.id.exit_mnu) {
             mainapp.checkAskExit(this);
