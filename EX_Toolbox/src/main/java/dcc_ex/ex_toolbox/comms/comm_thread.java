@@ -1780,12 +1780,14 @@ public class comm_thread extends Thread {
      */
     private static boolean timingSensitive(String msg) {
         boolean ret = false;
-        if (!mainapp.isDccex) {
-            if (msg.matches("^M[0-5]A.{1,5}<;>F[0-1][\\d]{1,2}$")) {
-                ret = true;
-            } //any function key message
+//            if (msg.matches("^M[0-5]A.{1,5}<;>F[0-1][\\d]{1,2}$")) {
+//        if (!msg.matches("^<[oD]")) {
+        if ( (msg.contains("<o")) || (msg.contains("<D")) ) {
+            ret = true;
+            Log.d("EX_Toolbox", "comm_thread.timingSensitive: timeSensitive msg, not requeueing: " + msg);
+        } else {
+            Log.d("EX_Toolbox", "comm_thread.timingSensitive: timeSensitive msg, can requeue: " + msg);
         }
-        if (ret) Log.d("EX_Toolbox", "comm_thread.timingSensitive: timeSensitive msg, not requeueing:");
         return ret;
     }
 

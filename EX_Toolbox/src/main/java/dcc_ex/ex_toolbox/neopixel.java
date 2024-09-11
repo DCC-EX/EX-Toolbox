@@ -828,6 +828,7 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
 
         @Override
         public void onProgressChanged(SeekBar sbBrake, int newSliderPosition, boolean fromUser) {
+            Log.d("EX_Toolbox","ColorSliderListener(): onProgressChanged(): whichColor: " + whichColor);
             getSliderPositions();
             showResult();
             if (!dragInProgress) {
@@ -866,6 +867,10 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
             Log.d("EX_Toolbox","ColorSliderRptUpdater: run()");
             if (mainapp.appIsFinishing) { return; }
 
+
+            Log.d("EX_Toolbox","ColorSliderRptUpdater(): run(): " + String.format("lR: %d  lG: %d  lB: %d", lastRedSeekbarSliderPositionSent, lastGreenSeekbarSliderPositionSent, lastBlueSeekbarSliderPositionSent));
+            Log.d("EX_Toolbox","ColorSliderRptUpdater(): run(): " + String.format("R: %d  G: %d  B: %d", red, green, blue));
+
             if ( (lastRedSeekbarSliderPositionSent != red)
                     || (lastGreenSeekbarSliderPositionSent != green)
                     || (lastBlueSeekbarSliderPositionSent != blue) ) {
@@ -901,6 +906,7 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
 //    }
 
     private void showResult() {
+        Log.d("EX_Toolbox","showResult(): " + String.format("R: %d  G: %d  B: %d", red, green, blue));
         if (vpinValue>0) {
             getSliderPositions();
             if (vpinCountValue <= 0) {
@@ -914,6 +920,8 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
     }
 
     private void sendResult() {
+        Log.d("EX_Toolbox","sendResult(): " + String.format("R: %d  G: %d  B: %d", red, green, blue));
+
         if (vpinValue>0) {
             if ( (lastRedSeekbarSliderPositionSent != red)
                 || (lastGreenSeekbarSliderPositionSent != green)
@@ -969,5 +977,7 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
         red = redSeekbar.getProgress();
         green = greenSeekbar.getProgress();
         blue = blueSeekbar.getProgress();
+
+        Log.d("EX_Toolbox","getSliderPositions(): " + String.format("R: %d  G: %d  B: %d", red, green, blue));
     }
 }
