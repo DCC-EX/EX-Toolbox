@@ -1,3 +1,11 @@
+**Version 0.1.26
+ * Cleanup of the Power screen
+ * Added 'swap' button on the Speed Trap page
+ * Added 'Join' button on the Track Manager Page
+ * code tidy up
+ * Change to SDK 34 to support new READ_MEDIA_VISUAL_USER_SELECTED permission
+**Version 0.1.25
+ * New Neopixel screen
 **Version 0.1.24
  * fix for the change to the response/broadcast for AUTO Track Manager outputs
 **Version 0.1.22-23

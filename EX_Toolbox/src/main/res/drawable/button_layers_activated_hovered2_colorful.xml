@@ -4,7 +4,7 @@
     <item>
         <shape android:shape="rectangle"  >
             <corners android:radius="@dimen/buttonCornerRadius_colorful" />
-            <stroke android:width="@dimen/buttonStopSelectedStroke_colorful" android:color="@color/buttonSelectedStroke_colorful" />
+            <stroke android:width="@dimen/buttonSelectedStroke_colorful" android:color="@color/buttonSelectedStroke_colorful" />
             <solid android:color="@color/transparent" />
         </shape>
     </item>

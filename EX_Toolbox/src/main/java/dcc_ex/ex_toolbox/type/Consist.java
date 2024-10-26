@@ -26,7 +26,7 @@ import java.util.Set;
 import dcc_ex.ex_toolbox.threaded_application;
 
 //
-//EngineDriver simple Consist
+//EX-Toolbox simple Consist
 //
 //Consist just represents (one or more) Locos assigned to a throttle
 //Locos in a Consist have a "reverse" property that indicates physical orientation with respect to the first loco (original lead loco) entered into the consist:

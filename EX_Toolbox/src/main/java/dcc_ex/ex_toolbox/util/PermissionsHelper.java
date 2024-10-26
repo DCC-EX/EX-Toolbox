@@ -40,7 +40,8 @@ public class PermissionsHelper {
             READ_IMAGES,
             READ_MEDIA_IMAGES,
 //            READ_LEGACY_FILES,
-            POST_NOTIFICATIONS
+            POST_NOTIFICATIONS,
+            READ_MEDIA_VISUAL_USER_SELECTED
     })
     public @interface RequestCodes {}
 
@@ -56,6 +57,7 @@ public class PermissionsHelper {
     public static final int READ_MEDIA_IMAGES = 48;
 //    public static final int READ_LEGACY_FILES = 49;
     public static final int POST_NOTIFICATIONS = 50;
+    public static final int READ_MEDIA_VISUAL_USER_SELECTED = 51;
 
     private boolean isDialogOpen = false;
     private static PermissionsHelper instance = null;
@@ -125,8 +127,8 @@ public class PermissionsHelper {
                 return context.getResources().getString(R.string.permissionsReadImages);
             case READ_MEDIA_IMAGES:
                 return context.getResources().getString(R.string.permissionsREAD_MEDIA_IMAGES);
-//            case READ_LEGACY_FILES:
-//                return context.getResources().getString(R.string.permissionsReadLegacyFiles);
+            case READ_MEDIA_VISUAL_USER_SELECTED: // needed for API 34
+                return context.getResources().getString(R.string.permissionsREAD_MEDIA_VISUAL_USER_SELECTED);
             case CONNECT_TO_SERVER:
                 return context.getResources().getString(R.string.permissionsConnectToServer);
             case WRITE_SETTINGS:
@@ -164,11 +166,19 @@ public class PermissionsHelper {
                                     Manifest.permission.READ_EXTERNAL_STORAGE},
                             requestCode);
                     break;
-                case READ_MEDIA_IMAGES:
+                case READ_MEDIA_IMAGES: // needed for API 33
                     Log.d("EX_Toolbox", "Requesting READ_MEDIA_IMAGES permissions");
                     activity.requestPermissions(new String[]{
                                     Manifest.permission.READ_MEDIA_IMAGES},
                             requestCode);
+                    break;
+                case READ_MEDIA_VISUAL_USER_SELECTED: // needed for API 34
+                    Log.d("EX_Toolbox", "Requesting READ_MEDIA_VISUAL_USER_SELECTED permissions");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                        activity.requestPermissions(new String[]{
+                                        Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED},
+                                requestCode);
+                    }
                     break;
                 case ACCESS_FINE_LOCATION:
                     Log.d("EX_Toolbox", "Requesting ACCESS_FINE_LOCATION permissions");

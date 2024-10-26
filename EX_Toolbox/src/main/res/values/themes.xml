@@ -160,7 +160,7 @@
         <item name="ed_small_button_style">@style/small_button_style_black</item>
         <item name="ed_hover_button_style">@style/small_button_hover_style</item>
 <!--        <item name="ed_stop_button_style">@style/stop_button_style_black</item>-->
-        <item name="ed_fn_button_style">@style/fn_button_style_black</item>
+<!--        <item name="ed_fn_button_style">@style/fn_button_style_black</item>-->
         <item name="ed_list_button_style">@style/list_button_style_black</item>
 
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
@@ -250,7 +250,7 @@
         <item name="ed_small_button_style">@style/small_button_style_outline</item>
         <item name="ed_hover_button_style">@style/small_button_hover_style</item>
 <!--        <item name="ed_stop_button_style">@style/stop_button_style_outline</item>-->
-        <item name="ed_fn_button_style">@style/fn_button_style_outline</item>
+<!--        <item name="ed_fn_button_style">@style/fn_button_style_outline</item>-->
         <item name="ed_list_button_style">@style/list_button_style_outline</item>
 
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
@@ -343,7 +343,7 @@
         <item name="ed_small_button_style">@style/small_button_style_ultra</item>
         <item name="ed_hover_button_style">@style/small_button_hover_style</item>
 <!--        <item name="ed_stop_button_style">@style/stop_button_style_ultra</item>-->
-        <item name="ed_fn_button_style">@style/fn_button_style_ultra</item>
+<!--        <item name="ed_fn_button_style">@style/fn_button_style_ultra</item>-->
         <item name="ed_list_button_style">@style/list_button_style_ultra</item>
 
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
@@ -443,7 +443,7 @@
         <item name="ed_small_button_style">@style/small_button_style_colorful</item>
         <item name="ed_hover_button_style">@style/small_button_hover_style</item>
 <!--        <item name="ed_stop_button_style">@style/stop_button_style_colorful</item>-->
-        <item name="ed_fn_button_style">@style/fn_button_style_colorful</item>
+<!--        <item name="ed_fn_button_style">@style/fn_button_style_colorful</item>-->
         <item name="ed_list_button_style">@style/list_button_style_colorful</item>
 
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>

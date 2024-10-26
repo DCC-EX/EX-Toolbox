@@ -3,7 +3,7 @@
 
 <!--    <item>-->
 <!--        <shape android:shape="rectangle"  >-->
-<!--            <stroke android:width="@dimen/buttonStopSelectedStroke_colorful" android:color="@color/buttonSelectedStroke_colorful" />-->
+<!--            <stroke android:width="@dimen/buttonSelectedStroke_colorful" android:color="@color/buttonSelectedStroke_colorful" />-->
 <!--            <solid android:color="@color/transparent" />-->
 <!--        </shape>-->
 <!--    </item>-->

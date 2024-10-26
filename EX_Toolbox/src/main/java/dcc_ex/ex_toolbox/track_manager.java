@@ -81,33 +81,34 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
     private VelocityTracker mVelocityTracker;
 
     //**************************************
-    private String DccexSendCommandValue = "";
+    private String dccexSendCommandValue = "";
     private EditText etDccexSendCommandValue;
 
-    private LinearLayout DccexWriteInfoLayout;
-    private TextView DccexWriteInfoLabel;
-    private String DccexInfoStr = "";
+    private LinearLayout dccexWriteInfoLayout;
+    private TextView dccexWriteInfoLabel;
+    private String dccexInfoStr = "";
 
-    private TextView DccexResponsesLabel;
-    private TextView DccexSendsLabel;
-    private ScrollView DccexResponsesScrollView;
-    private ScrollView DccexSendsScrollView;
+    private TextView dccexResponsesLabel;
+    private TextView dccexSendsLabel;
+    private ScrollView dccexResponsesScrollView;
+    private ScrollView dccexSendsScrollView;
 
     private int dccCmdIndex = 0;
-    String[] dccExCommonCommandsEntryValuesArray;
-    String[] dccExCommonCommandsEntriesArray; // display version
-    int[] dccExCommonCommandsHasParametersArray; // display version
-    String[] dccExCommonCommandsAdditionalInfoArray;
+    String[] dccexCommonCommandsEntryValuesArray;
+    String[] dccexCommonCommandsEntriesArray; // display version
+    int[] dccexCommonCommandsHasParametersArray; // display version
+    String[] dccexCommonCommandsAdditionalInfoArray;
 
     Button sendCommandButton;
     Button previousCommandButton;
     Button nextCommandButton;
     Button writeTracksButton;
+    Button joinTracksButton;
     //    Button hideSendsButton;
     Button clearCommandsButton;
 
     private LinearLayout[] dexcDccexTracklayout = {null, null, null, null, null, null, null, null};
-    private LinearLayout dexcDccexTrackLinearLayout;
+//    private LinearLayout dexcDccexTrackLinearLayout;
     Spinner dccExCommonCommandsSpinner;
 
     private int[] dccExTrackTypeIndex = {1, 2, 1, 1, 1, 1, 1, 1};
@@ -253,9 +254,9 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
 
 
     @SuppressLint("HandlerLeak")
-    class track_manager_handler extends Handler {
+    class TrackManagerMessageHandler extends Handler {
 
-        public track_manager_handler(Looper looper) {
+        public TrackManagerMessageHandler(Looper looper) {
             super(looper);
         }
 
@@ -351,7 +352,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         mainapp.loadBackgroundImage(findViewById(R.id.trackManagerBackgroundImgView));
 
         //put pointer to this activity's handler in main app's shared variable
-        mainapp.track_manager_msg_handler = new track_manager_handler(Looper.getMainLooper());
+        mainapp.track_manager_msg_handler = new TrackManagerMessageHandler(Looper.getMainLooper());
 
 //        // enable remote debugging of all webviews
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -398,7 +399,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
 //        closeButton.setOnClickListener(close_click_listener);
 
         sendCommandButton = findViewById(R.id.ex_DccexSendCommandButton);
-        send_command_button_listener sendCommandClickListener = new send_command_button_listener();
+        SendCommandButtonListener sendCommandClickListener = new SendCommandButtonListener();
         sendCommandButton.setOnClickListener(sendCommandClickListener);
 
         etDccexSendCommandValue = findViewById(R.id.ex_DccexSendCommandValue);
@@ -409,36 +410,36 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             public void onTextChanged(CharSequence s, int start, int before, int count) { }
         });
-        DccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
-        DccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
-        DccexWriteInfoLabel.setText("");
+        dccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
+        dccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
+        dccexWriteInfoLabel.setText("");
 
         previousCommandButton = findViewById(R.id.ex_DccexPreviousCommandButton);
-        previous_command_button_listener previousCommandClickListener = new previous_command_button_listener();
+        PreviousCommandButtonListener previousCommandClickListener = new PreviousCommandButtonListener();
         previousCommandButton.setOnClickListener(previousCommandClickListener);
 
         nextCommandButton = findViewById(R.id.ex_DccexNextCommandButton);
-        next_command_button_listener nextCommandClickListener = new next_command_button_listener();
+        NextCommandButtonListener nextCommandClickListener = new NextCommandButtonListener();
         nextCommandButton.setOnClickListener(nextCommandClickListener);
 
-        DccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
-        DccexResponsesLabel.setText("");
-        DccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
-        DccexSendsLabel.setText("");
+        dccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
+        dccexResponsesLabel.setText("");
+        dccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
+        dccexSendsLabel.setText("");
 
-        dccExCommonCommandsEntryValuesArray = this.getResources().getStringArray(R.array.dccExCommonCommandsEntryValues);
+        dccexCommonCommandsEntryValuesArray = this.getResources().getStringArray(R.array.dccExCommonCommandsEntryValues);
 //        final List<String> dccCommonCommandsValuesList = new ArrayList<>(Arrays.asList(dccExCommonCommandsEntryValuesArray));
-        dccExCommonCommandsEntriesArray = this.getResources().getStringArray(R.array.dccExCommonCommandsEntries); // display version
+        dccexCommonCommandsEntriesArray = this.getResources().getStringArray(R.array.dccExCommonCommandsEntries); // display version
 //        final List<String> dccCommonCommandsEntriesList = new ArrayList<>(Arrays.asList(dccExCommonCommandsEntriesArray));
-        dccExCommonCommandsHasParametersArray = this.getResources().getIntArray(R.array.dccExCommonCommandsHasParameters);
-        dccExCommonCommandsAdditionalInfoArray = this.getResources().getStringArray(R.array.dccExCommonCommandsAdditionalInfo);
+        dccexCommonCommandsHasParametersArray = this.getResources().getIntArray(R.array.dccExCommonCommandsHasParameters);
+        dccexCommonCommandsAdditionalInfoArray = this.getResources().getStringArray(R.array.dccExCommonCommandsAdditionalInfo);
 
         dccCmdIndex=0;
         dccExCommonCommandsSpinner = findViewById(R.id.ex_common_commands_list);
         ArrayAdapter<?> spinner_adapter = ArrayAdapter.createFromResource(this, R.array.dccExCommonCommandsEntries, android.R.layout.simple_spinner_item);
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dccExCommonCommandsSpinner.setAdapter(spinner_adapter);
-        dccExCommonCommandsSpinner.setOnItemSelectedListener(new command_spinner_listener());
+        dccExCommonCommandsSpinner.setOnItemSelectedListener(new CommandSpinnerListener());
         dccExCommonCommandsSpinner.setSelection(dccCmdIndex);
 
         dccExTrackTypeEntryValuesArray = this.getResources().getStringArray(R.array.dccExTrackTypeEntryValues);
@@ -509,18 +510,22 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
             ArrayAdapter<?> track_type_spinner_adapter = ArrayAdapter.createFromResource(this, R.array.dccExTrackTypeEntries, android.R.layout.simple_spinner_item);
             track_type_spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             dccExTrackTypeSpinner[i].setAdapter(track_type_spinner_adapter);
-            dccExTrackTypeSpinner[i].setOnItemSelectedListener(new track_type_spinner_listener(dccExTrackTypeSpinner[i], i));
+            dccExTrackTypeSpinner[i].setOnItemSelectedListener(new TrackTypeSpinnerListener(dccExTrackTypeSpinner[i], i));
             dccExTrackTypeSpinner[i].setSelection(dccExTrackTypeIndex[i]);
 
             writeTracksButton = findViewById(R.id.ex_DccexWriteTracksButton);
-            write_tracks_button_listener writeTracksClickListener = new write_tracks_button_listener();
+            WriteTracksButtonListener writeTracksClickListener = new WriteTracksButtonListener();
             writeTracksButton.setOnClickListener(writeTracksClickListener);
 
-            DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
-            DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
+            joinTracksButton = findViewById(R.id.ex_DccexJoinTracksButton);
+            JoinTracksButtonListener joinTracksButtonListener = new JoinTracksButtonListener();
+            joinTracksButton.setOnClickListener(joinTracksButtonListener);
+
+            dccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
+            dccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
 
             clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
-            clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
+            ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
             clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
             SetTrackPowerButtonListener  buttonListener = new SetTrackPowerButtonListener(i);
@@ -563,6 +568,8 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
             return;
         }
 
+        activateJoinedButton(mainapp.dccexJoined);
+
         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.TIME_CHANGED);    // request time update
         CookieSyncManager.getInstance().startSync();
 
@@ -588,7 +595,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         Log.d("EX_Toolbox", "track_manager.onStart() called");
         // put pointer to this activity's handler in main app's shared variable
         if (mainapp.track_manager_msg_handler == null)
-            mainapp.track_manager_msg_handler = new track_manager_handler(Looper.getMainLooper());
+            mainapp.track_manager_msg_handler = new TrackManagerMessageHandler(Looper.getMainLooper());
     }
 
     @Override
@@ -808,9 +815,9 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
 
 //**************************************************************************************
 
-    public class send_command_button_listener implements View.OnClickListener {
+    public class SendCommandButtonListener implements View.OnClickListener {
         public void onClick(View v) {
-            DccexInfoStr = "";
+            dccexInfoStr = "";
             String cmdStr = etDccexSendCommandValue.getText().toString();
             if ((cmdStr.length() > 0) && (cmdStr.charAt(0) != '<')) {
                 mainapp.buttonVibration();
@@ -833,36 +840,36 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         }
     }
 
-    public class previous_command_button_listener implements View.OnClickListener {
+    public class PreviousCommandButtonListener implements View.OnClickListener {
         public void onClick(View v) {
-            DccexInfoStr = "";
+            dccexInfoStr = "";
             String cmdStr = etDccexSendCommandValue.getText().toString();
             if (mainapp.dccexPreviousCommandIndex > 0) {
-                DccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandIndex - 1);
+                dccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandIndex - 1);
                 mainapp.dccexPreviousCommandIndex--;
             } else {
-                DccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandList.size() - 1);
+                dccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandList.size() - 1);
                 mainapp.dccexPreviousCommandIndex = mainapp.dccexPreviousCommandList.size() - 1;
             }
-            etDccexSendCommandValue.setText(DccexSendCommandValue);
+            etDccexSendCommandValue.setText(dccexSendCommandValue);
 
             refreshDccexView();
             mainapp.hideSoftKeyboard(v);
         }
     }
 
-    public class next_command_button_listener implements View.OnClickListener {
+    public class NextCommandButtonListener implements View.OnClickListener {
         public void onClick(View v) {
-            DccexInfoStr = "";
+            dccexInfoStr = "";
             String cmdStr = etDccexSendCommandValue.getText().toString();
             if (mainapp.dccexPreviousCommandIndex < mainapp.dccexPreviousCommandList.size() - 1) {
-                DccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandIndex + 1);
+                dccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandIndex + 1);
                 mainapp.dccexPreviousCommandIndex++;
             } else {
-                DccexSendCommandValue = mainapp.dccexPreviousCommandList.get(0);
+                dccexSendCommandValue = mainapp.dccexPreviousCommandList.get(0);
                 mainapp.dccexPreviousCommandIndex = 0;
             }
-            etDccexSendCommandValue.setText(DccexSendCommandValue);
+            etDccexSendCommandValue.setText(dccexSendCommandValue);
 
             refreshDccexView();
             mainapp.hideSoftKeyboard(v);
@@ -887,7 +894,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         }
     }
 
-    public class write_tracks_button_listener implements View.OnClickListener {
+    public class WriteTracksButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             Integer typeIndex;
             String type;
@@ -922,7 +929,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         }
     }
 
-    public class clear_commands_button_listener implements View.OnClickListener {
+    public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             mainapp.DccexResponsesListHtml.clear();
             mainapp.dccexSendsListHtml.clear();
@@ -932,6 +939,23 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         }
     }
 
+    public class JoinTracksButtonListener implements View.OnClickListener {
+        public void onClick(View v) {
+            if (!mainapp.dccexJoined) {
+                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.DCCEX_JOIN_TRACKS, "");
+                activateJoinedButton(true);
+            } else {
+                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.DCCEX_UNJOIN_TRACKS, "");
+                activateJoinedButton(false);
+            }
+        }
+    }
+
+    void activateJoinedButton(boolean joined) {
+        mainapp.dccexJoined = joined;
+        joinTracksButton.setSelected(joined);
+    }
+
     private void resetTextField(int which) {
         switch (which) {
             case WHICH_ADDRESS:
@@ -939,7 +963,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
             case WHICH_CV_VALUE:
                 break;
             case WHICH_COMMAND:
-                DccexSendCommandValue = "";
+                dccexSendCommandValue = "";
                 etDccexSendCommandValue.setText("");
         }
     }
@@ -951,7 +975,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
             case WHICH_CV_VALUE:
                 break;
             case WHICH_COMMAND:
-                DccexSendCommandValue = etDccexSendCommandValue.getText().toString();
+                dccexSendCommandValue = etDccexSendCommandValue.getText().toString();
         }
     }
 
@@ -962,21 +986,21 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         for (int i = 0; i < threaded_application.DCCEX_MAX_TRACKS; i++) {
             dccExTrackTypeIdEditText[i].setVisibility(TRACK_TYPES_NEED_ID[dccExTrackTypeIndex[i]] ? View.VISIBLE : View.GONE);
         }
-        sendCommandButton.setEnabled((DccexSendCommandValue.length() != 0) && (DccexSendCommandValue.charAt(0) != '<'));
+        sendCommandButton.setEnabled((dccexSendCommandValue.length() != 0) && (dccexSendCommandValue.charAt(0) != '<'));
         previousCommandButton.setEnabled((mainapp.dccexPreviousCommandIndex >= 0));
         nextCommandButton.setEnabled((mainapp.dccexPreviousCommandIndex >= 0));
     }
 
     public void refreshDccexView() {
-        DccexWriteInfoLabel.setText(DccexInfoStr);
+        dccexWriteInfoLabel.setText(dccexInfoStr);
         refreshDccexCommandsView();
         showHideButtons();
 
     }
 
     public void refreshDccexCommandsView() {
-        DccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
-        DccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
+        dccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
+        dccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
     }
 
     public void refreshDccexTracksView() {
@@ -996,7 +1020,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
 
     }
 
-    public class command_spinner_listener implements AdapterView.OnItemSelectedListener {
+    public class CommandSpinnerListener implements AdapterView.OnItemSelectedListener {
 
         @SuppressLint("ApplySharedPref")
         @Override
@@ -1005,16 +1029,16 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
 
             dccCmdIndex = dccExCommonCommandsSpinner.getSelectedItemPosition();
             if (dccCmdIndex > 0) {
-                DccexSendCommandValue = dccExCommonCommandsEntryValuesArray[dccCmdIndex];
-                if (dccExCommonCommandsHasParametersArray[dccCmdIndex] >0)
-                    DccexSendCommandValue = DccexSendCommandValue + " ";
-                etDccexSendCommandValue.setText(DccexSendCommandValue);
+                dccexSendCommandValue = dccexCommonCommandsEntryValuesArray[dccCmdIndex];
+                if (dccexCommonCommandsHasParametersArray[dccCmdIndex] >0)
+                    dccexSendCommandValue = dccexSendCommandValue + " ";
+                etDccexSendCommandValue.setText(dccexSendCommandValue);
                 etDccexSendCommandValue.requestFocus();
-                etDccexSendCommandValue.setSelection(DccexSendCommandValue.length());
+                etDccexSendCommandValue.setSelection(dccexSendCommandValue.length());
             }
 //            DccexInfoStr = "";
             if (dccCmdIndex != 0) {
-                DccexInfoStr = dccExCommonCommandsAdditionalInfoArray[dccCmdIndex];
+                dccexInfoStr = dccexCommonCommandsAdditionalInfoArray[dccCmdIndex];
             }
             dccCmdIndex = 0;
             dccExCommonCommandsSpinner.setSelection(dccCmdIndex);
@@ -1034,11 +1058,11 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         }
     }
 
-    public class track_type_spinner_listener implements AdapterView.OnItemSelectedListener {
+    public class TrackTypeSpinnerListener implements AdapterView.OnItemSelectedListener {
         Spinner mySpinner;
         int myIndex;
 
-        track_type_spinner_listener(Spinner spinner, int index) {
+        TrackTypeSpinnerListener(Spinner spinner, int index) {
             mySpinner = spinner;
             myIndex = index;
         }

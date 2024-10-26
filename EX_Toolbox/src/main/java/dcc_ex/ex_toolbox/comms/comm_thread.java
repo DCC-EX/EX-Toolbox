@@ -181,7 +181,7 @@ public class comm_thread extends Thread {
                 Log.d("EX_Toolbox", "comm_thread.startJmdns: listener created");
 
             } else {
-                threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppNoLocalIp), Toast.LENGTH_SHORT);
+                threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppNoLocalIp), Toast.LENGTH_LONG);
             }
         } catch (Exception except) {
             Log.e("EX_Toolbox", "comm_thread.startJmdns - Error creating withrottle listener: " + except.getMessage());
@@ -499,6 +499,19 @@ public class comm_thread extends Thread {
         }
 //         Log.d("EX_Toolbox", "comm_thread.sendTracks DCC-EX: " + msgTxt);
     }
+
+    protected static void joinTracks() {
+        joinTracks(true);
+    }
+    protected static void joinTracks(boolean join) {
+        if (join) {
+            wifiSend("<1 JOIN>");
+        } else {
+            wifiSend("<0 PROG>");
+            wifiSend("<1 PROG>");
+        }
+    }
+
 
     static void sendAllSensorDetailsRequest(){
         String msgTxt;

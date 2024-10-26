@@ -30,21 +30,37 @@
 </p>
 
 <h3>Prerequisites <br /> - DCC-EX EX-CommandStation:</h3>
-<p><b>EX-Toolbox</b> can only connect directly to DCC-EX <b>EX-CommandStations</b>, that are in Station Mode or
-    Access Point Mode, using the native DCC-EX command protocol.  It cannot connect to JMRI or to a EX-CommandStation which is connected JMRI via USB.
+<p><b>EX-Toolbox</b> can only connect to DCC-EX <b>EX-CommandStations</b>, that are in Station Mode or
+    Access Point Mode, using the native DCC-EX command protocol.
 </p>
-<p>Track Manager is only available  when connected to EX-CommandStation version 4.2.7 and above.
+<p><b>EX-Toolbox</b> cannot connect to a EX-CommandStation which is connected via USB.
+</p>
+<p>By default, you cannot connect <b>EX-Toolbox</b> to JMRI and therefore the EX-CommandStation via JMRI. JMRI uses the |WiThrottle Protocol|
+    for normal WiFI connections to client devices, but the <b>EX-Toolbox</b> requires the use of the |Native Protocol|.
+</p>
+<p>To use <b>EX-Toolbox</b> with JMRI you must enable the 'Load DCC++ over TCP Server' option.
+    This is found in the 'DCC++' Menu.
+</p>
+<p>Once this is enabled you will see two servers in the 'Discovered Servers' list in <b>EX-Toolbox</b>.
+    One will be just the name you have given your railroad in JMRI (e.g. 'My JMRI Railroad').
+    The other will have the same name but with ' [DCC-EX]' after it (e.g.'My JMRI Railroad [DCC-EX]').
+</p>
+<p>To use <b>EX-Toolbox</b> you must select the one with ' [DCC-EX]' in the name.
 </p>
 
 <p><b>Current features supported:</b></p>
 <ul>
     <li>CV Programming in the programming track (Service Mode)</li>
     <li>CV Programming in the main track (Operation Mode)</li>
-    <li>Speed Matching assistance</li>
+    <li>Track Manager</li>
     <li>Servo motor testing and adjustment</li>
     <li>Sensor testing</li>
-    <li>Current Meter (Only available when connected to EX-CommandStation version 4.2.20 and above.)</li>
-    <li>Track Manager (Only available when connected to EX-CommandStation version 4.2.7 and above.)</li>
+    <li>Current Meter</li>
+    <li>Loco status (all active locos)</li>
+    <li>Speed Matching assistance</li>
+    <li>Speedometer (requires two sensors on the EX-CommandStation)</li>
+    <li>NeoPixel LED setup</li>
+    <li>Server Roster details</li>
 </ul>
 
 <h3>Operation:</h3>
@@ -54,13 +70,16 @@
     directly.<br/>
     There is an "Auto-Connect to First Server?" preference you can enable if desired.
     </p>
-<p>Once connected the CV Programming screen will open.  Use the drop down the select between Service Mode and Operation Mode. Swipe Left or right to get to the other screens.</p>
+<p>Once connected the CV Programming screen will open.  Use the drop down the select
+    between Service Mode and Operation Mode. Swipe Left or right to get to the other screens.</p>
 <p>Additional help is available <a href="https://dcc-ex.com/ex-toolbox/index.html">on the DCC-EX website</a>.</p>
 <h3>Development:</h3>
 <p><b>EX-Toolbox</b> is free and open source software, part of the
     <a href="https://dcc-ex" target="_blank">DCC-EX</a> project. It is built in
     <a href="https://developer.android.com/studio/" target="_blank">Android&nbsp;Studio</a>.<br />
-    It is based heavily on M.Steve Todd's <b>Engine Driver</b> app source code.
+    It is based heavily on M.Steve Todd's <b><a href="https://github.com/JMRI/EngineDriver">Engine Driver</a></b> app source code.
+</p>
+<p>Background texture from: <a href="https://www.sketchuptextureclub.com/#google_vignette">https://www.sketchuptextureclub.com/#google_vignette</a></p>
 </p>
 <hr>
 <p><a href="https://github.com/DCC-EX/EX-Toolbox/blob/master/EX_Toolbox/src/main/assets/privacy_policy.md" target="_blank">[Privacy Policy]</a>

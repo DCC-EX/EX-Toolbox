@@ -126,6 +126,7 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
     Spinner unitsSpinner;
 
     Button startButton;
+    Button swapButton;
     Button clearCommandsButton;
 
 
@@ -439,6 +440,10 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
         StartButtonListener startButtonListener = new StartButtonListener();
         startButton.setOnClickListener(startButtonListener);
         runState = DISABLED;
+
+        swapButton = findViewById(R.id.ex_swapButton);
+        SwapButtonListener swapButtonListener = new SwapButtonListener();
+        swapButton.setOnClickListener(swapButtonListener);
 
         tvScaleSpeed = findViewById(R.id.ex_ScaleSpeed);
 
@@ -830,6 +835,28 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
             mainapp.buttonVibration();
             if (waitTimer!=null) waitTimer.cancel();
             dccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexSpeedTrapRunWaitingToStart);
+            refreshDccexView();
+            mainapp.hideSoftKeyboard(v);
+        }
+    }
+
+    @SuppressLint("ApplySharedPref")
+    public class SwapButtonListener implements View.OnClickListener {
+        public void onClick(View v) {
+            int pin = startPin;
+            String pinText = startPinText;
+
+            startPinText = endPinText;
+            startPin = endPin;
+            etDccexStartPin.setText(startPinText);
+            prefs.edit().putString("prefSpeedTrapStartPin", startPinText).commit();
+
+            endPinText = pinText;
+            endPin = pin;
+            etDccexEndPin.setText(endPinText);
+            prefs.edit().putString("prefSpeedTrapEndPin", endPinText).commit();
+
+            mainapp.buttonVibration();
             refreshDccexView();
             mainapp.hideSoftKeyboard(v);
         }

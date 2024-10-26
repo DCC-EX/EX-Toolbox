@@ -92,4 +92,6 @@ public interface message_type {
     int RECEIVED_SERVO_DETAILS = 91;
     int SEND_NEOPIXEL = 92;
     int SEND_NEOPIXEL_ON_OFF = 93;
+    int DCCEX_JOIN_TRACKS = 94;
+    int DCCEX_UNJOIN_TRACKS = 95;
 }

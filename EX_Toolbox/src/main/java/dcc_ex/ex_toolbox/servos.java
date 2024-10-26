@@ -531,11 +531,11 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         spinner_adapter = ArrayAdapter.createFromResource(this, R.array.dccExCommonCommandsEntries, android.R.layout.simple_spinner_item);
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dccExCommonCommandsSpinner.setAdapter(spinner_adapter);
-        dccExCommonCommandsSpinner.setOnItemSelectedListener(new command_spinner_listener());
+        dccExCommonCommandsSpinner.setOnItemSelectedListener(new CommandSpinnerListener());
         dccExCommonCommandsSpinner.setSelection(dccCmdIndex);
 
         sendCommandButton = findViewById(R.id.ex_DccexSendCommandButton);
-        send_command_button_listener sendCommandClickListener = new send_command_button_listener();
+        SendCommandButtonListener sendCommandClickListener = new SendCommandButtonListener();
         sendCommandButton.setOnClickListener(sendCommandClickListener);
 
         etDccexSendCommandValue = findViewById(R.id.ex_DccexSendCommandValue);
@@ -551,11 +551,11 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         DccexWriteInfoLabel.setText("");
 
         previousCommandButton = findViewById(R.id.ex_DccexPreviousCommandButton);
-        previous_command_button_listener previousCommandClickListener = new previous_command_button_listener();
+        PreviousCommandButtonListener previousCommandClickListener = new PreviousCommandButtonListener();
         previousCommandButton.setOnClickListener(previousCommandClickListener);
 
         nextCommandButton = findViewById(R.id.ex_DccexNextCommandButton);
-        next_command_button_listener nextCommandClickListener = new next_command_button_listener();
+        NextCommandButtonListener nextCommandClickListener = new NextCommandButtonListener();
         nextCommandButton.setOnClickListener(nextCommandClickListener);
 
         DccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
@@ -564,7 +564,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         DccexSendsLabel.setText("");
 
         clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
-        clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
+        ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
         clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
 
@@ -1186,7 +1186,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         // ------------------------------------
 
 
-    public class send_command_button_listener implements View.OnClickListener {
+    public class SendCommandButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             DccexInfoStr = "";
             String cmdStr = etDccexSendCommandValue.getText().toString();
@@ -1211,7 +1211,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         }
     }
 
-    public class previous_command_button_listener implements View.OnClickListener {
+    public class PreviousCommandButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             DccexInfoStr = "";
             String cmdStr = etDccexSendCommandValue.getText().toString();
@@ -1229,7 +1229,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         }
     }
 
-    public class next_command_button_listener implements View.OnClickListener {
+    public class NextCommandButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             DccexInfoStr = "";
             String cmdStr = etDccexSendCommandValue.getText().toString();
@@ -1247,7 +1247,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         }
     }
 
-    public class clear_commands_button_listener implements View.OnClickListener {
+    public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             mainapp.DccexResponsesListHtml.clear();
             mainapp.dccexSendsListHtml.clear();
@@ -1382,7 +1382,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         }
     }
 
-    public class command_spinner_listener implements AdapterView.OnItemSelectedListener {
+    public class CommandSpinnerListener implements AdapterView.OnItemSelectedListener {
 
         @SuppressLint("ApplySharedPref")
         @Override

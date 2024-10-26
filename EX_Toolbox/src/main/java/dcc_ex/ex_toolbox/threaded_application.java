@@ -183,6 +183,7 @@ public class threaded_application extends Application {
     public boolean [] dccexTrackAvailable = {false, false, false, false, false, false, false, false};
     public String [] dccexTrackId = {"", "", "", "", "", "", "", ""};
     public final static int DCCEX_MAX_TRACKS = 8;
+    public boolean dccexJoined = false;
 
     public String rosterStringDccex = ""; // used to process the roster list
     public int [] rosterIDsDccex;  // used to process the roster list
@@ -363,7 +364,7 @@ public class threaded_application extends Application {
 //    public boolean prefActionBarShowDccExButton = false;
 
     /**
-     * Display OnGoing Notification that indicates EngineDriver is Running.
+     * Display OnGoing Notification that indicates EX-Toolbox is Running.
      * Should only be called when ED is going into the background.
      * Currently call this from each activity onPause, passing the current intent
      * to return to when reopening.
@@ -730,7 +731,7 @@ public class threaded_application extends Application {
         }
 
         // EX-Toolbox version info
-        s += "<small>, EngineDriver: </small><b>" + appVersion + "</b>";
+        s += "<small>, EX-Toolbox: </small><b>" + appVersion + "</b>";
         if (getHostIp() != null) {
             s += "<small>, Protocol: </small>";
             s += "<b>DCC-EX</b>";
@@ -1769,12 +1770,24 @@ public class threaded_application extends Application {
 
     public void loadBackgroundImage(ImageView myImage) {
         if (prefBackgroundImage) {
-            if ( ( (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-                && (PermissionsHelper.getInstance().isPermissionGranted(this, PermissionsHelper.READ_IMAGES)) )
-            || ( (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                && (PermissionsHelper.getInstance().isPermissionGranted(this, PermissionsHelper.READ_MEDIA_IMAGES)) ) ) {
-                        loadBackgroundImageImpl(myImage);
-                        myImage.invalidate();
+            boolean result = false;
+            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                if (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_IMAGES)) {
+                    result = true;
+                }
+            } else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                if (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_IMAGES)) {
+                    result = true;
+                }
+            } else {
+                if ((PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_VISUAL_USER_SELECTED))
+                        || (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_VISUAL_USER_SELECTED)) ) {
+                    result = true;
+                }
+            }
+            if (result) {
+                loadBackgroundImageImpl(myImage);
+                myImage.invalidate();
             }
         }
     }

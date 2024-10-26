@@ -145,11 +145,11 @@
     <color name="buttonCommonFillGradiantDark_ultra">#FF181818</color>
     <color name="buttonCommonSelectedStroke_ultra">#404040</color>
 
-    <color name="buttonStopDisabledStroke_ultra">#FF2d2d2d</color>
-    <color name="buttonStopDisabledFill_ultra">#00000000</color>
-    <color name="buttonStopSelectedFill_ultra">#FF2d2d2d</color>
-    <color name="buttonStopSelectedText_ultra">#acc20000</color>
-    <color name="buttonStopSelectedInsideStroke_ultra">#46c20000</color>
+<!--    <color name="buttonStopDisabledStroke_ultra">#FF2d2d2d</color>-->
+<!--    <color name="buttonStopDisabledFill_ultra">#00000000</color>-->
+<!--    <color name="buttonStopSelectedFill_ultra">#FF2d2d2d</color>-->
+<!--    <color name="buttonStopSelectedText_ultra">#acc20000</color>-->
+<!--    <color name="buttonStopSelectedInsideStroke_ultra">#46c20000</color>-->
 
     <color name="buttonText_ultra">#d9d9d9</color>
 <!--    <color name="buttonLocoSelectText_ultra">#ff00b2e1</color>-->
@@ -187,15 +187,15 @@
     <color name="windowBackground_colorful">#fffaf6</color>
     <color name="dialogBackground_colorful">#f5971d</color>
 
-    <color name="buttonStopFillGradiantLight_colorful">#f59590</color>
-    <color name="buttonStopFillGradiantCenter_colorful">#f77a74</color>
-    <color name="buttonStopFillGradiantDark_colorful">#f74036</color>
-    <color name="buttonStopSelectedStroke_colorful">#404040</color>
-    <color name="buttonStopDisabledStroke_colorful">#b79d88</color>
-    <color name="buttonStopDisabledFill_colorful">#faefe7</color>
-    <color name="buttonStopSelectedFill_colorful">#acff0000</color>
-    <color name="buttonStopSelectedText_colorful">#ac000000</color>
-    <color name="buttonStopSelectedInsideStroke_colorful">#fdb1ad</color>
+<!--    <color name="buttonStopFillGradiantLight_colorful">#f59590</color>-->
+<!--    <color name="buttonStopFillGradiantCenter_colorful">#f77a74</color>-->
+<!--    <color name="buttonStopFillGradiantDark_colorful">#f74036</color>-->
+<!--    <color name="buttonStopSelectedStroke_colorful">#404040</color>-->
+<!--    <color name="buttonStopDisabledStroke_colorful">#b79d88</color>-->
+<!--    <color name="buttonStopDisabledFill_colorful">#faefe7</color>-->
+<!--    <color name="buttonStopSelectedFill_colorful">#acff0000</color>-->
+<!--    <color name="buttonStopSelectedText_colorful">#ac000000</color>-->
+<!--    <color name="buttonStopSelectedInsideStroke_colorful">#fdb1ad</color>-->
 
     <color name="buttonFillGradiantLight_colorful">#f1cea1</color>
     <color name="buttonFillGradiantCenter_colorful">#f2b465</color>
@@ -216,16 +216,16 @@
     <color name="buttonActivatedHoveredInsideStroke_colorful">#8c00ff</color>
     <color name="buttonActivatedHoveredInside2Stroke_colorful">#f200ff</color>
 
-    <color name="buttonFnFillGradiantExtraLight_colorful">#E2EFEB</color>
-    <color name="buttonFnFillGradiantLight_colorful">#c3d9d3</color>
-    <color name="buttonFnFillGradiantCenter_colorful">#8edac6</color>
-    <color name="buttonFnFillGradiantDark_colorful">#3ad7ac</color>
-    <color name="buttonFnSelectedStroke_colorful">#404040</color>
-    <color name="buttonFnDisabledFill_colorful">#faefe7</color>
-    <color name="buttonFnDisabledStroke_colorful">#b79d88</color>
-    <color name="buttonFnSelectedText_colorful">#000000</color>
-    <color name="buttonFnSelectedFill_colorful">#FF262626</color>
-    <color name="buttonFnSelectedInsideStroke_colorful">#FF3D00</color>
+<!--    <color name="buttonFnFillGradiantExtraLight_colorful">#E2EFEB</color>-->
+<!--    <color name="buttonFnFillGradiantLight_colorful">#c3d9d3</color>-->
+<!--    <color name="buttonFnFillGradiantCenter_colorful">#8edac6</color>-->
+<!--    <color name="buttonFnFillGradiantDark_colorful">#3ad7ac</color>-->
+<!--    <color name="buttonFnSelectedStroke_colorful">#404040</color>-->
+<!--    <color name="buttonFnDisabledFill_colorful">#faefe7</color>-->
+<!--    <color name="buttonFnDisabledStroke_colorful">#b79d88</color>-->
+<!--    <color name="buttonFnSelectedText_colorful">#000000</color>-->
+<!--    <color name="buttonFnSelectedFill_colorful">#FF262626</color>-->
+<!--    <color name="buttonFnSelectedInsideStroke_colorful">#FF3D00</color>-->
 
     <color name="background_highlight_black">#994E4E4E</color>
     <color name="background_highlight_colorful">#33FFA600</color>

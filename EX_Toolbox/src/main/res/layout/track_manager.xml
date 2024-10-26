@@ -92,7 +92,7 @@
                                 android:layout_width="0sp"
                                 android:layout_height="fill_parent"
                                 android:orientation="vertical"
-                                android:layout_weight=".90">
+                                android:layout_weight=".83">
 
                                 <LinearLayout
                                     android:layout_width="fill_parent"
@@ -586,18 +586,54 @@
 
                             </ScrollView>
 
-                            <Button
-                                android:id="@+id/ex_DccexWriteTracksButton"
-                                style="?attr/ed_small_button_style"
-                                android:layout_width="0sp"
+<!--                            <Button-->
+<!--                                android:id="@+id/ex_DccexWriteTracksButton"-->
+<!--                                style="?attr/ed_small_button_style"-->
+<!--                                android:layout_width="0sp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_weight=".1"-->
+<!--                                android:padding="0sp"-->
+<!--                                android:autoSizeMinTextSize="8sp"-->
+<!--                                android:autoSizeMaxTextSize="20sp"-->
+<!--                                android:autoSizeStepGranularity="1sp"-->
+<!--                                android:text="@string/dccexSetTrackButtonLabel"-->
+<!--                                tools:ignore="UnusedAttribute" />-->
+
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".1"
-                                android:padding="0sp"
-                                android:autoSizeMinTextSize="8sp"
-                                android:autoSizeMaxTextSize="20sp"
-                                android:autoSizeStepGranularity="1sp"
-                                android:text="@string/dccexSetTrackButtonLabel"
-                                tools:ignore="UnusedAttribute" />
+                                android:layout_weight=".17"
+                                android:layout_marginTop="8sp"
+                                android:background="#00000000"
+                                android:orientation="vertical"
+                                android:weightSum="1">
+
+                                <Button
+                                    android:id="@+id/ex_DccexWriteTracksButton"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40sp"
+                                    android:autoSizeMaxTextSize="18sp"
+                                    android:autoSizeMinTextSize="8sp"
+                                    android:autoSizeStepGranularity="1sp"
+                                    android:padding="0dp"
+                                    android:text="@string/dccexSetTrackButtonLabel"
+                                    tools:ignore="UnusedAttribute" />
+
+                                <Button
+                                    android:id="@+id/ex_DccexJoinTracksButton"
+                                    style="?attr/ed_small_button_style"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="32sp"
+                                    android:autoSizeMaxTextSize="18sp"
+                                    android:autoSizeMinTextSize="8sp"
+                                    android:autoSizeStepGranularity="1sp"
+                                    android:layout_marginTop="10dp"
+                                    android:padding="0sp"
+                                    android:text="@string/DccexJoinTrackButtonLabel"
+                                    tools:ignore="UnusedAttribute" />
+
+                            </LinearLayout>
 
 
                         </LinearLayout>

@@ -85,6 +85,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/discoveredServersHeading"
         style="?android:attr/listSeparatorTextViewStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -134,14 +135,6 @@
             android:layout_height="wrap_content"
             android:footerDividersEnabled="true" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/ca_footer"
-        style="?attr/floating_text_style"
-        android:textColor="?android:attr/textColorSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/none" />
 
     <RelativeLayout
         android:id="@+id/host_numeric_or_text"

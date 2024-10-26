@@ -343,7 +343,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
         DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
 
         clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
-        clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
+        ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
         clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
 //        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ROSTER, "");
@@ -819,7 +819,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
 
 
 
-    public class clear_commands_button_listener implements View.OnClickListener {
+    public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             mainapp.DccexResponsesListHtml.clear();
             mainapp.dccexSendsListHtml.clear();

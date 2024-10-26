@@ -17,7 +17,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package dcc_ex.ex_toolbox;
 
-import static android.app.PendingIntent.getActivity;
 import static dcc_ex.ex_toolbox.threaded_application.context;
 
 import android.annotation.SuppressLint;
@@ -118,6 +117,8 @@ public class connection_activity extends AppCompatActivity implements Permission
     View host_numeric_or_text;
     Button host_numeric;
     Button host_text;
+
+    TextView discoveredServersHeading;
 
     LinearLayout rootView;
     int rootViewHeight = 0;
@@ -538,6 +539,8 @@ public class connection_activity extends AppCompatActivity implements Permission
         button_listener click_listener = new button_listener();
         button.setOnClickListener(click_listener);
 
+        discoveredServersHeading = findViewById(R.id.discoveredServersHeading);
+
         set_labels();
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -670,6 +673,12 @@ public class connection_activity extends AppCompatActivity implements Permission
     }
 
     private void set_labels() {
+
+        String ssid = mainapp.client_ssid;
+        if ( (ssid.equals("UNKNOWN")) || (ssid.equals("<unknown ssid>")) ) ssid = getString(R.string.statusThreadedAppNotConnectedToWifi);
+
+        discoveredServersHeading.setText(String.format(getString(R.string.discovered_services), ssid));
+
         //sets the tile to include throttle name.
         if (toolbar != null) {
             mainapp.setToolbarTitle(toolbar, statusLine, screenNameLine,

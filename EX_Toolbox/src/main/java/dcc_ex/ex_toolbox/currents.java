@@ -399,7 +399,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
 
         clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
-        clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
+        ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
         clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
         resetCurrentTextFields();
@@ -733,7 +733,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         }
     }
 
-    public class clear_commands_button_listener implements View.OnClickListener {
+    public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             mainapp.exitDoubleBackButtonInitiated = 0;
             mainapp.DccexResponsesListHtml.clear();

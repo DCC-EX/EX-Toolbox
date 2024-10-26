@@ -148,10 +148,21 @@
                             <Button
                                 android:id="@+id/ex_startButton"
                                 style="?attr/ed_small_button_style"
-                                android:layout_width="wrap_content"
+                                android:layout_width="60dp"
                                 android:layout_height="38sp"
-                                android:layout_marginLeft="40dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
                                 android:text="@string/dccexSpeedTrapStartLabel"
+                                tools:ignore="RtlHardcoded" />
+
+                            <Button
+                                android:id="@+id/ex_swapButton"
+                                style="?attr/ed_small_button_style"
+                                android:layout_width="50dp"
+                                android:layout_height="38sp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginStart="20dp"
+                                android:text="@string/dccexSpeedTrapSwapLabel"
                                 tools:ignore="RtlHardcoded" />
 
                         </LinearLayout>

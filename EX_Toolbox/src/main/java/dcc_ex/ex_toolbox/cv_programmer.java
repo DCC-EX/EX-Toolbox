@@ -469,7 +469,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         });
 
         sendCommandButton = findViewById(R.id.ex_DccexSendCommandButton);
-        send_command_button_listener sendCommandClickListener = new send_command_button_listener();
+        SendCommandButtonListener sendCommandClickListener = new SendCommandButtonListener();
         sendCommandButton.setOnClickListener(sendCommandClickListener);
 
         etDccexSendCommandValue = findViewById(R.id.ex_DccexSendCommandValue);
@@ -485,11 +485,11 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         DccexWriteInfoLabel.setText("");
 
         previousCommandButton = findViewById(R.id.ex_DccexPreviousCommandButton);
-        previous_command_button_listener previousCommandClickListener = new previous_command_button_listener();
+        PreviousCommandButtonListener previousCommandClickListener = new PreviousCommandButtonListener();
         previousCommandButton.setOnClickListener(previousCommandClickListener);
 
         nextCommandButton = findViewById(R.id.ex_DccexNextCommandButton);
-        next_command_button_listener nextCommandClickListener = new next_command_button_listener();
+        NextCommandButtonListener nextCommandClickListener = new NextCommandButtonListener();
         nextCommandButton.setOnClickListener(nextCommandClickListener);
 
         DccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
@@ -522,7 +522,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         spinner_adapter = ArrayAdapter.createFromResource(this, R.array.dccExCommonCommandsEntries, android.R.layout.simple_spinner_item);
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dccExCommonCommandsSpinner.setAdapter(spinner_adapter);
-        dccExCommonCommandsSpinner.setOnItemSelectedListener(new command_spinner_listener());
+        dccExCommonCommandsSpinner.setOnItemSelectedListener(new CommandSpinnerListener());
         dccExCommonCommandsSpinner.setSelection(dccCmdIndex);
 
         if (mainapp.DccexVersionValue <= threaded_application.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) {  /// need to remove the track manager option
@@ -627,18 +627,18 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
             ArrayAdapter<?> track_type_spinner_adapter = ArrayAdapter.createFromResource(this, R.array.dccExTrackTypeEntries, android.R.layout.simple_spinner_item);
             track_type_spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             dccExTrackTypeSpinner[i].setAdapter(track_type_spinner_adapter);
-            dccExTrackTypeSpinner[i].setOnItemSelectedListener(new track_type_spinner_listener(dccExTrackTypeSpinner[i], i));
+            dccExTrackTypeSpinner[i].setOnItemSelectedListener(new TrackTypeSpinnerListener(dccExTrackTypeSpinner[i], i));
             dccExTrackTypeSpinner[i].setSelection(dccExTrackTypeIndex[i]);
 
             writeTracksButton = findViewById(R.id.ex_DccexWriteTracksButton);
-            write_tracks_button_listener writeTracksClickListener = new write_tracks_button_listener();
+            WriteTracksButtonListener writeTracksClickListener = new WriteTracksButtonListener();
             writeTracksButton.setOnClickListener(writeTracksClickListener);
 
             DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
             DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
 
             clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
-            clear_commands_button_listener clearCommandsClickListener = new clear_commands_button_listener();
+            ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
             clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
 //            hideSendsButton = findViewById(R.id.ex_dccexHideSendsButton);
@@ -1059,7 +1059,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         }
     }
 
-    public class send_command_button_listener implements View.OnClickListener {
+    public class SendCommandButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             DccexInfoStr = "";
             String cmdStr = etDccexSendCommandValue.getText().toString();
@@ -1084,7 +1084,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         }
     }
 
-    public class previous_command_button_listener implements View.OnClickListener {
+    public class PreviousCommandButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             DccexInfoStr = "";
             String cmdStr = etDccexSendCommandValue.getText().toString();
@@ -1102,7 +1102,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         }
     }
 
-    public class next_command_button_listener implements View.OnClickListener {
+    public class NextCommandButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             DccexInfoStr = "";
             String cmdStr = etDccexSendCommandValue.getText().toString();
@@ -1120,7 +1120,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         }
     }
 
-    public class write_tracks_button_listener implements View.OnClickListener {
+    public class WriteTracksButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             Integer typeIndex;
             String type;
@@ -1153,7 +1153,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         }
     }
 
-    public class clear_commands_button_listener implements View.OnClickListener {
+    public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             mainapp.DccexResponsesListHtml.clear();
             mainapp.dccexSendsListHtml.clear();
@@ -1317,7 +1317,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         }
     }
 
-    public class command_spinner_listener implements AdapterView.OnItemSelectedListener {
+    public class CommandSpinnerListener implements AdapterView.OnItemSelectedListener {
 
         @SuppressLint("ApplySharedPref")
         @Override
@@ -1387,11 +1387,11 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         }
     }
 
-    public class track_type_spinner_listener implements AdapterView.OnItemSelectedListener {
+    public class TrackTypeSpinnerListener implements AdapterView.OnItemSelectedListener {
         Spinner mySpinner;
         int myIndex;
 
-        track_type_spinner_listener(Spinner spinner, int index) {
+        TrackTypeSpinnerListener(Spinner spinner, int index) {
             mySpinner = spinner;
             myIndex = index;
         }

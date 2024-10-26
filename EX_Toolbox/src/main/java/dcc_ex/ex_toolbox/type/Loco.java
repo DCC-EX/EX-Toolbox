@@ -24,7 +24,7 @@ import java.util.List;
 import dcc_ex.ex_toolbox.threaded_application;
 
 //
-// EngineDriver Loco
+// EX-Toolbox Loco
 //
 public class Loco {
     private final String addr;                  //L2531 form

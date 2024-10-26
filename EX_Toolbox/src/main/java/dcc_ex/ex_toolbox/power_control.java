@@ -57,6 +57,7 @@ public class power_control extends AppCompatActivity {
     private Button[] dccExTrackPowerButton = {null, null, null, null, null, null, null, null};
     private LinearLayout[] dccExTrackTypeLayout = {null, null, null, null, null, null, null, null};
     private TextView[] dccExTrackType = {null, null, null, null, null, null, null, null};
+    private final TextView[] dccExTrackTypeId = {null, null, null, null, null, null, null, null};
 
     float vn = 4; // DCC-EC Version number
 
@@ -157,6 +158,7 @@ public class power_control extends AppCompatActivity {
             if (vn >= 05.002005) {  /// need to remove the track power options
                 dccExTrackTypeLayout[i].setVisibility(mainapp.dccexTrackAvailable[i] ? View.VISIBLE : View.GONE);
                 dccExTrackType[i].setText(TRACK_TYPES[mainapp.dccexTrackType[i]]);
+                dccExTrackTypeId[i].setText(mainapp.dccexTrackId[i]);
                 setPowerButton(dccExTrackPowerButton[i],mainapp.dccexTrackPower[i]);
             } else {
                 dccExTrackTypeLayout[i].setVisibility(View.GONE);
@@ -238,41 +240,49 @@ public class power_control extends AppCompatActivity {
                     dccExTrackTypeLayout[i] = findViewById(R.id.dccexTrackPower0layout);
                     dccExTrackPowerButton[i] = findViewById(R.id.dccexPowerControlButton0);
                     dccExTrackType[i] = findViewById(R.id.dccexPowerControlTrackType0);
+                    dccExTrackTypeId[i] = findViewById(R.id.dccexPowerControlTrackTypeId0);
                     break;
                 case 1:
                     dccExTrackTypeLayout[i] = findViewById(R.id.dccexTrackPower1layout);
                     dccExTrackPowerButton[i] = findViewById(R.id.dccexPowerControlButton1);
                     dccExTrackType[i] = findViewById(R.id.dccexPowerControlTrackType1);
+                    dccExTrackTypeId[i] = findViewById(R.id.dccexPowerControlTrackTypeId1);
                     break;
                 case 2:
                     dccExTrackTypeLayout[i] = findViewById(R.id.dccexTrackPower2layout);
                     dccExTrackPowerButton[i] = findViewById(R.id.dccexPowerControlButton2);
                     dccExTrackType[i] = findViewById(R.id.dccexPowerControlTrackType2);
+                    dccExTrackTypeId[i] = findViewById(R.id.dccexPowerControlTrackTypeId2);
                     break;
                 case 3:
                     dccExTrackTypeLayout[i] = findViewById(R.id.dccexTrackPower3layout);
                     dccExTrackPowerButton[i] = findViewById(R.id.dccexPowerControlButton3);
                     dccExTrackType[i] = findViewById(R.id.dccexPowerControlTrackType3);
+                    dccExTrackTypeId[i] = findViewById(R.id.dccexPowerControlTrackTypeId3);
                     break;
                 case 4:
                     dccExTrackTypeLayout[i] = findViewById(R.id.dccexTrackPower4layout);
                     dccExTrackPowerButton[i] = findViewById(R.id.dccexPowerControlButton4);
                     dccExTrackType[i] = findViewById(R.id.dccexPowerControlTrackType4);
+                    dccExTrackTypeId[i] = findViewById(R.id.dccexPowerControlTrackTypeId4);
                     break;
                 case 5:
                     dccExTrackTypeLayout[i] = findViewById(R.id.dccexTrackPower5layout);
                     dccExTrackPowerButton[i] = findViewById(R.id.dccexPowerControlButton5);
                     dccExTrackType[i] = findViewById(R.id.dccexPowerControlTrackType5);
+                    dccExTrackTypeId[i] = findViewById(R.id.dccexPowerControlTrackTypeId5);
                     break;
                 case 6:
                     dccExTrackTypeLayout[i] = findViewById(R.id.dccexTrackPower6layout);
                     dccExTrackPowerButton[i] = findViewById(R.id.dccexPowerControlButton6);
                     dccExTrackType[i] = findViewById(R.id.dccexPowerControlTrackType6);
+                    dccExTrackTypeId[i] = findViewById(R.id.dccexPowerControlTrackTypeId6);
                     break;
                 case 7:
                     dccExTrackTypeLayout[i] = findViewById(R.id.dccexTrackPower7layout);
                     dccExTrackPowerButton[i] = findViewById(R.id.dccexPowerControlButton7);
                     dccExTrackType[i] = findViewById(R.id.dccexPowerControlTrackType7);
+                    dccExTrackTypeId[i] = findViewById(R.id.dccexPowerControlTrackTypeId7);
                     break;
             }
             SetTrackPowerButtonListener buttonListener = new SetTrackPowerButtonListener(i);
