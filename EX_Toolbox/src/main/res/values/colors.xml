@@ -51,6 +51,7 @@
     <color name="buttonCommonFillGradiantCenter_original">#C3C3C3</color>
     <color name="buttonCommonFillGradiantDark_original">#B1B1B1</color>
     <color name="buttonCommonSelectedStrokeLight_original">#D3D1D1</color>
+    <color name="buttonCommonSelectedStrokeMid_original">#878787</color>
     <color name="buttonCommonSelectedStrokeDark_original">#3C3C3C</color>
     <color name="buttonCommonOutlineStroke_original">#878787</color>
 
@@ -129,12 +130,12 @@
     <color name="buttonStopSelectedInsideStroke_outline">#ffff0000</color>
 
     <color name="buttonFnFill_outline">#00000000</color>
-    <color name="buttonFnStroke_outline">#a6a6a6</color>
+<!--    <color name="buttonFnStroke_outline">#a6a6a6</color>-->
     <color name="buttonFnDisabledFill_outline">#00000000</color>
-    <color name="buttonFnDisabledStroke_outline">#3cd6d6d6</color>
-    <color name="buttonFnSelectedFill_outline">#00000000</color>
-    <color name="buttonFnSelectedStroke_outline">#ff00b2e1</color>
-    <color name="buttonFnSelectedInsideStroke_outline">#ff00b2e1</color>
+<!--    <color name="buttonFnDisabledStroke_outline">#3cd6d6d6</color>-->
+<!--    <color name="buttonFnSelectedFill_outline">#00000000</color>-->
+<!--    <color name="buttonFnSelectedStroke_outline">#ff00b2e1</color>-->
+<!--    <color name="buttonFnSelectedInsideStroke_outline">#ff00b2e1</color>-->
 
 
     <!-- Ultra (Dark) Theme -->
@@ -161,11 +162,11 @@
     <color name="buttonActivatedHoveredInsideStroke_ultra">#7fffa000</color>
     <color name="buttonActivatedHoveredInside2Stroke_ultra">#7fffea00</color>
 
-    <color name="buttonFnDisabledFill_ultra">#00000000</color>
-    <color name="buttonFnDisabledStroke_ultra">#FF262626</color>
-    <color name="buttonFnSelectedText_ultra">#ff00b2e1</color>
-    <color name="buttonFnSelectedFill_ultra">#FF262626</color>
-    <color name="buttonFnSelectedInsideStroke_ultra">#7f0074b3</color>
+<!--    <color name="buttonFnDisabledFill_ultra">#00000000</color>-->
+<!--    <color name="buttonFnDisabledStroke_ultra">#FF262626</color>-->
+<!--    <color name="buttonFnSelectedText_ultra">#ff00b2e1</color>-->
+<!--    <color name="buttonFnSelectedFill_ultra">#FF262626</color>-->
+<!--    <color name="buttonFnSelectedInsideStroke_ultra">#7f0074b3</color>-->
 
     <color name="spinner_background_ultra">#131313</color>
     <color name="spinner_divider_ultra">#4A4A4A</color>
@@ -187,6 +188,10 @@
     <color name="windowBackground_colorful">#fffaf6</color>
     <color name="dialogBackground_colorful">#f5971d</color>
 
+    <color name="windowBackgroundGradiantLight_colorful">#FFFFFF</color>
+    <color name="windowBackgroundGradiantMid_colorful">#FDECD5</color>
+    <color name="windowBackgroundGradiantDark_colorful">#FAD6A7</color>
+
 <!--    <color name="buttonStopFillGradiantLight_colorful">#f59590</color>-->
 <!--    <color name="buttonStopFillGradiantCenter_colorful">#f77a74</color>-->
 <!--    <color name="buttonStopFillGradiantDark_colorful">#f74036</color>-->
@@ -197,6 +202,7 @@
 <!--    <color name="buttonStopSelectedText_colorful">#ac000000</color>-->
 <!--    <color name="buttonStopSelectedInsideStroke_colorful">#fdb1ad</color>-->
 
+    <color name="buttonFillGradiantVeryLight_colorful">#F4E6D4</color>
     <color name="buttonFillGradiantLight_colorful">#f1cea1</color>
     <color name="buttonFillGradiantCenter_colorful">#f2b465</color>
     <color name="buttonFillGradiantDark_colorful">#f5971d</color>
@@ -234,5 +240,63 @@
 
     <color name="spinner_background_colorful">#f2b465</color>
     <color name="spinner_divider_colorful">@color/solidBlack</color>
+
+    <!-- Neon colours -->
+
+    <color name="neon_yellow_very_dark">#616100</color>
+    <color name="neon_yellow_dark">#9E9E00</color>
+    <color name="neon_yellow">#FFFF00</color>
+    <color name="neon_yellow_light">#FFFF55</color>
+    <color name="neon_green">#7FFF00</color>
+    <color name="neon_green_light">#8CFB1D</color>
+    <color name="neon_pink">#FB33DB</color>
+    <color name="neon_pink_light">#D033FB</color>
+    <color name="neon_blue_ultra_dark">#000020</color>
+    <color name="neon_blue_very_dark">#00005E</color>
+    <color name="neon_blue_dark">#0000A1</color>
+    <color name="neon_blue">#0000FF</color>
+    <color name="neon_blue_light">#2B2BFF</color>
+    <color name="neon_blue_very_light">#3852AF</color>
+    <color name="neon_blue_ultra_light">#9DA3FF</color>
+    <color name="neon_red">#FF0000</color>
+    <color name="neon_red_light">#FF3636</color>
+    <color name="neon_red_very_light">#FF5959</color>
+
+    <color name="divider_neon">@color/neon_blue</color>
+
+    <color name="buttonCommonFillGradiantVeryLight_neon">@color/neon_blue_very_light</color>
+    <color name="buttonCommonFillGradiantLight_neon">@color/neon_blue</color>
+    <color name="buttonCommonFillGradiantCenter_neon">@color/neon_blue_dark</color>
+    <color name="buttonCommonFillGradiantDark_neon">@color/neon_blue_very_dark</color>
+    <color name="buttonCommonSelectedStroke_neon">@color/neon_blue_ultra_light</color>
+
+    <color name="buttonStopDisabledStroke_neon">#FF2d2d2d</color>
+    <color name="buttonStopDisabledFill_neon">#00000000</color>
+    <color name="buttonStopSelectedFill_neon">#FF2d2d2d</color>
+    <color name="buttonStopSelectedText_neon">@color/neon_red</color>
+    <color name="buttonStopSelectedInsideStroke_neon">@color/neon_red_light</color>
+
+    <color name="buttonText_neon">#d9d9d9</color>
+    <color name="buttonLocoSelectText_neon">@color/neon_blue_ultra_light</color>
+    <color name="buttonDisabledFill_neon">#00000000</color>
+    <color name="buttonDisabledStroke_neon">#FF2d2d2d</color>
+    <color name="buttonSelectedText_neon">@color/neon_yellow</color>
+    <color name="buttonLocoDisabledText_neon">@color/solidWhite</color>
+    <color name="buttonSelectedFill_neon">#FF2d2d2d</color>
+    <color name="buttonSelectedInsideStroke_neon">@color/neon_yellow</color>
+    <color name="buttonActivatedHoveredInsideStroke_neon">@color/neon_yellow_dark</color>
+    <color name="buttonActivatedHoveredInside2Stroke_neon">@color/neon_yellow_very_dark</color>
+
+<!--    <color name="buttonFnDisabledFill_neon">#00000000</color>-->
+<!--    <color name="buttonFnDisabledStroke_neon">#FF262626</color>-->
+<!--    <color name="buttonFnSelectedText_neon">@color/neon_yellow</color>-->
+<!--    <color name="buttonFnSelectedFill_neon">#FF262626</color>-->
+<!--    <color name="buttonFnSelectedInsideStroke_neon">@color/neon_yellow</color>-->
+
+    <color name="spinner_background_neon">@color/neon_blue_ultra_dark</color>
+    <color name="spinner_divider_neon">@color/neon_blue</color>
+
+    <color name="background_highlight_neon">@color/neon_blue_very_dark</color>
+    <color name="background_highlight_secondary_neon">@color/neon_blue_ultra_dark</color>
 
 </resources>

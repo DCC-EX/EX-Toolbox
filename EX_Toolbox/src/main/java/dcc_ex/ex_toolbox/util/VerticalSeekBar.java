@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -112,6 +113,12 @@ public class VerticalSeekBar extends SeekBar {
     protected final void onDraw(final Canvas c) {
         c.rotate(ROTATION_ANGLE);
         c.translate(-getHeight(), 0);
+
+        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            Drawable progressDrawable = getResources().getDrawable(R.drawable.transparent_progress_bar);
+
+            this.setProgressDrawable(progressDrawable);
+        }
 
         if (!tickMarksChecked) {
             tickMarksChecked = true;

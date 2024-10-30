@@ -271,13 +271,15 @@
         <item>Outline</item>
         <item>Ultra</item>
         <item>Colorful</item>
+        <item>Neon</item>
     </string-array>
     <string-array name="prefThemeEntries">  <!-- display version -->
-        <item>Default</item>
+        <item>Original (Metal Grid)</item>
         <item>High Contrast</item>
         <item>Outline</item>
         <item>Dark</item>
         <item>Colorful</item>
+        <item>Neon Blue</item>
     </string-array>
 
 <!--    <string-array name="prefYesNoEntryValues" translatable="false">  &lt;!&ndash; DO NOT TRANSLATE &ndash;&gt;-->

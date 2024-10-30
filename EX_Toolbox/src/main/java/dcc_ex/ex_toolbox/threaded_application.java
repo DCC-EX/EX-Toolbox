@@ -1167,17 +1167,20 @@ public class threaded_application extends Application {
                     return R.style.app_theme_ultra;
                 case "Colorful":
                     return R.style.app_theme_colorful;
+                case "Neon":
+                    return R.style.app_theme_neon;
                 default:
                     return R.style.app_theme;
             }
         } else {
             switch (prefTheme) {
-                case "Colorful":
-//                    return R.style.app_theme_colorful_preferences;
                 case "Black":
                 case "Outline":
                 case "Ultra":
+                case "Neon":
                     return R.style.app_theme_black_preferences;
+                case "Colorful":
+//                    return R.style.app_theme_colorful_preferences;
                 default:
                     return R.style.app_theme_preferences;
             }

@@ -18,11 +18,12 @@
 <resources>
 
     <string-array name="prefThemeEntries">  <!-- display version -->
-        <item>Default</item>
+        <item>Original (Metal Grid)</item>
         <item>High Contrast</item>
         <item>Outline</item>
         <item>Dark</item>
         <item>Colourful</item>
+        <item>Neon Blue</item>
     </string-array>
 
 </resources>

@@ -8,6 +8,7 @@
     <attr name="list_id_style" format="reference" />
     <attr name="list_extras_style" format="reference" />
     <attr name="EDListView" format="reference" />
+    <attr name="EDRadioButton" format="reference" />
     <attr name="listSeparatorTextViewStyle" format="reference" />
 
     <attr name="ed_large_button_style" format="reference" />
@@ -58,4 +59,13 @@
 
     <attr name="ed_dccex_button_cv_programmer_pom" format="reference" />
     <attr name="ed_dccex_button_cv_programmer_prog_track" format="reference" />
+<!--    <attr name="ed_dccex_button_track_manager" format="reference" />-->
+<!--    <attr name="ed_dccex_button_function_defaults" format="reference" />-->
+
+    <attr name="ed_primaryLineColor" format="reference" />
+    <attr name="ed_secondaryLineColor" format="reference" />
+
+    <attr name="ed_progressBar" format="reference" />
+    <attr name="ed_progressBarBackground" format="reference" />
+    <attr name="ed_progressBarSelected" format="reference" />
 </resources>

@@ -210,6 +210,8 @@
                                 android:layout_height="38sp"
                                 android:layout_weight=".15"
                                 android:padding="4sp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginEnd="5dp"
                                 android:text="@string/dccexReadAddressButtonLabel" />
 
                             <Button
@@ -300,6 +302,8 @@
                                 android:layout_height="38sp"
                                 android:layout_weight=".15"
                                 android:padding="4sp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginEnd="5dp"
                                 android:text="@string/dccexReadAddressButtonLabel" />
 
                             <Button
@@ -860,6 +864,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight=".15"
                                 android:padding="4sp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginEnd="5dp"
                                 android:text="@string/dccexSendCommandButtonLabel" />
 
                             <TableLayout
@@ -880,6 +886,7 @@
                                         android:layout_height="22sp"
                                         android:layout_weight=".5"
                                         android:padding="2sp"
+                                        android:layout_marginBottom="4dp"
                                         android:text="@string/dccexPreviousCommandButtonLabel" />
                                 </TableRow>
                                 <TableRow android:gravity="center_horizontal"

@@ -217,10 +217,10 @@ public class power_control extends AppCompatActivity {
             vn = Float.valueOf(mainapp.DccexVersion);
         } catch (Exception ignored) { } // invalid version
 
-        power_on_drawable = getResources().getDrawable(R.drawable.power_green);
-        power_on_and_off_drawable = getResources().getDrawable(R.drawable.power_green_red);
-        power_off_drawable = getResources().getDrawable(R.drawable.power_red);
-        power_unknown_drawable = getResources().getDrawable(R.drawable.power_yellow);
+        power_on_drawable = getResources().getDrawable(R.drawable.original_toolbar_power_green);
+        power_on_and_off_drawable = getResources().getDrawable(R.drawable.original_toolbar_power_green_red);
+        power_off_drawable = getResources().getDrawable(R.drawable.original_toolbar_power_red);
+        power_unknown_drawable = getResources().getDrawable(R.drawable.original_toolbar_power_yellow);
 
 
         //Set the button callbacks, storing the command to pass for each

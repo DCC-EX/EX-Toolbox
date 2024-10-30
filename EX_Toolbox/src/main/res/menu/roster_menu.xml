@@ -80,16 +80,16 @@
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
 
-    <item android:id="@+id/power_layout_button"
-        android:title="@string/PowerButtonBar"
-        android:visible="false"
-        app:showAsAction="always"
-        tools:ignore="AlwaysShowAction" />
-
     <item android:id="@+id/toolbar_button_neopixel"
         android:icon="?attr/ed_toolbar_button_neopixel"
         android:title="@string/app_name_neopixel"
         android:visible="true"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item android:id="@+id/power_layout_button"
+        android:title="@string/PowerButtonBar"
+        android:visible="false"
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
 

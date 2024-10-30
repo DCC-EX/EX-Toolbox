@@ -58,12 +58,12 @@
     <dimen name="buttonStroke_outline">2dip</dimen>
     <dimen name="buttonCornerRadius_outline">5dip</dimen>
 
-    <dimen name="buttonFnDisabledStroke_outline">1dip</dimen>
-    <dimen name="buttonFnSelectedStroke_outline">1dip</dimen>
-    <dimen name="buttonFnSelectedInsideStroke_outline">1dip</dimen>
-    <dimen name="buttonFnSelectedInsideStrokePadding_outline">3dip</dimen>
-    <dimen name="buttonFnStroke_outline">1dip</dimen>
-    <dimen name="buttonFnCornerRadius_outline">5dip</dimen>
+<!--    <dimen name="buttonFnDisabledStroke_outline">1dip</dimen>-->
+<!--    <dimen name="buttonFnSelectedStroke_outline">1dip</dimen>-->
+<!--    <dimen name="buttonFnSelectedInsideStroke_outline">1dip</dimen>-->
+<!--    <dimen name="buttonFnSelectedInsideStrokePadding_outline">3dip</dimen>-->
+<!--    <dimen name="buttonFnStroke_outline">1dip</dimen>-->
+<!--    <dimen name="buttonFnCornerRadius_outline">5dip</dimen>-->
 
     <dimen name="buttonStopDisabledStroke_outline">1dip</dimen>
     <dimen name="buttonStopSelectedStroke_outline">1dip</dimen>
@@ -87,12 +87,12 @@
     <dimen name="buttonStroke_ultra">2dp</dimen>
     <dimen name="buttonCornerRadius_ultra">3dp</dimen>
 
-    <dimen name="buttonFnDisabledStroke_ultra">1px</dimen>
-    <dimen name="buttonFnSelectedStroke_ultra">1px</dimen>
-    <dimen name="buttonFnSelectedInsideStroke_ultra">2dp</dimen>
-    <dimen name="buttonFnSelectedInsideStrokePadding_ultra">2dp</dimen>
-    <dimen name="buttonFnStroke_ultra">1dp</dimen>
-    <dimen name="buttonFnCornerRadius_ultra">2dp</dimen>
+<!--    <dimen name="buttonFnDisabledStroke_ultra">1px</dimen>-->
+<!--    <dimen name="buttonFnSelectedStroke_ultra">1px</dimen>-->
+<!--    <dimen name="buttonFnSelectedInsideStroke_ultra">2dp</dimen>-->
+<!--    <dimen name="buttonFnSelectedInsideStrokePadding_ultra">2dp</dimen>-->
+<!--    <dimen name="buttonFnStroke_ultra">1dp</dimen>-->
+<!--    <dimen name="buttonFnCornerRadius_ultra">2dp</dimen>-->
 
 <!--    <dimen name="buttonStopDisabledStroke_ultra">1px</dimen>-->
 <!--    <dimen name="buttonStopSelectedStroke_ultra">1px</dimen>-->
@@ -108,9 +108,9 @@
     <dimen name="buttonDisabledStroke_colorful">1px</dimen>
     <dimen name="buttonSelectedStroke_colorful">1px</dimen>
     <dimen name="buttonSelectedInsideStroke_colorful">2dp</dimen>
-    <dimen name="buttonSelectedInsideStrokePadding_colorful">2dp</dimen>
-    <dimen name="buttonActivatedInsideStrokePadding_colorful">2dp</dimen>
-    <dimen name="buttonActivated2InsideStrokePadding_colorful">3dp</dimen>
+    <dimen name="buttonSelectedInsideStrokePadding_colorful">6px</dimen>
+    <dimen name="buttonActivatedInsideStrokePadding_colorful">6px</dimen>
+    <dimen name="buttonActivated2InsideStrokePadding_colorful">8px</dimen>
     <dimen name="buttonStroke_colorful">1dp</dimen>
     <dimen name="buttonCornerRadius_colorful">8dp</dimen>
 
@@ -129,5 +129,36 @@
 <!--    <dimen name="buttonStopCornerRadius_colorful">8dp</dimen>-->
 
     <dimen name="spinnerBackgroundCornerRadius_colorful">3dp</dimen>
+
+    <!-- Neon Blue theme -->
+
+    <dimen name="headingCornerRadius_neon">1dp</dimen>
+
+    <dimen name="buttonDisabledStroke_neon">1px</dimen>
+    <dimen name="buttonSelectedStroke_neon">1px</dimen>
+    <dimen name="buttonSelectedInsideStroke_neon">2dp</dimen>
+    <!--    <dimen name="buttonSelectedInsideStrokePadding_neon">2dp</dimen>-->
+    <dimen name="buttonActivatedInsideStrokePadding_neon">4dp</dimen>
+    <dimen name="buttonActivated2InsideStrokePadding_neon">6dp</dimen>
+    <dimen name="buttonStroke_neon">1dp</dimen>
+    <dimen name="buttonCornerRadius_neon">3dp</dimen>
+
+<!--    <dimen name="buttonFnDisabledStroke_neon">1px</dimen>-->
+<!--    <dimen name="buttonFnSelectedStroke_neon">1px</dimen>-->
+<!--    <dimen name="buttonFnSelectedInsideStroke_neon">2dp</dimen>-->
+<!--    <dimen name="buttonFnSelectedInsideStrokePadding_neon">2dp</dimen>-->
+<!--    <dimen name="buttonFnStroke_neon">1dp</dimen>-->
+<!--    <dimen name="buttonFnCornerRadius_neon">3dp</dimen>-->
+
+<!--    <dimen name="buttonStopDisabledStroke_neon">1px</dimen>-->
+<!--    <dimen name="buttonStopSelectedStroke_neon">1px</dimen>-->
+<!--    <dimen name="buttonStopSelectedInsideStroke_neon">2dp</dimen>-->
+<!--    <dimen name="buttonStopSelectedInsideStrokePadding_neon">2dp</dimen>-->
+<!--    <dimen name="buttonStopStroke_neon">1dp</dimen>-->
+<!--    <dimen name="buttonStopCornerRadius_neon">3dp</dimen>-->
+
+    <dimen name="spinnerBackgroundCornerRadius_neon">3dp</dimen>
+
+
 
 </resources>
