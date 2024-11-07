@@ -46,10 +46,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -66,6 +62,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 
 import java.io.File;
 import java.io.IOException;
@@ -1643,7 +1643,7 @@ public class threaded_application extends Application {
         return newVal;
     }
 
-    public void setToolbarTitle(Toolbar toolbar, LinearLayout statusLine,  LinearLayout screenNameLine, String title, String iconTitle, String clockText) {
+    public void setToolbarTitle(Toolbar toolbar, LinearLayout statusLine, LinearLayout screenNameLine, String title, String iconTitle, String clockText) {
         if ((toolbar != null) && (statusLine != null) && (screenNameLine != null)) {
             toolbar.setTitle("");
             TextView tvTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);

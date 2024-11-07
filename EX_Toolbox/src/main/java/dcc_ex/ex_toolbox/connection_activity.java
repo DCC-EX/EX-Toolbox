@@ -38,9 +38,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -65,6 +62,10 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -845,6 +846,7 @@ public class connection_activity extends AppCompatActivity implements Permission
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //only one activity with results here
         set_labels();
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // Handle pressing of the back button to request exit
