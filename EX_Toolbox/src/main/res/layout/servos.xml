@@ -11,7 +11,8 @@
     android:paddingTop="2sp"
     android:paddingRight="2sp"
     android:paddingBottom="2sp"
-    tools:ignore="RtlHardcoded">
+    tools:ignore="RtlHardcoded"
+    android:fitsSystemWindows="true" >
 
     <android.gesture.GestureOverlayView
         android:id="@+id/servos_overlay"

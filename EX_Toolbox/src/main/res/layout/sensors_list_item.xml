@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:weightSum="1"
     android:paddingLeft="3dp"
-    android:paddingRight="3dp">
+    android:paddingRight="3dp"
+    android:fitsSystemWindows="true" >
 
     <TextView
         android:id="@+id/sensor_id_value"

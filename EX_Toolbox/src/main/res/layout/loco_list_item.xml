@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:weightSum="1"
     android:paddingLeft="3dp"
-    android:paddingRight="3dp">
+    android:paddingRight="3dp"
+    android:fitsSystemWindows="true" >
 
     <TextView
         android:id="@+id/loco_id_item_label"
