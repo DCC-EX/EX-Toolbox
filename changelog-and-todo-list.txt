@@ -1,6 +1,6 @@
-**Version 0.1.29
+**Version 0.1.29-30
  * gradle update
- * minimumSDK updated to 36
+ * targetSdk updated to 36
 **Version 0.1.27-28
  * Move to the AndroidX libraries
  * Bug fix for more that 100 Sensors.  New preference to have more than 100 if needed
