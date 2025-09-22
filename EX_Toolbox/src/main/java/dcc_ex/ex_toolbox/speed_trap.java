@@ -821,7 +821,7 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
     public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             dccexInfoStr = "";
-            mainapp.DccexResponsesListHtml.clear();
+            mainapp.dccexResponsesListHtml.clear();
             mainapp.dccexSendsListHtml.clear();
             mainapp.dccexResponsesStr = "";
             mainapp.dccexSendsStr = "";

@@ -1,3 +1,6 @@
+**Version 0.1.31
+ * added cv bit calculator
+ * Identify serverType IoTT and send <U DISCONNECT>
 **Version 0.1.29-30
  * gradle update
  * targetSdk updated to 36

@@ -171,8 +171,8 @@ public class threaded_application extends Application {
 
     public HashMap<String, String> knownDccexServerIps = new HashMap<>();
     public boolean isDccex = true;  // is a DCC-EX EX-CommandStation
-    public String DccexVersion = "";
-    public double DccexVersionValue = 0.0;
+    public String dccexVersion = "";
+    public double dccexVersionValue = 0.0;
     public static final double DCCEX_MIN_VERSION_FOR_TRACK_MANAGER = 04.002007;
     public static final double DCCEX_MIN_VERSION_FOR_CURRENTS = 04.002019;
     public int dccexListsRequested = -1;  // -1=not requested  0=requested  1,2,3= no. of lists received
@@ -228,7 +228,7 @@ public class threaded_application extends Application {
     public String [] routeStatesDccex;  // used to process the route list
     public boolean [] routeDetailsReceivedDccex;  // used to process the route list
 
-    public ArrayList<String> DccexResponsesListHtml = new ArrayList<>();
+    public ArrayList<String> dccexResponsesListHtml = new ArrayList<>();
     public ArrayList<String> dccexSendsListHtml = new ArrayList<>();
 
     //For communication to the comm_thread.
@@ -775,8 +775,8 @@ public class threaded_application extends Application {
         rt_user_names = null;
         rt_state_names = null;
 
-        DccexVersion = "";
-        DccexVersionValue = 0.0;
+        dccexVersion = "";
+        dccexVersionValue = 0.0;
         dccexListsRequested = -1;
         dccexScreenIsOpen = false;
 
@@ -925,7 +925,7 @@ public class threaded_application extends Application {
         if (menu != null) {
             MenuItem item = menu.findItem(R.id.track_manager_mnu);
             if (item != null) {
-                item.setVisible(mainapp.DccexVersionValue > DCCEX_MIN_VERSION_FOR_TRACK_MANAGER);
+                item.setVisible(mainapp.dccexVersionValue > DCCEX_MIN_VERSION_FOR_TRACK_MANAGER);
             }
         }
     }
@@ -934,7 +934,7 @@ public class threaded_application extends Application {
         if (menu != null) {
             MenuItem item = menu.findItem(R.id.currents_mnu);
             if (item != null) {
-                item.setVisible(mainapp.DccexVersionValue > DCCEX_MIN_VERSION_FOR_CURRENTS);
+                item.setVisible(mainapp.dccexVersionValue > DCCEX_MIN_VERSION_FOR_CURRENTS);
             }
         }
     }
@@ -1496,10 +1496,10 @@ public class threaded_application extends Application {
         int nextScreen;
         if (deltaX <= 0.0) {
             nextScreen = currentScreen + 1;
-            if ( (nextScreen == SCREEN_SWIPE_INDEX_CURRENTS) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_CURRENTS) ) {
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_CURRENTS) && (mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_CURRENTS) ) {
                 nextScreen++;
             }
-            if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen++;
             }
             if (nextScreen > SCREEN_SWIPE_INDEX_LAST) {
@@ -1510,10 +1510,10 @@ public class threaded_application extends Application {
             if (nextScreen < 0) {
                 nextScreen = SCREEN_SWIPE_INDEX_LAST;
             }
-            if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen--;
             }
-            if ( (nextScreen == SCREEN_SWIPE_INDEX_CURRENTS) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_CURRENTS) ) {
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_CURRENTS) && (mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_CURRENTS) ) {
                 nextScreen--;
             }
         }
@@ -1625,11 +1625,11 @@ public class threaded_application extends Application {
 //    }
 
     public String getDccexVersion() {
-        return DccexVersion;
+        return dccexVersion;
     }
 
     public double getDccexVersionValue() {
-        return DccexVersionValue;
+        return dccexVersionValue;
     }
 
     static public int getIntPrefValue(SharedPreferences sharedPreferences, String key, String defaultVal) {

@@ -354,8 +354,17 @@
                                 android:layout_marginRight="0dp"
                                 android:layout_marginLeft="0dp"
                                 android:text=""
-                                android:layout_weight=".8"
+                                android:layout_weight=".7"
                                 tools:ignore="RtlHardcoded" />
+
+                            <Button
+                                android:id="@+id/dexc_cvBitCalculatorButton"
+                                style="?attr/ed_small_button_condensed_text_style"
+                                android:layout_width="0dp"
+                                android:layout_height="26dp"
+                                android:layout_weight=".10"
+                                android:padding="2sp"
+                                android:text="@string/dccexCvBitCalculatorButtonLabel" />
 
                         </LinearLayout>
 

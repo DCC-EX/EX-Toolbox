@@ -93,6 +93,8 @@
     <string name="set">Set</string>
     <string name="disabled">Disabled</string>
 
+    <string name="close_button">Close</string>
+
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">"OK"</string>
@@ -461,6 +463,11 @@
         \nc) Select the Scale
         \nd) Click \`Start\`
         \ne) Run the loco past the sensors</string>
+
+    <string name="dccexCvBitCalculatorButtonLabel">Bits</string>
+    <string name="cvBitCalculatorTitle">CV Bit Calculator</string>
+    <string name="cvBitCalculatorCvValueLabel">CV Value (decimal)</string>
+    <string name="cvBitCalculatorCvBitsLabel">Bits:</string>
 
     <string name="dccexSetTrackButtonLabel">Set</string>
     <string name="DccexJoinTrackButtonLabel">Join</string>

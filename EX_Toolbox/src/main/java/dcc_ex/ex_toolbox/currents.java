@@ -74,14 +74,14 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
 
     //**************************************
 
-    private LinearLayout DccexWriteInfoLayout;
-    private TextView DccexWriteInfoLabel;
-    private String DccexInfoStr = "";
+    private LinearLayout dccexWriteInfoLayout;
+    private TextView dccexWriteInfoLabel;
+    private String dccexInfoStr = "";
 
-    private TextView DccexResponsesLabel;
-    private TextView DccexSendsLabel;
-    private ScrollView DccexResponsesScrollView;
-    private ScrollView DccexSendsScrollView;
+    private TextView dccexResponsesLabel;
+    private TextView dccexSendsLabel;
+    private ScrollView dccexResponsesScrollView;
+    private ScrollView dccexSendsScrollView;
 
     Button startCurrentsButton;
     Button stopCurrentsButton;
@@ -312,14 +312,14 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
 
         mainapp.loadBackgroundImage(findViewById(R.id.currentsBackgroundImgView));
 
-        DccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
-        DccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
-        DccexWriteInfoLabel.setText("");
+        dccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
+        dccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
+        dccexWriteInfoLabel.setText("");
 
-        DccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
-        DccexResponsesLabel.setText("");
-        DccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
-        DccexSendsLabel.setText("");
+        dccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
+        dccexResponsesLabel.setText("");
+        dccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
+        dccexSendsLabel.setText("");
 
         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.START_CURRENTS_TIMER);
 //        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_CURRENTS);
@@ -396,8 +396,8 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         stop_currents_button_listener stopCurrentsClickListener = new stop_currents_button_listener();
         stopCurrentsButton.setOnClickListener(stopCurrentsClickListener);
 
-        DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
-        DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
+        dccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
+        dccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
 
         clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
         ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
@@ -628,6 +628,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
 
     //handle return from menu items
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // helper methods to handle navigating away from this activity
@@ -737,7 +738,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
     public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             mainapp.exitDoubleBackButtonInitiated = 0;
-            mainapp.DccexResponsesListHtml.clear();
+            mainapp.dccexResponsesListHtml.clear();
             mainapp.dccexSendsListHtml.clear();
             mainapp.dccexResponsesStr = "";
             mainapp.dccexSendsStr = "";
@@ -771,15 +772,15 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
     }
 
     public void refreshDccexView() {
-        DccexWriteInfoLabel.setText(DccexInfoStr);
+        dccexWriteInfoLabel.setText(dccexInfoStr);
         refreshDccexCommandsView();
         showHideButtons();
 
     }
 
     public void refreshDccexCommandsView() {
-        DccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
-        DccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
+        dccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
+        dccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
     }
 
     public void refreshDccexCurrentsView() {

@@ -173,6 +173,7 @@ public class connection_activity extends AppCompatActivity implements Permission
 
     private void start_cv_programmer_activity() {
         Intent cv_programmer = mainapp.getCvProgrammerIntent();
+        cv_programmer.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(cv_programmer);
         this.finish();
         overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
@@ -856,6 +857,7 @@ public class connection_activity extends AppCompatActivity implements Permission
             return true;
         } else if (item.getItemId() == R.id.about_mnu) {
             in = new Intent().setClass(this, about_page.class);
+            in.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(in);
             connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
             return true;
@@ -865,11 +867,13 @@ public class connection_activity extends AppCompatActivity implements Permission
             return true;
         } else if (item.getItemId() == R.id.logviewer_menu) {
             Intent logviewer = new Intent().setClass(this, LogViewerActivity.class);
+            logviewer.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(logviewer);
             connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
             return true;
         } else if (item.getItemId() == R.id.intro_mnu) {
             in = new Intent().setClass(this, intro_activity.class);
+            in.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(in);
             connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
             return true;

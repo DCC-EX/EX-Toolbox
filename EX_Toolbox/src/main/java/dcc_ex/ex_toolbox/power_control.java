@@ -215,7 +215,7 @@ public class power_control extends AppCompatActivity {
         if (mainapp.isDccex) mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_TRACKS, "");
 
         try {
-            vn = Float.valueOf(mainapp.DccexVersion);
+            vn = Float.valueOf(mainapp.dccexVersion);
         } catch (Exception ignored) { } // invalid version
 
         power_on_drawable = getResources().getDrawable(R.drawable.original_toolbar_power_green);

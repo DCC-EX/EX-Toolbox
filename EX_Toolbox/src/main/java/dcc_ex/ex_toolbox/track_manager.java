@@ -449,7 +449,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
 
         vn = 4;
         try {
-            vn = Float.valueOf(mainapp.DccexVersion);
+            vn = Float.valueOf(mainapp.dccexVersion);
         } catch (Exception ignored) { } // invalid version
         if (vn <= 04.002068) {  // need to change the NONE to OFF in track manager
             dccExTrackTypeEntriesArray[0] = "OFF";
@@ -933,7 +933,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
 
     public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
-            mainapp.DccexResponsesListHtml.clear();
+            mainapp.dccexResponsesListHtml.clear();
             mainapp.dccexSendsListHtml.clear();
             mainapp.dccexResponsesStr = "";
             mainapp.dccexSendsStr = "";
@@ -982,7 +982,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
     }
 
     private void showHideButtons() {
-//        DccexWriteInfoLayout.setVisibility(View.GONE);
+//        dccexWriteInfoLayout.setVisibility(View.GONE);
 //        dexcDccexTrackLinearLayout.setVisibility(View.VISIBLE);
 
         for (int i = 0; i < threaded_application.DCCEX_MAX_TRACKS; i++) {
@@ -1038,7 +1038,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
                 etDccexSendCommandValue.requestFocus();
                 etDccexSendCommandValue.setSelection(dccexSendCommandValue.length());
             }
-//            DccexInfoStr = "";
+//            dccexInfoStr = "";
             if (dccCmdIndex != 0) {
                 dccexInfoStr = dccexCommonCommandsAdditionalInfoArray[dccCmdIndex];
             }

@@ -77,14 +77,14 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
     //**************************************
 
-    private LinearLayout DccexWriteInfoLayout;
-    private TextView DccexWriteInfoLabel;
-    private String DccexInfoStr = "";
+    private LinearLayout dccexWriteInfoLayout;
+    private TextView dccexWriteInfoLabel;
+    private String dccexInfoStr = "";
 
-    private TextView DccexResponsesLabel;
-    private TextView DccexSendsLabel;
-    private ScrollView DccexResponsesScrollView;
-    private ScrollView DccexSendsScrollView;
+    private TextView dccexResponsesLabel;
+    private TextView dccexSendsLabel;
+    private ScrollView dccexResponsesScrollView;
+    private ScrollView dccexSendsScrollView;
 
     Button readSensorsButton;
     Button resetSensorsButton;
@@ -96,10 +96,10 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 //    private TextView[] dccExSensorVpinsTextView = {null, null, null, null, null,  null, null, null, null, null};
 //    private TextView[] dccExSensorPullupsTextView = {null, null, null, null, null,  null, null, null, null, null};
 //
-//    private int[] DccexSensorStatus= {-1, -1, -1, -1, -1,  -1, -1, -1, -1, -1};
-//    private int[] DccexSensorIds = {0, 0, 0, 0, 0,  0, 0, 0, 0, 0};
-//    private int[] DccexSensorVpins = {0, 0, 0, 0, 0,  0, 0, 0, 0, 0};
-//    private int[] DccexSensorPullups = {1, 1, 1, 1, 1,  1, 1, 1, 1, 1};
+//    private int[] dccexSensorStatus= {-1, -1, -1, -1, -1,  -1, -1, -1, -1, -1};
+//    private int[] dccexSensorIds = {0, 0, 0, 0, 0,  0, 0, 0, 0, 0};
+//    private int[] dccexSensorVpins = {0, 0, 0, 0, 0,  0, 0, 0, 0, 0};
+//    private int[] dccexSensorPullups = {1, 1, 1, 1, 1,  1, 1, 1, 1, 1};
 
     static final String SENSOR_STATUS_UNKNOWN = "-1";
     static final String SENSOR_STATUS_INACTIVE = "0";
@@ -337,14 +337,14 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         //put pointer to this activity's handler in main app's shared variable
         mainapp.sensors_msg_handler = new sensors_handler();
 
-        DccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
-        DccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
-        DccexWriteInfoLabel.setText("");
+        dccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
+        dccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
+        dccexWriteInfoLabel.setText("");
 
-        DccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
-        DccexResponsesLabel.setText("");
-        DccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
-        DccexSendsLabel.setText("");
+        dccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
+        dccexResponsesLabel.setText("");
+        dccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
+        dccexSendsLabel.setText("");
 
         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ALL_SENSOR_DETAILS);
 
@@ -364,8 +364,8 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         reset_sensors_button_listener resetSensorsClickListener = new reset_sensors_button_listener();
         resetSensorsButton.setOnClickListener(resetSensorsClickListener);
 
-        DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
-        DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
+        dccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
+        dccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
 
         clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
         ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
@@ -780,7 +780,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
     public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
-            mainapp.DccexResponsesListHtml.clear();
+            mainapp.dccexResponsesListHtml.clear();
             mainapp.dccexSendsListHtml.clear();
             mainapp.dccexResponsesStr = "";
             mainapp.dccexSendsStr = "";
@@ -812,15 +812,15 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 //    }
 
     public void refreshDccexView() {
-        DccexWriteInfoLabel.setText(DccexInfoStr);
+        dccexWriteInfoLabel.setText(dccexInfoStr);
         refreshDccexCommandsView();
 //        showHideButtons();
 
     }
 
     public void refreshDccexCommandsView() {
-        DccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
-        DccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
+        dccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
+        dccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
     }
 
     public void refreshDccexSensorsView() {

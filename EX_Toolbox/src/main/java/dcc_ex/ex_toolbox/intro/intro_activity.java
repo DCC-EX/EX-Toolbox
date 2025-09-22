@@ -20,7 +20,6 @@ Derived from the samples for AppIntro at https://github.com/paolorotolo/AppIntro
 
 package dcc_ex.ex_toolbox.intro;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;

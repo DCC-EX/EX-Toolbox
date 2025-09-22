@@ -74,14 +74,14 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
 
     //**************************************
 
-//    private LinearLayout DccexWriteInfoLayout;
-    private TextView DccexWriteInfoLabel;
-    private String DccexInfoStr = "";
+//    private LinearLayout dccexWriteInfoLayout;
+    private TextView dccexWriteInfoLabel;
+    private String dccexInfoStr = "";
 
-    private TextView DccexResponsesLabel;
-    private TextView DccexSendsLabel;
-//    private ScrollView DccexResponsesScrollView;
-//    private ScrollView DccexSendsScrollView;
+    private TextView dccexResponsesLabel;
+    private TextView dccexSendsLabel;
+//    private ScrollView dccexResponsesScrollView;
+//    private ScrollView dccexSendsScrollView;
 
     Button clearCommandsButton;
 
@@ -302,10 +302,10 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
                             } else {
                                 break;
                             }
-                            DccexInfoStr = "";
+                            dccexInfoStr = "";
                             refreshDccexView();
                         } else {
-                            DccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexFailed);
+                            dccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexFailed);
                             refreshDccexView();
                         }
                     }
@@ -315,10 +315,10 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
                     if ( (response_str.length() > 0) && !(response_str.charAt(0)=='-') ) {  //refresh address
                         locoAddrSecond = Integer.decode(response_str);
                         locoAddrSecondEditText.setText(response_str);
-                        DccexInfoStr = "";
+                        dccexInfoStr = "";
                         refreshDccexView();
                     } else {
-                        DccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexFailed);
+                        dccexInfoStr = getApplicationContext().getResources().getString(R.string.dccexFailed);
                         refreshDccexView();
                     }
                     break;
@@ -398,17 +398,17 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
 
         //Set the buttons
 
-//        DccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
-        DccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
-        DccexWriteInfoLabel.setText("");
+//        dccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
+        dccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
+        dccexWriteInfoLabel.setText("");
 
-        DccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
-        DccexResponsesLabel.setText("");
-        DccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
-        DccexSendsLabel.setText("");
+        dccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
+        dccexResponsesLabel.setText("");
+        dccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
+        dccexSendsLabel.setText("");
 
-//        DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
-//        DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
+//        dccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
+//        dccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
 
         clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
         ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
@@ -970,7 +970,7 @@ public class SetDirectionButtonListener implements View.OnClickListener {
 
     public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
-            mainapp.DccexResponsesListHtml.clear();
+            mainapp.dccexResponsesListHtml.clear();
             mainapp.dccexSendsListHtml.clear();
             mainapp.dccexResponsesStr = "";
             mainapp.dccexSendsStr = "";
@@ -979,13 +979,13 @@ public class SetDirectionButtonListener implements View.OnClickListener {
     }
 
     public void refreshDccexView() {
-        DccexWriteInfoLabel.setText(DccexInfoStr);
+        dccexWriteInfoLabel.setText(dccexInfoStr);
         refreshDccexCommandsView();
     }
 
     public void refreshDccexCommandsView() {
-        DccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
-        DccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
+        dccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
+        dccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
     }
 
     void checkCv29(String cv, String cvValueStr) {

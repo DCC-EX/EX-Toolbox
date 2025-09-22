@@ -156,21 +156,21 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     String[] dccExServoProfilesEntryValuesArray;
     String[] dccExServoProfilesEntriesArray; // display version
 
-    private String DccexSendCommandValue = "";
+    private String dccexSendCommandValue = "";
     private EditText etDccexSendCommandValue;
 
-    private LinearLayout DccexWriteInfoLayout;
-    private TextView DccexWriteInfoLabel;
-    private String DccexInfoStr = "";
+    private LinearLayout dccexWriteInfoLayout;
+    private TextView dccexWriteInfoLabel;
+    private String dccexInfoStr = "";
 
-    private TextView DccexResponsesLabel;
-    private TextView DccexSendsLabel;
+    private TextView dccexResponsesLabel;
+    private TextView dccexSendsLabel;
 //    private String dccexResponsesStr = "";
 //    private String dccexSendsStr = "";
-    private ScrollView DccexResponsesScrollView;
-    private ScrollView DccexSendsScrollView;
+    private ScrollView dccexResponsesScrollView;
+    private ScrollView dccexSendsScrollView;
 
-//    ArrayList<String> DccexResponsesListHtml = new ArrayList<>();
+//    ArrayList<String> dccexResponsesListHtml = new ArrayList<>();
 //    ArrayList<String> dccexSendsListHtml = new ArrayList<>();
 
     private int dccCmdIndex = 0;
@@ -557,9 +557,9 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             public void onTextChanged(CharSequence s, int start, int before, int count) { }
         });
-        DccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
-        DccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
-        DccexWriteInfoLabel.setText("");
+        dccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
+        dccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
+        dccexWriteInfoLabel.setText("");
 
         previousCommandButton = findViewById(R.id.ex_DccexPreviousCommandButton);
         PreviousCommandButtonListener previousCommandClickListener = new PreviousCommandButtonListener();
@@ -569,10 +569,10 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         NextCommandButtonListener nextCommandClickListener = new NextCommandButtonListener();
         nextCommandButton.setOnClickListener(nextCommandClickListener);
 
-        DccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
-        DccexResponsesLabel.setText("");
-        DccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
-        DccexSendsLabel.setText("");
+        dccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
+        dccexResponsesLabel.setText("");
+        dccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
+        dccexSendsLabel.setText("");
 
         clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
         ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
@@ -910,7 +910,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         dccExServoPositionDecrementButton.setEnabled(enable);
         dccExServoPositionIncrementButton.setEnabled(enable);
 
-        sendCommandButton.setEnabled((DccexSendCommandValue.length() != 0) && (DccexSendCommandValue.charAt(0) != '<'));
+        sendCommandButton.setEnabled((dccexSendCommandValue.length() != 0) && (dccexSendCommandValue.charAt(0) != '<'));
         previousCommandButton.setEnabled((mainapp.dccexPreviousCommandIndex >= 0));
         nextCommandButton.setEnabled((mainapp.dccexPreviousCommandIndex >= 0));
 
@@ -1007,7 +1007,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         public void onClick(View v) {
             String msgTxt;
             setActivateServoButtons(buttonNo);
-            DccexInfoStr = "";
+            dccexInfoStr = "";
             mainapp.buttonVibration();
             sendServoPosition(buttonNo, DELTA_ZERO);
             refreshDccexView();
@@ -1214,7 +1214,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
 
     public class SendCommandButtonListener implements View.OnClickListener {
         public void onClick(View v) {
-            DccexInfoStr = "";
+            dccexInfoStr = "";
             String cmdStr = etDccexSendCommandValue.getText().toString();
             if ((cmdStr.length() > 0) && (cmdStr.charAt(0) != '<')) {
                 mainapp.buttonVibration();
@@ -1239,16 +1239,16 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
 
     public class PreviousCommandButtonListener implements View.OnClickListener {
         public void onClick(View v) {
-            DccexInfoStr = "";
+            dccexInfoStr = "";
             String cmdStr = etDccexSendCommandValue.getText().toString();
             if (mainapp.dccexPreviousCommandIndex > 0) {
-                DccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandIndex - 1);
+                dccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandIndex - 1);
                 mainapp.dccexPreviousCommandIndex--;
             } else {
-                DccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandList.size() - 1);
+                dccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandList.size() - 1);
                 mainapp.dccexPreviousCommandIndex = mainapp.dccexPreviousCommandList.size() - 1;
             }
-            etDccexSendCommandValue.setText(DccexSendCommandValue);
+            etDccexSendCommandValue.setText(dccexSendCommandValue);
 
             refreshDccexView();
             mainapp.hideSoftKeyboard(v);
@@ -1257,16 +1257,16 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
 
     public class NextCommandButtonListener implements View.OnClickListener {
         public void onClick(View v) {
-            DccexInfoStr = "";
+            dccexInfoStr = "";
             String cmdStr = etDccexSendCommandValue.getText().toString();
             if (mainapp.dccexPreviousCommandIndex < mainapp.dccexPreviousCommandList.size() - 1) {
-                DccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandIndex + 1);
+                dccexSendCommandValue = mainapp.dccexPreviousCommandList.get(mainapp.dccexPreviousCommandIndex + 1);
                 mainapp.dccexPreviousCommandIndex++;
             } else {
-                DccexSendCommandValue = mainapp.dccexPreviousCommandList.get(0);
+                dccexSendCommandValue = mainapp.dccexPreviousCommandList.get(0);
                 mainapp.dccexPreviousCommandIndex = 0;
             }
-            etDccexSendCommandValue.setText(DccexSendCommandValue);
+            etDccexSendCommandValue.setText(dccexSendCommandValue);
 
             refreshDccexView();
             mainapp.hideSoftKeyboard(v);
@@ -1275,7 +1275,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
 
     public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
-            mainapp.DccexResponsesListHtml.clear();
+            mainapp.dccexResponsesListHtml.clear();
             mainapp.dccexSendsListHtml.clear();
             mainapp.dccexResponsesStr = "";
             mainapp.dccexSendsStr = "";
@@ -1314,7 +1314,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 setExRailInstruction();
                 break;
             case WHICH_COMMAND:
-                DccexSendCommandValue = "";
+                dccexSendCommandValue = "";
                 etDccexSendCommandValue.setText("");
                 break;
             case WHICH_ID:
@@ -1362,7 +1362,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
                 setActivateServoButtons(WHICH_CLOSED_POSITION);
                 break;
             case WHICH_COMMAND:
-                DccexSendCommandValue = etDccexSendCommandValue.getText().toString();
+                dccexSendCommandValue = etDccexSendCommandValue.getText().toString();
                 setActivateServoButtons(WHICH_CLOSED_POSITION);
                 break;
             case WHICH_ID:
@@ -1378,14 +1378,14 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     //********************************************************************
 
     public void refreshDccexView() {
-        DccexWriteInfoLabel.setText(DccexInfoStr);
+        dccexWriteInfoLabel.setText(dccexInfoStr);
         refreshDccexCommandsView();
         showHideButtons();
     }
 
     public void refreshDccexCommandsView() {
-        DccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
-        DccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
+        dccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
+        dccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
     }
 
 
@@ -1417,16 +1417,16 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
 
             dccCmdIndex = dccExCommonCommandsSpinner.getSelectedItemPosition();
             if (dccCmdIndex > 0) {
-                DccexSendCommandValue = dccExCommonCommandsEntryValuesArray[dccCmdIndex];
+                dccexSendCommandValue = dccExCommonCommandsEntryValuesArray[dccCmdIndex];
                 if (dccExCommonCommandsHasParametersArray[dccCmdIndex] >0)
-                    DccexSendCommandValue = DccexSendCommandValue + " ";
-                etDccexSendCommandValue.setText(DccexSendCommandValue);
+                    dccexSendCommandValue = dccexSendCommandValue + " ";
+                etDccexSendCommandValue.setText(dccexSendCommandValue);
                 etDccexSendCommandValue.requestFocus();
-                etDccexSendCommandValue.setSelection(DccexSendCommandValue.length());
+                etDccexSendCommandValue.setSelection(dccexSendCommandValue.length());
             }
-//            DccexInfoStr = "";
+//            dccexInfoStr = "";
             if (dccCmdIndex != 0) {
-                DccexInfoStr = dccExCommonCommandsAdditionalInfoArray[dccCmdIndex];
+                dccexInfoStr = dccExCommonCommandsAdditionalInfoArray[dccCmdIndex];
             }
             dccCmdIndex = 0;
             dccExCommonCommandsSpinner.setSelection(dccCmdIndex);
