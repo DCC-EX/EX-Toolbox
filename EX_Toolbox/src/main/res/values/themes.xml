@@ -219,7 +219,9 @@
         <item name="android:actionBarStyle">@style/actionBarStyle_black</item>
         <item name="android:titleTextStyle">@style/app_title_black</item>
         <item name="android:dialogTheme">@style/dialogStyle_black</item>
+        <item name="dialogTheme">@style/dialogStyle_black</item>
         <item name="android:alertDialogTheme">@style/alertDialogStyle_black</item>
+        <item name="alertDialogTheme">@style/alertDialogStyle_black</item>
 
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
 

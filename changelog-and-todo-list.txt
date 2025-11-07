@@ -1,3 +1,5 @@
+**Version 0.1.32
+ * improvements to the cv bit Calculator for CV29
 **Version 0.1.31
  * added cv bit calculator
  * Identify serverType IoTT and send <U DISCONNECT>
