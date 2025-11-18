@@ -309,6 +309,11 @@ public class threaded_application extends Application {
 
     public boolean prefShowTimeOnLogEntry = false;
     public String logSaveFilename = "";
+    public Process logcatProcess;
+
+    public ArrayList<String> namesList;
+    public ArrayList<String> fileNamesList;
+
     public boolean prefFeedbackOnDisconnect = true;
 
     public String prefHapticFeedback = "None";

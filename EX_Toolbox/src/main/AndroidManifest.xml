@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:versionCode="48"
-    android:versionName="0.1.32" android:installLocation="auto">
+    android:versionCode="49"
+    android:versionName="0.1.33" android:installLocation="auto">
 
     <uses-sdk tools:overrideLibrary="androidx.appcompat.resources,
             androidx.appcompat, androidx.core.ktx, androidx.core,
@@ -187,6 +187,32 @@
             android:label="LogViewerActivity"
             android:theme="@style/app_theme_black" >
         </activity>
+
+        <activity
+            android:name=".FileReceiverActivity"
+            android:label="EX-Toolbox - Receive File"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <!-- If you want to handle multiple files shared at once -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 </manifest>

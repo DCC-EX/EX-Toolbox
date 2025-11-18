@@ -33,13 +33,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+
+import androidx.core.app.ShareCompat;
+import androidx.core.content.FileProvider;
 import android.provider.MediaStore;
 import android.provider.Settings;
 //import android.support.v4.app.Fragment;
@@ -54,18 +56,19 @@ import android.provider.Settings;
 //import android.support.v7.preference.PreferenceGroup;
 //import android.support.v7.preference.PreferenceScreen;
 //import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -83,7 +86,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import dcc_ex.ex_toolbox.type.message_type;
@@ -305,6 +310,123 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
     }
 
+    @SuppressLint("ApplySharedPref")
+    public void shareFileNow() {
+
+        boolean result = prefs.getBoolean("prefShareFileNow", getResources().getBoolean(R.bool.prefShareFileNowDefaultValue));
+
+        if (result) {
+            prefs.edit().putBoolean("prefShareFileNow", false).commit();  //reset the preference
+            showFileSelectionDialog();
+        }
+    }
+
+    public ArrayList<File> getFilesForDialog() {
+        ArrayList<File> logFiles = new ArrayList<>();
+        try {
+            File dir = new File(context.getExternalFilesDir(null).getPath());
+            if (dir.exists() && dir.isDirectory()) {
+                File[] filesList = dir.listFiles();
+                if (filesList != null) {
+                    for (File file : filesList) {
+                        logFiles.add(file);
+                        Log.d("EX_Toolbox", "Settings:  getFilesForDialog(): Found: " + file.getName());
+                    }
+                    Collections.sort(logFiles, (file1, file2) -> file1.getName().compareTo(file2.getName()));
+                }
+            }
+        } catch (Exception e) {
+            Log.e("EX_Toolbox", "Settings:  getFilesForDialog(): Error trying to find log files", e);
+            threaded_application.safeToast("Error accessing log files.", Toast.LENGTH_SHORT);
+        }
+        return logFiles;
+    }
+
+    private void showFileSelectionDialog() {
+        ArrayList<File> logFiles = getFilesForDialog();
+
+        if (logFiles.isEmpty()) return;
+
+        // Extract just the file names for display in the dialog
+        ArrayList<String> fileNames = new ArrayList<>();
+        for (File file : logFiles) {
+            fileNames.add(file.getName());
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.file_list_dialog, null);
+        builder.setView(dialogView);
+
+        ListView dialogListView = dialogView.findViewById(R.id.file_dialog_listview);
+        Button cancelButton = dialogView.findViewById(R.id.file_dialog_button_cancel);
+
+        // --- Setup ListView ---
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this,
+                R.layout.file_list_item, // This layout MUST define the font
+                R.id.file_list_item_text,    // The ID of the TextView within logfile_list_item.xml
+                fileNames);
+        dialogListView.setAdapter(listAdapter);
+
+        final AlertDialog dialog = builder.create(); // Create before setting item click listener for ListView
+
+        dialogListView.setOnItemClickListener((parent, view, position, id) -> {
+            File selectedFile = logFiles.get(position);
+    //            threaded_application.safeToast("Selected: " + selectedFile.getName(), Toast.LENGTH_SHORT);
+            shareFile(selectedFile,selectedFile.getName());
+            dialog.dismiss();
+        });
+
+        cancelButton.setOnClickListener(v -> {dialog.dismiss(); reload();} );
+
+        dialog.show();
+    }
+
+//    private void shareFile(File file, String fileName) {
+//        Uri fileUri = FileProvider.getUriForFile(
+//                this,
+//                getApplicationContext().getPackageName() + ".fileprovider",
+//                file
+//        );
+//        shareFile(fileUri, fileName);
+//    }
+//    private void shareFile(Uri fileUri, String fileName) {
+//        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//        shareIntent.setType("*/*"); // Set the MIME type of the file
+//        shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+//        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // Important for granting temporary read access
+//
+//        // Verify that there are apps available to handle this intent
+//        if (shareIntent.resolveActivity(getPackageManager()) != null) {
+//            startActivity(Intent.createChooser(shareIntent, getApplicationContext().getResources().getString(R.string.shareFile, fileName)));
+//        } else {
+//            threaded_application.safeToast(getApplicationContext().getResources().getString(R.string.toastNoAppToShare), Toast.LENGTH_SHORT);
+//        }
+//        this.reload();
+//    }
+
+    private void shareFile(File file, String fileName) {
+        Uri fileUri = FileProvider.getUriForFile(
+                this,
+                getApplicationContext().getPackageName() + ".fileprovider",
+                file
+        );
+        shareFile(fileUri, fileName);
+    }
+
+    private void shareFile(Uri fileUri, String fileName) {
+        Intent chooserIntent = ShareCompat.IntentBuilder.from(this)
+                .setType("*/*")
+                .setStream(fileUri)
+                .setChooserTitle(getApplicationContext().getResources().getString(R.string.shareFile, fileName))
+                .createChooserIntent();
+
+        try {
+            startActivity(chooserIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            threaded_application.safeToast(getApplicationContext().getResources().getString(R.string.toastNoAppToShare), Toast.LENGTH_SHORT);
+        }
+    }
 
     public void reload() {
         // restart the activity so all the preferences show correctly based on what was imported / hidden
@@ -1102,6 +1224,11 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                                 parentActivity.resetPreferencesDialog();
                             }
                         break;
+
+                    case "prefShareFileNow":
+                        parentActivity.shareFileNow();
+                        break;
+
                     case "prefBackgroundImage":
                         parentActivity.prefBackgroundImage = sharedPreferences.getBoolean("prefBackgroundImage", false);
                         parentActivity.showHideBackgroundImagePreferences(getPreferenceScreen());

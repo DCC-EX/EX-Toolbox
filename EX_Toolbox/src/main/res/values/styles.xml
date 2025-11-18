@@ -58,6 +58,10 @@
     </style>
   <style name="normal_button2_style" parent="normal_button_style">
   </style>
+    <style name="normal_button_condensed_style" parent="normal_button_style">
+        <item name="fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
 
     <style name="loco_select_button_style" parent="normal_button_style">
       <item name="android:textColor">@color/original_btn_loco_select_text_states</item>
@@ -457,6 +461,11 @@
   </style>
   <style name="normal_button2_style_black" parent="normal_button_style_black">
   </style>
+    <style name="normal_button_condensed_style_black" parent="normal_button_style_black">
+        <item name="fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
   <style name="loco_select_button_style_black" parent="normal_button_style_black">
     <item name="android:textColor">@color/original_btn_loco_select_text_states</item>
     <item name="fontFamily">sans-serif-condensed</item>
@@ -623,6 +632,11 @@
   </style>
   <style name="normal_button2_style_outline" parent="normal_button_style_outline">
   </style>
+    <style name="normal_button_condensed_style_outline" parent="normal_button_style_outline">
+        <item name="fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
   <style name="loco_select_button_style_outline" parent="normal_button_style_outline">
     <item name="android:textColor">@color/outline_btn_loco_select_text_states</item>
     <item name="fontFamily">sans-serif-condensed</item>
@@ -769,6 +783,11 @@
   </style>
   <style name="normal_button2_style_ultra" parent="normal_button_style_ultra">
   </style>
+    <style name="normal_button_condensed_style_ultra" parent="normal_button_style_ultra">
+        <item name="fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
   <style name="loco_select_button_style_ultra" parent="normal_button_style_ultra">
     <item name="android:textColor">@color/ultra_btn_loco_select_text_states</item>
     <item name="fontFamily">sans-serif-condensed</item>
@@ -944,6 +963,11 @@
 <!--  <style name="normal_button2_style_colorful" parent="normal_button_style_colorful">-->
 <!--    <item name="android:background">@drawable/colorful_sticky_button_states2</item>-->
 <!--  </style>-->
+    <style name="normal_button_condensed_style_colorful" parent="normal_button_style_colorful">
+        <item name="fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
   <style name="loco_select_button_style_colorful" parent="normal_button_style_colorful">
     <item name="android:textColor">@color/colorful_btn_loco_select_text_states</item>
     <item name="fontFamily">sans-serif-condensed</item>
@@ -1275,6 +1299,11 @@
   </style>
   <style name="normal_button2_style_neon" parent="normal_button_style_neon">
   </style>
+    <style name="normal_button_condensed_style_neon" parent="normal_button_style_neon">
+        <item name="fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
   <style name="loco_select_button_style_neon" parent="normal_button_style_neon">
     <item name="android:textColor">@color/neon_btn_loco_select_text_states</item>
     <item name="fontFamily">sans-serif-condensed</item>

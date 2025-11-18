@@ -22,6 +22,7 @@
 
     <style name="app_intro" parent="Theme.AppCompat.NoActionBar">
         <item name="ed_normal_button_style">@style/normal_button_style_colorful</item>
+        <item name="ed_normal_button_condensed_style">@style/normal_button_condensed_style_colorful</item>
         <item name="edit_label_style">@style/edit_label_style_black</item>
     </style>
 
@@ -65,6 +66,7 @@
         <item name="ed_large_button_style">@style/large_button_style</item>
         <item name="ed_normal_button_style">@style/normal_button_style</item>
         <item name="ed_normal_button2_style">@style/normal_button2_style</item>
+        <item name="ed_normal_button_condensed_style">@style/normal_button_condensed_style</item>
         <item name="ed_loco_select_button_style">@style/loco_select_button_style</item>
         <item name="ed_small_button_style">@style/small_button_style</item>
         <item name="ed_small_button_condensed_text_style">@style/small_button_condensed_text_style</item>
@@ -157,6 +159,7 @@
         <item name="ed_large_button_style">@style/large_button_style_black</item>
         <item name="ed_normal_button_style">@style/normal_button_style_black</item>
         <item name="ed_normal_button2_style">@style/normal_button2_style_black</item>
+        <item name="ed_normal_button_condensed_style">@style/normal_button_condensed_style_black</item>
         <item name="ed_loco_select_button_style">@style/loco_select_button_style_black</item>
         <item name="ed_small_button_style">@style/small_button_style_black</item>
         <item name="ed_small_button_condensed_text_style">@style/small_button_condensed_text_style_black</item>
@@ -250,6 +253,7 @@
         <item name="ed_large_button_style">@style/large_button_style_outline</item>
         <item name="ed_normal_button_style">@style/normal_button_style_outline</item>
         <item name="ed_normal_button2_style">@style/normal_button2_style_outline</item>
+        <item name="ed_normal_button_condensed_style">@style/normal_button_condensed_style_outline</item>
         <item name="ed_loco_select_button_style">@style/loco_select_button_style_outline</item>
         <item name="ed_small_button_style">@style/small_button_style_outline</item>
         <item name="ed_small_button_condensed_text_style">@style/small_button_condensed_text_style_outline</item>
@@ -344,6 +348,7 @@
         <item name="ed_large_button_style">@style/large_button_style_ultra</item>
         <item name="ed_normal_button_style">@style/normal_button_style_ultra</item>
         <item name="ed_normal_button2_style">@style/normal_button2_style_ultra</item>
+        <item name="ed_normal_button_condensed_style">@style/normal_button_condensed_style_ultra</item>
         <item name="ed_loco_select_button_style">@style/loco_select_button_style_ultra</item>
         <item name="ed_small_button_style">@style/small_button_style_ultra</item>
         <item name="ed_small_button_condensed_text_style">@style/small_button_condensed_text_style_ultra</item>
@@ -444,6 +449,7 @@
 
         <item name="ed_large_button_style">@style/large_button_style_colorful</item>
         <item name="ed_normal_button_style">@style/normal_button_style_colorful</item>
+        <item name="ed_normal_button_condensed_style">@style/normal_button_condensed_style_colorful</item>
 <!--        <item name="ed_normal_button2_style">@style/normal_button2_style_colorful</item>-->
         <item name="ed_loco_select_button_style">@style/loco_select_button_style_colorful</item>
         <item name="ed_small_button_style">@style/small_button_style_colorful</item>
@@ -547,6 +553,7 @@
         <item name="ed_large_button_style">@style/large_button_style_neon</item>
         <item name="ed_normal_button_style">@style/normal_button_style_neon</item>
         <item name="ed_normal_button2_style">@style/normal_button2_style_neon</item>
+        <item name="ed_normal_button_condensed_style">@style/normal_button_condensed_style_neon</item>
         <item name="ed_loco_select_button_style">@style/loco_select_button_style_neon</item>
         <item name="ed_small_button_style">@style/small_button_style_neon</item>
         <item name="ed_small_button_condensed_text_style">@style/small_button_condensed_text_style_neon</item>

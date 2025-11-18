@@ -103,7 +103,30 @@
     <string name="exit_title">Exit</string>
 
     <string name="logviewerClose">Close</string>
-    <string name="logviewerSave">Start recording to file</string>
+    <string name="logviewerSave">Start</string>
+    <string name="logviewerStopSave">Stop</string>
+    <string name="logviewerShare">Share</string>
+    <string name="shareFileDialogTitle">Select a File to Share</string>
+    <string name="shareFile">Share File: %s</string>
+    <string name="toastNoAppToShare">No app found to share the file</string>
+    <string name="sharedFileProcessing">Processing shared file(s)...</string>
+    <string name="sharedFileProcessingCount">Processing %d shared file(s)...</string>
+    <string name="sharedFileReceivedCount">Received %d shared file(s)...</string>
+    <string name="sharedFileSavingFile">Saving file(S)...</string>
+    <!--    <string name="sharedFileSaved">File Saved: %s</string>-->
+    <string name="sharedFileSavingCount">Saving %d file(s)</string>
+    <string name="sharedFileSavedCount">Save %d file(s)</string>
+    <string name="sharedFileFailedToSaveCount">Failed to save %d file(s)</string>
+    <string name="sharedFileFinished">Finished processing %d files</string>
+    <string name="sharedFileNoUriReceived">Error: No file(s) URI received</string>
+    <string name="sharedFileNoShareActionDetected">No share action detected</string>
+    <string name="sharedFileOverwriteChoiceTitle">File Conflict</string>
+    <string name="sharedFileOverwriteChoiceText">Some files might already exist. Do you want to overwrite existing files?\n\nChoosing \'No\' will save conflicting files with a new name (e.g., filename_1.ext).</string>
+    <string name="sharedFileOverwriteChoicePositiveButtonText">Yes, Overwrite</string>
+    <string name="sharedFileOverwriteChoiceNegativeButtonText">No, Save with New Name</string>
+
+    <string name="prefShareFileNowTitle">Share a settings file now!</string>
+    <string name="prefShareFileNowSummary">Allows you to share a configuration file, saved preferences or log file, immediately.</string>
 
     <string name="prefTitle">Preferences</string>
     <string name="prefSummary">Preferences for EX-Toolbox</string>

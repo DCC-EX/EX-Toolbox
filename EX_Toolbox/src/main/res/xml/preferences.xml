@@ -427,7 +427,15 @@
                     android:summary="@string/prefShowTimeOnLogEntrySummary"
                     android:title="@string/prefShowTimeOnLogEntryTitle"
                     android:layout="@layout/checkbox_no_icon" />
-            </PreferenceCategory>
+
+            <CheckBoxPreference
+                android:defaultValue="@bool/prefShareFileNowDefaultValue"
+                android:key="prefShareFileNow"
+                android:summary="@string/prefShareFileNowSummary"
+                android:title="@string/prefShareFileNowTitle"
+                android:layout="@layout/checkbox_no_icon" />
+
+        </PreferenceCategory>
         </PreferenceScreen>
     </PreferenceCategory>
 

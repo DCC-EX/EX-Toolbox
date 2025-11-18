@@ -37,4 +37,6 @@
 
     <bool name="prefDoubleBackButtonToExitDefaultValue">false</bool>
 
+    <bool name="prefShareFileNowDefaultValue">false</bool>
+
 </resources>
