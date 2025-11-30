@@ -60,6 +60,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -660,6 +661,14 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         });
 
         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_TRACKS, "");
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                mainapp.checkExit(cv_programmer.this);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
 
         screenNameLine = findViewById(R.id.screen_name_line);
         toolbar = (Toolbar) findViewById(R.id.toolbar);

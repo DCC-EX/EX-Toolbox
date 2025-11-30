@@ -2,6 +2,9 @@
  * Added button to share a log file.
  * Added preference immediate action to share any file from ED scoped storage
  * Added ability to share files to ED's scoped storage
+ * Added the localisation preference
+ * Japanese translations by T Nari
+ * Double back button to exit bug fixes
 **Version 0.1.32
  * improvements to the cv bit Calculator for CV29
 **Version 0.1.31

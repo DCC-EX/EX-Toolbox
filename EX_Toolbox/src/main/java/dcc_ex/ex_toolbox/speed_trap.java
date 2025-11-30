@@ -54,6 +54,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -451,6 +452,14 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
         clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
         ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
         clearCommandsButton.setOnClickListener(clearCommandsClickListener);
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                mainapp.checkExit(speed_trap.this);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
 
         // *****************************
 

@@ -47,6 +47,7 @@ import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -377,6 +378,14 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 //        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_SENSOR, "");
 //
         mainapp.getCommonPreferences();
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                mainapp.checkExit(sensors.this);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
 
         screenNameLine = findViewById(R.id.screen_name_line);
         toolbar = (Toolbar) findViewById(R.id.toolbar);

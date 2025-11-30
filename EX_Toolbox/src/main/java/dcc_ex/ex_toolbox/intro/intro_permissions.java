@@ -22,6 +22,8 @@ package dcc_ex.ex_toolbox.intro;
 
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
@@ -46,16 +48,17 @@ public class intro_permissions extends Fragment {
     String permissionLabel;
     TextView introPermissionLabel;
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.d("Engine_Driver", "intro_permissions");
-        super.onActivityCreated(savedInstanceState);
-
-        introPermissionLabel = getView().findViewById(R.id.intro_permission_label);
-    }
+//    @Override
+//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+//        Log.d("Engine_Driver", "intro_permissions");
+//        super.onActivityCreated(savedInstanceState);
+//
+//        introPermissionLabel = getView().findViewById(R.id.intro_permission_label);
+//    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.d("EX_Toolbox", "intro_permissions: onCreate");
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             permissionId = Integer.parseInt(getArguments().getString("id"));
@@ -63,6 +66,15 @@ public class intro_permissions extends Fragment {
         }
     }
 
+        @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        introPermissionLabel = view.findViewById(R.id.intro_permission_label);
+        if (introPermissionLabel != null) {
+            introPermissionLabel.setText(permissionLabel);
+        }
+    }
+    
     @Override
     public void onResume() {
         super.onResume();

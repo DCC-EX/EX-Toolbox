@@ -22,7 +22,7 @@
     <string name="introMenu">Intro/Setup Wizard</string>
 
     <string name="app_name" translatable="false">EX-Toolbox</string>  <!-- DO NOT TRANSLATE -->
-    <string name="app_description">EX-Toolbox - DCC-EX toolbox for your Android phone.  This application can DCC-EX EX-CommandStation. </string>
+    <string name="app_description">EX-Toolbox - DCC-EX toolbox for your Android phone.  This application can connect to a DCC-EX EX-CommandStation. </string>
     <string name="app_name_intro">Introduction</string>
     <string name="app_name_connect">Connect to Server</string>
     <string name="app_name_power_control">Power Control</string>
@@ -208,8 +208,8 @@
     <string name="prefThemeSummary">Select a visual appearance for this app</string>
     <string name="prefThemeDefaultValue" translatable="false">Default</string>  <!-- DO NOT TRANSLATE -->
 
-<!--    <string name="prefLocaleTitle">Localisation</string>-->
-<!--    <string name="prefLocaleSummary">Language to use for this app</string>-->
+    <string name="prefLocaleTitle">Localisation</string>
+    <string name="prefLocaleSummary">Language to use for this app</string>
     <string name="prefLocaleDefaultValue" translatable="false">Default</string>  <!-- DO NOT TRANSLATE -->
 
     <!--    prefs for the Import/Export -->
@@ -580,10 +580,10 @@
 <!--    <string name="speedMatch"></string>-->
 
     <string name="rosterEmpty">Unable to find any entries in the Server roster.</string>
-    <string name="rosterDetailsDialogTitle">"Roster details for "</string>
-    <string name="rosterDetailsNoFunctions">"No Functions defined"</string>
-    <string name="rosterDetailsFunctionMomentary">"(momentary)"</string>
+    <string name="rosterDetailsDialogTitle">Roster details for </string>
+    <string name="rosterDetailsNoFunctions">No Functions defined</string>
+    <string name="rosterDetailsFunctionMomentary">(momentary)</string>
 
-    <string name="manufacturer">"Manufacturer"</string>
+    <string name="manufacturer">Manufacturer</string>
 </resources>
 

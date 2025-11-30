@@ -66,6 +66,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -583,6 +584,13 @@ public class connection_activity extends AppCompatActivity implements Permission
             }
         });
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                mainapp.checkExit(connection_activity.this);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
 
         screenNameLine = findViewById(R.id.screen_name_line);
         toolbar = (Toolbar) findViewById(R.id.toolbar);

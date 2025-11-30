@@ -50,6 +50,7 @@ import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -440,6 +441,14 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
 
 //        resetNeopixelTextFields();
         refreshDccexNeopixelView();
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                mainapp.checkExit(neopixel.this);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
 
         screenNameLine = findViewById(R.id.screen_name_line);
         toolbar = (Toolbar) findViewById(R.id.toolbar);

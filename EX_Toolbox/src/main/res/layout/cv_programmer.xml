@@ -137,7 +137,7 @@
                                 android:layout_height="wrap_content"
                                 android:paddingTop="1sp"
                                 android:padding="0sp"
-                                android:layout_weight=".15"
+                                android:layout_weight=".17"
                                 android:text="@string/dccexActionTypeLabel"
                                 android:textAlignment="viewEnd"
                                 android:gravity="end"
@@ -152,7 +152,7 @@
                                 android:paddingRight="20dp"
                                 android:paddingBottom="2dp"
                                 android:text=""
-                                android:layout_weight=".85"
+                                android:layout_weight=".83"
                                 tools:ignore="RtlHardcoded" />
 
                         </LinearLayout>

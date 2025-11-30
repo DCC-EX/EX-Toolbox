@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <title>Engine Driver Throttle for Android</title>
+    <style type="text/css">
+        p {margin-top:0;padding-left:1em;}
+        h3 {margin-bottom:0;}
+        dl {padding-left:2em;}
+        ul {margin-top:-1em}
+        ul>li>ul {margin-top:0em;}
+    </style>
+</head>
+<body>
+
+<!-- -------------------------------------------------------------- -->
+
+<h1>
+    DCC-EX用EXツールボックス
+</h1>
+<div style="float:left;padding-right:1em;">
+    <img src="file:///android_asset/ex_toolbox_icon.png" height="144" width="144" alt=""/>
+</div>
+<p>
+    無料のオープンソースアプリで、DCC-EX EX-CommandStation のテストや設定を支援します。
+</p><p>
+    このバージョンの変更点は次のとおりです:
+</p>
+<ul>
+    <li>CVビット計算機を追加しました</li>
+    <li>ログファイル、または EX-Toolbox’s scorped (プライベート) ストレージから任意のファイルを共有する機能を追加しました</li>
+    <li>EX-Toolbox's scorped （プライベート）ストレージに任意のファイルを共有する機能を追加しました</li>
+    <li>日本語訳を追加しました(協力 T.Nari)</li>
+</ul>
+<p>
+    この無料のオープンソースのAndroidアプリは、
+    <a href="https://dcc-ex.com" target="_blank">DCC-EX EX-CommandStation</a> は専用の DCC-EX コマンド プロトコル のみを使用します。
+    "接続が完了すると、EX-CommandStation の各種設定を行うことができます。
+    CV のプログラミングも可能です。"
+</p>
+DCC-EX EX-CommandStation使用の前提条件
+EX-Toolboxは、StationモードにあるDCC-EX、EX-CommandStationにのみ接続できます。又は
+”ネイティブ DCC-EX コマンド プロトコル”を使用するアクセス ポイント モードにて使用可能です
+</p><p>
+    EX-Toolbox は、USB 経由で接続された EX-CommandStation に接続できません。
+</p><p>
+    デフォルトでは、EX-ToolboxをJMRIに接続することはできません。そのため、JMRI経由でEX-CommandStationに接続することはできません。JMRIはWiThrottleプロトコルを使用します。
+    クライアント デバイスへの通常の WiFi 接続ではネイティブ プロトコルを使用する必要がありますが、EX-Toolbox ではネイティブ プロトコルを使用する必要があります。
+</p><p>
+    EX-Toolbox を JMRI で使用するには、「TCP サーバー経由で DCC++ をロード」オプションを有効にする必要があります。
+    設定は「DCC++」メニュー以下ににあります。
+</p><p>
+    これを有効にすると、EX-Toolbox の「検出されたサーバー」リストに サーバー名が表示されます。
+    1 つは、JMRI にてレールレイアウトに付けた名前です (例: 「My JMRI Railroad」)。
+    もう 1 つは同じ名前の後に「 [DCC-EX]」が付きます (例: 「My JMRI Railroad [DCC-EX]」)。
+</p><p>
+    EX-Toolbox を使用するには、名前に「[DCC-EX]」が含まれるものを選択する必要があります。
+</p><p>
+    現在サポートされている機能は以下の通り:
+</p>
+<ul>
+    <li>プログラミングトラックでのCVプログラミング（サービスモード）</li>
+    <li>メイントラックでのCVプログラミング（操作モード）</li>
+    <li>トラックマネージャー</li>
+    <li>サーボモーターのテストと調整</li>
+    <li>センサーテスト</li>
+    <li>電流計</li>
+    <li>車両のステータス（すべての稼働中の車両）</li>
+    <li>スピードマッチング支援</li>
+    <li>スピードメーター（EX-CommandStationには2つのセンサーが必要）</li>
+    <li>NeoPixel LED セットアップ</li>
+    <li>サーバーリストの詳細</li>
+</ul>
+<h3>
+    手順
+</h3>
+<p>
+    スマートフォンでEX-Toolboxアプリを開き、サーバーのアドレスが「Discovered Services」に表示されるまで待ちます。
+
+
+</p><p>
+    検出されたアドレスをクリックするか、EX-CommandStationサーバーのアドレスとポートを入力してください
+    <br/>
+    必要に応じて、「最初のサーバーに自動接続しますか?」という設定を有効にできます。
+</p><p>
+    接続するとCVプログラミング画面が開きます。ドロップダウンから選択してください。
+    サービスモードと操作モードを切り替えます。左右にスワイプすると、他の画面に移動できます。
+</p><p>
+    追加のヘルプは、<a href="https://dcc-ex.com/ex-toolbox/index.html">on the DCC-EX website</a>で入手できます。
+</p>
+<h3>
+    Development
+</h3>
+<p>
+    EX-Toolboxは無料のオープンソースソフトウェアす。次に示されるプロジェクトによる制作物です >
+    <a href="https://dcc-ex" target="_blank">DCC-EX</a> project. It is built in
+    <a href="https://developer.android.com/studio/" target="_blank">Android Studio</a>
+    <br />
+    EX-Toolboxは、M.Steve Todd 作成の <a href="https://github.com/JMRI/EngineDriver">Engine Driver</a> アプリのソース コードをベースにしています
+</p><p>
+    Background texture from: <a href="https://www.sketchuptextureclub.com/#google_vignette">https://www.sketchuptextureclub.com/#google_vignette</a>
+</p>
+<hr>
+<p>
+    <a href="https://github.com/DCC-EX/EX-Toolbox/blob/master/EX_Toolbox/src/main/assets/privacy_policy.md" target="_blank">[プライバシーポリシー]</a>
+</p>
+
+<!-- -------------------------------------------------------------- -->
+
+</body>
+</html>

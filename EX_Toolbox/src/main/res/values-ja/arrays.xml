@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+      Copyright (C) 2017 M. Steve Todd mstevetodd@gmail.com
+      This program is free software; you can redistribute it and/or modify it 
+      under the terms of the GNU General Public License as published by the 
+      Free Software Foundation;
+      either version 3 of the License, or (at your option) any later version.
+
+      This program is distributed in the hope that it will be useful, but
+      WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+      or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+      for more details. You should have received a copy of the GNU General
+      Public License along with this program; if not, write to the Free Software
+      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyDashes, TypographyEllipsis">
+
+    <string-array name="DisplayClockEntries">  <!-- display version -->
+        <item>なし</item>
+        <item>12時間形式</item>
+        <item>24時間形式</item>
+    </string-array>
+    <string-array name="dccCvsEntries">  <!-- display version -->
+        <item>&lt;選択&gt;</item>
+        <item>Vスタート</item>
+        <item>加速率</item>
+        <item>減速率</item>
+        <item>Vhigh</item>
+        <item>Vmid</item>
+        <item>製造者バージョン番号</item>
+        <item>製造ID</item>
+        <item>PWM全周期</item>
+        <item>EMFフィードバックカットアウト</item>
+        <item>パケットタイムアウト値</item>
+        <item>電源変換</item>
+        <item>代替モード機能ステータス F1-F8</item>
+        <item>代替モード機能ステータス FL、F9-F12</item>
+        <item>デコーダーロック CV15</item>
+        <item>デコーダーロック CV16</item>
+        <item>編成アドレス</item>
+        <item>F1~F8用編成アドレス有効</item>
+        <item>F9~F12用編成アドレス有効</item>
+        <item>加速調整</item>
+        <item>減速調整</item>
+        <item>モード制御 (dir、addr サイズなど)</item>
+        <item>キックスタート</item>
+        <item>前進トリム</item>
+        <item>後進トリム</item>
+    </string-array>
+    <string-array name="dccExCommonCommandsEntries">  <!-- display version -->
+        <item>&lt;選択&gt;</item>
+        <item>MAIN=PROGに接続</item>
+        <item>PROGから切断</item>
+        <item>CSステータス</item>
+        <item>すべてのセンサー</item>
+        <item>すべての分岐点/ポイント</item>
+        <item>すべての出力</item>
+        <item>トラックマネージャー</item>
+        <item>ロースター</item>
+        <item>ロースターエントリー</item>
+        <item>ルート/自動化</item>
+        <item>ルート/自動化 {id}</item>
+        <item>ルート/自動化を開始 {loco} {id}</item>
+        <item>すべての自動化を停止</item>
+
+        <item>ACK制限 {mA}</item>
+        <item>ACK 最小 {µS}</item>
+        <item>ACK 最大 {µS}</item>
+        <item>CSの再起動/リセット</item>
+        <item>HALデバイスをリセットする</item>
+        <item>すべてのHALデバイスを表示</item>
+        <item>PROG電流ブースト</item>
+        <item>WIFI {オン|オフ}</item>
+        <item>イーサネット {オン|オフ}</item>
+        <item>WiThrottle {オン|オフ}</item>
+        <item>空きRAMを表示</item>
+        <item>EXRAIL スクリプトのログ記録 {ON|OFF}</item>
+    </string-array>
+    <string-array name="dccExCommonCommandsAdditionalInfo">
+
+        <item>メイントラックとプログラミングトラックに一時的に参加する</item>
+        <item>メイントラックとプログラミングトラックから脱退する</item>
+        <item>コマンドステーションのステータスを要求する</item>
+        <item>定義されたすべてのセンサーのリストを要求する</item>
+        <item>定義されたすべての分岐器のリストを要求する</item>
+        <item>定義されたすべてのセンサーのリストを要求する</item>
+        <item>現在のトラックマネージャーの構成を要求する</item>
+        <item>ロースターのエントリIDのリストをリクエストする</item>
+        <item>自動化/ルートのリストをリクエストする</item>
+        <item>ルート/自動化に関する情報をリクエストする</item>
+        <item>特定のロースターエントリの詳細をリクエストする</item>
+        <item>新しいタスクを開始し車両をルートに送るか、車両以外の”アニメーション”または”シーケンス”を起動します</item>
+        <item>ID または「ALL」で現在実行中のスクリプト タスクを強制終了します。</item>
+
+        <item>ACKパルスを検出するために必要な最小ミリアンペア（mA）をオーバーライドします。</item>
+        <item>パルスがアクティブになるために必要な最小時間をマイクロ秒（uS）単位でオーバーライドします</item>
+        <item>ACKパルスの検出に必要な最大時間をオーバーライドする</item>
+        <item>コマンドステーションを再起動します</item>
+
+        <item>HALデバイスと割り当てられたVPINを一覧表示する</item>
+        <item>プログラミングデコーダがプログラミングトラックの電流制限をトリガーする場合は、プログラムトラック制限をオーバーライドします。</item>
+        <item>有効にすると、診断メッセージがシリアルモニターに表示されます。</item>
+        <item>イーサネット診断を有効/無効にする</item>
+        <item>WiThrottle診断を有効/無効にする</item>
+
+        <item>EX-RAIL スクリプトのログ記録を有効または無効にする</item>
+    </string-array>
+    <string-array name="dccExActionTypeEntries">  <!-- display version -->
+        <item>プログラミングトラック（サービスモード）</item>
+        <item>メインプログラム（動作モード）</item>
+    </string-array>
+    <string-array name="dccExActionTypeEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
+        <item>PROG</item>
+        <item>MAIN</item>
+    </string-array>
+    <string-array name="dccExTrackTypeEntries">  <!-- display version -->
+        <item>なし</item>
+        <item>DCCメイン</item>
+        <item>DCCプログラム</item>
+        <item>DC</item>
+        <item>DC逆極性（DCX）</item>
+        <item>AUTO - オートリバース DCC メイン</item>
+        <item>EXT（選択不可）</item>
+        <item>BOOST（選択不可）</item>
+    </string-array>
+    <string-array name="dccExServoProfilesEntries">  <!-- display version -->
+        <item>Instant</item>
+        <item>Fast</item>
+        <item>Medium</item>
+        <item>Slow</item>
+        <item>Bounce</item>
+    </string-array>
+    <string-array name="prefImportExportEntries">  <!-- display version -->
+        <item>なし</item>
+        <item>エクスポート</item>
+        <item>インポート</item>
+        <item>リセット</item>
+    </string-array>
+    <string-array name="prefThemeEntries">  <!-- display version -->
+        <item>オリジナル（メタルグリッド）</item>
+        <item>高コントラスト</item>
+        <item>アウトライン（輪郭強調）</item>
+        <item>ダーク</item>
+        <item>カラフル</item>
+        <item>ネオンブルー</item>
+    </string-array>
+    <string-array name="prefYesNoEntries">  <!-- display version -->
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="prefLocaleEntries">  <!-- display version -->
+        <item>電話のグローバル設定を使用する</item>
+        <item>英語（米国） - エンジンドライバーのデフォルト</item>
+        <item>英語（オーストラリア）</item>
+        <item>英語（カナダ）</item>
+        <item>英語（ニュージーランド）</item>
+        <item>英語（イギリス）</item>
+        <item>日本語</item>
+    </string-array>
+    <string-array name="prefBackgroundImagePositionEntries">  <!-- display version -->
+        <item>画面に合わせて縮小/拡大</item>
+        <item>画面全体に表示（片側辺のみトリミング）</item>
+        <item>中央配置（サイズ変更なし）</item>
+        <item>画面に合わせて縮小のみ</item>
+        <item>画面戦隊に表示（縦横比を変更）</item>
+    </string-array>
+    <string-array name="dccServoListEntries">
+        <item>&lt;選択&gt;</item>
+    </string-array>
+
+
+
+</resources>

@@ -894,10 +894,10 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                         parentActivity.mainapp.sendMsg(parentActivity.mainapp.comm_msg_handler, message_type.CLOCK_DISPLAY_CHANGED);
                         break;
                     case "prefLocale":
-                        sharedPreferences.edit().putString("prefLeftDirectionButtons", "").commit();
-                        sharedPreferences.edit().putString("prefRightDirectionButtons", "").commit();
-                        sharedPreferences.edit().putString("prefLeftDirectionButtonsShort", "").commit();
-                        sharedPreferences.edit().putString("prefRightDirectionButtonsShort", "").commit();
+//                        sharedPreferences.edit().putString("prefLeftDirectionButtons", "").commit();
+//                        sharedPreferences.edit().putString("prefRightDirectionButtons", "").commit();
+//                        sharedPreferences.edit().putString("prefLeftDirectionButtonsShort", "").commit();
+//                        sharedPreferences.edit().putString("prefRightDirectionButtonsShort", "").commit();
                         parentActivity.forceReLaunchAppOnPreferencesClose = true;
                         parentActivity.forceRestartApp(threaded_application.FORCED_RESTART_REASON_LOCALE);
                         break;
