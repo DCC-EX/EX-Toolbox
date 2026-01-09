@@ -86,7 +86,7 @@
         <item>定義されたすべてのセンサーのリストを要求する</item>
         <item>定義されたすべての分岐器のリストを要求する</item>
         <item>定義されたすべてのセンサーのリストを要求する</item>
-        <item>現在のトラックマネージャーの構成を要求する</item>
+        <item>現在のトラックマネージャー構成を要求する</item>
         <item>ロースターのエントリIDのリストをリクエストする</item>
         <item>自動化/ルートのリストをリクエストする</item>
         <item>ルート/自動化に関する情報をリクエストする</item>
@@ -108,8 +108,8 @@
         <item>EX-RAIL スクリプトのログ記録を有効または無効にする</item>
     </string-array>
     <string-array name="dccExActionTypeEntries">  <!-- display version -->
-        <item>プログラミングトラック（サービスモード）</item>
-        <item>メインプログラム（動作モード）</item>
+        <item>PRGトラック（サービスモード）</item>
+        <item>MAINトラック（動作モード）</item>
     </string-array>
     <string-array name="dccExActionTypeEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
         <item>PROG</item>
@@ -151,7 +151,7 @@
         <item>No</item>
     </string-array>
     <string-array name="prefLocaleEntries">  <!-- display version -->
-        <item>電話のグローバル設定を使用する</item>
+        <item>デバイスのグローバル設定を使用する</item>
         <item>英語（米国） - エンジンドライバーのデフォルト</item>
         <item>英語（オーストラリア）</item>
         <item>英語（カナダ）</item>
@@ -164,12 +164,18 @@
         <item>画面全体に表示（片側辺のみトリミング）</item>
         <item>中央配置（サイズ変更なし）</item>
         <item>画面に合わせて縮小のみ</item>
-        <item>画面戦隊に表示（縦横比を変更）</item>
+        <item>画面全体に表示（縦横比を変更）</item>
     </string-array>
     <string-array name="dccServoListEntries">
         <item>&lt;選択&gt;</item>
     </string-array>
 
 
+    <string-array name="prefToolbarButtonSizeEntries">  <!-- display version -->
+        <item>自動</item>
+        <item>小さい</item>
+        <item>中くらい</item>
+        <item>大きい</item>
+    </string-array>
 
 </resources>

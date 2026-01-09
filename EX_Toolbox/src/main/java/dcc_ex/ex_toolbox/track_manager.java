@@ -106,6 +106,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
     Button nextCommandButton;
     Button writeTracksButton;
     Button joinTracksButton;
+    boolean hasProgTrack = false;  // used to check if the Join button should be shown
     //    Button hideSendsButton;
     Button clearCommandsButton;
 
@@ -273,7 +274,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
                         String com1 = s.substring(0, 3);
                         //update power icon
                         if ("PPA".equals(com1)) {
-                            mainapp.setPowerStateButton(tMenu);
+                            mainapp.setPowerStateActionViewButton(tMenu, findViewById(R.id.powerLayoutButton));
                         }
                         if ("PXX".equals(com1)) {  // individual track power response
                             refreshDccexTracksView();
@@ -667,9 +668,11 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
-        mainapp.setPowerStateButton(menu);
+        mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
         mainapp.setPowerMenuOption(menu);
         mainapp.reformatMenu(menu);
+
+        adjustToolbarSize(menu);
 
         return  super.onCreateOptionsMenu(menu);
     }
@@ -747,7 +750,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         } else if (item.getItemId() == R.id.about_mnu) {
             navigateAway(false, about_page.class);
             return true;
-        } else if (item.getItemId() == R.id.power_layout_button) {
+        } else if (item.getItemId() == R.id.powerLayoutButton) {
             if (!mainapp.isPowerControlAllowed()) {
                 mainapp.powerControlNotAllowedDialog(tMenu);
             } else {
@@ -997,6 +1000,8 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         for (int i = 0; i < threaded_application.DCCEX_MAX_TRACKS; i++) {
             dccExTrackTypeIdEditText[i].setVisibility(TRACK_TYPES_NEED_ID[dccExTrackTypeIndex[i]] ? View.VISIBLE : View.GONE);
         }
+        joinTracksButton.setEnabled(hasProgTrack);
+
         sendCommandButton.setEnabled((dccexSendCommandValue.length() != 0) && (dccexSendCommandValue.charAt(0) != '<'));
         previousCommandButton.setEnabled((mainapp.dccexPreviousCommandIndex >= 0));
         nextCommandButton.setEnabled((mainapp.dccexPreviousCommandIndex >= 0));
@@ -1015,7 +1020,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
     }
 
     public void refreshDccexTracksView() {
-
+        hasProgTrack = false;
         for (int i = 0; i< threaded_application.DCCEX_MAX_TRACKS; i++) {
             dccExTrackTypeSpinner[i].setSelection(mainapp.dccexTrackType[i]);
             dccExTrackTypeIdEditText[i].setText(mainapp.dccexTrackId[i]);
@@ -1026,6 +1031,8 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
                 dccExTrackPowerButton[i].setVisibility(View.GONE);
             }
             dccExTrackTypeSpinner[i].setEnabled(TRACK_TYPES_SELECTABLE[mainapp.dccexTrackType[i]]);
+
+            if (mainapp.dccexTrackType[i]==2) hasProgTrack = true;
         }
         showHideButtons();
 
@@ -1121,5 +1128,26 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         }
         Drawable img = getResources().getDrawable(outValue.resourceId);
         btn.setBackground(img);
+    }
+
+    void adjustToolbarSize(Menu menu) {
+        int newHeightAndWidth = mainapp.adjustToolbarSize(toolbar);
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            View itemChooser = item.getActionView();
+
+            if (itemChooser != null) {
+                itemChooser.getLayoutParams().height = newHeightAndWidth;
+                itemChooser.getLayoutParams().width = (int) ( (float) newHeightAndWidth * 1.3 );
+
+                itemChooser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOptionsItemSelected(item);
+                    }
+                });
+            }
+        }
     }
 }

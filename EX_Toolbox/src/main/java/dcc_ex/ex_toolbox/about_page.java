@@ -18,7 +18,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package dcc_ex.ex_toolbox;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,6 +27,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,6 +41,7 @@ public class about_page extends AppCompatActivity {
 
     private threaded_application mainapp; // hold pointer to mainapp
     private Menu AMenu;
+    private Toolbar toolbar;
 
     /**
      * Called when the activity is first created.
@@ -67,7 +68,7 @@ public class about_page extends AppCompatActivity {
         mainapp.about_page_msg_handler = new about_page_handler(Looper.getMainLooper());
 
         LinearLayout screenNameLine = findViewById(R.id.screen_name_line);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         LinearLayout statusLine = findViewById(R.id.status_line);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -92,7 +93,7 @@ public class about_page extends AppCompatActivity {
 
         if (AMenu != null) {
             mainapp.displayPowerStateMenuButton(AMenu);
-            mainapp.setPowerStateButton(AMenu);
+            mainapp.setPowerStateActionViewButton(AMenu, findViewById(R.id.powerLayoutButton));
         }
     }
 
@@ -102,8 +103,10 @@ public class about_page extends AppCompatActivity {
         inflater.inflate(R.menu.about_menu, menu);
         AMenu = menu;
         mainapp.displayPowerStateMenuButton(menu);
-        mainapp.setPowerStateButton(menu);
+        mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
         mainapp.reformatMenu(menu);
+
+        adjustToolbarSize(menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -111,7 +114,7 @@ public class about_page extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
-        if (item.getItemId() == R.id.power_layout_button) {
+        if (item.getItemId() == R.id.powerLayoutButton) {
             if (!mainapp.isPowerControlAllowed()) {
                 mainapp.powerControlNotAllowedDialog(AMenu);
             } else {
@@ -151,7 +154,7 @@ public class about_page extends AppCompatActivity {
                         String com1 = s.substring(0, 3);
                         //update power icon
                         if ("PPA".equals(com1)) {
-                            mainapp.setPowerStateButton(AMenu);
+                            mainapp.setPowerStateActionViewButton(AMenu, findViewById(R.id.powerLayoutButton));
                         }
                     }
                     break;
@@ -162,4 +165,24 @@ public class about_page extends AppCompatActivity {
         }
     }
 
+    void adjustToolbarSize(Menu menu) {
+        int newHeightAndWidth = mainapp.adjustToolbarSize(toolbar);
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            View itemChooser = item.getActionView();
+
+            if (itemChooser != null) {
+                itemChooser.getLayoutParams().height = newHeightAndWidth;
+                itemChooser.getLayoutParams().width = (int) ( (float) newHeightAndWidth * 1.3 );
+
+                itemChooser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOptionsItemSelected(item);
+                    }
+                });
+            }
+        }
+    }
 }

@@ -49,6 +49,9 @@
     <attr name="ed_toolbar_button_speed_trap" format="reference" />
     <attr name="ed_toolbar_button_neopixel" format="reference" />
 
+    <attr name="ed_toolbar_button_preferences" format="reference" />
+    <attr name="ed_toolbar_button_wizard" format="reference" />
+
     <attr name="ed_folder_icon" format="reference" />
     <attr name="ed_clock_icon" format="reference" />
     <attr name="ed_dcc_ex_button" format="reference" />

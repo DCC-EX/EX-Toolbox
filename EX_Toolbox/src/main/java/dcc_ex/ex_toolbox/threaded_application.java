@@ -49,6 +49,7 @@ import android.os.Vibrator;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -82,6 +83,7 @@ import java.util.TimeZone;
 import dcc_ex.ex_toolbox.type.Consist;
 import dcc_ex.ex_toolbox.type.message_type;
 import dcc_ex.ex_toolbox.import_export.ImportExport;
+import dcc_ex.ex_toolbox.type.toolbar_button_size_to_use_type;
 import dcc_ex.ex_toolbox.util.LocaleHelper;
 import dcc_ex.ex_toolbox.util.PermissionsHelper;
 import dcc_ex.ex_toolbox.comms.comm_handler;
@@ -96,6 +98,14 @@ public class threaded_application extends Application {
 
     private threaded_application mainapp = this;
     public comm_thread commThread;
+
+    public static DisplayMetrics displayMetrics;
+    public static double displayDiagonalInches;
+    public static String prefToolbarButtonSize = "auto";
+    public static int toolbarButtonSizeToUse = toolbar_button_size_to_use_type.SMALL;
+    public static final double MEDIUM_SCREEN_SIZE = 5.5; // inches
+    public static final double LARGE_SCREEN_SIZE = 6.7; // inches
+
 
     public String JMDNS_SERVICE_WITHROTTLE = "_withrottle._tcp.local.";
     public String JMDNS_SERVICE_JMRI_DCCPP_OVERTCP = "_dccppovertcpserver._tcp.local.";
@@ -894,9 +904,9 @@ public class threaded_application extends Application {
 
     public void displayPowerStateMenuButton(Menu menu) {
         if (prefs.getBoolean("show_layout_power_button_preference", false) && (power_state != null)) {
-            menu.findItem(R.id.power_layout_button).setVisible(true);
+            menu.findItem(R.id.powerLayoutButton).setVisible(true);
         } else {
-            menu.findItem(R.id.power_layout_button).setVisible(false);
+            menu.findItem(R.id.powerLayoutButton).setVisible(false);
         }
     }
 
@@ -963,28 +973,60 @@ public class threaded_application extends Application {
         return (power_state != null);
     }
 
-    public void setPowerStateButton(Menu menu) {
-        if (menu != null) {
-            TypedValue outValue = new TypedValue();
-            if (power_state == null) {
-                theme.resolveAttribute(R.attr.ed_power_yellow_button, outValue, true);
-                menu.findItem(R.id.power_layout_button).setIcon(outValue.resourceId);
-                menu.findItem(R.id.power_layout_button).setTitle("Layout Power is UnKnown");
-            } else if (power_state.equals("2")) {
-                    theme.resolveAttribute(R.attr.ed_power_green_red_button, outValue, true);
-                    menu.findItem(R.id.power_layout_button).setIcon(outValue.resourceId);
-                    menu.findItem(R.id.power_layout_button).setTitle("Layout Power is UnKnown");
-            } else if (power_state.equals("1")) {
-                theme.resolveAttribute(R.attr.ed_power_green_button, outValue, true);
-                menu.findItem(R.id.power_layout_button).setIcon(outValue.resourceId);
-                menu.findItem(R.id.power_layout_button).setTitle("Layout Power is ON");
-            } else {
-                theme.resolveAttribute(R.attr.ed_power_red_button, outValue, true);
-                menu.findItem(R.id.power_layout_button).setIcon(outValue.resourceId);
-                menu.findItem(R.id.power_layout_button).setTitle("Layout Power is Off");
-            }
+//    public void setPowerStateButton(Menu menu) {
+//        if (menu != null) {
+//            TypedValue outValue = new TypedValue();
+//            if (power_state == null) {
+//                theme.resolveAttribute(R.attr.ed_power_yellow_button, outValue, true);
+//                menu.findItem(R.id.powerLayoutButton).setIcon(outValue.resourceId);
+//                menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is UnKnown");
+//            } else if (power_state.equals("2")) {
+//                    theme.resolveAttribute(R.attr.ed_power_green_red_button, outValue, true);
+//                    menu.findItem(R.id.powerLayoutButton).setIcon(outValue.resourceId);
+//                    menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is UnKnown");
+//            } else if (power_state.equals("1")) {
+//                theme.resolveAttribute(R.attr.ed_power_green_button, outValue, true);
+//                menu.findItem(R.id.powerLayoutButton).setIcon(outValue.resourceId);
+//                menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is ON");
+//            } else {
+//                theme.resolveAttribute(R.attr.ed_power_red_button, outValue, true);
+//                menu.findItem(R.id.powerLayoutButton).setIcon(outValue.resourceId);
+//                menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is Off");
+//            }
+//        }
+//    }
+
+    public void setPowerStateActionViewButton(Menu menu, ViewGroup menuItemViewGroup) {
+        if (!prefs.getBoolean("show_layout_power_button_preference", false)) return;
+
+        if ( (menu == null) ||  (menuItemViewGroup  == null)) {
+//            // the menu or button is not available yet. Force an update request to the get it to update ASAP
+//            sendMsgDelay(comm_msg_handler, 100, message_type.POWER_STATE_REQUEST);
+            return;
         }
+
+        TypedValue outValue = new TypedValue();
+
+        if (power_state == null) {
+            theme.resolveAttribute(R.attr.ed_power_yellow_button, outValue, true);
+            menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is UnKnown");
+        } else if (power_state.equals("2")) {
+            theme.resolveAttribute(R.attr.ed_power_green_red_button, outValue, true);
+            menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is UnKnown");
+        } else if (power_state.equals("1")) {
+            theme.resolveAttribute(R.attr.ed_power_green_button, outValue, true);
+            menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is ON");
+        } else {
+            theme.resolveAttribute(R.attr.ed_power_red_button, outValue, true);
+            menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is Off");
+        }
+
+        ImageView image = (ImageView) menuItemViewGroup.getChildAt(0);
+
+        if (image == null) return;
+        image.setImageResource(outValue.resourceId);
     }
+
 
     // forward a message to all running activities
     public void alert_activities(int msgType, String msgBody) {
@@ -1843,4 +1885,21 @@ public class threaded_application extends Application {
 
     }
 
+    // note SettingsActivity does not use this
+    public int adjustToolbarSize(Toolbar toolbar) {
+        ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
+        int toolbarHeight = layoutParams.height;
+        int newHeightAndWidth = toolbarHeight;
+
+        if (threaded_application.toolbarButtonSizeToUse == toolbar_button_size_to_use_type.MEDIUM) {
+            newHeightAndWidth = (int) ((float) toolbarHeight * 1.32);
+            layoutParams.height = newHeightAndWidth;
+            toolbar.setLayoutParams(layoutParams);
+        } else if (threaded_application.toolbarButtonSizeToUse == toolbar_button_size_to_use_type.LARGE) {
+            newHeightAndWidth = toolbarHeight*2;
+            layoutParams.height = newHeightAndWidth;
+            toolbar.setLayoutParams(layoutParams);
+        }
+        return newHeightAndWidth;
+    }
 }

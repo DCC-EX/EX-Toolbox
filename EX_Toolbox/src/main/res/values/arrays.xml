@@ -282,14 +282,31 @@
         <item>Neon Blue</item>
     </string-array>
 
-<!--    <string-array name="prefYesNoEntryValues" translatable="false">  &lt;!&ndash; DO NOT TRANSLATE &ndash;&gt;-->
-<!--        <item>Yes</item>-->
-<!--        <item>No</item>-->
-<!--    </string-array>-->
-<!--    <string-array name="prefYesNoEntries">  &lt;!&ndash; display version &ndash;&gt;-->
-<!--        <item>Yes</item>-->
-<!--        <item>No</item>-->
-<!--    </string-array>-->
+    <string-array name="prefYesNoEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="prefYesNoEntries">  <!-- display version -->
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+    <string-array name="prefToolbarButtonSizeEntries">  <!-- display version -->
+        <item>Auto</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
+    <string-array name="prefToolbarButtonSizeEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
+        <item>auto</item>
+        <item>small</item>
+        <item>medium</item>
+        <item>large</item>
+    </string-array>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <string-array name="prefLocaleEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
         <item>Default</item>

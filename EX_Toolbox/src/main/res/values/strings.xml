@@ -417,6 +417,10 @@
     <string name="prefHapticFeedbackButtonsTitle">Haptic Feedback on Button Presses</string>
     <string name="prefHapticFeedbackButtonsSummary">Haptic feedback (vibrate) on button presses.</string>
 
+    <string name="prefToolbarButtonSizeTitle">Toolbar Button Size</string>
+    <string name="prefToolbarButtonSizeSummary">Set the size of the toolbar buttons. (Re-start required)</string>
+    <string name="prefToolbarButtonSizeDefaultValue" translatable="false">auto</string>  <!-- DO NOT TRANSLATE -->
+
 <!--    <string name="dccexRouteSet">Set</string>-->
 <!--    <string name="dccexRouteHandoff">HandOff</string>-->
 

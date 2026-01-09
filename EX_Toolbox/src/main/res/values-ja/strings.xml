@@ -16,7 +16,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation, TypographyDashes, TypographyEllipsis">
 
     <string name="exit">Exit</string>
-    <string name="introMenu">導入/セットアップ手順</string>
+    <string name="introMenu">導入/初期設定</string>
     <string name="app_description">EX-Toolbox - Android用のDCC-EXツールボックス。このアプリケーションでDCC-EX EX-CommandStationに接続できます。</string>
     <string name="app_name_intro">導入</string>
     <string name="app_name_connect">サーバー接続</string>
@@ -68,7 +68,7 @@
     <string name="power_control_label">レイアウト電源設定</string>
     <string name="power_control_button">不明</string>
     <string name="press_to_toggle">ボタンを押してレイアウトの電源を切り替えます</string>
-    <string name="power_control_not_allowed">電源制御は許可されていません。サーバーの設定が変更されています。</string>
+    <string name="power_control_not_allowed">電源制御は許可されていません。サーバーの設定が変更されました。</string>
     <string name="reconnect_label">再接続試行ステータス</string>
     <string name="reconnect_help">自動的に再接続を試行しています。再接続を待つか、矢印キーを押して終了してください。</string>
     <string name="reconnect_success">再接続しました。通常の操作を再開します。</string>
@@ -142,7 +142,7 @@
     <string name="prefPowerButtonBarTitle">電源ボタンのレイアウト</string>
     <string name="prefPowerButtonBarSummary">アクションバーにレイアウト電源ボタンを表示</string>
     <string name="prefShowToolbarCvProgrammerMenuButtonsTitle">CVプログラマー設定ボタン</string>
-    <string name="prefShowToolbarMenuButtonsSummary">ツールバー ボタンを追加で表示します。\nEX-Toolbox を再起動が必要な場合があります。</string>
+    <string name="prefShowToolbarMenuButtonsSummary">ツールバー ボタンを追加で表示します。\nEX-Toolbox の再起動が必要な場合があります。</string>
     <string name="prefShowToolbarLocosMenuButtonsTitle">車両 設定ボタン</string>
     <string name="prefShowToolbarCurrentsMenuButtonsTitle">電流設定ボタン</string>
     <string name="prefShowToolbarSensorsMenuButtonsTitle">センサー設定ボタン</string>
@@ -183,7 +183,7 @@
     <string name="statusThreadedAppNotConnectedToWifi">WiFiに接続されていません</string>
     <string name="statusThreadedAppServerDiscoveryNotPossible">WiFi 接続がないとサーバーの検出はできません。</string>
     <string name="statusThreadedAppNoLocationService">SSIDにアクセスできません</string>
-    <string name="statusThreadedAppServerDiscoveryNoLocationService">\'位置情報を使用\' Android システム設定が無効になっています。</string>
+    <string name="statusThreadedAppServerDiscoveryNoLocationService">\'位置情報の使用\' Android システム設定が無効になっています。</string>
     <string name="statusThreadedAppServerDiscoveryAccessFineLocationNotGranted">\'ACCESS_FINE_LOCATION\' 権限が付与されていません。</string>
     <string name="statusThreadedAppServerDiscoverySsidUnavailable">ネットワーク名にアクセスできません。サーバーの検出が制限されている可能性があります。</string>
     <string name="statusThreadedAppNotConnected">ネットワークに接続されていません。Wi-Fi設定を確認してください。\n\n再試行しています</string>
@@ -212,7 +212,7 @@
     <string name="toastForcedWiFiFailed">強制Wi-Fi接続に失敗しました。もう一度お試しください。(このデバイスのIPアドレス: %1$s)</string>
     <string name="toastPreferencesChangedForceWiFi">\'モバイルデータを許可する\'設定が変更されました。</string>
     <string name="toastConnectionsListHelp">タッチしてサーバーを選択するか、サーバーのアドレスとポートを入力します。エントリを削除するには右にスワイプします。</string>
-    <string name="toastSaveLogFile">ファイル%1$sでログ記録が開始されました。EX-Toolboxアプリを終了するまでログ記録は継続されます。</string>
+    <string name="toastSaveLogFile">ファイル %1$s でログ記録が開始されました。EX-Toolbox アプリを終了するまでログ記録は継続されます。</string>
     <string name="logViewerTitle">ログビューアアクティビティ | %1$s</string>
     <string name="infoSaveLogFile">ログ出力先: %s</string>
     <string name="toastTooManySensors">センサーが多すぎて表示できません。 (%1$d)。設定で表示数を増やしてください。</string>
@@ -243,7 +243,7 @@
     <string name="introThemeSummary">アプリ全体の色と外観を選択します</string>
     <string name="introFinishTitle">準備完了</string>
     <string name="introFinishSummary">EX-Toolbox を接続する準備が整いました。</string>
-    <string name="introFinishSummary2">詳細な手順については、メニューの「About」ページを参照してください。</string>
+    <string name="introFinishSummary2">詳細な手順については、メニューの「このアプリについて」ページを参照してください。</string>
     <string name="introFinishSummary3">「設定」メニューからアプリの外観と動作を変更することができます。</string>
     <string name="introbackButtonPress">導入を完了するには、EX-Toolboxアプリを再起動してください。</string>
     <string name="dialogRecentConnectionsConfirmClearQuestions">最近の接続を全て削除します</string>
@@ -274,8 +274,10 @@
     <string name="prefHapticFeedbackSummary">速度変化時の振動フィードバック</string>
     <string name="prefLeftRightSwipePreferencesTitle">左/右スワイプの設定</string>
     <string name="prefLeftRightSwipePreferencesSummary">スワイプで画面を切り替えるオプション</string>
-    <string name="prefHapticFeedbackStepsTitle">振動フィードバックステップ</string>
-    <string name="prefHapticFeedbackStepsSummary">スライダーの振動フィードバックのステップ数</string>
+<!--    <string name="prefHapticFeedbackStepsTitle">振動フィードバックステップ</string>-->
+<!--    <string name="prefHapticFeedbackStepsSummary">スライダーの振動フィードバックのステップ数</string>-->
+    <string name="prefToolbarButtonSizeTitle">ツールバーボタン</string>
+    <string name="prefToolbarButtonSizeSummary">ツールバーボタンのサイズを設定します。(再起動が必要です)</string>
     <string name="prefHapticFeedbackDurationTitle">振動フィードバック持続</string>
     <string name="prefHapticFeedbackDurationSummary">各振動の持続時間（ミリ秒単位）。</string>
     <string name="prefHapticFeedbackDurationDefaultValue">「25」</string>
@@ -408,7 +410,7 @@
     <string name="speedMatchDeceleration">減速</string>
     <string name="speedMatchKickStart">起動キック</string>
 
-    <string name="rosterEmpty">サーバリストに項目が見つかりません</string>
+    <string name="rosterEmpty">サーバ上のロースターに項目が見つかりません</string>
     <string name="rosterDetailsDialogTitle">ロースターの詳細</string>
     <string name="rosterDetailsNoFunctions">関数が定義されていません</string>
     <string name="rosterDetailsFunctionMomentary">（瞬間）</string>

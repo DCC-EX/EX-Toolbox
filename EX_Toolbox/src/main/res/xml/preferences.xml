@@ -142,6 +142,16 @@
         android:layout="@layout/category_icon_left"
         android:icon="@drawable/category_status_row_black">
 
+
+        <ListPreference
+            android:defaultValue="@string/prefToolbarButtonSizeDefaultValue"
+            android:entries="@array/prefToolbarButtonSizeEntries"
+            android:entryValues="@array/prefToolbarButtonSizeEntryValues"
+            android:key="prefToolbarButtonSize"
+            android:summary="@string/prefToolbarButtonSizeSummary"
+            android:title="@string/prefToolbarButtonSizeTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
         <CheckBoxPreference
             android:icon="?attr/ed_power_green_button"
             android:defaultValue="@bool/prefLayoutPowerButtonDefaultValue"

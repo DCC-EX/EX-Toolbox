@@ -81,6 +81,8 @@ import dcc_ex.ex_toolbox.import_export.ImportExportConnectionList;
 import dcc_ex.ex_toolbox.intro.intro_activity;
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
 import dcc_ex.ex_toolbox.type.message_type;
+import dcc_ex.ex_toolbox.type.toolbar_button_size_to_use_type;
+import dcc_ex.ex_toolbox.type.toolbar_button_size_type;
 import dcc_ex.ex_toolbox.util.LocaleHelper;
 import dcc_ex.ex_toolbox.util.PermissionsHelper;
 import dcc_ex.ex_toolbox.util.PermissionsHelper.RequestCodes;
@@ -174,7 +176,7 @@ public class connection_activity extends AppCompatActivity implements Permission
 
     private void start_cv_programmer_activity() {
         Intent cv_programmer = mainapp.getCvProgrammerIntent();
-        cv_programmer.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//        cv_programmer.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(cv_programmer);
         this.finish();
         overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
@@ -622,6 +624,8 @@ public class connection_activity extends AppCompatActivity implements Permission
             return;
         }
 
+        calculateDisplayMetrics();
+
         getWifiInfo();
 
         mainapp.setActivityOrientation(this);  //set screen orientation based on prefs
@@ -686,6 +690,34 @@ public class connection_activity extends AppCompatActivity implements Permission
 
     private void shutdown() {
         this.finish();
+    }
+
+    private void calculateDisplayMetrics() {
+        Log.d("EX_Toolbox","connection_activity: calculateDisplayMetrics()");
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        threaded_application.displayMetrics = dm;
+        float yInches= threaded_application.displayMetrics.heightPixels/threaded_application.displayMetrics.ydpi;
+        float xInches= threaded_application.displayMetrics.widthPixels/threaded_application.displayMetrics.xdpi;
+        threaded_application.displayDiagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
+        threaded_application.prefToolbarButtonSize = prefs.getString("prefToolbarButtonSize", getApplicationContext().getResources().getString(R.string.prefToolbarButtonSizeDefaultValue));
+        if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.AUTO) ) {
+            if (threaded_application.displayDiagonalInches >= threaded_application.LARGE_SCREEN_SIZE) {
+                threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.LARGE;
+            } else if  (threaded_application.displayDiagonalInches >= threaded_application.MEDIUM_SCREEN_SIZE) {
+                threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.MEDIUM;
+            }
+        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.LARGE)) {
+            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.LARGE;
+        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.SMALL)) {
+            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.SMALL;
+        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.MEDIUM)) {
+            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.MEDIUM;
+        }
+
+        threaded_application.min_fling_distance = (int) (threaded_application.SWIPE_MIN_DISTANCE * dm.densityDpi / 160.0f);
+        threaded_application.min_fling_velocity = (int) (threaded_application.SWIPE_THRESHOLD_VELOCITY * dm.densityDpi / 160.0f);
+
     }
 
     private void set_labels() {
@@ -848,6 +880,8 @@ public class connection_activity extends AppCompatActivity implements Permission
 
         mainapp.reformatMenu(menu);
 
+        adjustToolbarSize(menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -858,14 +892,14 @@ public class connection_activity extends AppCompatActivity implements Permission
         if (item.getItemId() == R.id.exit_mnu) {
             mainapp.checkAskExit(this);
             return true;
-        } else if (item.getItemId() == R.id.settings_mnu ) {
+        } else if ( (item.getItemId() == R.id.settings_mnu) || (item.getItemId() == R.id.settings_button) ) {
             in = new Intent().setClass(this, SettingsActivity.class);
             startActivityForResult(in, 0);
             connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
             return true;
         } else if (item.getItemId() == R.id.about_mnu) {
             in = new Intent().setClass(this, about_page.class);
-            in.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//            in.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(in);
             connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
             return true;
@@ -875,11 +909,11 @@ public class connection_activity extends AppCompatActivity implements Permission
             return true;
         } else if (item.getItemId() == R.id.logviewer_menu) {
             Intent logviewer = new Intent().setClass(this, LogViewerActivity.class);
-            logviewer.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//            logviewer.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(logviewer);
             connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
             return true;
-        } else if (item.getItemId() == R.id.intro_mnu) {
+        } else if ( (item.getItemId() == R.id.intro_mnu) || (item.getItemId() == R.id.intro_button) ) {
             in = new Intent().setClass(this, intro_activity.class);
             in.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(in);
@@ -1038,6 +1072,27 @@ public class connection_activity extends AppCompatActivity implements Permission
         if (!PermissionsHelper.getInstance().processRequestPermissionsResult(connection_activity.this, requestCode, permissions, grantResults)) {
             Log.d("EX_Toolbox", "Unrecognised request - send up to super class");
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    void adjustToolbarSize(Menu menu) {
+        int newHeightAndWidth = mainapp.adjustToolbarSize(toolbar);
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            View itemChooser = item.getActionView();
+
+            if (itemChooser != null) {
+                itemChooser.getLayoutParams().height = newHeightAndWidth;
+                itemChooser.getLayoutParams().width = (int) ( (float) newHeightAndWidth * 1.3 );
+
+                itemChooser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOptionsItemSelected(item);
+                    }
+                });
+            }
         }
     }
 }

@@ -46,14 +46,12 @@ import android.view.ViewGroup;
 import android.webkit.CookieSyncManager;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -67,7 +65,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jmri.jmrit.roster.RosterEntry;
 import dcc_ex.ex_toolbox.type.message_type;
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
 import dcc_ex.ex_toolbox.util.LocaleHelper;
@@ -238,7 +235,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
                         String com1 = s.substring(0, 3);
                         //update power icon
                         if ("PPA".equals(com1)) {
-                            mainapp.setPowerStateButton(menu);
+                            mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
                         }
                     }
                     break;
@@ -479,11 +476,13 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
         mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
-        mainapp.setPowerStateButton(menu);
+        mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
 
         mainapp.setPowerMenuOption(menu);
 
         mainapp.reformatMenu(menu);
+
+        adjustToolbarSize(menu);
 
         return  super.onCreateOptionsMenu(menu);
     }
@@ -564,7 +563,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
         } else if (item.getItemId() == R.id.about_mnu) {
                 navigateAway(false, about_page.class);
                 return true;
-        } else if (item.getItemId() == R.id.power_layout_button) {
+        } else if (item.getItemId() == R.id.powerLayoutButton) {
                 if (!mainapp.isPowerControlAllowed()) {
                     mainapp.powerControlNotAllowedDialog(menu);
                 } else {
@@ -848,5 +847,26 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
     public void refreshDccexCommandsView() {
         dccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
         dccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
+    }
+
+    void adjustToolbarSize(Menu menu) {
+        int newHeightAndWidth = mainapp.adjustToolbarSize(toolbar);
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            View itemChooser = item.getActionView();
+
+            if (itemChooser != null) {
+                itemChooser.getLayoutParams().height = newHeightAndWidth;
+                itemChooser.getLayoutParams().width = (int) ( (float) newHeightAndWidth * 1.3 );
+
+                itemChooser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOptionsItemSelected(item);
+                    }
+                });
+            }
+        }
     }
 }

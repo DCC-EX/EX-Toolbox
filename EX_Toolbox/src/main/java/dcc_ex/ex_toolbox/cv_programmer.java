@@ -21,7 +21,6 @@ import static android.text.InputType.TYPE_TEXT_FLAG_AUTO_CORRECT;
 import static dcc_ex.ex_toolbox.threaded_application.context;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -29,9 +28,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.gesture.GestureOverlayView;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -47,7 +43,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieSyncManager;
 import android.widget.AdapterView;
@@ -58,7 +53,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -329,7 +323,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
                         String com1 = s.substring(0, 3);
                         //update power icon
                         if ("PPA".equals(com1)) {
-                            mainapp.setPowerStateButton(tMenu);
+                            mainapp.setPowerStateActionViewButton(tMenu, findViewById(R.id.powerLayoutButton));
                         }
                     }
                     break;
@@ -665,6 +659,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
+                Log.d("EX_Toolbox", "cv_programmer: handleOnBackPressed()");
                 mainapp.checkExit(cv_programmer.this);
             }
         };
@@ -682,7 +677,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 
     @Override
     public void onResume() {
-        Log.d("EX_Toolbox", "cv_programmer.onResume() called");
+        Log.d("EX_Toolbox", "cv_programmer: onResume() called");
         mainapp.applyTheme(this);
         super.onResume();
 
@@ -713,18 +708,24 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 
     @Override
     public void onPause() {
-        Log.d("EX_Toolbox", "cv_programmer.onPause() called");
+        Log.d("EX_Toolbox", "cv_programmer: onPause() called");
         super.onPause();
         CookieSyncManager.getInstance().stopSync();
     }
 
     @Override
     public void onStart() {
+        Log.d("EX_Toolbox", "cv_programmer: onStart() called");
         super.onStart();
-        Log.d("EX_Toolbox", "cv_programmer.onStart() called");
         // put pointer to this activity's handler in main app's shared variable
         if (mainapp.cv_programmer_msg_handler == null)
             mainapp.cv_programmer_msg_handler = new cv_programmer_handler(Looper.getMainLooper());
+    }
+
+    @Override
+    public void onStop() {
+        Log.d("EX_Toolbox", "cv_programmer: onStop() called");
+        super.onStop();
     }
 
     @Override
@@ -741,8 +742,8 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 
     @Override
     public void onDestroy() {
+        Log.d("EX_Toolbox", "cv_programmer: onDestroy() called");
         super.onDestroy();
-        Log.d("EX_Toolbox", "cv_programmer.onDestroy() called");
 
         mainapp.hideSoftKeyboard(this.getCurrentFocus());
         mainapp.dccexScreenIsOpen = false;
@@ -785,6 +786,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
     //Handle pressing of the back button to end this activity
     @Override
     public boolean onKeyDown(int key, KeyEvent event) {
+        Log.d("EX_Toolbox", "cv_programmer: onKeyDown()");
         if (key == KeyEvent.KEYCODE_BACK) {
             if (mainapp.cv_programmer_msg_handler!=null) {
                 mainapp.checkExit(this);
@@ -809,9 +811,11 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
-        mainapp.setPowerStateButton(menu);
+        mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
         mainapp.setPowerMenuOption(menu);
         mainapp.reformatMenu(menu);
+
+        adjustToolbarSize(menu);
 
         return  super.onCreateOptionsMenu(menu);
     }
@@ -889,7 +893,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         } else if (item.getItemId() == R.id.about_mnu) {
             navigateAway(false, about_page.class);
             return true;
-        } else if (item.getItemId() == R.id.power_layout_button) {
+        } else if (item.getItemId() == R.id.powerLayoutButton) {
             if (!mainapp.isPowerControlAllowed()) {
                 mainapp.powerControlNotAllowedDialog(tMenu);
             } else {
@@ -1568,4 +1572,24 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         dccexCvValue = etDccexCvValue.getText().toString();
     }
 
+    void adjustToolbarSize(Menu menu) {
+        int newHeightAndWidth = mainapp.adjustToolbarSize(toolbar);
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            View itemChooser = item.getActionView();
+
+            if (itemChooser != null) {
+                itemChooser.getLayoutParams().height = newHeightAndWidth;
+                itemChooser.getLayoutParams().width = (int) ( (float) newHeightAndWidth * 1.3 );
+
+                itemChooser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOptionsItemSelected(item);
+                    }
+                });
+            }
+        }
+    }
 }

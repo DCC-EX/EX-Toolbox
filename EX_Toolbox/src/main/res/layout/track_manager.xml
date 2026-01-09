@@ -81,7 +81,7 @@
                         <LinearLayout
                             android:id="@+id/ex_DccexTrackLinearLayout"
                             android:layout_width="fill_parent"
-                            android:layout_height="160sp"
+                            android:layout_height="200sp"
                             android:layout_margin="0sp"
                             android:padding="5sp"
                             android:weightSum="1"
@@ -106,7 +106,7 @@
                                         android:id="@+id/ex_DccexTrack0layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="0sp"
+                                        android:layout_marginTop="6sp"
                                         android:background="#00000000"
                                         android:orientation="horizontal"
                                         android:weightSum="1"
@@ -167,7 +167,7 @@
                                         android:id="@+id/ex_DccexTrack1layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="0sp"
+                                        android:layout_marginTop="6sp"
                                         android:background="#00000000"
                                         android:orientation="horizontal"
                                         android:weightSum="1" >
@@ -227,7 +227,7 @@
                                         android:id="@+id/ex_DccexTrack2layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="0sp"
+                                        android:layout_marginTop="6sp"
                                         android:background="#00000000"
                                         android:orientation="horizontal"
                                         android:weightSum="1" >
@@ -287,7 +287,7 @@
                                         android:id="@+id/ex_DccexTrack3layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="0sp"
+                                        android:layout_marginTop="6sp"
                                         android:background="#00000000"
                                         android:orientation="horizontal"
                                         android:weightSum="1" >
@@ -347,7 +347,7 @@
                                         android:id="@+id/ex_DccexTrack4layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="0sp"
+                                        android:layout_marginTop="6sp"
                                         android:background="#00000000"
                                         android:orientation="horizontal"
                                         android:weightSum="1" >
@@ -407,7 +407,7 @@
                                         android:id="@+id/ex_DccexTrack5layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="0sp"
+                                        android:layout_marginTop="6sp"
                                         android:background="#00000000"
                                         android:orientation="horizontal"
                                         android:weightSum="1" >
@@ -467,7 +467,7 @@
                                         android:id="@+id/ex_DccexTrack6layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="0sp"
+                                        android:layout_marginTop="6sp"
                                         android:background="#00000000"
                                         android:orientation="horizontal"
                                         android:weightSum="1" >
@@ -527,7 +527,7 @@
                                         android:id="@+id/ex_DccexTrack7layout"
                                         android:layout_width="fill_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="0sp"
+                                        android:layout_marginTop="6sp"
                                         android:background="#00000000"
                                         android:orientation="horizontal"
                                         android:weightSum="1" >
@@ -607,6 +607,7 @@
                                 android:layout_marginTop="8sp"
                                 android:background="#00000000"
                                 android:orientation="vertical"
+                                android:layout_gravity="center_vertical"
                                 android:weightSum="1">
 
                                 <Button

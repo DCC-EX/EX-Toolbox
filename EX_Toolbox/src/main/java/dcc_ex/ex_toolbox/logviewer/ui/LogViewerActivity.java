@@ -171,7 +171,7 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
 
 //        if (AMenu != null) {
 //            mainapp.displayPowerStateMenuButton(AMenu);
-//            mainapp.setPowerStateButton(AMenu);
+//            mainapp.setPowerStateActionViewButton(AMenu, findViewById(R.id.powerLayoutButton));
 //        }
     }
 
@@ -181,8 +181,10 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
         inflater.inflate(R.menu.logviewer_menu, menu);
         AMenu = menu;
         mainapp.displayPowerStateMenuButton(menu);
-        mainapp.setPowerStateButton(menu);
+        mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
         mainapp.reformatMenu(menu);
+
+        adjustToolbarSize(menu);
 
         return  super.onCreateOptionsMenu(menu);
     }
@@ -190,7 +192,7 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
-        if (item.getItemId() == R.id.power_layout_button) {
+        if (item.getItemId() == R.id.powerLayoutButton) {
             if (!mainapp.isPowerControlAllowed()) {
                 mainapp.powerControlNotAllowedDialog(AMenu);
             } else {
@@ -242,7 +244,7 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
                         String com1 = s.substring(0, 3);
                         //update power icon
                         if ("PPA".equals(com1)) {
-                            mainapp.setPowerStateButton(AMenu);
+                            mainapp.setPowerStateActionViewButton(AMenu, findViewById(R.id.powerLayoutButton));
                         }
                     }
                     break;
@@ -664,6 +666,27 @@ public boolean checkHasLogFiles() {
             startActivity(chooserIntent);
         } catch (android.content.ActivityNotFoundException ex) {
             threaded_application.safeToast(getApplicationContext().getResources().getString(R.string.toastNoAppToShare), Toast.LENGTH_SHORT);
+        }
+    }
+
+    void adjustToolbarSize(Menu menu) {
+        int newHeightAndWidth = mainapp.adjustToolbarSize(toolbar);
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            View itemChooser = item.getActionView();
+
+            if (itemChooser != null) {
+                itemChooser.getLayoutParams().height = newHeightAndWidth;
+                itemChooser.getLayoutParams().width = (int) ( (float) newHeightAndWidth * 1.3 );
+
+                itemChooser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOptionsItemSelected(item);
+                    }
+                });
+            }
         }
     }
 }
