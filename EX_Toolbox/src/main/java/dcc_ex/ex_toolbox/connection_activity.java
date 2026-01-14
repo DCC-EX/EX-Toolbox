@@ -17,6 +17,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package dcc_ex.ex_toolbox;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static dcc_ex.ex_toolbox.threaded_application.context;
 
 import android.annotation.SuppressLint;
@@ -26,6 +28,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -38,9 +41,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -66,6 +66,11 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.Inet4Address;
@@ -76,6 +81,8 @@ import dcc_ex.ex_toolbox.import_export.ImportExportConnectionList;
 import dcc_ex.ex_toolbox.intro.intro_activity;
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
 import dcc_ex.ex_toolbox.type.message_type;
+import dcc_ex.ex_toolbox.type.toolbar_button_size_to_use_type;
+import dcc_ex.ex_toolbox.type.toolbar_button_size_type;
 import dcc_ex.ex_toolbox.util.LocaleHelper;
 import dcc_ex.ex_toolbox.util.PermissionsHelper;
 import dcc_ex.ex_toolbox.util.PermissionsHelper.RequestCodes;
@@ -119,6 +126,7 @@ public class connection_activity extends AppCompatActivity implements Permission
     Button host_text;
 
     TextView discoveredServersHeading;
+    TextView discoveredServersWarning;
 
     LinearLayout rootView;
     int rootViewHeight = 0;
@@ -168,6 +176,7 @@ public class connection_activity extends AppCompatActivity implements Permission
 
     private void start_cv_programmer_activity() {
         Intent cv_programmer = mainapp.getCvProgrammerIntent();
+//        cv_programmer.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(cv_programmer);
         this.finish();
         overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
@@ -540,6 +549,7 @@ public class connection_activity extends AppCompatActivity implements Permission
         button.setOnClickListener(click_listener);
 
         discoveredServersHeading = findViewById(R.id.discoveredServersHeading);
+        discoveredServersWarning = findViewById(R.id.discoveredServersWarning);
 
         set_labels();
         DisplayMetrics dm = new DisplayMetrics();
@@ -576,6 +586,13 @@ public class connection_activity extends AppCompatActivity implements Permission
             }
         });
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                mainapp.checkExit(connection_activity.this);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
 
         screenNameLine = findViewById(R.id.screen_name_line);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -607,6 +624,8 @@ public class connection_activity extends AppCompatActivity implements Permission
             return;
         }
 
+        calculateDisplayMetrics();
+
         getWifiInfo();
 
         mainapp.setActivityOrientation(this);  //set screen orientation based on prefs
@@ -617,6 +636,7 @@ public class connection_activity extends AppCompatActivity implements Permission
         getConnectionsList();
 
         mainapp.setServerDescription("");
+
         set_labels();
         mainapp.cancelForcingFinish();            // if fresh start or restart after being killed in the bkg, indicate app is running again
         //start up server discovery listener again (after a 1 second delay)
@@ -672,10 +692,59 @@ public class connection_activity extends AppCompatActivity implements Permission
         this.finish();
     }
 
+    private void calculateDisplayMetrics() {
+        Log.d("EX_Toolbox","connection_activity: calculateDisplayMetrics()");
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        threaded_application.displayMetrics = dm;
+        float yInches= threaded_application.displayMetrics.heightPixels/threaded_application.displayMetrics.ydpi;
+        float xInches= threaded_application.displayMetrics.widthPixels/threaded_application.displayMetrics.xdpi;
+        threaded_application.displayDiagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
+        threaded_application.prefToolbarButtonSize = prefs.getString("prefToolbarButtonSize", getApplicationContext().getResources().getString(R.string.prefToolbarButtonSizeDefaultValue));
+        if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.AUTO) ) {
+            if (threaded_application.displayDiagonalInches >= threaded_application.LARGE_SCREEN_SIZE) {
+                threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.LARGE;
+            } else if  (threaded_application.displayDiagonalInches >= threaded_application.MEDIUM_SCREEN_SIZE) {
+                threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.MEDIUM;
+            }
+        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.LARGE)) {
+            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.LARGE;
+        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.SMALL)) {
+            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.SMALL;
+        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.MEDIUM)) {
+            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.MEDIUM;
+        }
+
+        threaded_application.min_fling_distance = (int) (threaded_application.SWIPE_MIN_DISTANCE * dm.densityDpi / 160.0f);
+        threaded_application.min_fling_velocity = (int) (threaded_application.SWIPE_THRESHOLD_VELOCITY * dm.densityDpi / 160.0f);
+
+    }
+
     private void set_labels() {
 
         String ssid = mainapp.client_ssid;
-        if ( (ssid.equals("UNKNOWN")) || (ssid.equals("<unknown ssid>")) ) ssid = getString(R.string.statusThreadedAppNotConnectedToWifi);
+        StringBuilder warningTextBuilder = new StringBuilder("");
+        if ( (ssid.equals("UNKNOWN")) || (ssid.equals("<unknown ssid>")) || (ssid.equals("Can't access SSID")) ) {
+            if (mainapp.client_type.equals("MOBILE")) {
+                ssid = getString(R.string.statusThreadedAppNotConnectedToWifi);
+            } else {
+                ssid = getString(R.string.statusThreadedAppNoLocationService);
+                if (!mainapp.clientLocationServiceEnabled) {
+                    warningTextBuilder.append(getString(R.string.statusThreadedAppServerDiscoveryNoLocationService));
+                    warningTextBuilder.append("  ");
+                }
+                PermissionsHelper phi = PermissionsHelper.getInstance();
+                if (!phi.isPermissionGranted(connection_activity.this, PermissionsHelper.ACCESS_FINE_LOCATION)) {
+                    warningTextBuilder.append(getString(R.string.statusThreadedAppServerDiscoveryAccessFineLocationNotGranted));
+                    warningTextBuilder.append("  ");
+                }
+                warningTextBuilder.append(getString(R.string.statusThreadedAppServerDiscoverySsidUnavailable));
+                discoveredServersWarning.setText(warningTextBuilder.toString());
+            }
+            discoveredServersWarning.setVisibility(VISIBLE);
+        } else {
+            discoveredServersWarning.setVisibility(GONE);
+        }
 
         discoveredServersHeading.setText(String.format(getString(R.string.discovered_services), ssid));
 
@@ -708,23 +777,32 @@ public class connection_activity extends AppCompatActivity implements Permission
             }
             //we must have location permissions to get SSID.
             PermissionsHelper phi = PermissionsHelper.getInstance();
-            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                if (!phi.isPermissionGranted(connection_activity.this, PermissionsHelper.ACCESS_FINE_LOCATION)) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        phi.requestNecessaryPermissions(connection_activity.this, PermissionsHelper.ACCESS_FINE_LOCATION);
-                    }
-                }
-            } else {
-                if (!phi.isPermissionGranted(connection_activity.this, PermissionsHelper.NEARBY_WIFI_DEVICES)) {
-                    phi.requestNecessaryPermissions(connection_activity.this, PermissionsHelper.NEARBY_WIFI_DEVICES);
-                }
-            }
+//            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+//                if (!phi.isPermissionGranted(connection_activity.this, PermissionsHelper.ACCESS_FINE_LOCATION)) {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                        phi.requestNecessaryPermissions(connection_activity.this, PermissionsHelper.ACCESS_FINE_LOCATION);
+//                    }
+//                }
+//            } else {
+//                if (!phi.isPermissionGranted(connection_activity.this, PermissionsHelper.NEARBY_WIFI_DEVICES)) {
+//                    phi.requestNecessaryPermissions(connection_activity.this, PermissionsHelper.NEARBY_WIFI_DEVICES);
+//                }
+//            }
             prefAllowMobileData = prefs.getBoolean("prefAllowMobileData", false);
 
             mainapp.client_ssid = wifiinfo.getSSID();
             if (mainapp.client_ssid != null && mainapp.client_ssid.startsWith("\"") && mainapp.client_ssid.endsWith("\"")) {
                 mainapp.client_ssid = mainapp.client_ssid.substring(1, mainapp.client_ssid.length() - 1);
             }
+
+            // determine if the location service is enabled
+            LocationManager lm = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+            try {
+                mainapp.clientLocationServiceEnabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            } catch (Exception except) {
+                Log.d("Engine_Driver", "c_a: unable to determine if the location service is enabled");
+            }
+
             //determine if currently using mobile connection or wifi
             final ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo nInfo = cm.getActiveNetworkInfo();
@@ -802,6 +880,8 @@ public class connection_activity extends AppCompatActivity implements Permission
 
         mainapp.reformatMenu(menu);
 
+        adjustToolbarSize(menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -812,13 +892,14 @@ public class connection_activity extends AppCompatActivity implements Permission
         if (item.getItemId() == R.id.exit_mnu) {
             mainapp.checkAskExit(this);
             return true;
-        } else if (item.getItemId() == R.id.settings_mnu ) {
+        } else if ( (item.getItemId() == R.id.settings_mnu) || (item.getItemId() == R.id.settings_button) ) {
             in = new Intent().setClass(this, SettingsActivity.class);
             startActivityForResult(in, 0);
             connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
             return true;
         } else if (item.getItemId() == R.id.about_mnu) {
             in = new Intent().setClass(this, about_page.class);
+//            in.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(in);
             connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
             return true;
@@ -828,11 +909,13 @@ public class connection_activity extends AppCompatActivity implements Permission
             return true;
         } else if (item.getItemId() == R.id.logviewer_menu) {
             Intent logviewer = new Intent().setClass(this, LogViewerActivity.class);
+//            logviewer.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(logviewer);
             connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
             return true;
-        } else if (item.getItemId() == R.id.intro_mnu) {
+        } else if ( (item.getItemId() == R.id.intro_mnu) || (item.getItemId() == R.id.intro_button) ) {
             in = new Intent().setClass(this, intro_activity.class);
+            in.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(in);
             connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
             return true;
@@ -845,6 +928,7 @@ public class connection_activity extends AppCompatActivity implements Permission
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //only one activity with results here
         set_labels();
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // Handle pressing of the back button to request exit
@@ -988,6 +1072,27 @@ public class connection_activity extends AppCompatActivity implements Permission
         if (!PermissionsHelper.getInstance().processRequestPermissionsResult(connection_activity.this, requestCode, permissions, grantResults)) {
             Log.d("EX_Toolbox", "Unrecognised request - send up to super class");
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    void adjustToolbarSize(Menu menu) {
+        int newHeightAndWidth = mainapp.adjustToolbarSize(toolbar);
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            View itemChooser = item.getActionView();
+
+            if (itemChooser != null) {
+                itemChooser.getLayoutParams().height = newHeightAndWidth;
+                itemChooser.getLayoutParams().width = (int) ( (float) newHeightAndWidth * 1.3 );
+
+                itemChooser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOptionsItemSelected(item);
+                    }
+                });
+            }
         }
     }
 }

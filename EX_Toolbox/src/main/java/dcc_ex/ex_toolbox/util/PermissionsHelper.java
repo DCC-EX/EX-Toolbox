@@ -11,12 +11,18 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+//import android.support.annotation.IntDef;
+//import android.support.annotation.NonNull;
+//import android.support.annotation.RequiresApi;
+//import android.support.v4.app.ActivityCompat;
+//import android.support.v4.content.ContextCompat;
 import android.util.Log;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -35,7 +41,7 @@ public class PermissionsHelper {
             CONNECT_TO_SERVER,
             WRITE_SETTINGS,
             ACCESS_FINE_LOCATION,
-            NEARBY_WIFI_DEVICES,
+//            NEARBY_WIFI_DEVICES,
             VIBRATE,
             READ_IMAGES,
             READ_MEDIA_IMAGES,
@@ -51,7 +57,7 @@ public class PermissionsHelper {
     public static final int CONNECT_TO_SERVER = 40;
     public static final int WRITE_SETTINGS = 41;
     public static final int ACCESS_FINE_LOCATION = 42;
-    public static final int NEARBY_WIFI_DEVICES = 43;
+//    public static final int NEARBY_WIFI_DEVICES = 43;
     public static final int VIBRATE = 46;
     public static final int READ_IMAGES = 47;
     public static final int READ_MEDIA_IMAGES = 48;
@@ -99,7 +105,11 @@ public class PermissionsHelper {
             } else if (grantResult != PackageManager.PERMISSION_GRANTED) {
                 isRecognised = true;
                 Log.d("EX_Toolbox", "Permission denied - showRetryDialog");
-                showRetryDialog(activity, requestCode);
+                if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    showRetryDialog(activity, requestCode);
+                } else {
+                    showAppSettingsDialog(activity, requestCode, true);
+                }
                 break;
             } else {
                 isRecognised = true;
@@ -135,8 +145,8 @@ public class PermissionsHelper {
                 return context.getResources().getString(R.string.permissionsWriteSettings);
             case ACCESS_FINE_LOCATION:
                 return context.getResources().getString(R.string.permissionsACCESS_FINE_LOCATION);
-            case NEARBY_WIFI_DEVICES:
-                return context.getResources().getString(R.string.permissionsNEARBY_WIFI_DEVICES);
+//            case NEARBY_WIFI_DEVICES:
+//                return context.getResources().getString(R.string.permissionsNEARBY_WIFI_DEVICES);
             case VIBRATE:
                 return context.getResources().getString(R.string.permissionsVIBRATE);
             case POST_NOTIFICATIONS:
@@ -187,12 +197,12 @@ public class PermissionsHelper {
                             requestCode);
                     Log.d("EX_Toolbox", "Requesting ACCESS_FINE_LOCATION permissions");
                     break;
-                case NEARBY_WIFI_DEVICES:
-                    activity.requestPermissions(new String[]{
-                                    Manifest.permission.NEARBY_WIFI_DEVICES},
-                            requestCode);
-                    Log.d("EX_Toolbox", "Requesting NEARBY_WIFI_DEVICES permissions");
-                    break;
+//                case NEARBY_WIFI_DEVICES:
+//                    activity.requestPermissions(new String[]{
+//                                    Manifest.permission.NEARBY_WIFI_DEVICES},
+//                            requestCode);
+//                    Log.d("EX_Toolbox", "Requesting NEARBY_WIFI_DEVICES permissions");
+//                    break;
                 case CONNECT_TO_SERVER:
                     Log.d("EX_Toolbox", "Requesting PHONE permission");
 //                    activity.requestPermissions(new String[]{
@@ -241,15 +251,22 @@ public class PermissionsHelper {
      * @param requestCode the permissions request code
      */
     private void showAppSettingsDialog(final Context context, @RequestCodes final int requestCode) {
+        showAppSettingsDialog(context, requestCode, false);
+    }
+    private void showAppSettingsDialog(final Context context, @RequestCodes final int requestCode, boolean retry) {
         String positiveButtonLabel;
+        String title = context.getResources().getString(R.string.permissionsRequestTitle);
         if (requestCode != WRITE_SETTINGS) {
             positiveButtonLabel = context.getResources().getString(R.string.permissionsAppSettingsButton);
         } else {
             positiveButtonLabel = context.getResources().getString(R.string.permissionsSystemSettingsButton);
         }
+        if (!retry) {
+            title = context.getResources().getString(R.string.permissionsRetryTitle);
+        }
         isDialogOpen = true;
         new AlertDialog.Builder(context)
-                .setTitle(context.getResources().getString(R.string.permissionsRequestTitle))
+                .setTitle(title)
                 .setMessage(getMessage(context, requestCode))
                 .setPositiveButton(positiveButtonLabel, new DialogInterface.OnClickListener() {
                     @Override public void onClick(DialogInterface dialogInterface, int i) {
@@ -337,8 +354,8 @@ public class PermissionsHelper {
                   return  ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED;
             case ACCESS_FINE_LOCATION :
                 return ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED;
-            case NEARBY_WIFI_DEVICES :
-                return ContextCompat.checkSelfPermission(context, Manifest.permission.NEARBY_WIFI_DEVICES ) == PackageManager.PERMISSION_GRANTED;
+//            case NEARBY_WIFI_DEVICES :
+//                return ContextCompat.checkSelfPermission(context, Manifest.permission.NEARBY_WIFI_DEVICES ) == PackageManager.PERMISSION_GRANTED;
             case WRITE_SETTINGS:
                 boolean result;
                 if (android.os.Build.VERSION.SDK_INT < 23) {
@@ -378,14 +395,46 @@ public class PermissionsHelper {
                 return ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_PHONE_STATE);
             case ACCESS_FINE_LOCATION:
                 return ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_FINE_LOCATION);
-            case NEARBY_WIFI_DEVICES:
-                return ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.NEARBY_WIFI_DEVICES);
+//            case NEARBY_WIFI_DEVICES:
+//                return ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.NEARBY_WIFI_DEVICES);
             case WRITE_SETTINGS:
                 return ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_SETTINGS);
             case POST_NOTIFICATIONS:
                 return ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.POST_NOTIFICATIONS);
             default:
                 return false;
+        }
+    }
+
+
+    // don't know why but the isDialogOpen variable can get stuck on true
+    // use this to initialise it
+    public void setIsDialogOpen(boolean isOpen) {
+        isDialogOpen = isOpen;
+    }
+
+    static public String getManifestPermissionId(@RequestCodes final int requestCode) {
+        switch (requestCode) {
+            case READ_IMAGES:
+                return Manifest.permission.READ_EXTERNAL_STORAGE;
+            case ACCESS_FINE_LOCATION:
+                return Manifest.permission.ACCESS_FINE_LOCATION;
+            case WRITE_SETTINGS:
+                return Manifest.permission.WRITE_SETTINGS;
+            case READ_MEDIA_IMAGES:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    return Manifest.permission.READ_MEDIA_IMAGES;
+                } else { return "";}
+            case READ_MEDIA_VISUAL_USER_SELECTED:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    return Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED;
+                } else { return "";}
+            case POST_NOTIFICATIONS:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    return Manifest.permission.POST_NOTIFICATIONS;
+                } else { return "";}
+            default:
+                return "";
         }
     }
 

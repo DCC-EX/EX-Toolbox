@@ -46,13 +46,10 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -66,6 +63,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 
 import java.io.File;
 import java.io.IOException;
@@ -82,6 +83,7 @@ import java.util.TimeZone;
 import dcc_ex.ex_toolbox.type.Consist;
 import dcc_ex.ex_toolbox.type.message_type;
 import dcc_ex.ex_toolbox.import_export.ImportExport;
+import dcc_ex.ex_toolbox.type.toolbar_button_size_to_use_type;
 import dcc_ex.ex_toolbox.util.LocaleHelper;
 import dcc_ex.ex_toolbox.util.PermissionsHelper;
 import dcc_ex.ex_toolbox.comms.comm_handler;
@@ -96,6 +98,14 @@ public class threaded_application extends Application {
 
     private threaded_application mainapp = this;
     public comm_thread commThread;
+
+    public static DisplayMetrics displayMetrics;
+    public static double displayDiagonalInches;
+    public static String prefToolbarButtonSize = "auto";
+    public static int toolbarButtonSizeToUse = toolbar_button_size_to_use_type.SMALL;
+    public static final double MEDIUM_SCREEN_SIZE = 5.5; // inches
+    public static final double LARGE_SCREEN_SIZE = 6.7; // inches
+
 
     public String JMDNS_SERVICE_WITHROTTLE = "_withrottle._tcp.local.";
     public String JMDNS_SERVICE_JMRI_DCCPP_OVERTCP = "_dccppovertcpserver._tcp.local.";
@@ -167,11 +177,12 @@ public class threaded_application extends Application {
     public Inet4Address client_address_inet4; //inet4 value of the client address
     public String client_ssid = "UNKNOWN";    //string of the connected SSID
     public String client_type = "UNKNOWN"; //network type, usually WIFI or MOBILE
+    public boolean clientLocationServiceEnabled = false;
 
     public HashMap<String, String> knownDccexServerIps = new HashMap<>();
     public boolean isDccex = true;  // is a DCC-EX EX-CommandStation
-    public String DccexVersion = "";
-    public double DccexVersionValue = 0.0;
+    public String dccexVersion = "";
+    public double dccexVersionValue = 0.0;
     public static final double DCCEX_MIN_VERSION_FOR_TRACK_MANAGER = 04.002007;
     public static final double DCCEX_MIN_VERSION_FOR_CURRENTS = 04.002019;
     public int dccexListsRequested = -1;  // -1=not requested  0=requested  1,2,3= no. of lists received
@@ -193,6 +204,8 @@ public class threaded_application extends Application {
 
     public final static int DCCEX_MAX_SENSORS = 20;
     public int sensorDccexCount = 0;
+    public int prefSensorMaxCount = 100;
+    public boolean sensorMaxCountWarningGiven = false;
     public int [] sensorIdsDccex;  // used to process the sensor list
     public int [] sensorVpinsDccex;  // used to process the sensor list
     public int [] sensorPullupsDccex;  // used to process the sensor list
@@ -225,7 +238,7 @@ public class threaded_application extends Application {
     public String [] routeStatesDccex;  // used to process the route list
     public boolean [] routeDetailsReceivedDccex;  // used to process the route list
 
-    public ArrayList<String> DccexResponsesListHtml = new ArrayList<>();
+    public ArrayList<String> dccexResponsesListHtml = new ArrayList<>();
     public ArrayList<String> dccexSendsListHtml = new ArrayList<>();
 
     //For communication to the comm_thread.
@@ -306,6 +319,11 @@ public class threaded_application extends Application {
 
     public boolean prefShowTimeOnLogEntry = false;
     public String logSaveFilename = "";
+    public Process logcatProcess;
+
+    public ArrayList<String> namesList;
+    public ArrayList<String> fileNamesList;
+
     public boolean prefFeedbackOnDisconnect = true;
 
     public String prefHapticFeedback = "None";
@@ -453,11 +471,6 @@ public class threaded_application extends Application {
 
         haveForcedWiFiConnection = false;
 
-        mainapp.sensorDccexCount =0;
-        mainapp.sensorIdsDccex = new int[100];
-        mainapp.sensorVpinsDccex = new int[100];
-        mainapp.sensorPullupsDccex = new int[100];
-
         //setup some legacy stuff from ED
         function_states[0] = new boolean[32];
 
@@ -480,7 +493,6 @@ public class threaded_application extends Application {
 
 
     } // end onCreate
-
 
     public class ApplicationLifecycleHandler implements Application.ActivityLifecycleCallbacks, ComponentCallbacks2 {
         private boolean isInBackground = true;
@@ -778,8 +790,8 @@ public class threaded_application extends Application {
         rt_user_names = null;
         rt_state_names = null;
 
-        DccexVersion = "";
-        DccexVersionValue = 0.0;
+        dccexVersion = "";
+        dccexVersionValue = 0.0;
         dccexListsRequested = -1;
         dccexScreenIsOpen = false;
 
@@ -788,6 +800,12 @@ public class threaded_application extends Application {
         routeStringDccex = "";
 
         doFinish = false;
+
+        prefSensorMaxCount = getIntPrefValue(prefs, "prefSensorMaxCount", getResources().getString(R.string.prefSensorMaxCountDefaultValue));
+        sensorDccexCount = 0;
+        sensorIdsDccex = new int[prefSensorMaxCount];
+        sensorVpinsDccex = new int[prefSensorMaxCount];
+        sensorPullupsDccex = new int[prefSensorMaxCount];
     }
 
     //
@@ -886,9 +904,9 @@ public class threaded_application extends Application {
 
     public void displayPowerStateMenuButton(Menu menu) {
         if (prefs.getBoolean("show_layout_power_button_preference", false) && (power_state != null)) {
-            menu.findItem(R.id.power_layout_button).setVisible(true);
+            menu.findItem(R.id.powerLayoutButton).setVisible(true);
         } else {
-            menu.findItem(R.id.power_layout_button).setVisible(false);
+            menu.findItem(R.id.powerLayoutButton).setVisible(false);
         }
     }
 
@@ -922,7 +940,7 @@ public class threaded_application extends Application {
         if (menu != null) {
             MenuItem item = menu.findItem(R.id.track_manager_mnu);
             if (item != null) {
-                item.setVisible(mainapp.DccexVersionValue > DCCEX_MIN_VERSION_FOR_TRACK_MANAGER);
+                item.setVisible(mainapp.dccexVersionValue > DCCEX_MIN_VERSION_FOR_TRACK_MANAGER);
             }
         }
     }
@@ -931,7 +949,7 @@ public class threaded_application extends Application {
         if (menu != null) {
             MenuItem item = menu.findItem(R.id.currents_mnu);
             if (item != null) {
-                item.setVisible(mainapp.DccexVersionValue > DCCEX_MIN_VERSION_FOR_CURRENTS);
+                item.setVisible(mainapp.dccexVersionValue > DCCEX_MIN_VERSION_FOR_CURRENTS);
             }
         }
     }
@@ -955,28 +973,60 @@ public class threaded_application extends Application {
         return (power_state != null);
     }
 
-    public void setPowerStateButton(Menu menu) {
-        if (menu != null) {
-            TypedValue outValue = new TypedValue();
-            if (power_state == null) {
-                theme.resolveAttribute(R.attr.ed_power_yellow_button, outValue, true);
-                menu.findItem(R.id.power_layout_button).setIcon(outValue.resourceId);
-                menu.findItem(R.id.power_layout_button).setTitle("Layout Power is UnKnown");
-            } else if (power_state.equals("2")) {
-                    theme.resolveAttribute(R.attr.ed_power_green_red_button, outValue, true);
-                    menu.findItem(R.id.power_layout_button).setIcon(outValue.resourceId);
-                    menu.findItem(R.id.power_layout_button).setTitle("Layout Power is UnKnown");
-            } else if (power_state.equals("1")) {
-                theme.resolveAttribute(R.attr.ed_power_green_button, outValue, true);
-                menu.findItem(R.id.power_layout_button).setIcon(outValue.resourceId);
-                menu.findItem(R.id.power_layout_button).setTitle("Layout Power is ON");
-            } else {
-                theme.resolveAttribute(R.attr.ed_power_red_button, outValue, true);
-                menu.findItem(R.id.power_layout_button).setIcon(outValue.resourceId);
-                menu.findItem(R.id.power_layout_button).setTitle("Layout Power is Off");
-            }
+//    public void setPowerStateButton(Menu menu) {
+//        if (menu != null) {
+//            TypedValue outValue = new TypedValue();
+//            if (power_state == null) {
+//                theme.resolveAttribute(R.attr.ed_power_yellow_button, outValue, true);
+//                menu.findItem(R.id.powerLayoutButton).setIcon(outValue.resourceId);
+//                menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is UnKnown");
+//            } else if (power_state.equals("2")) {
+//                    theme.resolveAttribute(R.attr.ed_power_green_red_button, outValue, true);
+//                    menu.findItem(R.id.powerLayoutButton).setIcon(outValue.resourceId);
+//                    menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is UnKnown");
+//            } else if (power_state.equals("1")) {
+//                theme.resolveAttribute(R.attr.ed_power_green_button, outValue, true);
+//                menu.findItem(R.id.powerLayoutButton).setIcon(outValue.resourceId);
+//                menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is ON");
+//            } else {
+//                theme.resolveAttribute(R.attr.ed_power_red_button, outValue, true);
+//                menu.findItem(R.id.powerLayoutButton).setIcon(outValue.resourceId);
+//                menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is Off");
+//            }
+//        }
+//    }
+
+    public void setPowerStateActionViewButton(Menu menu, ViewGroup menuItemViewGroup) {
+        if (!prefs.getBoolean("show_layout_power_button_preference", false)) return;
+
+        if ( (menu == null) ||  (menuItemViewGroup  == null)) {
+//            // the menu or button is not available yet. Force an update request to the get it to update ASAP
+//            sendMsgDelay(comm_msg_handler, 100, message_type.POWER_STATE_REQUEST);
+            return;
         }
+
+        TypedValue outValue = new TypedValue();
+
+        if (power_state == null) {
+            theme.resolveAttribute(R.attr.ed_power_yellow_button, outValue, true);
+            menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is UnKnown");
+        } else if (power_state.equals("2")) {
+            theme.resolveAttribute(R.attr.ed_power_green_red_button, outValue, true);
+            menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is UnKnown");
+        } else if (power_state.equals("1")) {
+            theme.resolveAttribute(R.attr.ed_power_green_button, outValue, true);
+            menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is ON");
+        } else {
+            theme.resolveAttribute(R.attr.ed_power_red_button, outValue, true);
+            menu.findItem(R.id.powerLayoutButton).setTitle("Layout Power is Off");
+        }
+
+        ImageView image = (ImageView) menuItemViewGroup.getChildAt(0);
+
+        if (image == null) return;
+        image.setImageResource(outValue.resourceId);
     }
+
 
     // forward a message to all running activities
     public void alert_activities(int msgType, String msgBody) {
@@ -1493,10 +1543,10 @@ public class threaded_application extends Application {
         int nextScreen;
         if (deltaX <= 0.0) {
             nextScreen = currentScreen + 1;
-            if ( (nextScreen == SCREEN_SWIPE_INDEX_CURRENTS) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_CURRENTS) ) {
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_CURRENTS) && (mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_CURRENTS) ) {
                 nextScreen++;
             }
-            if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen++;
             }
             if (nextScreen > SCREEN_SWIPE_INDEX_LAST) {
@@ -1507,10 +1557,10 @@ public class threaded_application extends Application {
             if (nextScreen < 0) {
                 nextScreen = SCREEN_SWIPE_INDEX_LAST;
             }
-            if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen--;
             }
-            if ( (nextScreen == SCREEN_SWIPE_INDEX_CURRENTS) && (mainapp.DccexVersionValue <= DCCEX_MIN_VERSION_FOR_CURRENTS) ) {
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_CURRENTS) && (mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_CURRENTS) ) {
                 nextScreen--;
             }
         }
@@ -1622,11 +1672,11 @@ public class threaded_application extends Application {
 //    }
 
     public String getDccexVersion() {
-        return DccexVersion;
+        return dccexVersion;
     }
 
     public double getDccexVersionValue() {
-        return DccexVersionValue;
+        return dccexVersionValue;
     }
 
     static public int getIntPrefValue(SharedPreferences sharedPreferences, String key, String defaultVal) {
@@ -1643,7 +1693,7 @@ public class threaded_application extends Application {
         return newVal;
     }
 
-    public void setToolbarTitle(Toolbar toolbar, LinearLayout statusLine,  LinearLayout screenNameLine, String title, String iconTitle, String clockText) {
+    public void setToolbarTitle(Toolbar toolbar, LinearLayout statusLine, LinearLayout screenNameLine, String title, String iconTitle, String clockText) {
         if ((toolbar != null) && (statusLine != null) && (screenNameLine != null)) {
             toolbar.setTitle("");
             TextView tvTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
@@ -1689,11 +1739,6 @@ public class threaded_application extends Application {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-    }
-
-    public void hideSoftKeyboardAfterDialog() {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 
     // get the consist for the specified throttle
@@ -1840,4 +1885,21 @@ public class threaded_application extends Application {
 
     }
 
+    // note SettingsActivity does not use this
+    public int adjustToolbarSize(Toolbar toolbar) {
+        ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
+        int toolbarHeight = layoutParams.height;
+        int newHeightAndWidth = toolbarHeight;
+
+        if (threaded_application.toolbarButtonSizeToUse == toolbar_button_size_to_use_type.MEDIUM) {
+            newHeightAndWidth = (int) ((float) toolbarHeight * 1.32);
+            layoutParams.height = newHeightAndWidth;
+            toolbar.setLayoutParams(layoutParams);
+        } else if (threaded_application.toolbarButtonSizeToUse == toolbar_button_size_to_use_type.LARGE) {
+            newHeightAndWidth = toolbarHeight*2;
+            layoutParams.height = newHeightAndWidth;
+            toolbar.setLayoutParams(layoutParams);
+        }
+        return newHeightAndWidth;
+    }
 }

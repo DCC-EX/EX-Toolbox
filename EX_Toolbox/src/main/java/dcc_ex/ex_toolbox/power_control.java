@@ -25,8 +25,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -37,6 +35,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import dcc_ex.ex_toolbox.type.message_type;
 import dcc_ex.ex_toolbox.util.LocaleHelper;
@@ -214,7 +215,7 @@ public class power_control extends AppCompatActivity {
         if (mainapp.isDccex) mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_TRACKS, "");
 
         try {
-            vn = Float.valueOf(mainapp.DccexVersion);
+            vn = Float.valueOf(mainapp.dccexVersion);
         } catch (Exception ignored) { } // invalid version
 
         power_on_drawable = getResources().getDrawable(R.drawable.original_toolbar_power_green);
@@ -340,13 +341,15 @@ public class power_control extends AppCompatActivity {
 
         mainapp.reformatMenu(menu);
 
+        adjustToolbarSize(menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
-        if (item.getItemId() == R.id.power_layout_button) {
+        if (item.getItemId() == R.id.powerLayoutButton) {
             if (!mainapp.isPowerControlAllowed()) {
                 mainapp.powerControlNotAllowedDialog(PMenu);
             } else {
@@ -385,6 +388,27 @@ public class power_control extends AppCompatActivity {
         public void onClick(View v) {
             mainapp.buttonVibration();
             finish();
+        }
+    }
+
+    void adjustToolbarSize(Menu menu) {
+        int newHeightAndWidth = mainapp.adjustToolbarSize(toolbar);
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            View itemChooser = item.getActionView();
+
+            if (itemChooser != null) {
+                itemChooser.getLayoutParams().height = newHeightAndWidth;
+                itemChooser.getLayoutParams().width = (int) ( (float) newHeightAndWidth * 1.3 );
+
+                itemChooser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOptionsItemSelected(item);
+                    }
+                });
+            }
         }
     }
 }

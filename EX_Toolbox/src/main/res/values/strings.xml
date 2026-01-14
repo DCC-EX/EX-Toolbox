@@ -22,7 +22,7 @@
     <string name="introMenu">Intro/Setup Wizard</string>
 
     <string name="app_name" translatable="false">EX-Toolbox</string>  <!-- DO NOT TRANSLATE -->
-    <string name="app_description">EX-Toolbox - DCC-EX toolbox for your Android phone.  This application can DCC-EX EX-CommandStation. </string>
+    <string name="app_description">EX-Toolbox - DCC-EX toolbox for your Android phone.  This application can connect to a DCC-EX EX-CommandStation. </string>
     <string name="app_name_intro">Introduction</string>
     <string name="app_name_connect">Connect to Server</string>
     <string name="app_name_power_control">Power Control</string>
@@ -93,6 +93,8 @@
     <string name="set">Set</string>
     <string name="disabled">Disabled</string>
 
+    <string name="close_button">Close</string>
+
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">"OK"</string>
@@ -101,7 +103,30 @@
     <string name="exit_title">Exit</string>
 
     <string name="logviewerClose">Close</string>
-    <string name="logviewerSave">Start recording to file</string>
+    <string name="logviewerSave">Start</string>
+    <string name="logviewerStopSave">Stop</string>
+    <string name="logviewerShare">Share</string>
+    <string name="shareFileDialogTitle">Select a File to Share</string>
+    <string name="shareFile">Share File: %s</string>
+    <string name="toastNoAppToShare">No app found to share the file</string>
+    <string name="sharedFileProcessing">Processing shared file(s)...</string>
+    <string name="sharedFileProcessingCount">Processing %d shared file(s)...</string>
+    <string name="sharedFileReceivedCount">Received %d shared file(s)...</string>
+    <string name="sharedFileSavingFile">Saving file(S)...</string>
+    <!--    <string name="sharedFileSaved">File Saved: %s</string>-->
+    <string name="sharedFileSavingCount">Saving %d file(s)</string>
+    <string name="sharedFileSavedCount">Save %d file(s)</string>
+    <string name="sharedFileFailedToSaveCount">Failed to save %d file(s)</string>
+    <string name="sharedFileFinished">Finished processing %d files</string>
+    <string name="sharedFileNoUriReceived">Error: No file(s) URI received</string>
+    <string name="sharedFileNoShareActionDetected">No share action detected</string>
+    <string name="sharedFileOverwriteChoiceTitle">File Conflict</string>
+    <string name="sharedFileOverwriteChoiceText">Some files might already exist. Do you want to overwrite existing files?\n\nChoosing \'No\' will save conflicting files with a new name (e.g., filename_1.ext).</string>
+    <string name="sharedFileOverwriteChoicePositiveButtonText">Yes, Overwrite</string>
+    <string name="sharedFileOverwriteChoiceNegativeButtonText">No, Save with New Name</string>
+
+    <string name="prefShareFileNowTitle">Share a settings file now!</string>
+    <string name="prefShareFileNowSummary">Allows you to share a configuration file, saved preferences or log file, immediately.</string>
 
     <string name="prefTitle">Preferences</string>
     <string name="prefSummary">Preferences for EX-Toolbox</string>
@@ -123,6 +148,22 @@
 
     <string name="prefDoubleBackButtonToExitTitle">Double Back button to Exit?</string>
     <string name="prefDoubleBackButtonToExitSummary">Pressing the Android \'Back\' button twice within 3 seconds on the \'Throttle\' or \'Connection\' screen will exit EX-Toolbox</string>
+
+    <string name="prefServoTitle">Servo Preferences</string>
+    <string name="prefServoDefaultVpinSummary">Default Servo Vpin at each startup</string>
+    <string name="prefServoDefaultVpinTitle">Default VPin</string>
+    <string name="prefServoDefaultVpinDefaultValue" translatable="false">100</string>  <!-- DO NOT TRANSLATE -->
+    <string name="prefServoDefaultThrowPositionSummary">Default Servo Throw Position at each startup</string>
+    <string name="prefServoDefaultThrowPositionTitle">Default Throw Position</string>
+    <string name="prefServoDefaultThrowPositionDefaultValue" translatable="false">409</string>  <!-- DO NOT TRANSLATE -->
+    <string name="prefServoDefaultClosePositionSummary">Default Servo Close Position at each startup</string>
+    <string name="prefServoDefaultClosePositionTitle">Default Close Position</string>
+    <string name="prefServoDefaultClosePositionDefaultValue" translatable="false">205</string>  <!-- DO NOT TRANSLATE -->
+
+    <string name="prefSensorTitle">Sensor Preferences</string>
+    <string name="prefSensorMaxCountSummary">Maximum number of Sensors to monitor and display.\nRequires a restart of EX-Toolbox if you change the value.</string>
+    <string name="prefSensorMaxCountTitle">Maximum Sensors</string>
+    <string name="prefSensorMaxCountDefaultValue" translatable="false">100</string>  <!-- DO NOT TRANSLATE -->
 
     <!--    <string name="prefScreenBrightnessDimTitle">Screen Dimming % Value</string>-->
 <!--    <string name="prefScreenBrightnessDimSummary">Brightness setting to use when dimming the screen (0%-99%). Disables Auto or Adaptive Brightness if set.</string>-->
@@ -167,8 +208,8 @@
     <string name="prefThemeSummary">Select a visual appearance for this app</string>
     <string name="prefThemeDefaultValue" translatable="false">Default</string>  <!-- DO NOT TRANSLATE -->
 
-<!--    <string name="prefLocaleTitle">Localisation</string>-->
-<!--    <string name="prefLocaleSummary">Language to use for this app</string>-->
+    <string name="prefLocaleTitle">Localisation</string>
+    <string name="prefLocaleSummary">Language to use for this app</string>
     <string name="prefLocaleDefaultValue" translatable="false">Default</string>  <!-- DO NOT TRANSLATE -->
 
     <!--    prefs for the Import/Export -->
@@ -202,7 +243,14 @@
     <string name="toastThreadedAppErrorCreatingOutputStream">Error creating output stream, IOException: %1$s</string>
     <string name="toastThreadedAppErrorSleepingThread">Error sleeping the thread, InterruptedException: %1$s</string>
     <string name="toastThreadedAppNotWIFI">Using %1$s network, not WIFI.\nCheck your WiFi settings and Preferences.\n</string>
+
     <string name="statusThreadedAppNotConnectedToWifi">Not connected to WiFi</string>
+    <string name="statusThreadedAppServerDiscoveryNotPossible">Server Discovery is not possible without a WiFi connection!</string>
+    <string name="statusThreadedAppNoLocationService">Can\'t access SSID</string>
+    <string name="statusThreadedAppServerDiscoveryNoLocationService">\'Use Location\' Android system setting is disabled.</string>
+    <string name="statusThreadedAppServerDiscoveryAccessFineLocationNotGranted">\'ACCESS_FINE_LOCATION\' permission not granted.</string>
+    <string name="statusThreadedAppServerDiscoverySsidUnavailable">Network name inaccessible. Server Discovery may be limited.</string>
+
     <string name="statusThreadedAppNotConnected">Not connected to a network.  Check WiFi settings.\n\nRetrying</string>
     <string name="statusThreadedAppNoResponse">No response from server %1$s:%2$s for %3$dms. Check that the WiThrottle Server is running.\n\nRetrying</string>
     <string name="statusThreadedAppUnableToConnect">Unable to connect to server at %1$s:%2$s from %3$s.  Retrying</string>
@@ -253,6 +301,9 @@
     <string name="logViewerTitle">LogViewerActivity | %1$s</string>
     <string name="infoSaveLogFile">Logging to: %s</string>
 
+    <!--    Toast messages for the sensors -->
+    <string name="toastTooManySensors">Too many Sensors (%1$d). Increase preference to see remainder.</string>
+
     <string name="prefAllowMobileDataTitle">Mobile Data connection?</string>
     <string name="prefAllowMobileDataSummary">Allow your device to connect to JMRI over Mobile Data</string>
 
@@ -260,8 +311,8 @@
     <string name="prefActionBarShowServerDescriptionSummary">Show the description of the current server on the action bar</string>
 
     <string name="permissionsReadImages">EX-Toolbox needs STORAGE permissions to load background images.</string>
-    <string name="permissionsREAD_MEDIA_IMAGES">EX-Toolbox needs READ_MEDIA_IMAGES permissions to load background images.</string>
-    <string name="permissionsREAD_MEDIA_VISUAL_USER_SELECTED">EX-Toolbox needs READ_MEDIA_VISUAL_USER_SELECTED permissions to load background images.</string>
+    <string name="permissionsREAD_MEDIA_IMAGES">EX-Toolbox needs READ_MEDIA_IMAGES permissions to load background images.\n\nEngine Driver will work without it.</string>
+    <string name="permissionsREAD_MEDIA_VISUAL_USER_SELECTED">EX-Toolbox needs READ_MEDIA_VISUAL_USER_SELECTED permissions to load background images.\n\nEngine Driver will work without it</string>
 
 <!--    <string name="permissionsReadLegacyFiles">EX-Toolbox needs STORAGE permissions to load legacy (old location) settings.</string>-->
     <string name="permissionsReadPhoneState">EX-Toolbox needs PHONE permissions to pause operations when on a call.</string>
@@ -270,7 +321,7 @@
     <string name="permissionsWriteSettingsAdditional2">Ignore this if you don\\\'t need EX-Toolbox to alter the brightness.</string>
 
     <string name="permissionsACCESS_FINE_LOCATION">EX-Toolbox needs ACCESS_FINE_LOCATION permissions to retrieve current wifi SSID.</string>
-    <string name="permissionsNEARBY_WIFI_DEVICES">EX-Toolbox needs NEARBY_WIFI_DEVICES permissions to retrieve current wifi SSID.</string>
+<!--    <string name="permissionsNEARBY_WIFI_DEVICES">EX-Toolbox needs NEARBY_WIFI_DEVICES permissions to retrieve current wifi SSID.</string>-->
 
     <string name="permissionsVIBRATE">EX-Toolbox needs VIBRATE permissions to provide additional feedback.</string>
     <string name="permissionsCHANGE_NETWORK_STATE">EX-Toolbox needs CHANGE_NETWORK_STATE permissions to turn mobile data on or off.</string>
@@ -280,7 +331,7 @@
     <string name="permissionsAppSettingsButton">App settings</string>
     <string name="permissionsSystemSettingsButton">System settings</string>
     <string name="permissionsRetryButton">Retry</string>
-    <string name="permissionsRequestTitle">Permissions Required</string>
+    <string name="permissionsRequestTitle">Permissions</string>
     <string name="permissionsRetryTitle">Permissions Declined</string>
 
 
@@ -327,6 +378,7 @@
     <string name="prefBackgroundImagePositionDefaultValue" translatable="false">FIT_CENTER</string>  <!-- DO NOT TRANSLATE -->
 
     <string name="prefCategoryDevicePageTitle">Device Preferences</string>
+    <string name="prefCategoryGeneralTitle">General Preferences</string>
     <string name="prefHapticFeedbackPageTitle">Haptic Feedback Preferences</string>
     <string name="prefActionBarPageTitle">Action bar Preferences</string>
 
@@ -364,6 +416,10 @@
     <string name="prefHapticFeedbackDurationDefaultValue" translatable="false">"25"</string>
     <string name="prefHapticFeedbackButtonsTitle">Haptic Feedback on Button Presses</string>
     <string name="prefHapticFeedbackButtonsSummary">Haptic feedback (vibrate) on button presses.</string>
+
+    <string name="prefToolbarButtonSizeTitle">Toolbar Button Size</string>
+    <string name="prefToolbarButtonSizeSummary">Set the size of the toolbar buttons. (Re-start required)</string>
+    <string name="prefToolbarButtonSizeDefaultValue" translatable="false">auto</string>  <!-- DO NOT TRANSLATE -->
 
 <!--    <string name="dccexRouteSet">Set</string>-->
 <!--    <string name="dccexRouteHandoff">HandOff</string>-->
@@ -435,6 +491,12 @@
         \nd) Click \`Start\`
         \ne) Run the loco past the sensors</string>
 
+    <string name="dccexCvBitCalculatorButtonLabel">Bits</string>
+    <string name="cvBitCalculatorTitle">CV Bit Calculator</string>
+    <string name="cvBitCalculatorCvValueLabel">CV Value (decimal)</string>
+    <string name="cvBitCalculatorCvBitsLabel">Bits:</string>
+    <string name="dccexCvBitCalculatorConfirmButtonLabel">Confirm</string>
+
     <string name="dccexSetTrackButtonLabel">Set</string>
     <string name="DccexJoinTrackButtonLabel">Join</string>
 
@@ -490,6 +552,8 @@
     <string name="cv29SpeedToggleDirection">Write a value of %d to CV29 to toggle the direction.</string>
     <string name="cv29SpeedTableToggle">Write a value of %d to CV29 c</string>
     <string name="cv29SpeedTableDisable">The decoder is set to use the Speed Table, not the High,Mid &amp; Low values.<br />Changes made on this screen will have no effect until CV29 is altered.<br />Write a value of %d to CV29 to disable the use of the Speed Table.</string>
+    <string name="cv29SpeedRailcomNo">Railcom: Disabled</string>
+    <string name="cv29SpeedRailcomYes">Railcom: Enabled</string>
 
     <string name="speedMatchMaster">Master</string>
     <string name="speedMatchSecond">Second</string>
@@ -520,10 +584,10 @@
 <!--    <string name="speedMatch"></string>-->
 
     <string name="rosterEmpty">Unable to find any entries in the Server roster.</string>
-    <string name="rosterDetailsDialogTitle">"Roster details for "</string>
-    <string name="rosterDetailsNoFunctions">"No Functions defined"</string>
-    <string name="rosterDetailsFunctionMomentary">"(momentary)"</string>
+    <string name="rosterDetailsDialogTitle">Roster details for </string>
+    <string name="rosterDetailsNoFunctions">No Functions defined</string>
+    <string name="rosterDetailsFunctionMomentary">(momentary)</string>
 
-    <string name="manufacturer">"Manufacturer"</string>
+    <string name="manufacturer">Manufacturer</string>
 </resources>
 

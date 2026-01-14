@@ -5,7 +5,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:keepScreenOn="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true" >
 
     <android.gesture.GestureOverlayView
         android:id="@+id/cv_programmer_overlay"
@@ -136,7 +137,7 @@
                                 android:layout_height="wrap_content"
                                 android:paddingTop="1sp"
                                 android:padding="0sp"
-                                android:layout_weight=".15"
+                                android:layout_weight=".17"
                                 android:text="@string/dccexActionTypeLabel"
                                 android:textAlignment="viewEnd"
                                 android:gravity="end"
@@ -151,7 +152,7 @@
                                 android:paddingRight="20dp"
                                 android:paddingBottom="2dp"
                                 android:text=""
-                                android:layout_weight=".85"
+                                android:layout_weight=".83"
                                 tools:ignore="RtlHardcoded" />
 
                         </LinearLayout>
@@ -353,8 +354,17 @@
                                 android:layout_marginRight="0dp"
                                 android:layout_marginLeft="0dp"
                                 android:text=""
-                                android:layout_weight=".8"
+                                android:layout_weight=".7"
                                 tools:ignore="RtlHardcoded" />
+
+                            <Button
+                                android:id="@+id/dexc_cvBitCalculatorButton"
+                                style="?attr/ed_small_button_condensed_text_style"
+                                android:layout_width="0dp"
+                                android:layout_height="26dp"
+                                android:layout_weight=".10"
+                                android:padding="2sp"
+                                android:text="@string/dccexCvBitCalculatorButtonLabel" />
 
                         </LinearLayout>
 

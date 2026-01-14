@@ -32,9 +32,6 @@ import android.gesture.GestureOverlayView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -49,14 +46,17 @@ import android.view.ViewGroup;
 import android.webkit.CookieSyncManager;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,7 +65,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jmri.jmrit.roster.RosterEntry;
 import dcc_ex.ex_toolbox.type.message_type;
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
 import dcc_ex.ex_toolbox.util.LocaleHelper;
@@ -89,14 +88,14 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
 
     //**************************************
 
-    private LinearLayout DccexWriteInfoLayout;
-    private TextView DccexWriteInfoLabel;
-    private String DccexInfoStr = "";
+    private LinearLayout dccexWriteInfoLayout;
+    private TextView dccexWriteInfoLabel;
+    private String dccexInfoStr = "";
 
-    private TextView DccexResponsesLabel;
-    private TextView DccexSendsLabel;
-    private ScrollView DccexResponsesScrollView;
-    private ScrollView DccexSendsScrollView;
+    private TextView dccexResponsesLabel;
+    private TextView dccexSendsLabel;
+    private ScrollView dccexResponsesScrollView;
+    private ScrollView dccexSendsScrollView;
 
     Button clearCommandsButton;
 
@@ -236,7 +235,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
                         String com1 = s.substring(0, 3);
                         //update power icon
                         if ("PPA".equals(com1)) {
-                            mainapp.setPowerStateButton(menu);
+                            mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
                         }
                     }
                     break;
@@ -316,14 +315,14 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
         //put pointer to this activity's handler in main app's shared variable
         mainapp.roster_msg_handler = new roster_handler();
 
-        DccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
-        DccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
-        DccexWriteInfoLabel.setText("");
+        dccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
+        dccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
+        dccexWriteInfoLabel.setText("");
 
-        DccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
-        DccexResponsesLabel.setText("");
-        DccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
-        DccexSendsLabel.setText("");
+        dccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
+        dccexResponsesLabel.setText("");
+        dccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
+        dccexSendsLabel.setText("");
 
 //        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ROSTER);
 
@@ -339,8 +338,8 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
         roster_list_view.setOnItemClickListener(new roster_item_ClickListener());
 
 
-        DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
-        DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
+        dccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
+        dccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
 
         clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
         ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
@@ -350,6 +349,13 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
 //
         mainapp.getCommonPreferences();
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                mainapp.checkExit(roster.this);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
 
         screenNameLine = findViewById(R.id.screen_name_line);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -470,11 +476,13 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
         mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
-        mainapp.setPowerStateButton(menu);
+        mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
 
         mainapp.setPowerMenuOption(menu);
 
         mainapp.reformatMenu(menu);
+
+        adjustToolbarSize(menu);
 
         return  super.onCreateOptionsMenu(menu);
     }
@@ -555,7 +563,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
         } else if (item.getItemId() == R.id.about_mnu) {
                 navigateAway(false, about_page.class);
                 return true;
-        } else if (item.getItemId() == R.id.power_layout_button) {
+        } else if (item.getItemId() == R.id.powerLayoutButton) {
                 if (!mainapp.isPowerControlAllowed()) {
                     mainapp.powerControlNotAllowedDialog(menu);
                 } else {
@@ -570,6 +578,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
 
     //handle return from menu items
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // helper methods to handle navigating away from this activity
@@ -821,7 +830,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
 
     public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
-            mainapp.DccexResponsesListHtml.clear();
+            mainapp.dccexResponsesListHtml.clear();
             mainapp.dccexSendsListHtml.clear();
             mainapp.dccexResponsesStr = "";
             mainapp.dccexSendsStr = "";
@@ -830,13 +839,34 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
     }
 
     public void refreshDccexView() {
-        DccexWriteInfoLabel.setText(DccexInfoStr);
+        dccexWriteInfoLabel.setText(dccexInfoStr);
         refreshDccexCommandsView();
 //        showHideButtons();
     }
 
     public void refreshDccexCommandsView() {
-        DccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
-        DccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
+        dccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
+        dccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
+    }
+
+    void adjustToolbarSize(Menu menu) {
+        int newHeightAndWidth = mainapp.adjustToolbarSize(toolbar);
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            View itemChooser = item.getActionView();
+
+            if (itemChooser != null) {
+                itemChooser.getLayoutParams().height = newHeightAndWidth;
+                itemChooser.getLayoutParams().width = (int) ( (float) newHeightAndWidth * 1.3 );
+
+                itemChooser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOptionsItemSelected(item);
+                    }
+                });
+            }
+        }
     }
 }

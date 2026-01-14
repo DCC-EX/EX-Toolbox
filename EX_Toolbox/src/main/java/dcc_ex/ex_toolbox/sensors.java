@@ -30,9 +30,6 @@ import android.gesture.GestureOverlayView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -49,6 +46,11 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,14 +78,14 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
     //**************************************
 
-    private LinearLayout DccexWriteInfoLayout;
-    private TextView DccexWriteInfoLabel;
-    private String DccexInfoStr = "";
+    private LinearLayout dccexWriteInfoLayout;
+    private TextView dccexWriteInfoLabel;
+    private String dccexInfoStr = "";
 
-    private TextView DccexResponsesLabel;
-    private TextView DccexSendsLabel;
-    private ScrollView DccexResponsesScrollView;
-    private ScrollView DccexSendsScrollView;
+    private TextView dccexResponsesLabel;
+    private TextView dccexSendsLabel;
+    private ScrollView dccexResponsesScrollView;
+    private ScrollView dccexSendsScrollView;
 
     Button readSensorsButton;
     Button resetSensorsButton;
@@ -95,10 +97,10 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 //    private TextView[] dccExSensorVpinsTextView = {null, null, null, null, null,  null, null, null, null, null};
 //    private TextView[] dccExSensorPullupsTextView = {null, null, null, null, null,  null, null, null, null, null};
 //
-//    private int[] DccexSensorStatus= {-1, -1, -1, -1, -1,  -1, -1, -1, -1, -1};
-//    private int[] DccexSensorIds = {0, 0, 0, 0, 0,  0, 0, 0, 0, 0};
-//    private int[] DccexSensorVpins = {0, 0, 0, 0, 0,  0, 0, 0, 0, 0};
-//    private int[] DccexSensorPullups = {1, 1, 1, 1, 1,  1, 1, 1, 1, 1};
+//    private int[] dccexSensorStatus= {-1, -1, -1, -1, -1,  -1, -1, -1, -1, -1};
+//    private int[] dccexSensorIds = {0, 0, 0, 0, 0,  0, 0, 0, 0, 0};
+//    private int[] dccexSensorVpins = {0, 0, 0, 0, 0,  0, 0, 0, 0, 0};
+//    private int[] dccexSensorPullups = {1, 1, 1, 1, 1,  1, 1, 1, 1, 1};
 
     static final String SENSOR_STATUS_UNKNOWN = "-1";
     static final String SENSOR_STATUS_INACTIVE = "0";
@@ -236,13 +238,14 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
                         String com1 = s.substring(0, 3);
                         //update power icon
                         if ("PPA".equals(com1)) {
-                            mainapp.setPowerStateButton(tMenu);
+                            mainapp.setPowerStateActionViewButton(tMenu, findViewById(R.id.powerLayoutButton));
                         }
                     }
                     break;
                 }
                 case message_type.RECEIVED_SENSOR: {
                     String s = msg.obj.toString();
+                    Log.d("EX_Toolbox", "sensors: RECEIVED_SENSOR: " + s);
                     if (s.length() > 0) {
                         String[] sArgs = s.split("(\\|)");
                         updateASensorListItem(sArgs[0], sArgs[1]);
@@ -254,6 +257,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
                 }
                 case message_type.RECEIVED_ADDITIONAL_SENSOR: {
                     String s = msg.obj.toString();
+                    Log.d("EX_Toolbox", "sensors: RECEIVED_ADDITIONAL_SENSOR: " + s);
                     if (s.length() > 0) {
                         setIdsFromResponses();
                         refreshDccexSensorsView();
@@ -334,14 +338,14 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         //put pointer to this activity's handler in main app's shared variable
         mainapp.sensors_msg_handler = new sensors_handler();
 
-        DccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
-        DccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
-        DccexWriteInfoLabel.setText("");
+        dccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
+        dccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
+        dccexWriteInfoLabel.setText("");
 
-        DccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
-        DccexResponsesLabel.setText("");
-        DccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
-        DccexSendsLabel.setText("");
+        dccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
+        dccexResponsesLabel.setText("");
+        dccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
+        dccexSendsLabel.setText("");
 
         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ALL_SENSOR_DETAILS);
 
@@ -361,8 +365,8 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         reset_sensors_button_listener resetSensorsClickListener = new reset_sensors_button_listener();
         resetSensorsButton.setOnClickListener(resetSensorsClickListener);
 
-        DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
-        DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
+        dccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
+        dccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
 
         clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
         ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
@@ -374,6 +378,14 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 //        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_SENSOR, "");
 //
         mainapp.getCommonPreferences();
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                mainapp.checkExit(sensors.this);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
 
         screenNameLine = findViewById(R.id.screen_name_line);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -497,8 +509,10 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
-        mainapp.setPowerStateButton(menu);
+        mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
         mainapp.setPowerMenuOption(menu);
+
+        adjustToolbarSize(menu);
 
         return  super.onCreateOptionsMenu(menu);
     }
@@ -579,7 +593,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
         } else if (item.getItemId() == R.id.about_mnu) {
                 navigateAway(false, about_page.class);
                 return true;
-        } else if (item.getItemId() == R.id.power_layout_button) {
+        } else if (item.getItemId() == R.id.powerLayoutButton) {
                 if (!mainapp.isPowerControlAllowed()) {
                     mainapp.powerControlNotAllowedDialog(tMenu);
                 } else {
@@ -594,6 +608,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
     //handle return from menu items
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // helper methods to handle navigating away from this activity
@@ -717,10 +732,16 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
                 break;
             }
         }
-        if (entryExists==false) {                // sensor not in the list.  go get all the details again
-            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ALL_SENSOR_DETAILS);
-            sensors_list_adapter.notifyDataSetChanged();
-            sensorsListView.invalidateViews();
+        if (!entryExists) {                // sensor not in the list.  go get all the details again
+            if (mainapp.sensorDccexCount < mainapp.prefSensorMaxCount) { // as long as we are not already at max
+                if (!mainapp.sensorMaxCountWarningGiven) {
+                    mainapp.sensorMaxCountWarningGiven = true;
+                    mainapp.alert_activities(message_type.RECEIVED_ADDITIONAL_SENSOR, id);
+                }
+                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ALL_SENSOR_DETAILS);
+                sensors_list_adapter.notifyDataSetChanged();
+                sensorsListView.invalidateViews();
+            }
         }
     }
 
@@ -753,13 +774,14 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
                 mainapp.sensorIdsDccex[i] = 0;
                 mainapp.sensorVpinsDccex[i] = 0;
                 mainapp.sensorPullupsDccex[i] = 0;
+                mainapp.sensorMaxCountWarningGiven = false;
             }
             mainapp.sensorDccexCount = 0;
 
             sensors_list_adapter.notifyDataSetChanged();
             sensorsListView.invalidateViews();
 
-            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ALL_SENSORS,"");
+//            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_ALL_SENSORS,"");
             mainapp.hideSoftKeyboard(v);
 
             mainapp.sendMsgDelay(mainapp.comm_msg_handler, 1000, message_type.REQUEST_ALL_SENSOR_DETAILS);
@@ -769,7 +791,7 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
     public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
-            mainapp.DccexResponsesListHtml.clear();
+            mainapp.dccexResponsesListHtml.clear();
             mainapp.dccexSendsListHtml.clear();
             mainapp.dccexResponsesStr = "";
             mainapp.dccexSendsStr = "";
@@ -801,15 +823,15 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 //    }
 
     public void refreshDccexView() {
-        DccexWriteInfoLabel.setText(DccexInfoStr);
+        dccexWriteInfoLabel.setText(dccexInfoStr);
         refreshDccexCommandsView();
 //        showHideButtons();
 
     }
 
     public void refreshDccexCommandsView() {
-        DccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
-        DccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
+        dccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
+        dccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
     }
 
     public void refreshDccexSensorsView() {
@@ -819,4 +841,24 @@ public class sensors extends AppCompatActivity implements GestureOverlayView.OnG
 
     }
 
+    void adjustToolbarSize(Menu menu) {
+        int newHeightAndWidth = mainapp.adjustToolbarSize(toolbar);
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            View itemChooser = item.getActionView();
+
+            if (itemChooser != null) {
+                itemChooser.getLayoutParams().height = newHeightAndWidth;
+                itemChooser.getLayoutParams().width = (int) ( (float) newHeightAndWidth * 1.3 );
+
+                itemChooser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOptionsItemSelected(item);
+                    }
+                });
+            }
+        }
+    }
 }

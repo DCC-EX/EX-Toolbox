@@ -28,14 +28,14 @@
             android:title="@string/prefThemeTitle"
             android:layout="@layout/checkbox_no_icon" />
 
-<!--        <ListPreference-->
-<!--            android:defaultValue="@string/prefLocaleDefaultValue"-->
-<!--            android:entries="@array/prefLocaleEntries"-->
-<!--            android:entryValues="@array/prefLocaleEntryValues"-->
-<!--            android:key="prefLocale"-->
-<!--            android:summary="@string/prefLocaleSummary"-->
-<!--            android:title="@string/prefLocaleTitle"-->
-<!--            android:layout="@layout/checkbox_no_icon" />-->
+        <ListPreference
+            android:defaultValue="@string/prefLocaleDefaultValue"
+            android:entries="@array/prefLocaleEntries"
+            android:entryValues="@array/prefLocaleEntryValues"
+            android:key="prefLocale"
+            android:summary="@string/prefLocaleSummary"
+            android:title="@string/prefLocaleTitle"
+            android:layout="@layout/checkbox_no_icon" />
 
 <!--        <PreferenceScreen-->
 <!--            android:icon="?attr/ed_folder_icon"-->
@@ -61,14 +61,6 @@
             android:summary="@string/prefDoubleBackButtonToExitSummary"
             android:title="@string/prefDoubleBackButtonToExitTitle"
             android:layout="@layout/checkbox_no_icon" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="prefCategoryThrottleAppearance"
-        android:title="@string/prefHapticFeedbackPageTitle"
-        android:layout="@layout/category_icon_left"
-        android:icon="@drawable/category_throttle_screen_black" >
 
         <PreferenceScreen
             android:icon="?attr/ed_folder_icon"
@@ -145,10 +137,20 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="prefCategoryThrottleStatusRow"
+        android:key="prefCategoryActionBarRow"
         android:title="@string/prefActionBarPageTitle"
         android:layout="@layout/category_icon_left"
         android:icon="@drawable/category_status_row_black">
+
+
+        <ListPreference
+            android:defaultValue="@string/prefToolbarButtonSizeDefaultValue"
+            android:entries="@array/prefToolbarButtonSizeEntries"
+            android:entryValues="@array/prefToolbarButtonSizeEntryValues"
+            android:key="prefToolbarButtonSize"
+            android:summary="@string/prefToolbarButtonSizeSummary"
+            android:title="@string/prefToolbarButtonSizeTitle"
+            android:layout="@layout/checkbox_no_icon" />
 
         <CheckBoxPreference
             android:icon="?attr/ed_power_green_button"
@@ -269,6 +271,7 @@
         android:title="@string/prefConnectTitle"
         android:layout="@layout/category_icon_left"
         android:icon="@drawable/category_connect_black" >
+
         <EditTextPreference
             android:defaultValue="@string/prefMaximumRecentConnectionsDefaultValue"
             android:dialogTitle="@string/prefMaximumRecentConnectionsTitle"
@@ -341,6 +344,66 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="prefCategoryServo"
+        android:title="@string/prefServoTitle"
+        android:layout="@layout/category_icon_left"
+        android:icon="@drawable/category_servo_black" >
+
+        <EditTextPreference
+            android:defaultValue="@string/prefServoDefaultVpinDefaultValue"
+            android:dialogTitle="@string/prefServoDefaultVpinTitle"
+            android:key="prefServoDefaultVpin"
+            android:maxLength="5"
+            android:inputType="number"
+            android:digits="0123456789"
+            android:summary="@string/prefServoDefaultVpinSummary"
+            android:title="@string/prefServoDefaultVpinTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
+        <EditTextPreference
+            android:defaultValue="@string/prefServoDefaultThrowPositionDefaultValue"
+            android:dialogTitle="@string/prefServoDefaultThrowPositionTitle"
+            android:key="prefServoDefaultThrowPosition"
+            android:maxLength="3"
+            android:inputType="number"
+            android:digits="0123456789"
+            android:summary="@string/prefServoDefaultThrowPositionSummary"
+            android:title="@string/prefServoDefaultThrowPositionTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
+        <EditTextPreference
+            android:defaultValue="@string/prefServoDefaultClosePositionDefaultValue"
+            android:dialogTitle="@string/prefServoDefaultClosePositionTitle"
+            android:key="prefServoDefaultClosePosition"
+            android:maxLength="3"
+            android:inputType="number"
+            android:digits="0123456789"
+            android:summary="@string/prefServoDefaultClosePositionSummary"
+            android:title="@string/prefServoDefaultClosePositionTitle"
+            android:layout="@layout/checkbox_no_icon" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="prefCategorySensor"
+        android:title="@string/prefSensorTitle"
+        android:layout="@layout/category_icon_left"
+        android:icon="@drawable/category_sensor_black" >
+
+    <EditTextPreference
+        android:defaultValue="@string/prefSensorMaxCountDefaultValue"
+        android:dialogTitle="@string/prefSensorMaxCountTitle"
+        android:key="prefSensorMaxCount"
+        android:maxLength="5"
+        android:inputType="number"
+        android:digits="0123456789"
+        android:summary="@string/prefSensorMaxCountSummary"
+        android:title="@string/prefSensorMaxCountTitle"
+        android:layout="@layout/checkbox_no_icon" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="prefCategoryImportExport"
         android:title="@string/prefThrottleImportExportTitle"
         android:layout="@layout/category_icon_left"
@@ -374,7 +437,15 @@
                     android:summary="@string/prefShowTimeOnLogEntrySummary"
                     android:title="@string/prefShowTimeOnLogEntryTitle"
                     android:layout="@layout/checkbox_no_icon" />
-            </PreferenceCategory>
+
+            <CheckBoxPreference
+                android:defaultValue="@bool/prefShareFileNowDefaultValue"
+                android:key="prefShareFileNow"
+                android:summary="@string/prefShareFileNowSummary"
+                android:title="@string/prefShareFileNowTitle"
+                android:layout="@layout/checkbox_no_icon" />
+
+        </PreferenceCategory>
         </PreferenceScreen>
     </PreferenceCategory>
 

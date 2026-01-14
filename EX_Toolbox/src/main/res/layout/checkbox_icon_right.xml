@@ -22,7 +22,8 @@
     android:paddingEnd="?android:attr/scrollbarSize"
     android:background="?android:attr/selectableItemBackground"
     android:paddingRight="?android:attr/scrollbarSize"
-    tools:ignore="RtlSymmetry">
+    tools:ignore="RtlSymmetry"
+    android:fitsSystemWindows="true" >
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"

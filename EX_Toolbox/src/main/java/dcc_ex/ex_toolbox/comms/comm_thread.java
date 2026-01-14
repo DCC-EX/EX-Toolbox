@@ -51,6 +51,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.regex.Pattern;
 
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
@@ -387,7 +388,9 @@ public class comm_thread extends Thread {
                 }
             }
         }
-        wifiSend("<U DISCONNECT>");  // this is not a real command.  just a placeholder that will be ignored by the CS
+        if (mainapp.getServerType().equals("IoTT")) {
+            wifiSend("<U DISCONNECT>");  // this is not a real command.  just a placeholder that will be ignored by the CS
+        }
         shutdown(true);
     }
 
@@ -467,7 +470,7 @@ public class comm_thread extends Thread {
     }
 
     protected static void sendRequestTracks() {
-        if (mainapp.DccexVersionValue >= threaded_application.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) {  /// need to remove the track manager option
+        if (mainapp.dccexVersionValue >= threaded_application.DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) {  /// need to remove the track manager option
             String msgTxt = "<=>";
             wifiSend(msgTxt);
 //            Log.d("EX_Toolbox", "comm_thread.sendRequestTracks DCC-EX: " + msgTxt);
@@ -802,17 +805,17 @@ public class comm_thread extends Thread {
 
                 switch (responseStr.charAt(1)) {
                     case 'i': // Command Station Information or current information
-                        String old_vn = mainapp.DccexVersion;
+                        String old_vn = mainapp.dccexVersion;
                         String[] vn1 = args[1].split("-");
                         String[] vn2 = vn1[1].split("\\.");
                         String vn = "4.";
                         try {
-                            vn = String.format("%02d.", Integer.parseInt(vn2[0]), Integer.parseInt(vn2[1]));
+                            vn = String.format("%02d.", Integer.parseInt(vn2[0]));
                         } catch (Exception e) {
-                            Log.d("Engine_Driver", "comm_thread.processWifiResponse: Invalid Version " + mainapp.DccexVersion + ", ignoring");
+                            Log.d("EX_Toolbox", "comm_thread.processWifiResponse: Invalid Version " + mainapp.dccexVersion + ", ignoring");
                         }
-                        if (vn.length()>=2) {
-                            try { vn = vn +String.format("%02d",Integer.parseInt(vn2[2]));
+                        if (vn2.length>=2) {
+                            try { vn = vn +String.format("%02d",Integer.parseInt(vn2[1]));
                             } catch (Exception ignored) {
                                 // try to pull a partial number
                                 String pn = "0";
@@ -824,7 +827,7 @@ public class comm_thread extends Thread {
                                 vn = vn +String.format("%03d", Integer.parseInt(pn));
                             }
                         }
-                        if (vn.length()>=3) {
+                        if (vn2.length>=3) {
                             try { vn = vn +String.format("%03d",Integer.parseInt(vn2[2]));
                             } catch (Exception ignored) {
                                 // try to pull a partial number
@@ -838,20 +841,24 @@ public class comm_thread extends Thread {
                             }
                         }
 
-                        mainapp.DccexVersion = vn;
+                        mainapp.dccexVersion = vn;
                         try {
-                            mainapp.DccexVersionValue = Double.valueOf(mainapp.DccexVersion);
+                            mainapp.dccexVersionValue = Double.valueOf(mainapp.dccexVersion);
                         } catch (Exception ignored) { } // invalid version
 
-                        if (!mainapp.DccexVersion.equals(old_vn)) { //only if changed
+                        if (!mainapp.dccexVersion.equals(old_vn)) { //only if changed
                             mainapp.sendMsg(mainapp.connection_msg_handler, message_type.CONNECTED);
                         } else {
-                            Log.d("EX_Toolbox", "comm_thread.processWifiResponse: version already set to " + mainapp.DccexVersion + ", ignoring");
+                            Log.d("EX_Toolbox", "comm_thread.processWifiResponse: version already set to " + mainapp.dccexVersion + ", ignoring");
                         }
 
-//                            mainapp.withrottle_version = 4.0;  // fudge it
+                        String serverDesc = responseStr.substring(2, responseStr.length() - 1);
                         mainapp.setServerType("DCC-EX");
-                        mainapp.setServerDescription(responseStr.substring(2, responseStr.length() - 1)); //store the description
+                        mainapp.setServerDescription(serverDesc); //store the description
+                        Pattern p = Pattern.compile(".*IoTT WiThServer.*");
+                        if (p.matcher(serverDesc).matches()) { //identify IoTT Server
+                            mainapp.setServerType("IoTT");
+                        }
 
                         skipAlert = true;
                         mainapp.heartbeatInterval = 20000; // force a heartbeat period
@@ -1086,11 +1093,16 @@ public class comm_thread extends Thread {
                 }
             }
             if (!found) {  // received a response from a sensor that was not in the list.  Request the full list again
-                mainapp.alert_activities(message_type.RECEIVED_ADDITIONAL_SENSOR,id);
+                if (mainapp.sensorDccexCount < mainapp.prefSensorMaxCount) { // as long as we are not already at max
+                    if (!mainapp.sensorMaxCountWarningGiven) {
+                        mainapp.sensorMaxCountWarningGiven = true;
+                        mainapp.alert_activities(message_type.RECEIVED_ADDITIONAL_SENSOR, id);
+                    }
+                }
+            } else {
+                mainapp.alert_activities(message_type.RECEIVED_SENSOR, id + "|" + ((active) ? "1" : "0"));  //send response to running activities
             }
         }
-
-        mainapp.alert_activities(message_type.RECEIVED_SENSOR, id + "|" + ((active) ? "1" : "0"));  //send response to running activities
     }
 
     private static void processDccexSensorDetailsResponse (String [] args) {
@@ -1118,12 +1130,17 @@ public class comm_thread extends Thread {
                     break;
                 }
             }
-            if (!found) {
+            if ( (!found) && (mainapp.sensorDccexCount < mainapp.prefSensorMaxCount) ) {
                 mainapp.sensorIdsDccex[mainapp.sensorDccexCount] = idValue;
                 mainapp.sensorVpinsDccex[mainapp.sensorDccexCount] = vpinValue;
                 mainapp.sensorPullupsDccex[mainapp.sensorDccexCount] = pullupValue;
                 mainapp.sensorDccexCount++;
                 mainapp.alert_activities(message_type.RECEIVED_ADDITIONAL_SENSOR,id);
+            } else {
+                if (!mainapp.sensorMaxCountWarningGiven) {
+                    mainapp.sensorMaxCountWarningGiven = true;
+                    threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastTooManySensors, mainapp.prefSensorMaxCount), Toast.LENGTH_LONG);
+                }
             }
         }
     }
@@ -2280,21 +2297,21 @@ public class comm_thread extends Thread {
         String currentTime = sdf.format(new Date());
 
         if (inbound) {
-            mainapp.DccexResponsesListHtml.add("<small><small>" + currentTime + " </small></small> ◄ : <b>" + Html.escapeHtml(msg) + "</b><br />");
+            mainapp.dccexResponsesListHtml.add("<small><small>" + currentTime + " </small></small> ◄ : <b>" + Html.escapeHtml(msg) + "</b><br />");
         } else {
 //            dccexSendsListHtml.add("<small><small>" + currentTime + " </small></small> ► : &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp <i>" + Html.escapeHtml(msg) + "</i><br />");
             mainapp.dccexSendsListHtml.add("<small><small>" + currentTime + " </small></small> ► : <i>" + Html.escapeHtml(msg) + "</i><br />");
         }
-        if (mainapp.DccexResponsesListHtml.size()>80) {
-            mainapp.DccexResponsesListHtml.remove(0);
+        if (mainapp.dccexResponsesListHtml.size()>80) {
+            mainapp.dccexResponsesListHtml.remove(0);
         }
         if (mainapp.dccexSendsListHtml.size()>60) {
             mainapp.dccexSendsListHtml.remove(0);
         }
 
         mainapp.dccexResponsesStr ="<p>";
-        for (int i=0; i<mainapp.DccexResponsesListHtml.size(); i++) {
-            mainapp.dccexResponsesStr = mainapp.DccexResponsesListHtml.get(i) + mainapp.dccexResponsesStr;
+        for (int i=0; i<mainapp.dccexResponsesListHtml.size(); i++) {
+            mainapp.dccexResponsesStr = mainapp.dccexResponsesListHtml.get(i) + mainapp.dccexResponsesStr;
         }
         mainapp.dccexResponsesStr = mainapp.dccexResponsesStr + "</p>";
 

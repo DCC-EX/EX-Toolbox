@@ -32,9 +32,6 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -53,9 +50,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
 import dcc_ex.ex_toolbox.type.message_type;
@@ -276,7 +277,7 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
                         String com1 = s.substring(0, 3);
                         //update power icon
                         if ("PPA".equals(com1)) {
-                            mainapp.setPowerStateButton(tMenu);
+                            mainapp.setPowerStateActionViewButton(tMenu, findViewById(R.id.powerLayoutButton));
                         }
                     }
                     break;
@@ -451,6 +452,14 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
         ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
         clearCommandsButton.setOnClickListener(clearCommandsClickListener);
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                mainapp.checkExit(speed_trap.this);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+
         // *****************************
 
         screenNameLine = findViewById(R.id.screen_name_line);
@@ -589,9 +598,11 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
         mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
-        mainapp.setPowerStateButton(menu);
+        mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
         mainapp.setPowerMenuOption(menu);
         mainapp.reformatMenu(menu);
+
+        adjustToolbarSize(menu);
 
         return  super.onCreateOptionsMenu(menu);
     }
@@ -669,7 +680,7 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
         } else if (item.getItemId() == R.id.about_mnu) {
             navigateAway(false, about_page.class);
             return true;
-        } else if (item.getItemId() == R.id.power_layout_button) {
+        } else if (item.getItemId() == R.id.powerLayoutButton) {
             if (!mainapp.isPowerControlAllowed()) {
                 mainapp.powerControlNotAllowedDialog(tMenu);
             } else {
@@ -684,6 +695,7 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
 
     //handle return from menu items
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // helper methods to handle navigating away from this activity
@@ -819,7 +831,7 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
     public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             dccexInfoStr = "";
-            mainapp.DccexResponsesListHtml.clear();
+            mainapp.dccexResponsesListHtml.clear();
             mainapp.dccexSendsListHtml.clear();
             mainapp.dccexResponsesStr = "";
             mainapp.dccexSendsStr = "";
@@ -1014,6 +1026,27 @@ public class speed_trap extends AppCompatActivity implements GestureOverlayView.
             long wait = (int) (millisUntilFinished / 1000);
             dccexInfoStr = String.format(getApplicationContext().getResources().getString(R.string.dccexSpeedTrapRunFinished), wait);
             refreshDccexView();
+        }
+    }
+
+    void adjustToolbarSize(Menu menu) {
+        int newHeightAndWidth = mainapp.adjustToolbarSize(toolbar);
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            View itemChooser = item.getActionView();
+
+            if (itemChooser != null) {
+                itemChooser.getLayoutParams().height = newHeightAndWidth;
+                itemChooser.getLayoutParams().width = (int) ( (float) newHeightAndWidth * 1.3 );
+
+                itemChooser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOptionsItemSelected(item);
+                    }
+                });
+            }
         }
     }
 }

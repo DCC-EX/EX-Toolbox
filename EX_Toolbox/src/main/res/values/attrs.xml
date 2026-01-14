@@ -14,8 +14,10 @@
     <attr name="ed_large_button_style" format="reference" />
     <attr name="ed_normal_button_style" format="reference" />
     <attr name="ed_normal_button2_style" format="reference" />
+    <attr name="ed_normal_button_condensed_style" format="reference" />
     <attr name="ed_loco_select_button_style" format="reference" />
     <attr name="ed_small_button_style" format="reference" />
+    <attr name="ed_small_button_condensed_text_style" format="reference" />
     <attr name="ed_hover_button_style" format="reference" />
 <!--    <attr name="ed_stop_button_style" format="reference" />-->
     <attr name="ed_fn_button_style" format="reference" />
@@ -46,6 +48,9 @@
     <attr name="ed_toolbar_button_roster" format="reference" />
     <attr name="ed_toolbar_button_speed_trap" format="reference" />
     <attr name="ed_toolbar_button_neopixel" format="reference" />
+
+    <attr name="ed_toolbar_button_preferences" format="reference" />
+    <attr name="ed_toolbar_button_wizard" format="reference" />
 
     <attr name="ed_folder_icon" format="reference" />
     <attr name="ed_clock_icon" format="reference" />

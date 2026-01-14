@@ -32,9 +32,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -52,6 +49,11 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
 import dcc_ex.ex_toolbox.type.message_type;
@@ -116,14 +118,14 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
 
     //**************************************
 
-    private LinearLayout DccexWriteInfoLayout;
-    private TextView DccexWriteInfoLabel;
-    private String DccexInfoStr = "";
+    private LinearLayout dccexWriteInfoLayout;
+    private TextView dccexWriteInfoLabel;
+    private String dccexInfoStr = "";
 
-    private TextView DccexResponsesLabel;
-    private TextView DccexSendsLabel;
-    private ScrollView DccexResponsesScrollView;
-    private ScrollView DccexSendsScrollView;
+    private TextView dccexResponsesLabel;
+    private TextView dccexSendsLabel;
+    private ScrollView dccexResponsesScrollView;
+    private ScrollView dccexSendsScrollView;
 
     Button clearCommandsButton;
 
@@ -266,7 +268,7 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
                         String com1 = s.substring(0, 3);
                         //update power icon
                         if ("PPA".equals(com1)) {
-                            mainapp.setPowerStateButton(tMenu);
+                            mainapp.setPowerStateActionViewButton(tMenu, findViewById(R.id.powerLayoutButton));
                         }
                     }
                     break;
@@ -345,17 +347,17 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
 
         mainapp.loadBackgroundImage(findViewById(R.id.neopixelBackgroundImgView));
 
-        DccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
-        DccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
-        DccexWriteInfoLabel.setText("");
+        dccexWriteInfoLayout = findViewById(R.id.ex_DccexWriteInfoLayout);
+        dccexWriteInfoLabel = findViewById(R.id.ex_DccexWriteInfoLabel);
+        dccexWriteInfoLabel.setText("");
 
-        DccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
-        DccexResponsesLabel.setText("");
-        DccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
-        DccexSendsLabel.setText("");
+        dccexResponsesLabel = findViewById(R.id.ex_DccexResponsesLabel);
+        dccexResponsesLabel.setText("");
+        dccexSendsLabel = findViewById(R.id.ex_DccexSendsLabel);
+        dccexSendsLabel.setText("");
 
-        DccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
-        DccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
+        dccexResponsesScrollView = findViewById(R.id.ex_DccexResponsesScrollView);
+        dccexSendsScrollView = findViewById(R.id.ex_DccexSendsScrollView);
 
         clearCommandsButton = findViewById(R.id.ex_dccexClearCommandsButton);
         ClearCommandsButtonListener clearCommandsClickListener = new ClearCommandsButtonListener();
@@ -439,6 +441,14 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
 
 //        resetNeopixelTextFields();
         refreshDccexNeopixelView();
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                mainapp.checkExit(neopixel.this);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
 
         screenNameLine = findViewById(R.id.screen_name_line);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -589,9 +599,11 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
         mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerMenuOption(menu);
-        mainapp.setPowerStateButton(menu);
+        mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
         mainapp.setPowerMenuOption(menu);
         mainapp.reformatMenu(menu);
+
+        adjustToolbarSize(menu);
 
         return  super.onCreateOptionsMenu(menu);
     }
@@ -669,7 +681,7 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
         } else if (item.getItemId() == R.id.about_mnu) {
             navigateAway(false, about_page.class);
             return true;
-        } else if (item.getItemId() == R.id.power_layout_button) {
+        } else if (item.getItemId() == R.id.powerLayoutButton) {
             if (!mainapp.isPowerControlAllowed()) {
                 mainapp.powerControlNotAllowedDialog(tMenu);
             } else {
@@ -684,6 +696,7 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
 
     //handle return from menu items
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // helper methods to handle navigating away from this activity
@@ -891,7 +904,7 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
     public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             mainapp.exitDoubleBackButtonInitiated = 0;
-            mainapp.DccexResponsesListHtml.clear();
+            mainapp.dccexResponsesListHtml.clear();
             mainapp.dccexSendsListHtml.clear();
             mainapp.dccexResponsesStr = "";
             mainapp.dccexSendsStr = "";
@@ -907,11 +920,11 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
         if (vpinValue>0) {
             getSliderPositions();
             if (vpinCountValue <= 0) {
-                DccexInfoStr = String.format("vPin: %d  R: %d  G: %d  B: %d", vpinValue, red, green, blue);
+                dccexInfoStr = String.format("vPin: %d  R: %d  G: %d  B: %d", vpinValue, red, green, blue);
             } else {
-                DccexInfoStr = String.format("vPin: %d  R: %d  G: %d  B: %d  Count: %d", vpinValue, red, green, blue, vpinCountValue);
+                dccexInfoStr = String.format("vPin: %d  R: %d  G: %d  B: %d  Count: %d", vpinValue, red, green, blue, vpinCountValue);
             }
-            DccexWriteInfoLabel.setText(DccexInfoStr);
+            dccexWriteInfoLabel.setText(dccexInfoStr);
             sampleLabel.setBackgroundColor(Color.argb(255, red, green, blue));
         }
     }
@@ -940,14 +953,14 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
     }
 
     public void refreshDccexView() {
-        DccexWriteInfoLabel.setText(DccexInfoStr);
+        dccexWriteInfoLabel.setText(dccexInfoStr);
         refreshDccexCommandsView();
         showResult();
     }
 
     public void refreshDccexCommandsView() {
-        DccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
-        DccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
+        dccexResponsesLabel.setText(Html.fromHtml(mainapp.dccexResponsesStr));
+        dccexSendsLabel.setText(Html.fromHtml(mainapp.dccexSendsStr));
     }
 
     public void refreshDccexNeopixelView() {
@@ -976,5 +989,26 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
         blue = blueSeekbar.getProgress();
 
         Log.d("EX_Toolbox","getSliderPositions(): " + String.format("R: %d  G: %d  B: %d", red, green, blue));
+    }
+
+    void adjustToolbarSize(Menu menu) {
+        int newHeightAndWidth = mainapp.adjustToolbarSize(toolbar);
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            View itemChooser = item.getActionView();
+
+            if (itemChooser != null) {
+                itemChooser.getLayoutParams().height = newHeightAndWidth;
+                itemChooser.getLayoutParams().width = (int) ( (float) newHeightAndWidth * 1.3 );
+
+                itemChooser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOptionsItemSelected(item);
+                    }
+                });
+            }
+        }
     }
 }

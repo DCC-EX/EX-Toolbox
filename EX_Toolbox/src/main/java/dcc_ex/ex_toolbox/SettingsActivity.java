@@ -33,52 +33,73 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.core.app.ShareCompat;
+import androidx.core.content.FileProvider;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.EditTextPreference;
-import android.support.v7.preference.ListPreference;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.PreferenceGroup;
-import android.support.v7.preference.PreferenceScreen;
-import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
+//import android.support.v4.app.Fragment;
+//import android.support.v4.app.FragmentManager;
+//import android.support.v4.app.FragmentTransaction;
+//import android.support.v4.content.res.ResourcesCompat;
+//import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.preference.EditTextPreference;
+//import android.support.v7.preference.ListPreference;
+//import android.support.v7.preference.Preference;
+//import android.support.v7.preference.PreferenceFragmentCompat;
+//import android.support.v7.preference.PreferenceGroup;
+//import android.support.v7.preference.PreferenceScreen;
+//import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceScreen;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import dcc_ex.ex_toolbox.type.message_type;
+import dcc_ex.ex_toolbox.type.toolbar_button_size_to_use_type;
 import dcc_ex.ex_toolbox.util.LocaleHelper;
 
 public class SettingsActivity extends AppCompatActivity implements PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
     public static final int RESULT_LOAD_IMG = 1;
-    private int result;                     // set to RESULT_FIRST_USER when something is edited
+    private int result = RESULT_OK;                     // set to RESULT_FIRST_USER when something is edited
 
     private String deviceId = "";
 
@@ -87,6 +108,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
     private LinearLayout screenNameLine;
     private Toolbar toolbar;
+    private int initialToolbarHeight = -1;
     private LinearLayout statusLine;
     private Menu SAMenu;
 
@@ -142,7 +164,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("EX_Toolbox", "Settings: onCreate()");
+        Log.d("EX_Toolbox", "SettingsActivity: onCreate()");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
@@ -169,6 +191,22 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
         //put pointer to this activity's message handler in main app's shared variable (If needed)
         mainapp.preferences_msg_handler = new SettingsActivity.settings_handler(Looper.getMainLooper());
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                Log.d("EX_Toolbox", "SettingsActivity: handleOnBackPressed()");
+                mainapp.exitDoubleBackButtonInitiated = 0;
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportFragmentManager().popBackStack();
+                } else {
+                    setResult(result);
+                    finish();
+                    connection_activity.overridePendingTransition(SettingsActivity.this, R.anim.fade_in, R.anim.fade_out);
+                }
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+
         screenNameLine = findViewById(R.id.screen_name_line);
         toolbar = findViewById(R.id.toolbar);
         statusLine = findViewById(R.id.status_line);
@@ -180,7 +218,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                     getApplicationContext().getResources().getString(R.string.app_name),
                     getApplicationContext().getResources().getString(R.string.app_name_preferences),
                     "");
-            Log.d("EX_Toolbox", "Settings: Set toolbar");
+            Log.d("EX_Toolbox", "SettingsActivity: Set toolbar");
         }
 
     } // end onCreate
@@ -205,14 +243,14 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
     @Override
     protected void onResume() {
-        Log.d("EX_Toolbox", "Settings: onResume()");
+        Log.d("EX_Toolbox", "SettingsActivity: onResume()");
         super.onResume();
 
-        Log.d("EX_Toolbox", "settings.onResume() called");
+        Log.d("EX_Toolbox", "settings: onResume() called");
         try {
             dismissDialog(PROGRESS_BAR_TYPE);
         } catch (Exception e) {
-            Log.d("EX_Toolbox", "settings.onResume() no dialog to kill");
+            Log.d("EX_Toolbox", "settings: onResume() no dialog to kill");
         }
 
         if (mainapp.isForcingFinish()) {     //expedite
@@ -223,7 +261,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
         if (SAMenu != null) {
             mainapp.displayPowerStateMenuButton(SAMenu);
-            mainapp.setPowerStateButton(SAMenu);
+            mainapp.setPowerStateActionViewButton(SAMenu, findViewById(R.id.powerLayoutButton));
         }
 
 //        mainapp.applyTheme(this,true);
@@ -239,19 +277,25 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                     getApplicationContext().getResources().getString(R.string.app_name),
                     getApplicationContext().getResources().getString(R.string.app_name_preferences),
                     "");
-            Log.d("EX_Toolbox", "Settings: Set toolbar");
+            Log.d("EX_Toolbox", "SettingsActivity: Set toolbar");
         }
     }
 
-//    @Override
-//    protected void onStart() {
-//        Log.d("EX_Toolbox", "Settings: onStart()");
-//        super.onStart();
-//    }
+    @Override
+    protected void onStart() {
+        Log.d("EX_Toolbox", "SettingsActivity: onStart()");
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d("EX_Toolbox", "SettingsActivity: onStop()");
+        super.onStop();
+    }
 
     @Override
     protected void onDestroy() {
-        Log.d("EX_Toolbox", "settings.onDestroy() called");
+        Log.d("EX_Toolbox", "SettingsActivity: onDestroy()");
         super.onDestroy();
         if (mainapp.settings_msg_handler !=null) {
             mainapp.settings_msg_handler.removeCallbacksAndMessages(null);
@@ -269,7 +313,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
     @SuppressLint("ApplySharedPref")
     public void forceRestartApp(int forcedRestartReason) {
-        Log.d("EX_Toolbox", "Settings: forceRestartApp() - forcedRestartReason: " + forcedRestartReason);
+        Log.d("EX_Toolbox", "SettingsActivity: forceRestartApp() - forcedRestartReason: " + forcedRestartReason);
 
         finish();
         connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
@@ -281,7 +325,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
     @SuppressLint("ApplySharedPref")
     public void forceReLaunchApp(int forcedRestartReason) {
-        Log.d("EX_Toolbox", "Settings: forceRelaunchApp() ");
+        Log.d("EX_Toolbox", "SettingsActivity: forceRelaunchApp() ");
 
         finish();
         connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
@@ -292,15 +336,137 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
     }
 
+    @SuppressLint("ApplySharedPref")
+    public void shareFileNow() {
+        Log.d("EX_Toolbox", "SettingsActivity: shareFileNow()");
+
+        boolean result = prefs.getBoolean("prefShareFileNow", getResources().getBoolean(R.bool.prefShareFileNowDefaultValue));
+
+        if (result) {
+            prefs.edit().putBoolean("prefShareFileNow", false).commit();  //reset the preference
+            showFileSelectionDialog();
+        }
+    }
+
+    public ArrayList<File> getFilesForDialog() {
+        Log.d("EX_Toolbox", "SettingsActivity: getFilesForDialog()");
+        ArrayList<File> logFiles = new ArrayList<>();
+        try {
+            File dir = new File(context.getExternalFilesDir(null).getPath());
+            if (dir.exists() && dir.isDirectory()) {
+                File[] filesList = dir.listFiles();
+                if (filesList != null) {
+                    for (File file : filesList) {
+                        logFiles.add(file);
+                        Log.d("EX_Toolbox", "SettingsActivity:  getFilesForDialog(): Found: " + file.getName());
+                    }
+                    Collections.sort(logFiles, (file1, file2) -> file1.getName().compareTo(file2.getName()));
+                }
+            }
+        } catch (Exception e) {
+            Log.e("EX_Toolbox", "SettingsActivity:  getFilesForDialog(): Error trying to find log files", e);
+            threaded_application.safeToast("Error accessing log files.", Toast.LENGTH_SHORT);
+        }
+        return logFiles;
+    }
+
+    private void showFileSelectionDialog() {
+        Log.d("EX_Toolbox", "SettingsActivity: showFileSelectionDialog()");
+        ArrayList<File> logFiles = getFilesForDialog();
+
+        if (logFiles.isEmpty()) return;
+
+        // Extract just the file names for display in the dialog
+        ArrayList<String> fileNames = new ArrayList<>();
+        for (File file : logFiles) {
+            fileNames.add(file.getName());
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.file_list_dialog, null);
+        builder.setView(dialogView);
+
+        ListView dialogListView = dialogView.findViewById(R.id.file_dialog_listview);
+        Button cancelButton = dialogView.findViewById(R.id.file_dialog_button_cancel);
+
+        // --- Setup ListView ---
+        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(this,
+                R.layout.file_list_item, // This layout MUST define the font
+                R.id.file_list_item_text,    // The ID of the TextView within logfile_list_item.xml
+                fileNames);
+        dialogListView.setAdapter(listAdapter);
+
+        final AlertDialog dialog = builder.create(); // Create before setting item click listener for ListView
+
+        dialogListView.setOnItemClickListener((parent, view, position, id) -> {
+            File selectedFile = logFiles.get(position);
+    //            threaded_application.safeToast("Selected: " + selectedFile.getName(), Toast.LENGTH_SHORT);
+            shareFile(selectedFile,selectedFile.getName());
+            dialog.dismiss();
+        });
+
+        cancelButton.setOnClickListener(v -> {dialog.dismiss(); reload();} );
+
+        dialog.show();
+    }
+
+//    private void shareFile(File file, String fileName) {
+//        Uri fileUri = FileProvider.getUriForFile(
+//                this,
+//                getApplicationContext().getPackageName() + ".fileprovider",
+//                file
+//        );
+//        shareFile(fileUri, fileName);
+//    }
+//    private void shareFile(Uri fileUri, String fileName) {
+//        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//        shareIntent.setType("*/*"); // Set the MIME type of the file
+//        shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+//        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // Important for granting temporary read access
+//
+//        // Verify that there are apps available to handle this intent
+//        if (shareIntent.resolveActivity(getPackageManager()) != null) {
+//            startActivity(Intent.createChooser(shareIntent, getApplicationContext().getResources().getString(R.string.shareFile, fileName)));
+//        } else {
+//            threaded_application.safeToast(getApplicationContext().getResources().getString(R.string.toastNoAppToShare), Toast.LENGTH_SHORT);
+//        }
+//        this.reload();
+//    }
+
+    private void shareFile(File file, String fileName) {
+        Log.d("EX_Toolbox", "SettingsActivity: shareFile()");
+        Uri fileUri = FileProvider.getUriForFile(
+                this,
+                getApplicationContext().getPackageName() + ".fileprovider",
+                file
+        );
+        shareFile(fileUri, fileName);
+    }
+
+    private void shareFile(Uri fileUri, String fileName) {
+        Log.d("EX_Toolbox", "SettingsActivity: shareFile()");
+        Intent chooserIntent = ShareCompat.IntentBuilder.from(this)
+                .setType("*/*")
+                .setStream(fileUri)
+                .setChooserTitle(getApplicationContext().getResources().getString(R.string.shareFile, fileName))
+                .createChooserIntent();
+
+        try {
+            startActivity(chooserIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            threaded_application.safeToast(getApplicationContext().getResources().getString(R.string.toastNoAppToShare), Toast.LENGTH_SHORT);
+        }
+    }
 
     public void reload() {
         // restart the activity so all the preferences show correctly based on what was imported / hidden
-        Log.d("EX_Toolbox", "Settings: Forcing activity to recreate");
+        Log.d("EX_Toolbox", "SettingsActivity: Forcing activity to recreate");
         recreate();
     }
 
     private void resetPreferencesDialog() {
-        Log.d("EX_Toolbox", "Settings: Resetting preferences");
+        Log.d("EX_Toolbox", "SettingsActivity: Resetting preferences");
 
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             //@Override
@@ -328,10 +494,11 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
     @SuppressLint("ApplySharedPref")
     private void resetPreferences() {
+        Log.d("EX_Toolbox", "SettingsActivity: resetPreferences()");
         SharedPreferences.Editor prefEdit = prefs.edit();
         prefEdit.clear();
         prefEdit.commit();
-        Log.d("EX_Toolbox", "Settings: Reset succeeded");
+        Log.d("EX_Toolbox", "SettingsActivity: Reset succeeded");
         delete_settings_file("function_settings.txt");
         delete_settings_file("connections_list.txt");
         delete_settings_file("recent_engine_list.txt");
@@ -343,6 +510,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     }
 
     private void delete_auto_import_settings_files() {
+        Log.d("EX_Toolbox", "SettingsActivity: delete_auto_import_settings_files()");
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 //            File sdcard_path = Environment.getExternalStorageDirectory();
 //            File dir = new File(sdcard_path, DCC_EX_DIR); // in case the folder does not already exist
@@ -362,15 +530,16 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     }
 
     private void delete_settings_file(String file_name) {
+        Log.d("EX_Toolbox", "SettingsActivity: delete_settings_file()");
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 //            File sdcard_path = Environment.getExternalStorageDirectory();
 //            File settings_file = new File(sdcard_path, "ex_toolbox/" + file_name);
             File settings_file = new File(context.getExternalFilesDir(null), file_name);
             if (settings_file.exists()) {
                 if (settings_file.delete()) {
-                    Log.d("EX_Toolbox", "Settings: " + file_name + " deleted");
+                    Log.d("EX_Toolbox", "SettingsActivity: " + file_name + " deleted");
                 } else {
-                    Log.e("EX_Toolbox", "Settings: " + file_name + " NOT deleted");
+                    Log.e("EX_Toolbox", "SettingsActivity: " + file_name + " NOT deleted");
                 }
             }
         }
@@ -402,7 +571,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                         String comA = response_str.substring(0, 3);
                         //update power icon
                         if ("PPA".equals(comA)) {
-                            mainapp.setPowerStateButton(SAMenu);
+                            mainapp.setPowerStateActionViewButton(SAMenu, findViewById(R.id.powerLayoutButton));
                         }
                     }
                     break;
@@ -431,6 +600,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     }
 
     protected void loadImagefromGallery() {
+        Log.d("EX_Toolbox", "SettingsActivity: loadImagefromGallery()");
         // Create intent to Open Image applications like Gallery, Google Photos
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -441,10 +611,11 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     //Handle pressing of the back button to end this activity
     @Override
     public boolean onKeyDown(int key, KeyEvent event) {
+        Log.d("EX_Toolbox", "SettingsActivity: onKeyDown()");
         mainapp.exitDoubleBackButtonInitiated = 0;
         if ((key == KeyEvent.KEYCODE_BACK) && (!isInSubScreen) ) {
             setResult(result);
-            finish();  //end this activity
+            this.finish();  //end this activity
             connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
             return true;
         }
@@ -454,13 +625,15 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d("EX_Toolbox", "Settings: onCreateOptionsMenu()");
+        Log.d("EX_Toolbox", "SettingsActivity: onCreateOptionsMenu()");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings_menu, menu);
         SAMenu = menu;
         mainapp.displayPowerStateMenuButton(menu);
-        mainapp.setPowerStateButton(menu);
+        mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
         mainapp.reformatMenu(menu);
+
+        adjustToolbarSize(menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -468,7 +641,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle all of the possible menu actions.
-        if (item.getItemId() == R.id.power_layout_button) {
+        if (item.getItemId() == R.id.powerLayoutButton) {
             if (!mainapp.isPowerControlAllowed()) {
                 mainapp.powerControlNotAllowedDialog(SAMenu);
             } else {
@@ -485,7 +658,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     @SuppressLint("ApplySharedPref")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("EX_Toolbox", "Settings: onActivityResult()");
+        Log.d("EX_Toolbox", "SettingsActivity: onActivityResult()");
         super.onActivityResult(requestCode, resultCode, data);
         try {
             // When an Image is picked
@@ -513,14 +686,14 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                 Toast.makeText(this, R.string.prefBackgroundImageFileNameNoImageSelected, Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
-            Log.e("EX_Toolbox", "Settings: Loading background image Failed: " + e.getMessage());
+            Log.e("EX_Toolbox", "SettingsActivity: Loading background image Failed: " + e.getMessage());
         }
 
     }
 
     @SuppressLint("ApplySharedPref")
     protected boolean limitIntPrefValue(PreferenceScreen prefScreen, SharedPreferences sharedPreferences, String key, int minVal, int maxVal, String defaultVal) {
-        Log.d("EX_Toolbox", "Settings: limitIntPrefValue()");
+        Log.d("EX_Toolbox", "SettingsActivity: limitIntPrefValue()");
         boolean isValid = true;
         EditTextPreference prefText = (EditTextPreference) prefScreen.findPreference(key);
         try {
@@ -547,7 +720,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
     @SuppressLint("ApplySharedPref")
     protected boolean limitFloatPrefValue(PreferenceScreen prefScreen, SharedPreferences sharedPreferences, String key, Float minVal, Float maxVal, String defaultVal) {
-        Log.d("EX_Toolbox", "Settings: limitFloatPrefValue()");
+        Log.d("EX_Toolbox", "SettingsActivity: limitFloatPrefValue()");
         boolean isValid = true;
         EditTextPreference prefText = (EditTextPreference) prefScreen.findPreference(key);
         try {
@@ -573,7 +746,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     }
 
     private void enableDisablePreference(PreferenceScreen prefScreen, String key, boolean enable) {
-        Log.d("EX_Toolbox", "Settings: enableDisablePreference(): key: " + key);
+        Log.d("EX_Toolbox", "SettingsActivity: enableDisablePreference(): key: " + key);
         Preference p = prefScreen.findPreference(key);
         if (p != null) {
             p.setSelectable(enable);
@@ -593,10 +766,12 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     }
 
     public void loadSharedPreferences(){
+        Log.d("EX_Toolbox", "SettingsActivity: loadSharedPreferences()");
         prefs = getSharedPreferences("dcc_ex.ex_toolbox_preferences", 0);
     }
 
     private void getConnectionsList() {
+        Log.d("EX_Toolbox", "SettingsActivity: getConnectionsList()");
         String host_name;
         String host_name_filename;
         String errMsg;
@@ -628,7 +803,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
             }
         } catch (IOException except) {
             errMsg = except.getMessage();
-            Log.e("EX_Toolbox", "Settings: Error reading recent connections list: " + errMsg);
+            Log.e("EX_Toolbox", "SettingsActivity: Error reading recent connections list: " + errMsg);
             Toast.makeText(getApplicationContext(), R.string.prefImportExportErrorReadingList + " " + errMsg, Toast.LENGTH_SHORT).show();
         }
 
@@ -661,7 +836,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
         private threaded_application mainapp;  // hold pointer to mainapp
         private SharedPreferences prefs;
 
-//        private int result;                     // set to RESULT_FIRST_USER when something is edited
+        private int result = RESULT_OK;                     // set to RESULT_FIRST_USER when something is edited
 
 //        private String[] prefHostImportExportEntriesFound = {"None"};
 //        private String[] prefHostImportExportEntryValuesFound = {"None"};
@@ -695,7 +870,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            Log.d("EX_Toolbox", "Settings: SettingsFragment onCreatePreferences()");
+            Log.d("EX_Toolbox", "SettingsActivity: SettingsFragment onCreatePreferences()");
                 setPreferencesFromResource(R.xml.preferences, rootKey);
 
             Activity a = getActivity();
@@ -708,7 +883,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
         @Override
         public void onResume() {
-            Log.d("EX_Toolbox", "Settings: SettingsFragment onResume()");
+            Log.d("EX_Toolbox", "SettingsActivity: SettingsFragment onResume()");
             super.onResume();
 
             getPreferenceScreen().getSharedPreferences()
@@ -726,6 +901,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
         @Override
         public void onPause() {
+            Log.d("EX_Toolbox", "SettingsActivity: SettingsFragment onPause()");
             super.onPause();
 
             getPreferenceScreen().getSharedPreferences()
@@ -734,7 +910,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
         @SuppressLint("ApplySharedPref")
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            Log.d("EX_Toolbox", "Settings: onSharedPreferenceChanged(): key: " + key);
+            Log.d("EX_Toolbox", "SettingsActivity: onSharedPreferenceChanged(): key: " + key);
             boolean prefForcedRestart = sharedPreferences.getBoolean("prefForcedRestart", false);
 
             if (!prefForcedRestart) {  // don't do anything if the preference have been loaded and we are about to reload the app.
@@ -759,10 +935,10 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                         parentActivity.mainapp.sendMsg(parentActivity.mainapp.comm_msg_handler, message_type.CLOCK_DISPLAY_CHANGED);
                         break;
                     case "prefLocale":
-                        sharedPreferences.edit().putString("prefLeftDirectionButtons", "").commit();
-                        sharedPreferences.edit().putString("prefRightDirectionButtons", "").commit();
-                        sharedPreferences.edit().putString("prefLeftDirectionButtonsShort", "").commit();
-                        sharedPreferences.edit().putString("prefRightDirectionButtonsShort", "").commit();
+//                        sharedPreferences.edit().putString("prefLeftDirectionButtons", "").commit();
+//                        sharedPreferences.edit().putString("prefRightDirectionButtons", "").commit();
+//                        sharedPreferences.edit().putString("prefLeftDirectionButtonsShort", "").commit();
+//                        sharedPreferences.edit().putString("prefRightDirectionButtonsShort", "").commit();
                         parentActivity.forceReLaunchAppOnPreferencesClose = true;
                         parentActivity.forceRestartApp(threaded_application.FORCED_RESTART_REASON_LOCALE);
                         break;
@@ -814,7 +990,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
         @SuppressLint("ApplySharedPref")
         void setPreferencesUI() {
-            Log.d("EX_Toolbox", "Settings: setPreferencesUI()");
+            Log.d("EX_Toolbox", "SettingsActivity: setPreferencesUI()");
             prefs = parentActivity.prefs;
 //            defaultName = parentActivity.getApplicationContext().getResources().getString(R.string.prefThrottleNameDefaultValue);
             defaultName = "EX-Toolbox";
@@ -900,19 +1076,19 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                 else //Doesn't have a parent
                     getPreferenceScreen().removePreference(preference);
             } catch (Exception except) {
-                Log.d("EX_Toolbox", "Settings: removePreference: failed: " + preference);
+                Log.d("EX_Toolbox", "SettingsActivity: removePreference: failed: " + preference);
             }
         }
 
         private void hideAdvancedPreferences() {
             if (!prefs.getBoolean("prefShowAdvancedPreferences", parentActivity.getApplicationContext().getResources().getBoolean(R.bool.prefShowAdvancedPreferencesDefaultValue) ) ) {
                 for (String advancedPreference1 : advancedPreferences) {
-// //                Log.d("EX_Toolbox", "Settings: hideAdvancedPreferences(): " + advancedPreference1);
+// //                Log.d("EX_Toolbox", "SettingsActivity: hideAdvancedPreferences(): " + advancedPreference1);
                     Preference advancedPreference = (Preference) findPreference(advancedPreference1);
                     if (advancedPreference != null) {
                         removePreference(advancedPreference);
                     } else {
-                        Log.d("EX_Toolbox", "Settings: '" + advancedPreference1 + "' not found.");
+                        Log.d("EX_Toolbox", "SettingsActivity: '" + advancedPreference1 + "' not found.");
                     }
                 }
             }
@@ -1007,7 +1183,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
         @Override
         public void onResume() {
-            Log.d("EX_Toolbox", "Settings: SettingsFragment onResume()");
+            Log.d("EX_Toolbox", "SettingsActivity: SettingsFragment onResume()");
             super.onResume();
 
             getPreferenceScreen().getSharedPreferences()
@@ -1017,6 +1193,7 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
 
         @Override
         public void onPause() {
+            Log.d("EX_Toolbox", "SettingsActivity: SettingsFragment onPause() 2");
             super.onPause();
 
             getPreferenceScreen().getSharedPreferences()
@@ -1059,19 +1236,19 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                 else //Doesn't have a parent
                     getPreferenceScreen().removePreference(preference);
             } catch (Exception except) {
-                Log.d("EX_Toolbox", "Settings: removeSubPreference: failed: " + preference);
+                Log.d("EX_Toolbox", "SettingsActivity: removeSubPreference: failed: " + preference);
             }
         }
 
         private void hideAdvancedSubPreferences() {
             if (!parentActivity.prefs.getBoolean("prefShowAdvancedPreferences", parentActivity.getApplicationContext().getResources().getBoolean(R.bool.prefShowAdvancedPreferencesDefaultValue) ) ) {
                 for (String advancedSubPreference1 : advancedSubPreferences) {
-// //                Log.d("EX_Toolbox", "Settings: hideAdvancedPreferences(): " + advancedPreference1);
+// //                Log.d("EX_Toolbox", "SettingsActivity: hideAdvancedPreferences(): " + advancedPreference1);
                     Preference advancedSubPreference = (Preference) findPreference(advancedSubPreference1);
                     if (advancedSubPreference != null) {
                         removeSubPreference(advancedSubPreference);
                     } else {
-                        Log.d("EX_Toolbox", "Settings: '" + advancedSubPreference1 + "' not found.");
+                        Log.d("EX_Toolbox", "SettingsActivity: '" + advancedSubPreference1 + "' not found.");
                     }
                 }
             }
@@ -1089,6 +1266,11 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                                 parentActivity.resetPreferencesDialog();
                             }
                         break;
+
+                    case "prefShareFileNow":
+                        parentActivity.shareFileNow();
+                        break;
+
                     case "prefBackgroundImage":
                         parentActivity.prefBackgroundImage = sharedPreferences.getBoolean("prefBackgroundImage", false);
                         parentActivity.showHideBackgroundImagePreferences(getPreferenceScreen());
@@ -1104,6 +1286,45 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
                         break;
 
                 }
+            }
+        }
+    }
+
+    // this is slightly different to the code in the other activities
+    void adjustToolbarSize(Menu menu) {
+        ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
+        // this will be run multiple times coming in and out of the sub menus, so only grab the height the first time.
+        if (initialToolbarHeight == -1) {
+            initialToolbarHeight = layoutParams.height;
+        }
+        int toolbarHeight = initialToolbarHeight;
+        int newHeightAndWidth = toolbarHeight;
+
+        if (threaded_application.toolbarButtonSizeToUse ==
+                toolbar_button_size_to_use_type.MEDIUM) {
+            newHeightAndWidth = (int) ((float) toolbarHeight * 1.32);
+            layoutParams.height = newHeightAndWidth;
+            toolbar.setLayoutParams(layoutParams);
+        } else if (threaded_application.toolbarButtonSizeToUse == toolbar_button_size_to_use_type.LARGE) {
+            newHeightAndWidth = toolbarHeight*2;
+            layoutParams.height = newHeightAndWidth;
+            toolbar.setLayoutParams(layoutParams);
+        }
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            View itemChooser = item.getActionView();
+
+            if ( (itemChooser != null) && (itemChooser.getLayoutParams() != null) ){
+                itemChooser.getLayoutParams().height = newHeightAndWidth;
+                itemChooser.getLayoutParams().width = (int) ( (float) newHeightAndWidth * 1.3 );
+
+                itemChooser.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onOptionsItemSelected(item);
+                    }
+                });
             }
         }
     }

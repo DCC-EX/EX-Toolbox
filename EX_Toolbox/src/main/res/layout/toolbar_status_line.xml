@@ -9,7 +9,8 @@
     android:layout_marginTop="0dp"
     android:layout_marginBottom="0dp"
     tools:ignore="RtlHardcoded"
-    android:background="?attr/ed_toolbar_background" >
+    android:background="?attr/ed_toolbar_background"
+    android:fitsSystemWindows="true" >
 
     <TextView
         android:id="@+id/toolbar_icon_help"

@@ -20,26 +20,27 @@ Derived from the samples for AppIntro at https://github.com/paolorotolo/AppIntro
 
 package dcc_ex.ex_toolbox.intro;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.github.paolorotolo.appintro.AppIntro2;
-import com.github.paolorotolo.appintro.AppIntroFragment;
-import com.github.paolorotolo.appintro.model.SliderPage;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.github.appintro.AppIntro2;
+import com.github.appintro.AppIntroFragment;
+import com.github.appintro.model.SliderPage;
 
 import dcc_ex.ex_toolbox.R;
 import dcc_ex.ex_toolbox.threaded_application;
 import dcc_ex.ex_toolbox.util.PermissionsHelper;
 
-public class intro_activity extends AppIntro2 {
+public class intro_activity extends AppIntro2 implements PermissionsHelper.PermissionsHelperGrantedCallback {
     private boolean introComplete = false;
     private SharedPreferences prefs;
     private String prefTheme  = "";
@@ -65,118 +66,192 @@ public class intro_activity extends AppIntro2 {
         sliderPage0.setTitle(getApplicationContext().getResources().getString(R.string.introWelcomeTitle));
         sliderPage0.setDescription(getApplicationContext().getResources().getString(R.string.introWelcomeSummary));
         sliderPage0.setImageDrawable(R.drawable.intro_welcome);
-        sliderPage0.setBgColor(getResources().getColor(R.color.intro_background));
+        sliderPage0.setBackgroundColor(getResources().getColor(R.color.intro_background));
         addSlide(AppIntroFragment.newInstance(sliderPage0));
 
-        int slideNumber = 1;  // how many preceding slides
+//        int slideNumber = 1;  // how many preceding slides
+//
+//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            if (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.POST_NOTIFICATIONS)) {
+//                SliderPage sliderPage = new SliderPage();
+//                sliderPage.setTitle(getApplicationContext().getResources().getString(R.string.permissionsRequestTitle));
+//                sliderPage.setDescription(getApplicationContext().getResources().getString(R.string.permissionsPOST_NOTIFICATIONS));
+//                sliderPage.setImageDrawable(R.drawable.icon_xl);
+//                sliderPage0.setBackgroundColor(getResources().getColor(R.color.intro_background));
+//                addSlide(AppIntroFragment.newInstance(sliderPage));
+//                slideNumber = slideNumber + 1;
+//                askForPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, slideNumber, false);
+//            }
+//        }
+//
+////<!-- needed for API 33 -->
+//        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+////<!-- needed for API 33 -->
+//            if (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.READ_IMAGES)) {
+//                SliderPage sliderPage = new SliderPage();
+//                sliderPage.setTitle(getApplicationContext().getResources().getString(R.string.permissionsReadImages));
+//                sliderPage.setDescription(getApplicationContext().getResources().getString(R.string.permissionsReadImages));
+//                sliderPage.setImageDrawable(R.drawable.icon_xl);
+//                sliderPage0.setBackgroundColor(getResources().getColor(R.color.intro_background));
+//                addSlide(AppIntroFragment.newInstance(sliderPage));
+//                slideNumber = slideNumber + 1;
+//                askForPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, slideNumber, false);
+//            }
+////<!-- needed for API 33 -->
+//        } else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+//            if (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.READ_MEDIA_IMAGES)) {
+//                SliderPage sliderPage = new SliderPage();
+//                sliderPage.setTitle(getApplicationContext().getResources().getString(R.string.permissionsREAD_MEDIA_IMAGES));
+//                sliderPage.setDescription(getApplicationContext().getResources().getString(R.string.permissionsREAD_MEDIA_IMAGES));
+//                sliderPage.setImageDrawable(R.drawable.icon_xl);
+//                sliderPage0.setBackgroundColor(getResources().getColor(R.color.intro_background));
+//                addSlide(AppIntroFragment.newInstance(sliderPage));
+//                slideNumber = slideNumber + 1;
+//                askForPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES}, slideNumber, false);
+//            }
+//        } else { // needed for API 34
+//            if ( (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.READ_MEDIA_IMAGES))
+//                    && (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.READ_MEDIA_VISUAL_USER_SELECTED)) ) {
+//
+//                SliderPage sliderPage = new SliderPage();
+//                sliderPage.setTitle(getApplicationContext().getResources().getString(R.string.permissionsRequestTitle));
+//                sliderPage.setDescription(getApplicationContext().getResources().getString(R.string.permissionsREAD_MEDIA_VISUAL_USER_SELECTED));
+//                sliderPage.setImageDrawable(R.drawable.icon_vector);
+//                sliderPage0.setBackgroundColor(getResources().getColor(R.color.intro_background));
+//                addSlide(AppIntroFragment.newInstance(sliderPage));
+//                slideNumber = slideNumber + 1;
+//                askForPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED}, slideNumber, false);
+//            }
+//        }
+////<!-- needed for API 34 -->
+//
+//
+//        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+//            if (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.ACCESS_FINE_LOCATION )) {
+//                SliderPage sliderPage = new SliderPage();
+//                sliderPage.setTitle(getApplicationContext().getResources().getString(R.string.permissionsRequestTitle));
+//                sliderPage.setDescription(getApplicationContext().getResources().getString(R.string.permissionsACCESS_FINE_LOCATION));
+//                sliderPage.setImageDrawable(R.drawable.icon_xl);
+//                sliderPage0.setBackgroundColor(getResources().getColor(R.color.intro_background));
+//                addSlide(AppIntroFragment.newInstance(sliderPage));
+//                slideNumber = slideNumber + 1;
+//                askForPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, slideNumber, false);
+//            }
+//        } else {
+//            if (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.NEARBY_WIFI_DEVICES)) {
+//                SliderPage sliderPage = new SliderPage();
+//                sliderPage.setTitle(getApplicationContext().getResources().getString(R.string.permissionsRequestTitle));
+//                sliderPage.setDescription(getApplicationContext().getResources().getString(R.string.permissionsNEARBY_WIFI_DEVICES));
+//                sliderPage.setImageDrawable(R.drawable.icon_xl);
+//                sliderPage0.setBackgroundColor(getResources().getColor(R.color.intro_background));
+//                addSlide(AppIntroFragment.newInstance(sliderPage));
+//                slideNumber = slideNumber + 1;
+//                askForPermissions(new String[]{Manifest.permission.NEARBY_WIFI_DEVICES}, slideNumber, false);
+//            }
+//        }
+
+
+        Bundle args;
+        Fragment fragment;
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.POST_NOTIFICATIONS)) {
-                SliderPage sliderPage = new SliderPage();
-                sliderPage.setTitle(getApplicationContext().getResources().getString(R.string.permissionsRequestTitle));
-                sliderPage.setDescription(getApplicationContext().getResources().getString(R.string.permissionsPOST_NOTIFICATIONS));
-                sliderPage.setImageDrawable(R.drawable.icon_xl);
-                sliderPage.setBgColor(getResources().getColor(R.color.intro_background));
-                addSlide(AppIntroFragment.newInstance(sliderPage));
-                slideNumber = slideNumber + 1;
-                askForPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, slideNumber);
+                args = new Bundle();
+                args.putString("id", Integer.toString(PermissionsHelper.POST_NOTIFICATIONS));
+                args.putString("label", getApplicationContext().getResources().getString(R.string.permissionsPOST_NOTIFICATIONS));
+                fragment = new intro_permissions();
+                fragment.setArguments(args);
+                addSlide(fragment);
             }
         }
 
-//<!-- needed for API 33 -->
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-//<!-- needed for API 33 -->
             if (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.READ_IMAGES)) {
-                SliderPage sliderPage = new SliderPage();
-                sliderPage.setTitle(getApplicationContext().getResources().getString(R.string.permissionsReadImages));
-                sliderPage.setDescription(getApplicationContext().getResources().getString(R.string.permissionsReadImages));
-                sliderPage.setImageDrawable(R.drawable.icon_xl);
-                sliderPage.setBgColor(getResources().getColor(R.color.intro_background));
-                addSlide(AppIntroFragment.newInstance(sliderPage));
-                slideNumber = slideNumber + 1;
-                askForPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, slideNumber);
+                args = new Bundle();
+                args.putString("id", Integer.toString(PermissionsHelper.READ_IMAGES));
+                args.putString("label", getApplicationContext().getResources().getString(R.string.permissionsREAD_MEDIA_IMAGES));
+                fragment = new intro_permissions();
+                fragment.setArguments(args);
+                addSlide(fragment);
             }
-//<!-- needed for API 33 -->
         } else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             if (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.READ_MEDIA_IMAGES)) {
-                SliderPage sliderPage = new SliderPage();
-                sliderPage.setTitle(getApplicationContext().getResources().getString(R.string.permissionsREAD_MEDIA_IMAGES));
-                sliderPage.setDescription(getApplicationContext().getResources().getString(R.string.permissionsREAD_MEDIA_IMAGES));
-                sliderPage.setImageDrawable(R.drawable.icon_xl);
-                sliderPage.setBgColor(getResources().getColor(R.color.intro_background));
-                addSlide(AppIntroFragment.newInstance(sliderPage));
-                slideNumber = slideNumber + 1;
-                askForPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES}, slideNumber);
+                args = new Bundle();
+                args.putString("id", Integer.toString(PermissionsHelper.READ_MEDIA_IMAGES));
+                args.putString("label", getApplicationContext().getResources().getString(R.string.permissionsREAD_MEDIA_IMAGES));
+                fragment = new intro_permissions();
+                fragment.setArguments(args);
+                addSlide(fragment);
             }
         } else { // needed for API 34
             if ( (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.READ_MEDIA_IMAGES))
                     && (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.READ_MEDIA_VISUAL_USER_SELECTED)) ) {
-
-                SliderPage sliderPage = new SliderPage();
-                sliderPage.setTitle(getApplicationContext().getResources().getString(R.string.permissionsRequestTitle));
-                sliderPage.setDescription(getApplicationContext().getResources().getString(R.string.permissionsREAD_MEDIA_VISUAL_USER_SELECTED));
-                sliderPage.setImageDrawable(R.drawable.icon_vector);
-                sliderPage.setBgColor(getResources().getColor(R.color.intro_background));
-                addSlide(AppIntroFragment.newInstance(sliderPage));
-                slideNumber = slideNumber + 1;
-                askForPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED}, slideNumber);
+                args = new Bundle();
+                args.putString("id", Integer.toString(PermissionsHelper.READ_MEDIA_VISUAL_USER_SELECTED));
+                args.putString("label", getApplicationContext().getResources().getString(R.string.permissionsREAD_MEDIA_VISUAL_USER_SELECTED));
+                fragment = new intro_permissions();
+                fragment.setArguments(args);
+                addSlide(fragment);
             }
         }
-//<!-- needed for API 34 -->
 
-
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-            if (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.ACCESS_FINE_LOCATION )) {
-                SliderPage sliderPage = new SliderPage();
-                sliderPage.setTitle(getApplicationContext().getResources().getString(R.string.permissionsRequestTitle));
-                sliderPage.setDescription(getApplicationContext().getResources().getString(R.string.permissionsACCESS_FINE_LOCATION));
-                sliderPage.setImageDrawable(R.drawable.icon_xl);
-                sliderPage.setBgColor(getResources().getColor(R.color.intro_background));
-                addSlide(AppIntroFragment.newInstance(sliderPage));
-                slideNumber = slideNumber + 1;
-                askForPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, slideNumber);
-            }
-        } else {
-            if (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.NEARBY_WIFI_DEVICES)) {
-                SliderPage sliderPage = new SliderPage();
-                sliderPage.setTitle(getApplicationContext().getResources().getString(R.string.permissionsRequestTitle));
-                sliderPage.setDescription(getApplicationContext().getResources().getString(R.string.permissionsNEARBY_WIFI_DEVICES));
-                sliderPage.setImageDrawable(R.drawable.icon_xl);
-                sliderPage.setBgColor(getResources().getColor(R.color.intro_background));
-                addSlide(AppIntroFragment.newInstance(sliderPage));
-                slideNumber = slideNumber + 1;
-                askForPermissions(new String[]{Manifest.permission.NEARBY_WIFI_DEVICES}, slideNumber);
-            }
+        if (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.ACCESS_FINE_LOCATION)) {
+            args = new Bundle();
+            args.putString("id", Integer.toString(PermissionsHelper.ACCESS_FINE_LOCATION));
+            args.putString("label", getApplicationContext().getResources().getString(R.string.permissionsACCESS_FINE_LOCATION));
+            fragment = new intro_permissions();
+            fragment.setArguments(args);
+            addSlide(fragment);
         }
 
 //        if (!PermissionsHelper.getInstance().isPermissionGranted(intro_activity.this, PermissionsHelper.WRITE_SETTINGS)) {
-//            if (android.os.Build.VERSION.SDK_INT >= 23) {
-//                Fragment fragment3 = new intro_write_settings();
-//                addSlide(fragment3);
-//            }
+//            args = new Bundle();
+//            args.putString("id", Integer.toString(PermissionsHelper.WRITE_SETTINGS));
+//            args.putString("label", getApplicationContext().getResources().getString(R.string.permissionsWriteSettings));
+//            fragment = new intro_permissions();
+//            fragment.setArguments(args);
+//            addSlide(fragment);
 //        }
 
-        Fragment fragment0 = new intro_theme();
-        addSlide(fragment0);
+        fragment = new intro_theme();
+        addSlide(fragment);
 
-        Fragment fragment99 = new intro_finish();
-        addSlide(fragment99);
+        fragment = new intro_finish();
+        addSlide(fragment);
 
         // OPTIONAL METHODS
         // Override bar/separator color.
-//        setBarColor(Color.parseColor("#3F51B5"));
         setBarColor(getResources().getColor(R.color.intro_buttonbar_background));
-//        setSeparatorColor(Color.parseColor("#2196F3"));
 
         // Hide Skip/Done button.
-        showSkipButton(false);
-        setProgressButtonEnabled(true);
+//        showSkipButton(false);
+//        setProgressButtonEnabled(true);
 
         // Turn vibration on and set intensity.
         // NOTE: you will probably need to ask VIBRATE permission in Manifest.
         setVibrate(false);
         //setVibrateIntensity(30);
         setWizardMode(true);
+    }
+
+    @SuppressLint("SwitchIntDef")
+    public void navigateToHandler(@PermissionsHelper.RequestCodes int requestCode) {
+        Log.d("EX_Toolbox", "introActivity: navigateToHandler:" + requestCode);
+        if (!PermissionsHelper.getInstance().isPermissionGranted(this, requestCode)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PermissionsHelper.getInstance().requestNecessaryPermissions(this, requestCode);
+            }
+        } else {
+            // do nothing
+            Log.d("EX_Toolbox", "introActivity: Unrecognised permissions request code: " + requestCode);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(@PermissionsHelper.RequestCodes int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (!PermissionsHelper.getInstance().processRequestPermissionsResult(this, requestCode, permissions, grantResults)) {
+            Log.d("EX_Toolbox", "introActivity: Unrecognised request - send up to super class");
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Override

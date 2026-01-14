@@ -58,6 +58,10 @@
     </style>
   <style name="normal_button2_style" parent="normal_button_style">
   </style>
+    <style name="normal_button_condensed_style" parent="normal_button_style">
+        <item name="fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
 
     <style name="loco_select_button_style" parent="normal_button_style">
       <item name="android:textColor">@color/original_btn_loco_select_text_states</item>
@@ -78,6 +82,10 @@
       <item name="android:ellipsize">end</item>
       <item name="android:gravity">center_vertical|center_horizontal</item>
     </style>
+
+  <style name="small_button_condensed_text_style" parent="small_button_style">
+    <item name="android:fontFamily">sans-serif-condensed</item>>
+  </style>
 
     <style name="fn_button_style" parent="@android:style/Widget.Button">
       <item name="android:textColor">@color/original_btn_text_states</item>
@@ -453,6 +461,11 @@
   </style>
   <style name="normal_button2_style_black" parent="normal_button_style_black">
   </style>
+    <style name="normal_button_condensed_style_black" parent="normal_button_style_black">
+        <item name="fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
   <style name="loco_select_button_style_black" parent="normal_button_style_black">
     <item name="android:textColor">@color/original_btn_loco_select_text_states</item>
     <item name="fontFamily">sans-serif-condensed</item>
@@ -479,6 +492,9 @@
     <item name="android:gravity">center_vertical|center_horizontal</item>
   </style>
 
+  <style name="small_button_condensed_text_style_black" parent="small_button_style_black">
+    <item name="android:fontFamily">sans-serif-condensed</item>>
+  </style>
 
 <!--  <style name="fn_button_style_black" parent="@android:style/Widget.Button">-->
 <!--    <item name="android:textColor">@color/original_btn_text_states</item>-->
@@ -616,6 +632,11 @@
   </style>
   <style name="normal_button2_style_outline" parent="normal_button_style_outline">
   </style>
+    <style name="normal_button_condensed_style_outline" parent="normal_button_style_outline">
+        <item name="fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
   <style name="loco_select_button_style_outline" parent="normal_button_style_outline">
     <item name="android:textColor">@color/outline_btn_loco_select_text_states</item>
     <item name="fontFamily">sans-serif-condensed</item>
@@ -636,6 +657,10 @@
     <item name="android:layout_height">fill_parent</item>
     <item name="android:ellipsize">end</item>
     <item name="android:gravity">center_vertical|center_horizontal</item>
+  </style>
+
+  <style name="small_button_condensed_text_style_outline" parent="small_button_style_outline">
+    <item name="android:fontFamily">sans-serif-condensed</item>>
   </style>
 
   <style name="small_button_hover_style" parent="small_button_style_outline">
@@ -758,6 +783,11 @@
   </style>
   <style name="normal_button2_style_ultra" parent="normal_button_style_ultra">
   </style>
+    <style name="normal_button_condensed_style_ultra" parent="normal_button_style_ultra">
+        <item name="fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
   <style name="loco_select_button_style_ultra" parent="normal_button_style_ultra">
     <item name="android:textColor">@color/ultra_btn_loco_select_text_states</item>
     <item name="fontFamily">sans-serif-condensed</item>
@@ -793,6 +823,10 @@
     <item name="android:layout_height">fill_parent</item>
     <item name="android:ellipsize">end</item>
     <item name="android:gravity">center_vertical|center_horizontal</item>
+  </style>
+
+  <style name="small_button_condensed_text_style_ultra" parent="small_button_style_ultra">
+    <item name="android:fontFamily">sans-serif-condensed</item>>
   </style>
 
 <!--  <style name="fn_button_style_ultra" parent="@android:style/Widget.Button">-->
@@ -929,6 +963,11 @@
 <!--  <style name="normal_button2_style_colorful" parent="normal_button_style_colorful">-->
 <!--    <item name="android:background">@drawable/colorful_sticky_button_states2</item>-->
 <!--  </style>-->
+    <style name="normal_button_condensed_style_colorful" parent="normal_button_style_colorful">
+        <item name="fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
   <style name="loco_select_button_style_colorful" parent="normal_button_style_colorful">
     <item name="android:textColor">@color/colorful_btn_loco_select_text_states</item>
     <item name="fontFamily">sans-serif-condensed</item>
@@ -964,6 +1003,10 @@
     <item name="android:layout_height">fill_parent</item>
     <item name="android:ellipsize">end</item>
     <item name="android:gravity">center_vertical|center_horizontal</item>
+  </style>
+
+  <style name="small_button_condensed_text_style_colorful" parent="small_button_style_colorful">
+    <item name="android:fontFamily">sans-serif-condensed</item>>
   </style>
 
 <!--  <style name="fn_button_style_colorful" parent="@android:style/Widget.Button">-->
@@ -1256,6 +1299,11 @@
   </style>
   <style name="normal_button2_style_neon" parent="normal_button_style_neon">
   </style>
+    <style name="normal_button_condensed_style_neon" parent="normal_button_style_neon">
+        <item name="fontFamily">sans-serif-condensed</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
   <style name="loco_select_button_style_neon" parent="normal_button_style_neon">
     <item name="android:textColor">@color/neon_btn_loco_select_text_states</item>
     <item name="fontFamily">sans-serif-condensed</item>
@@ -1292,6 +1340,10 @@
     <item name="android:layout_height">fill_parent</item>
     <item name="android:ellipsize">end</item>
     <item name="android:gravity">center_vertical|center_horizontal</item>
+  </style>
+
+  <style name="small_button_condensed_text_style_neon" parent="small_button_style_neon">
+    <item name="android:fontFamily">sans-serif-condensed</item>>
   </style>
 
 <!--  <style name="fn_button_style_neon" parent="@android:style/Widget.Button">-->
