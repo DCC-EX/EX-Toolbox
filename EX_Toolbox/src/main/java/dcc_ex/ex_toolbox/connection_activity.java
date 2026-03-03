@@ -81,8 +81,6 @@ import dcc_ex.ex_toolbox.import_export.ImportExportConnectionList;
 import dcc_ex.ex_toolbox.intro.intro_activity;
 import dcc_ex.ex_toolbox.logviewer.ui.LogViewerActivity;
 import dcc_ex.ex_toolbox.type.message_type;
-import dcc_ex.ex_toolbox.type.toolbar_button_size_to_use_type;
-import dcc_ex.ex_toolbox.type.toolbar_button_size_type;
 import dcc_ex.ex_toolbox.util.LocaleHelper;
 import dcc_ex.ex_toolbox.util.PermissionsHelper;
 import dcc_ex.ex_toolbox.util.PermissionsHelper.RequestCodes;
