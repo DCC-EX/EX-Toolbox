@@ -21,66 +21,61 @@
     android:gravity="center_vertical"
     android:paddingEnd="?android:attr/scrollbarSize"
     android:background="?android:attr/selectableItemBackground"
-    android:paddingRight="?android:attr/scrollbarSize"
     tools:ignore="RtlSymmetry"
-    android:baselineAligned="false"
-    android:fitsSystemWindows="true" >
-    <RelativeLayout
+    android:baselineAligned="false">
+
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dip"
         android:layout_marginEnd="6dip"
         android:layout_marginTop="6dip"
         android:layout_marginBottom="6dip"
+        android:orientation="vertical"
         android:layout_weight="1"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="6dip">
+        >
+
+        <TextView
+            android:id="@android:id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fadingEdge="horizontal"
+            android:singleLine="false"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textStyle="italic" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="15dip"
+            android:layout_marginEnd="6dip"
+            android:layout_marginTop="2dip"
+            android:layout_marginBottom="6dip"
+            android:orientation="horizontal"
+            >
 
-            <TextView
-                android:id="@android:id/title"
+            <ImageView
+                android:id="@android:id/icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="0dip"
+                android:layout_marginTop="4dip"
+                android:layout_marginBottom="3dip"
+                tools:ignore="ContentDescription,RtlHardcoded" />
+
+            <TextView android:id="@android:id/summary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fadingEdge="horizontal"
-                android:singleLine="false"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textStyle="italic" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="?android:attr/textColorSecondary"
+                android:maxLines="30"
+                android:layout_marginLeft="16dip"
+                tools:ignore="RtlHardcoded" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dip"
-                android:layout_marginEnd="6dip"
-                android:layout_marginTop="2dip"
-                android:layout_marginBottom="6dip"
-                android:orientation="horizontal"
-                android:layout_marginLeft="15dip"
-                android:layout_marginRight="6dip">
-
-                <ImageView
-                    android:id="@android:id/icon"
-                    android:layout_width="41dp"
-                    android:layout_height="41dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="0dip"
-                    android:layout_marginTop="4dip"
-                    android:layout_marginBottom="3dip"
-                    tools:ignore="ContentDescription,RtlHardcoded" />
-                <TextView android:id="@android:id/summary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:maxLines="4"
-                    android:layout_marginLeft="16dip"
-                    tools:ignore="RtlHardcoded" />
-            </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
     <!-- Preference should place its actual preference widget here. -->
     <LinearLayout android:id="@android:id/widget_frame"
         android:layout_width="wrap_content"

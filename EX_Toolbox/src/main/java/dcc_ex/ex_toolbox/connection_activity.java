@@ -700,20 +700,7 @@ public class connection_activity extends AppCompatActivity implements Permission
         float yInches= threaded_application.displayMetrics.heightPixels/threaded_application.displayMetrics.ydpi;
         float xInches= threaded_application.displayMetrics.widthPixels/threaded_application.displayMetrics.xdpi;
         threaded_application.displayDiagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
-        threaded_application.prefToolbarButtonSize = prefs.getString("prefToolbarButtonSize", getApplicationContext().getResources().getString(R.string.prefToolbarButtonSizeDefaultValue));
-        if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.AUTO) ) {
-            if (threaded_application.displayDiagonalInches >= threaded_application.LARGE_SCREEN_SIZE) {
-                threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.LARGE;
-            } else if  (threaded_application.displayDiagonalInches >= threaded_application.MEDIUM_SCREEN_SIZE) {
-                threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.MEDIUM;
-            }
-        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.LARGE)) {
-            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.LARGE;
-        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.SMALL)) {
-            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.SMALL;
-        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.MEDIUM)) {
-            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.MEDIUM;
-        }
+        mainapp.getToolbarButtonSizeToUse();
 
         threaded_application.min_fling_distance = (int) (threaded_application.SWIPE_MIN_DISTANCE * dm.densityDpi / 160.0f);
         threaded_application.min_fling_velocity = (int) (threaded_application.SWIPE_THRESHOLD_VELOCITY * dm.densityDpi / 160.0f);

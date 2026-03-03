@@ -274,14 +274,15 @@
 
         <EditTextPreference
             android:defaultValue="@string/prefMaximumRecentConnectionsDefaultValue"
+            android:dialogLayout="@layout/preference_dialog_layout_number_unsigned_integer_length_2"
             android:dialogTitle="@string/prefMaximumRecentConnectionsTitle"
-            android:key="maximum_recent_connections_preference"
-            android:maxLength="2"
-            android:inputType="number"
             android:digits="0123456789"
+            android:inputType="number"
+            android:key="maximum_recent_connections_preference"
+            android:layout="@layout/checkbox_no_icon"
+            android:maxLength="2"
             android:summary="@string/prefMaximumRecentConnectionsSummary"
-            android:title="@string/prefMaximumRecentConnectionsTitle"
-            android:layout="@layout/checkbox_no_icon" />
+            android:title="@string/prefMaximumRecentConnectionsTitle" />
 
         <CheckBoxPreference
             android:defaultValue="@bool/prefConnectToFirstServer"
@@ -292,54 +293,57 @@
 
         <EditTextPreference
             android:defaultValue="@string/prefConnectTimeoutMsDefaultValue"
-            android:key="prefConnectTimeoutMs"
-            android:maxLength="5"
-            android:inputType="number"
+            android:dialogLayout="@layout/preference_dialog_layout_number_unsigned_integer_length_5"
             android:digits="0123456789"
+            android:inputType="number"
+            android:key="prefConnectTimeoutMs"
+            android:layout="@layout/checkbox_no_icon"
+            android:maxLength="5"
             android:summary="@string/prefConnectTimeoutMsSummary"
-            android:title="@string/prefConnectTimeoutMsTitle"
-            android:layout="@layout/checkbox_no_icon" />
+            android:title="@string/prefConnectTimeoutMsTitle" />
 
         <EditTextPreference
             android:defaultValue="@string/prefSocketTimeoutMsDefaultValue"
-            android:key="prefSocketTimeoutMs"
-            android:maxLength="4"
-            android:inputType="number"
+            android:dialogLayout="@layout/preference_dialog_layout_number_unsigned_integer_length_4"
             android:digits="0123456789"
+            android:inputType="number"
+            android:key="prefSocketTimeoutMs"
+            android:layout="@layout/checkbox_no_icon"
+            android:maxLength="4"
             android:summary="@string/prefSocketTimeoutMsSummary"
-            android:title="@string/prefSocketTimeoutMsTitle"
-            android:layout="@layout/checkbox_no_icon" />
+            android:title="@string/prefSocketTimeoutMsTitle" />
 
         <EditTextPreference
             android:defaultValue="@string/prefHeartbeatResponseFactorDefaultValue"
-            android:key="prefHeartbeatResponseFactor"
-            android:maxLength="2"
-            android:inputType="number"
+            android:dialogLayout="@layout/preference_dialog_layout_number_unsigned_integer_length_2"
             android:digits="0123456789"
+            android:inputType="number"
+            android:key="prefHeartbeatResponseFactor"
+            android:layout="@layout/checkbox_no_icon"
+            android:maxLength="2"
             android:summary="@string/prefHeartbeatResponseFactorSummary"
-            android:title="@string/prefHeartbeatResponseFactorTitle"
-            android:layout="@layout/checkbox_no_icon" />
+            android:title="@string/prefHeartbeatResponseFactorTitle" />
 
         <CheckBoxPreference
             android:defaultValue="@bool/prefAllowMobileDataDefaultValue"
             android:key="prefAllowMobileData"
+            android:layout="@layout/checkbox_no_icon"
             android:summary="@string/prefAllowMobileDataSummary"
-            android:title="@string/prefAllowMobileDataTitle"
-            android:layout="@layout/checkbox_no_icon" />
+            android:title="@string/prefAllowMobileDataTitle" />
 
         <CheckBoxPreference
             android:defaultValue="@bool/prefFeedbackOnDisconnectDefaultValue"
             android:key="prefFeedbackOnDisconnect"
+            android:layout="@layout/checkbox_no_icon"
             android:summary="@string/prefFeedbackOnDisconnectSummary"
-            android:title="@string/prefFeedbackOnDisconnectTitle"
-            android:layout="@layout/checkbox_no_icon" />
+            android:title="@string/prefFeedbackOnDisconnectTitle" />
 
         <CheckBoxPreference
             android:defaultValue="@bool/prefFeedbackWhenGoingToBackgroundDefaultValue"
             android:key="prefFeedbackWhenGoingToBackground"
+            android:layout="@layout/checkbox_no_icon"
             android:summary="@string/prefFeedbackWhenGoingToBackgroundSummary"
-            android:title="@string/prefFeedbackWhenGoingToBackgroundTitle"
-            android:layout="@layout/checkbox_no_icon" />
+            android:title="@string/prefFeedbackWhenGoingToBackgroundTitle" />
 
     </PreferenceCategory>
 
@@ -351,36 +355,39 @@
 
         <EditTextPreference
             android:defaultValue="@string/prefServoDefaultVpinDefaultValue"
+            android:dialogLayout="@layout/preference_dialog_layout_number_unsigned_integer_length_5"
             android:dialogTitle="@string/prefServoDefaultVpinTitle"
-            android:key="prefServoDefaultVpin"
-            android:maxLength="5"
-            android:inputType="number"
             android:digits="0123456789"
+            android:inputType="number"
+            android:key="prefServoDefaultVpin"
+            android:layout="@layout/checkbox_no_icon"
+            android:maxLength="5"
             android:summary="@string/prefServoDefaultVpinSummary"
-            android:title="@string/prefServoDefaultVpinTitle"
-            android:layout="@layout/checkbox_no_icon" />
+            android:title="@string/prefServoDefaultVpinTitle" />
 
         <EditTextPreference
             android:defaultValue="@string/prefServoDefaultThrowPositionDefaultValue"
+            android:dialogLayout="@layout/preference_dialog_layout_number_unsigned_integer_length_3"
             android:dialogTitle="@string/prefServoDefaultThrowPositionTitle"
-            android:key="prefServoDefaultThrowPosition"
-            android:maxLength="3"
-            android:inputType="number"
             android:digits="0123456789"
+            android:inputType="number"
+            android:key="prefServoDefaultThrowPosition"
+            android:layout="@layout/checkbox_no_icon"
+            android:maxLength="3"
             android:summary="@string/prefServoDefaultThrowPositionSummary"
-            android:title="@string/prefServoDefaultThrowPositionTitle"
-            android:layout="@layout/checkbox_no_icon" />
+            android:title="@string/prefServoDefaultThrowPositionTitle" />
 
         <EditTextPreference
             android:defaultValue="@string/prefServoDefaultClosePositionDefaultValue"
+            android:dialogLayout="@layout/preference_dialog_layout_number_unsigned_integer_length_3"
             android:dialogTitle="@string/prefServoDefaultClosePositionTitle"
-            android:key="prefServoDefaultClosePosition"
-            android:maxLength="3"
-            android:inputType="number"
             android:digits="0123456789"
+            android:inputType="number"
+            android:key="prefServoDefaultClosePosition"
+            android:layout="@layout/checkbox_no_icon"
+            android:maxLength="3"
             android:summary="@string/prefServoDefaultClosePositionSummary"
-            android:title="@string/prefServoDefaultClosePositionTitle"
-            android:layout="@layout/checkbox_no_icon" />
+            android:title="@string/prefServoDefaultClosePositionTitle" />
 
     </PreferenceCategory>
 
@@ -392,14 +399,15 @@
 
     <EditTextPreference
         android:defaultValue="@string/prefSensorMaxCountDefaultValue"
+        android:dialogLayout="@layout/preference_dialog_layout_number_unsigned_integer_length_5"
         android:dialogTitle="@string/prefSensorMaxCountTitle"
-        android:key="prefSensorMaxCount"
-        android:maxLength="5"
-        android:inputType="number"
         android:digits="0123456789"
+        android:inputType="number"
+        android:key="prefSensorMaxCount"
+        android:layout="@layout/checkbox_no_icon"
+        android:maxLength="5"
         android:summary="@string/prefSensorMaxCountSummary"
-        android:title="@string/prefSensorMaxCountTitle"
-        android:layout="@layout/checkbox_no_icon" />
+        android:title="@string/prefSensorMaxCountTitle" />
 
     </PreferenceCategory>
 

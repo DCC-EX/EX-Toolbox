@@ -21,6 +21,8 @@ package dcc_ex.ex_toolbox;
 // Main java file.
 /* TODO: see changelog-and-todo-list.txt for complete list of project to-do's */
 
+import static android.view.View.VISIBLE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -84,6 +86,7 @@ import dcc_ex.ex_toolbox.type.Consist;
 import dcc_ex.ex_toolbox.type.message_type;
 import dcc_ex.ex_toolbox.import_export.ImportExport;
 import dcc_ex.ex_toolbox.type.toolbar_button_size_to_use_type;
+import dcc_ex.ex_toolbox.type.toolbar_button_size_type;
 import dcc_ex.ex_toolbox.util.LocaleHelper;
 import dcc_ex.ex_toolbox.util.PermissionsHelper;
 import dcc_ex.ex_toolbox.comms.comm_handler;
@@ -105,7 +108,8 @@ public class threaded_application extends Application {
     public static int toolbarButtonSizeToUse = toolbar_button_size_to_use_type.SMALL;
     public static final double MEDIUM_SCREEN_SIZE = 5.5; // inches
     public static final double LARGE_SCREEN_SIZE = 6.7; // inches
-
+    public static int toolbarButtonCount = 0;
+    private int initialToolbarHeight = -1;
 
     public String JMDNS_SERVICE_WITHROTTLE = "_withrottle._tcp.local.";
     public String JMDNS_SERVICE_JMRI_DCCPP_OVERTCP = "_dccppovertcpserver._tcp.local.";
@@ -868,38 +872,61 @@ public class threaded_application extends Application {
     }
 
     public void displayToolbarMenuButtons(Menu menu) {
+        threaded_application.toolbarButtonCount = 0;
         MenuItem menuItem = menu.findItem(R.id.toolbar_button_cv_programmer);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarCvProgrammerMenuButtons",
-                                getResources().getBoolean(R.bool.prefShowToolbarMenuButtonsCvProgrammerDefaultValue)));
+        boolean isVisible = prefs.getBoolean("prefShowToolbarCvProgrammerMenuButtons",
+                getResources().getBoolean(R.bool.prefShowToolbarMenuButtonsCvProgrammerDefaultValue));
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_speed_matching);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarSpeedMatchingMenuButtons", false));
+        isVisible = prefs.getBoolean("prefShowToolbarSpeedMatchingMenuButtons", false);
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_servos);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarServosMenuButtons", false));
+        isVisible = prefs.getBoolean("prefShowToolbarServosMenuButtons", false);
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_sensors);
+        isVisible = prefs.getBoolean("prefShowToolbarSensorsMenuButtons", false);
         if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarSensorsMenuButtons", false));
 
         menuItem = menu.findItem(R.id.toolbar_button_locos);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarLocosMenuButtons", false));
+        isVisible = prefs.getBoolean("prefShowToolbarLocosMenuButtons", false);
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_currents);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarCurrentsMenuButtons", false));
+        isVisible = prefs.getBoolean("prefShowToolbarCurrentsMenuButtons", false);
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_track_manager);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarTrackManagerMenuButtons",
-                                getResources().getBoolean(R.bool.prefShowToolbarMenuButtonsTrackManagerDefaultValue)));
+        isVisible = prefs.getBoolean("prefShowToolbarTrackManagerMenuButtons",
+                getResources().getBoolean(R.bool.prefShowToolbarMenuButtonsTrackManagerDefaultValue));
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_roster);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarRosterMenuButtons", false));
+        isVisible = prefs.getBoolean("prefShowToolbarRosterMenuButtons", false);
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_speed_trap);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarSpeedTrapMenuButtons", false));
+        isVisible = prefs.getBoolean("prefShowToolbarSpeedTrapMenuButtons", false);
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_neopixel);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarNeopixelMenuButtons", false));
+        isVisible = prefs.getBoolean("prefShowToolbarNeopixelMenuButtons", false);
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
+        if (prefs.getBoolean("show_layout_power_button_preference", false)) {
+            threaded_application.toolbarButtonCount++;
+        }
     }
 
     public void displayPowerStateMenuButton(Menu menu) {
@@ -1208,32 +1235,22 @@ public class threaded_application extends Application {
     public int getSelectedTheme(boolean isPreferences) {
         String prefTheme = getCurrentTheme();
         if (!isPreferences) {  // not a preferences activity
-            switch (prefTheme) {
-                case "Black":
-                    return R.style.app_theme_black;
-                case "Outline":
-                    return R.style.app_theme_outline;
-                case "Ultra":
-                    return R.style.app_theme_ultra;
-                case "Colorful":
-                    return R.style.app_theme_colorful;
-                case "Neon":
-                    return R.style.app_theme_neon;
-                default:
-                    return R.style.app_theme;
-            }
+            return switch (prefTheme) {
+                case "Black" -> R.style.app_theme_black;
+                case "Outline" -> R.style.app_theme_outline;
+                case "Ultra" -> R.style.app_theme_ultra;
+                case "Colorful" -> R.style.app_theme_colorful;
+                case "Neon" -> R.style.app_theme_neon;
+                default -> R.style.app_theme;
+            };
         } else {
-            switch (prefTheme) {
-                case "Black":
-                case "Outline":
-                case "Ultra":
-                case "Neon":
-                    return R.style.app_theme_black_preferences;
-                case "Colorful":
-//                    return R.style.app_theme_colorful_preferences;
-                default:
-                    return R.style.app_theme_preferences;
-            }
+            return switch (prefTheme) {
+                case "Black", "Outline" -> R.style.app_theme_black_preferences;
+                case "Ultra" -> R.style.app_theme_ultra_preferences;
+                case "Neon" -> R.style.app_theme_neon_preferences;
+                case "Colorful" -> R.style.app_theme_colorful_preferences;
+                default -> R.style.app_theme_preferences;
+            };
         }
     }
 
@@ -1715,7 +1732,7 @@ public class threaded_application extends Application {
             }
             if (prefActionBarShowServerDescription) {
                 tvToolbarServerDesc.setText(getServerDescription());
-                tvToolbarServerDesc.setVisibility(View.VISIBLE);
+                tvToolbarServerDesc.setVisibility(VISIBLE);
             } else {
                 tvToolbarServerDesc.setVisibility(View.GONE);
             }
@@ -1813,6 +1830,8 @@ public class threaded_application extends Application {
         prefBackgroundImage = prefs.getBoolean("prefBackgroundImage", getResources().getBoolean(R.bool.prefBackgroundImageDefaultValue));
         prefBackgroundImageFileName = prefs.getString("prefBackgroundImageFileName", getResources().getString(R.string.prefBackgroundImageFileNameDefaultValue));
         prefBackgroundImagePosition = prefs.getString("prefBackgroundImagePosition", getResources().getString(R.string.prefBackgroundImagePositionDefaultValue));
+
+        getToolbarButtonSizeToUse();
     }
 
 
@@ -1885,12 +1904,21 @@ public class threaded_application extends Application {
 
     }
 
-    // note SettingsActivity does not use this
+    public void getInitialToolbarSize(Toolbar toolbar) {
+        if (initialToolbarHeight == -1) {
+            ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
+            initialToolbarHeight = layoutParams.height;
+        }
+    }
+
     public int adjustToolbarSize(Toolbar toolbar) {
-        ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
-        int toolbarHeight = layoutParams.height;
+        getToolbarButtonSizeToUse();
+
+        getInitialToolbarSize(toolbar);
+        int toolbarHeight = initialToolbarHeight;
         int newHeightAndWidth = toolbarHeight;
 
+        ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
         if (threaded_application.toolbarButtonSizeToUse == toolbar_button_size_to_use_type.MEDIUM) {
             newHeightAndWidth = (int) ((float) toolbarHeight * 1.32);
             layoutParams.height = newHeightAndWidth;
@@ -1901,5 +1929,32 @@ public class threaded_application extends Application {
             toolbar.setLayoutParams(layoutParams);
         }
         return newHeightAndWidth;
+    }
+
+    public void getToolbarButtonSizeToUse() {
+        threaded_application.prefToolbarButtonSize = prefs.getString("prefToolbarButtonSize", getApplicationContext().getResources().getString(R.string.prefToolbarButtonSizeDefaultValue));
+        if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.AUTO) ) {
+            if (threaded_application.displayDiagonalInches >= threaded_application.LARGE_SCREEN_SIZE) {
+                if (threaded_application.toolbarButtonCount <= 5) {
+                    threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.LARGE;
+                } else if (threaded_application.toolbarButtonCount <= 9) {
+                    threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.MEDIUM;
+                } else {
+                    threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.SMALL;
+                }
+            } else if  (threaded_application.displayDiagonalInches >= threaded_application.MEDIUM_SCREEN_SIZE) {
+                if (threaded_application.toolbarButtonCount <= 5) {
+                    threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.MEDIUM;
+                } else {
+                    threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.SMALL;
+                }
+            }
+        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.LARGE)) {
+            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.LARGE;
+        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.SMALL)) {
+            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.SMALL;
+        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.MEDIUM)) {
+            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.MEDIUM;
+        }
     }
 }

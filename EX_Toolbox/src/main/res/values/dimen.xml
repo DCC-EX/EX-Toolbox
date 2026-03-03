@@ -29,6 +29,8 @@
 
     <!-- Black theme -->
 
+    <dimen name="headingCornerRadius_black">4dp</dimen>
+
     <dimen name="buttonDisabledStroke_black">1dip</dimen>
     <dimen name="buttonSelectedStroke_black">1dip</dimen>
     <dimen name="buttonSelectedInsideStroke_black">1dip</dimen>
@@ -105,6 +107,8 @@
 
     <!-- Colorful theme -->
 
+    <dimen name="headingCornerRadius_colorful">4dp</dimen>
+
     <dimen name="buttonDisabledStroke_colorful">1px</dimen>
     <dimen name="buttonSelectedStroke_colorful">1px</dimen>
     <dimen name="buttonSelectedInsideStroke_colorful">2dp</dimen>
@@ -132,7 +136,7 @@
 
     <!-- Neon Blue theme -->
 
-    <dimen name="headingCornerRadius_neon">1dp</dimen>
+    <dimen name="headingCornerRadius_neon">4dp</dimen>
 
     <dimen name="buttonDisabledStroke_neon">1px</dimen>
     <dimen name="buttonSelectedStroke_neon">1px</dimen>

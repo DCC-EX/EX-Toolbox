@@ -166,6 +166,9 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("EX_Toolbox", "SettingsActivity: onCreate()");
 
+        mainapp = (threaded_application) this.getApplication();
+        mainapp.applyTheme(this,true);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -176,10 +179,6 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
             fragmentTransaction.add(R.id.settings_preferences_frame, fragment);
             fragmentTransaction.commit();
         }
-
-        mainapp = (threaded_application) this.getApplication();
-        mainapp.applyTheme(this,true);
-
 
         prefs = getSharedPreferences("dcc_ex.ex_toolbox_preferences", 0);
 
@@ -1290,26 +1289,8 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
         }
     }
 
-    // this is slightly different to the code in the other activities
     void adjustToolbarSize(Menu menu) {
-        ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
-        // this will be run multiple times coming in and out of the sub menus, so only grab the height the first time.
-        if (initialToolbarHeight == -1) {
-            initialToolbarHeight = layoutParams.height;
-        }
-        int toolbarHeight = initialToolbarHeight;
-        int newHeightAndWidth = toolbarHeight;
-
-        if (threaded_application.toolbarButtonSizeToUse ==
-                toolbar_button_size_to_use_type.MEDIUM) {
-            newHeightAndWidth = (int) ((float) toolbarHeight * 1.32);
-            layoutParams.height = newHeightAndWidth;
-            toolbar.setLayoutParams(layoutParams);
-        } else if (threaded_application.toolbarButtonSizeToUse == toolbar_button_size_to_use_type.LARGE) {
-            newHeightAndWidth = toolbarHeight*2;
-            layoutParams.height = newHeightAndWidth;
-            toolbar.setLayoutParams(layoutParams);
-        }
+        int newHeightAndWidth = mainapp.adjustToolbarSize(toolbar);
 
         for (int i = 0; i < menu.size(); i++) {
             MenuItem item = menu.getItem(i);
