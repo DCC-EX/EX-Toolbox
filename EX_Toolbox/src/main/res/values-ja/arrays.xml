@@ -80,10 +80,7 @@
         <item>クエリEStop</item>
         <item>--- WiFiコマンド ---</item>
         <item>STAモード {\"SSID\"} {\"pwd\"}</item>
-        <item>APモード {\"SSID\"} {\"pwd\"} [channel]</item>
-        <item>非表示のAP {\"SSID\"} {\"pwd\"} [channel]</item>
         <item>ホスト名 {\"name\"}</item>
-        <item>Wi-Fi {オン|オフ}</item>
         <item>Wi-Fi設定をクリアする</item>
         <item>WiFi {\"SSID\"} {\"pwd\"} にアクセスしてください。</item>
         <item>Wi-Fi設定を表示する</item>

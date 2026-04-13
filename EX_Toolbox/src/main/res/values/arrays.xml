@@ -121,10 +121,7 @@
         <item>Query EStop</item>
         <item>--- WiFi Commands ---</item>
         <item>STA Mode {\"SSID\"} {\"pwd\"}</item>
-        <item>AP Mode {\"SSID\"} {\"pwd\"} [channel]</item>
-        <item>Hidden AP {\"SSID\"} {\"pwd\"} [channel]</item>
         <item>Host Name {\"name\"}</item>
-        <item>WiFi {ON|OFF}</item>
         <item>Clear WiFi Settings</item>
         <item>Visit WiFi {\"SSID\"} {\"pwd\"}</item>
         <item>Display WiFi settings</item>
@@ -159,10 +156,7 @@
         <item>!Q</item>
         <item />
         <item>C WIFI</item>
-        <item>C WIFI AP</item>
-        <item>C WIFI HIDDENAP</item>
         <item>C WIFI HOSTNAME</item>
-        <item>C WIFI</item>
         <item>C WIFI DEFAULT</item>
         <item>C WIFI TEMP</item>
         <item>D WIFI SHOW</item>
@@ -197,10 +191,7 @@
         <item>0</item>  // !Q
         <item>0</item>  // delimiter
         <item>1</item>  // C WIFI  - this is 1 not 2 because 'C WIFI' is common
-        <item>2</item>  // C WIFI AP
-        <item>2</item>  // C WIFI HIDDEN
         <item>1</item>  // C WIFI HOSTNAME
-        <item>1</item>  // C WIFI
         <item>0</item>  // C WIFI DEFAULT
         <item>2</item>  // C WIFI TEMP
         <item>0</item>  // C WIFI SHOW
@@ -238,10 +229,7 @@
         <item>Query EStop</item>                                                                // !Q
         <item />                                                                                // delimiter
         <item>STA Mode {\"SSID\"} {\"pwd\"}</item>                                              // C WIFI
-        <item>AP Mode {\"SSID\"} {\"pwd\"} [channel]</item>                                     // C WIFI AP
-        <item>Hidden AP {\"SSID\"} {\"pwd\"} [channel]</item>                                   // C WIFI HIDDEN
         <item>Host Name {\"name\"}</item>                                                       // C WIFI HOSTNAME
-        <item>WiFi {ON|OFF}</item>                                                              // C WIFI
         <item>Clear WiFi Settings</item>                                                        // C WIFI DEFAULT
         <item>Visit WiFi {\"SSID\"} {\"pwd\"}</item>                                            // C WIFI TEMP
         <item>Display WiFi settings</item>                                                      // C WIFI SHOW
