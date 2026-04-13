@@ -175,7 +175,7 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
     private int dccCmdIndex = 0;
     String[] dccExCommonCommandsEntryValuesArray;
     String[] dccExCommonCommandsEntriesArray; // display version
-    int[] dccExCommonCommandsHasParametersArray; // display version
+    int[] dccExCommonCommandsHasParametersArray;
     String[] dccExCommonCommandsAdditionalInfoArray;
 
     Button dccExServoThrowButton;
@@ -919,7 +919,36 @@ public class servos extends AppCompatActivity implements GestureOverlayView.OnGe
         dccExServoPositionDecrementButton.setEnabled(enable);
         dccExServoPositionIncrementButton.setEnabled(enable);
 
-        sendCommandButton.setEnabled((dccexSendCommandValue.length() != 0) && (dccexSendCommandValue.charAt(0) != '<'));
+
+        boolean validCommand = true;
+        if ((dccexSendCommandValue.isEmpty()) || (dccexSendCommandValue.charAt(0) == '<')) {
+            validCommand = false;
+        } else {
+
+            // see if it is a known command
+            int foundIndex = -1;
+            for (int i = 1; i < dccExCommonCommandsEntryValuesArray.length; i++) {
+                if ( (!dccExCommonCommandsEntryValuesArray[i].isEmpty()) // ignore the delimiters
+                        && (dccexSendCommandValue.startsWith(dccExCommonCommandsEntryValuesArray[i])) ) {
+                    foundIndex = i;
+                    break;
+                }
+            }
+            if (foundIndex > 0) {
+                try {
+                    String[] x = dccExCommonCommandsEntryValuesArray[foundIndex].split(" ");
+                    int commonCmdElementCount = dccExCommonCommandsEntryValuesArray[foundIndex].trim().split(" ").length;
+                    int commonCmdParameterCount = dccExCommonCommandsHasParametersArray[foundIndex];
+                    int commandElementsCount = dccexSendCommandValue.trim().split(" ").length;
+
+                    if (commandElementsCount < (commonCmdElementCount + commonCmdParameterCount)) {
+                        validCommand = false;
+                    }
+                } catch (Exception ignoreException) {}
+            }
+        }
+        sendCommandButton.setEnabled(validCommand);
+//        sendCommandButton.setEnabled((dccexSendCommandValue.length() != 0) && (dccexSendCommandValue.charAt(0) != '<'));
         previousCommandButton.setEnabled((mainapp.dccexPreviousCommandIndex >= 0));
         nextCommandButton.setEnabled((mainapp.dccexPreviousCommandIndex >= 0));
 

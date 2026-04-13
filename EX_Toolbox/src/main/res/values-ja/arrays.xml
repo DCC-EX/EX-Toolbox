@@ -49,6 +49,7 @@
         <item>前進トリム</item>
         <item>後進トリム</item>
     </string-array>
+
     <string-array name="dccExCommonCommandsEntries">  <!-- display version -->
         <item>&lt;選択&gt;</item>
         <item>MAIN=PROGに接続</item>
@@ -63,50 +64,31 @@
         <item>ルート/自動化</item>
         <item>ルート/自動化 {id}</item>
         <item>ルート/自動化を開始 {loco} {id}</item>
-        <item>すべての自動化を停止</item>
-
-        <item>ACK制限 {mA}</item>
-        <item>ACK 最小 {µS}</item>
-        <item>ACK 最大 {µS}</item>
-        <item>CSの再起動/リセット</item>
-        <item>HALデバイスをリセットする</item>
+        <item>すべての自動化を停止する</item>
+        <item>--- 診断コマンド ---</item>
+        <item>ACK制限値 {mA}</item>
+        <item>ACK 最小値 {µS}</item>
+        <item>ACK最大{µS}</item>
+        <item>CSを再起動/リセットする</item>
+        <item>HALデバイスをリセット</item>
         <item>すべてのHALデバイスを表示</item>
         <item>PROG電流ブースト</item>
-        <item>WIFI {オン|オフ}</item>
         <item>イーサネット {オン|オフ}</item>
         <item>WiThrottle {オン|オフ}</item>
-        <item>空きRAMを表示</item>
-        <item>EXRAIL スクリプトのログ記録 {ON|OFF}</item>
+        <item>空きRAMを表示する</item>
+        <item>編成/MUを表示</item>
+        <item>クエリEStop</item>
+        <item>--- WiFiコマンド ---</item>
+        <item>STAモード {\"SSID\"} {\"pwd\"}</item>
+        <item>APモード {\"SSID\"} {\"pwd\"} [channel]</item>
+        <item>非表示のAP {\"SSID\"} {\"pwd\"} [channel]</item>
+        <item>ホスト名 {\"name\"}</item>
+        <item>Wi-Fi {オン|オフ}</item>
+        <item>Wi-Fi設定をクリアする</item>
+        <item>WiFi {\"SSID\"} {\"pwd\"} にアクセスしてください。</item>
+        <item>Wi-Fi設定を表示する</item>
     </string-array>
-    <string-array name="dccExCommonCommandsAdditionalInfo">
 
-        <item>メイントラックとプログラミングトラックに一時的に参加する</item>
-        <item>メイントラックとプログラミングトラックから脱退する</item>
-        <item>コマンドステーションのステータスを要求する</item>
-        <item>定義されたすべてのセンサーのリストを要求する</item>
-        <item>定義されたすべての分岐器のリストを要求する</item>
-        <item>定義されたすべてのセンサーのリストを要求する</item>
-        <item>現在のトラックマネージャー構成を要求する</item>
-        <item>ロースターのエントリIDのリストをリクエストする</item>
-        <item>自動化/ルートのリストをリクエストする</item>
-        <item>ルート/自動化に関する情報をリクエストする</item>
-        <item>特定のロースターエントリの詳細をリクエストする</item>
-        <item>新しいタスクを開始し車両をルートに送るか、車両以外の”アニメーション”または”シーケンス”を起動します</item>
-        <item>ID または「ALL」で現在実行中のスクリプト タスクを強制終了します。</item>
-
-        <item>ACKパルスを検出するために必要な最小ミリアンペア（mA）をオーバーライドします。</item>
-        <item>パルスがアクティブになるために必要な最小時間をマイクロ秒（uS）単位でオーバーライドします</item>
-        <item>ACKパルスの検出に必要な最大時間をオーバーライドする</item>
-        <item>コマンドステーションを再起動します</item>
-
-        <item>HALデバイスと割り当てられたVPINを一覧表示する</item>
-        <item>プログラミングデコーダがプログラミングトラックの電流制限をトリガーする場合は、プログラムトラック制限をオーバーライドします。</item>
-        <item>有効にすると、診断メッセージがシリアルモニターに表示されます。</item>
-        <item>イーサネット診断を有効/無効にする</item>
-        <item>WiThrottle診断を有効/無効にする</item>
-
-        <item>EX-RAIL スクリプトのログ記録を有効または無効にする</item>
-    </string-array>
     <string-array name="dccExActionTypeEntries">  <!-- display version -->
         <item>PRGトラック（サービスモード）</item>
         <item>MAINトラック（動作モード）</item>

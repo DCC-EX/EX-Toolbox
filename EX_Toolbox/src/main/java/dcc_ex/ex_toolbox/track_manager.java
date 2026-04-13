@@ -1002,7 +1002,35 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         }
         joinTracksButton.setEnabled(hasProgTrack);
 
-        sendCommandButton.setEnabled((dccexSendCommandValue.length() != 0) && (dccexSendCommandValue.charAt(0) != '<'));
+        boolean validCommand = true;
+        if ((dccexSendCommandValue.isEmpty()) || (dccexSendCommandValue.charAt(0) == '<')) {
+            validCommand = false;
+        } else {
+
+            // see if it is a known command
+            int foundIndex = -1;
+            for (int i = 1; i < dccexCommonCommandsEntryValuesArray.length; i++) {
+                if ( (!dccexCommonCommandsEntryValuesArray[i].isEmpty()) // ignore the delimiters
+                        && (dccexSendCommandValue.startsWith(dccexCommonCommandsEntryValuesArray[i])) ) {
+                    foundIndex = i;
+                    break;
+                }
+            }
+            if (foundIndex > 0) {
+                try {
+                    String[] x = dccexCommonCommandsEntryValuesArray[foundIndex].split(" ");
+                    int commonCmdElementCount = dccexCommonCommandsEntryValuesArray[foundIndex].trim().split(" ").length;
+                    int commonCmdParameterCount = dccexCommonCommandsHasParametersArray[foundIndex];
+                    int commandElementsCount = dccexSendCommandValue.trim().split(" ").length;
+
+                    if (commandElementsCount < (commonCmdElementCount + commonCmdParameterCount)) {
+                        validCommand = false;
+                    }
+                } catch (Exception ignoreException) {}
+            }
+        }
+        sendCommandButton.setEnabled(validCommand);
+//        sendCommandButton.setEnabled((dccexSendCommandValue.length() != 0) && (dccexSendCommandValue.charAt(0) != '<'));
         previousCommandButton.setEnabled((mainapp.dccexPreviousCommandIndex >= 0));
         nextCommandButton.setEnabled((mainapp.dccexPreviousCommandIndex >= 0));
     }

@@ -88,6 +88,9 @@
         <item>95</item>
     </string-array>
 
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
     <string-array name="dccExCommonCommandsEntries">  <!-- display version -->
         <item>&lt;select&gt;</item>
         <item>Join MAIN=PROG</item>
@@ -102,7 +105,7 @@
         <item>Route/Automations</item>
         <item>Route/Automation {id}</item>
         <item>Start Route/Automation {loco} {id}</item>
-        <item>Kill all Automations</item>
+        <item>Kill Automations {id|ALL}</item>
         <item>--- Diagnostic Commands ---</item>
         <item>ACK Limit {mA}</item>
         <item>ACK Min {µS}</item>
@@ -111,11 +114,20 @@
         <item>Reset HAL Devices</item>
         <item>Show All HAL Devices</item>
         <item>PROG current boost</item>
-        <item>WIFI {ON|OFF}</item>
         <item>ETHERNET {ON|OFF}</item>
         <item>WiThrottle {ON|OFF}</item>
         <item>Show free RAM</item>
-        <item>EXRAIL Script logging {ON|OFF}</item>
+        <item>Show Consists/MUs</item>
+        <item>Query EStop</item>
+        <item>--- WiFi Commands ---</item>
+        <item>STA Mode {\"SSID\"} {\"pwd\"}</item>
+        <item>AP Mode {\"SSID\"} {\"pwd\"} [channel]</item>
+        <item>Hidden AP {\"SSID\"} {\"pwd\"} [channel]</item>
+        <item>Host Name {\"name\"}</item>
+        <item>WiFi {ON|OFF}</item>
+        <item>Clear WiFi Settings</item>
+        <item>Visit WiFi {\"SSID\"} {\"pwd\"}</item>
+        <item>Display WiFi settings</item>
     </string-array>
     <string-array name="dccExCommonCommandsEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
         <item />
@@ -131,7 +143,7 @@
         <item>J A</item>
         <item>J A</item>
         <item>/ START</item>
-        <item>/ KILL ALL</item>
+        <item>/ KILL</item>
         <item />
         <item>D ACK LIMIT</item>
         <item>D ACK MIN</item>
@@ -140,11 +152,20 @@
         <item>D HAL RESET</item>
         <item>D HAL SHOW</item>
         <item>D PROGBOOST</item>
-        <item>D WIFI</item>
         <item>D ETHERNET</item>
         <item>D WIT</item>
         <item>D RAM</item>
-        <item>D EXRAIL</item>
+        <item>^</item>
+        <item>!Q</item>
+        <item />
+        <item>C WIFI</item>
+        <item>C WIFI AP</item>
+        <item>C WIFI HIDDENAP</item>
+        <item>C WIFI HOSTNAME</item>
+        <item>C WIFI</item>
+        <item>C WIFI DEFAULT</item>
+        <item>C WIFI TEMP</item>
+        <item>D WIFI SHOW</item>
     </string-array>
     <integer-array name="dccExCommonCommandsHasParameters" translatable="false">  <!-- DO NOT TRANSLATE -->
         <item>0</item>
@@ -155,12 +176,12 @@
         <item>0</item>  // T
         <item>0</item>  // Q
         <item>0</item>  // =
-        <item>0</item> // JR
-        <item>1</item> // JR id
-        <item>0</item> // JA
-        <item>1</item> // JA id
+        <item>0</item>  // JR
+        <item>1</item>  // JR id
+        <item>0</item>  // JA
+        <item>1</item>  // JA id
         <item>1</item>  // /START
-        <item>0</item>  // /KILL ALL
+        <item>1</item>  // /KILL
         <item>0</item>  // delimiter
         <item>1</item>  // D ACK LIMIT
         <item>1</item>  // D ACK MIN
@@ -169,41 +190,61 @@
         <item>0</item>  // D HAL RESET
         <item>0</item>  // D HAL SHOW
         <item>0</item>  // D PROGBOOST
-        <item>1</item>  // D WIFI
         <item>1</item>  // D ETHERNET
         <item>1</item>  // D WIT
         <item>1</item>  // D RAM
-        <item>1</item> // / D EXRAIL
+        <item>0</item>  // ^
+        <item>0</item>  // !Q
+        <item>0</item>  // delimiter
+        <item>1</item>  // C WIFI  - this is 1 not 2 because 'C WIFI' is common
+        <item>2</item>  // C WIFI AP
+        <item>2</item>  // C WIFI HIDDEN
+        <item>1</item>  // C WIFI HOSTNAME
+        <item>1</item>  // C WIFI
+        <item>0</item>  // C WIFI DEFAULT
+        <item>2</item>  // C WIFI TEMP
+        <item>0</item>  // C WIFI SHOW
     </integer-array>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
     <string-array name="dccExCommonCommandsAdditionalInfo">
         <item />
-        <item>Join the Main and Programming tracks temporarily</item>
-        <item>Un-Join the Main and Programming tracks</item>
-        <item>request Command Station Status</item>
-        <item>Request a list of all defined sensors</item>
-        <item>Request a list of all defined turnouts</item>
-        <item>Request a list of all defined sensors</item>
-        <item>Request the current Track Manager configuration</item>
-        <item>Request the list of Roster Entry IDs</item>
-        <item>Request a list of Automations/Routes</item>
-        <item>Request information for a route/automation</item>
-        <item>Request details of a specific Roster Entry</item>
-        <item>Start a new task to send a loco onto a Route, or activate a non-loco Animation or Sequence</item>
-        <item>Kills a currently running script task by ID or "ALL"</item>
-        <item />
-        <item>Override the minimum milliamps (mA) required to detect the ACK pulse,</item>
-        <item>Override the minimum amount of time in microseconds (uS) the pulse needs to be active</item>
-        <item>Override the maximum amount of time required to detect the ACK pulse </item>
-        <item>Re-boot the Command Station</item>
-        <item />
-        <item>List HAL devices and allocated VPINs</item>
-        <item>Override prog track limit if programming decoders trigger current limiting on the programming track</item>
-        <item>When enabled, diagnostic messages will be shown on the serial monitor</item>
-        <item>Enables/disables Ethernet diagnostics</item>
-        <item>Enables/disables WiThrottle diagnostics</item>
-        <item />
-        <item> Enable or disable EX-RAIL script logging</item>
+        <item>Join the Main and Programming tracks temporarily</item>                           // 1 JOIN
+        <item>Un-Join the Main and Programming tracks</item>                                    // 1 PROG
+        <item>request Command Station Status</item>                                             // s
+        <item>Request a list of all defined sensors</item>                                      // S
+        <item>Request a list of all defined turnouts</item>                                     // T
+        <item>Request a list of all defined sensors</item>                                      // Q
+        <item>Request the current Track Manager configuration</item>                            // =
+        <item>Request the list of Roster Entry IDs</item>                                       // JR
+        <item>Request a list of Automations/Routes</item>                                       // JR id
+        <item>Request information for a route/automation</item>                                 // JA
+        <item>Request details of a specific Roster Entry</item>                                 // JA id
+        <item>Start a new task to send a loco onto a Route, or activate a non-loco Animation or Sequence {loco} {id}</item>  // /START
+        <item>Kills a currently running script task by ID or "ALL" {id|ALL}</item>                       // /KILL ALL
+        <item />                                                                                // delimiter
+        <item>Override the minimum milliamps (mA) required to detect the ACK pulse {mA}</item>      // D ACK LIMIT
+        <item>Override the minimum amount of time in microseconds (µS) the pulse needs to be active {µS}</item>  // D ACK MIN
+        <item>Override the maximum amount of time required to detect the ACK pulse {µS}</item>      // D ACK MAX
+        <item>Re-boot the Command Station</item>                                                // D RESET
+        <item>Reset the HAL Devices</item>                                                      // D HAL RESET
+        <item>List HAL devices and allocated VPINs</item>                                       // D HAL SHOW
+        <item>Override prog track limit if programming decoders trigger current limiting on the programming track</item> // D PROGBOOST
+        <item>Enables/disables Ethernet diagnostics</item>                                      // D ETHERNET
+        <item>Enables/disables WiThrottle diagnostics</item>                                    // D WIT
+        <item>Show free RAM</item>                                                              // D RAM
+        <item>Show Consists/MUs</item>                                                          // ^
+        <item>Query EStop</item>                                                                // !Q
+        <item />                                                                                // delimiter
+        <item>STA Mode {\"SSID\"} {\"pwd\"}</item>                                              // C WIFI
+        <item>AP Mode {\"SSID\"} {\"pwd\"} [channel]</item>                                     // C WIFI AP
+        <item>Hidden AP {\"SSID\"} {\"pwd\"} [channel]</item>                                   // C WIFI HIDDEN
+        <item>Host Name {\"name\"}</item>                                                       // C WIFI HOSTNAME
+        <item>WiFi {ON|OFF}</item>                                                              // C WIFI
+        <item>Clear WiFi Settings</item>                                                        // C WIFI DEFAULT
+        <item>Visit WiFi {\"SSID\"} {\"pwd\"}</item>                                            // C WIFI TEMP
+        <item>Display WiFi settings</item>                                                      // C WIFI SHOW
     </string-array>
 
     <string-array name="dccExActionTypeEntries">  <!-- display version -->
