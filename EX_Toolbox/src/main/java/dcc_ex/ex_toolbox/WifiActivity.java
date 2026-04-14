@@ -533,7 +533,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.neopixel_menu, menu);
+        inflater.inflate(R.menu.wifi_menu, menu);
         tMenu = menu;
 
         mainapp.setTrackmanagerMenuOption(menu);

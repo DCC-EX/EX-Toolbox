@@ -1133,9 +1133,9 @@ public class comm_thread extends Thread {
                             }
                         }
 
-                    } else if (secondParam.equals("HOSTNAME ")) {
-                        if (args.length == 4) {
-                            mainapp.wifiHostname = args[3];
+                    } else if (secondParam.equals("HOSTNAME")) {
+                        if (args.length >= 5) {
+                            mainapp.wifiHostname = args[4];
                             validCommand = true;
                         }
                     }
