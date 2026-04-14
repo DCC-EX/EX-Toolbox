@@ -48,6 +48,8 @@
     <string name="app_name_currents_short">Currents</string>
     <string name="app_name_neopixel">Neopixel Setup</string>
     <string name="app_name_neopixel_short">Neopixel</string>
+    <string name="app_name_wifi">WiFi Station Mode Setup</string>
+    <string name="app_name_wifi_short">WiFi</string>
     <string name="app_name_roster">Roster</string>
     <string name="app_name_speed_trap">Speedometer</string>
     <string name="app_name_dcc_ex">DCC-EX</string>
@@ -455,6 +457,22 @@
     <string name="dccexNeopixelSampleLabel">Sample</string>
     <string name="dccexNeopixelOnLabel">On</string>
     <string name="dccexNeopixelOffLabel">Off</string>
+
+    <string name="dccexWifiSsidValueLabel">SSID (Name)</string>
+    <string name="dccexWifiPasswordValueLabel">Password</string>
+    <string name="dccexWifiHostnameValueLabel">Hostname</string>
+    <string name="dccexWifiChannelValueLabel">Channel</string>
+
+    <string name="dccexWifiCurrentSettings">Current Settings</string>
+    <string name="dccexWifiAccessPoint">Access Point Mode</string>
+    <string name="dccexWifiStation">Station Mode</string>
+    <string name="dccexWifiOnLabel">Enabled</string>
+    <string name="dccexWifiOffLabel">Disabled</string>
+    <string name="dccexWifiSetStationLabel">Set Station</string>
+    <string name="dccexWifiSetHostnameLabel">Set Hostname</string>
+    <string name="dccexWifiResetLabel">Reset</string>
+
+    <string name="dccexWifiHelp">Only Station mode can be set over WiFi. To set Access Point mode you must use a serial connection\nAs soon as you press \'Set\' or \'Reset\' the Command Station will reload. Your phone will likely lose the WiFi connection.\nYou should immediately exit EX-Toolbox and reconnect.</string>
 
     <string name="dccexActionTypeLabel">Action</string>
     <string name="dccexWriteAddressLabel">DCC Address</string>

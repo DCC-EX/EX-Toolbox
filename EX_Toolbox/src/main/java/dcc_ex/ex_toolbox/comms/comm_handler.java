@@ -242,8 +242,29 @@ public class comm_handler extends Handler {
             break;
          }
 
-         case message_type.REQUEST_ALL_SENSORS: { // DCC-EX only
+         case message_type.REQUEST_WIFI_DETAILS: {
+            comm_thread.sendRequestWifi();
+            break;
+         }
+
+         case message_type.REQUEST_RESET_WIFI: {
+            comm_thread.sendResetWifi();
+            break;
+         }
+
+         case message_type.SEND_WIFI_STATION: {
             String [] args = msg.obj.toString().split(" ");
+            comm_thread.sendWifiStation(args[0], args[1]);
+            break;
+         }
+         case message_type.SEND_WIFI_HOSTNAME: {
+            String [] args = msg.obj.toString().split(" ");
+            comm_thread.sendWifiHostname(args[0]);
+            break;
+         }
+
+         case message_type.REQUEST_ALL_SENSORS: { // DCC-EX only
+//            String [] args = msg.obj.toString().split(" ");
             comm_thread.sendAllSensorsRequest();
             break;
          }

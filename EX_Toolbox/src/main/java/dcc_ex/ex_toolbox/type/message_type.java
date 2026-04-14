@@ -94,4 +94,9 @@ public interface message_type {
     int SEND_NEOPIXEL_ON_OFF = 93;
     int DCCEX_JOIN_TRACKS = 94;
     int DCCEX_UNJOIN_TRACKS = 95;
+    int REQUEST_WIFI_DETAILS = 96;
+    int DCCEX_RECEIVED_WIFI_DETAILS = 97;
+    int REQUEST_RESET_WIFI = 98;
+    int SEND_WIFI_STATION = 99;
+    int SEND_WIFI_HOSTNAME = 100;
 }

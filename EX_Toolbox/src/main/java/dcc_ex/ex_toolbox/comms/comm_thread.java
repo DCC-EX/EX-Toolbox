@@ -442,8 +442,24 @@ public class comm_thread extends Thread {
         }
     }
 
-    protected void sendForceFunction(char cWhichThrottle, String addr, int fn, int fState) {
-        sendForceFunction(mainapp.throttleCharToInt(cWhichThrottle), addr, fn, fState);
+    public static void sendRequestWifi() {
+        String msgTxt = "<D WIFI SHOW>";
+        wifiSend(msgTxt);
+    }
+
+    public static void sendResetWifi() {
+        String msgTxt = "<C WIFI DEFAULT>";
+        wifiSend(msgTxt);
+    }
+
+    public static void sendWifiStation(String ssid, String password) {
+        String msgTxt = "<C WIFI \"" + ssid + "\" \"" + password + "\">";
+        wifiSend(msgTxt);
+    }
+
+    public static void sendWifiHostname(String hostname) {
+        String msgTxt = "<C WIFI HOSTNAME \"" + hostname + "\">";
+        wifiSend(msgTxt);
     }
 
     @SuppressLint("DefaultLocale")
@@ -955,6 +971,11 @@ public class comm_thread extends Thread {
                         skipAlert = true;
                         break;
 
+                    case '*': // config
+                        processDccexConfigResponse(args, false);
+                        skipAlert = true;
+                        break;
+
                 }
 
             } else { // ignore responses that don't start with "<"
@@ -1071,6 +1092,59 @@ public class comm_thread extends Thread {
         }
 
         mainapp.alert_activities(message_type.RECEIVED_CV, cv + "|" + cvValue);  //send response to running activities
+    }
+
+    private static void processDccexConfigResponse (String [] args, boolean active) {
+        String id = args[1];
+        if (!id.equals("C")) return;
+
+        boolean validCommand = false;
+
+        if (args.length>2) {
+            String configType = args[2];
+            if (configType.equals("WIFI")) {
+
+                if (args.length > 3) {
+                    String secondParam = args[3];
+                    if (secondParam.charAt(0)=='"') {
+                        if (args.length >= 6) {
+                            mainapp.wifiStationSsid = args[3];
+                            mainapp.wifiStationPassword = args[4];
+                            validCommand = true;
+                        }
+
+                    } else if (secondParam.equals("AP")) {
+                        if (args.length >= 6) {
+                            mainapp.wifiAccessPointSsid = args[4];
+                            mainapp.wifiAccessPointPassword = args[5];
+                            validCommand = true;
+                            if (args.length >= 7) {
+                                mainapp.wifiChannel = args[6];
+                            }
+                        }
+
+                    } else if (secondParam.equals("HIDDENAP")) {
+                        if (args.length >= 6) {
+                            mainapp.wifiAccessPointSsid = args[4];
+                            mainapp.wifiAccessPointPassword = args[5];
+                            validCommand = true;
+                            if (args.length == 7) {
+                                mainapp.wifiChannel = args[6];
+                            }
+                        }
+
+                    } else if (secondParam.equals("HOSTNAME ")) {
+                        if (args.length == 4) {
+                            mainapp.wifiHostname = args[3];
+                            validCommand = true;
+                        }
+                    }
+                }
+            }
+        }
+        if (validCommand) {
+            mainapp.alert_activities(message_type.DCCEX_RECEIVED_WIFI_DETAILS, "");  //send response to running activities
+        }
     }
 
     private static void processDccexSensorResponse (String [] args, boolean active) {

@@ -79,6 +79,14 @@
             android:label="@string/app_name_cv_programmer"
             android:theme="@style/app_theme_black" />
         <activity
+            android:name=".WifiActivity"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustNothing"
+            android:label="@string/app_name_wifi"
+            android:theme="@style/app_theme_black" />
+        <activity
             android:name=".servos"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"

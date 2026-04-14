@@ -5,6 +5,7 @@
  * preference screen colours now match the chosen theme
  * fixed colour of the status bar elements when using the colourful theme
  * Support for the new DCC-EX WiFi commands in the drop list.
+ * Added a separate page for the DCC-EX WiFi Station mode.
 **Version 0.1.34
  * Japanese translation updates
  * Option to adjust the toolbar/action bar button sizes. The 'auto' option will make screens >=13.97cm (5.5") will use the medium size buttons and large on screens >17cm (6.7").

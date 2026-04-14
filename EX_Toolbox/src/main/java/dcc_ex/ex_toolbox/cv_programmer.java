@@ -830,6 +830,11 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
             in = new Intent().setClass(this, cv_programmer.class);
             startACoreActivity(this, in, false, 0);
             return true;
+        } else if (item.getItemId() == R.id.wifi_mnu) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, WifiActivity.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
         } else if ( (item.getItemId() == R.id.speed_matching_mnu) || (item.getItemId() == R.id.toolbar_button_speed_matching) ) {
             navigateAway(true, null);
             in = new Intent().setClass(this, speed_matching.class);

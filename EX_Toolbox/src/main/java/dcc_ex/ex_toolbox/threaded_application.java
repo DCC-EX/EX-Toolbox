@@ -253,6 +253,7 @@ public class threaded_application extends Application {
 
     public volatile Handler dcc_ex_msg_handler;
     public volatile Handler cv_programmer_msg_handler;
+    public volatile Handler wifi_msg_handler;
     public volatile Handler servos_msg_handler;
     public volatile Handler track_manager_msg_handler;
     public volatile Handler speed_matching_msg_handler;
@@ -380,6 +381,13 @@ public class threaded_application extends Application {
 
     public String dccexResponsesStr = "";
     public String dccexSendsStr = "";
+
+    public String wifiAccessPointSsid = "";
+    public String wifiAccessPointPassword = "";
+    public String wifiStationSsid = "";
+    public String wifiStationPassword = "";
+    public String wifiHostname = "";
+    public String wifiChannel = "";
 
     public ImportExport importExport = new ImportExport();
 
@@ -1064,6 +1072,11 @@ public class threaded_application extends Application {
 
         try {
             sendMsg(cv_programmer_msg_handler, msgType, msgBody);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            sendMsg(wifi_msg_handler, msgType, msgBody);
         } catch (Exception ignored) {
         }
 
