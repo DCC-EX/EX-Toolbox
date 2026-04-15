@@ -82,6 +82,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
 
     Button setStationButton;
     Button setHostnameButton;
+//    Button setHostnameAndStationButton;
     Button resetButton;
 
     protected GestureOverlayView ov;
@@ -401,6 +402,10 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
         SetHostnameButtonListener setHostnameButtonListener = new SetHostnameButtonListener();
         setHostnameButton.setOnClickListener(setHostnameButtonListener);
 
+//        setHostnameAndStationButton = findViewById(R.id.dccexWifiSetHostnameAndStationButton);
+//        SetHostnameAndStationButtonListener setHostnameAndStationButtonListener = new SetHostnameAndStationButtonListener();
+//        setHostnameAndStationButton.setOnClickListener(setHostnameAndStationButtonListener);
+
         resetButton = findViewById(R.id.dccexWifiResetButton);
         ResetButtonListener resetButtonListener = new ResetButtonListener();
         resetButton.setOnClickListener(resetButtonListener);
@@ -435,7 +440,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
         mainapp.getCommonPreferences();
 
         setActivityTitle();
-        mainapp.activeScreen = mainapp.ACTIVE_SCREEN_NEOPIXEL;
+        mainapp.activeScreen = mainapp.ACTIVE_SCREEN_WIFI;
         mainapp.dccexScreenIsOpen = true;
 
         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_WIFI_DETAILS,"");
@@ -730,6 +735,21 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
         }
     }
 
+//    public class SetHostnameAndStationButtonListener implements View.OnClickListener {
+//
+//        public SetHostnameAndStationButtonListener() {
+//        }
+//
+//        public void onClick(View v) {
+//            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SEND_WIFI_HOSTNAME, dccexWifiHostnameValue);
+//            mainapp.sendMsgDelay(mainapp.comm_msg_handler, 10000, message_type.SEND_WIFI_STATION, dccexWifiSsidValue + " " + dccexWifiPasswordValue);
+//
+//            mainapp.buttonVibration();
+//            mainapp.hideSoftKeyboard(v);
+//
+//        }
+//    }
+
     public class ResetButtonListener implements View.OnClickListener {
 
         public ResetButtonListener() {
@@ -758,10 +778,10 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
     private void showResult() {
         String currentWifi = getApplicationContext().getResources().getString(R.string.dccexWifiCurrentSettings) + "\n"
                 + getApplicationContext().getResources().getString(R.string.dccexWifiAccessPoint) + "\n"
-                + " " + getApplicationContext().getResources().getString(R.string.dccexWifiSsidValueLabel) + ":" + mainapp.wifiAccessPointSsid + " "
+                + " - " + getApplicationContext().getResources().getString(R.string.dccexWifiSsidValueLabel) + ":" + mainapp.wifiAccessPointSsid + " "
                 + getApplicationContext().getResources().getString(R.string.dccexWifiPasswordValueLabel) + ":" + mainapp.wifiAccessPointPassword + "\n"
                 + getApplicationContext().getResources().getString(R.string.dccexWifiStation) + "\n"
-                + " " + getApplicationContext().getResources().getString(R.string.dccexWifiSsidValueLabel) + ":" + mainapp.wifiStationSsid + " "
+                + " - " + getApplicationContext().getResources().getString(R.string.dccexWifiSsidValueLabel) + ":" + mainapp.wifiStationSsid + " "
                 + getApplicationContext().getResources().getString(R.string.dccexWifiPasswordValueLabel) + ":" + mainapp.wifiStationPassword + "\n"
                 + getApplicationContext().getResources().getString(R.string.dccexWifiHostnameValueLabel) + ":" + mainapp.wifiHostname
                 ;
@@ -786,6 +806,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
 
         setStationButton.setEnabled(validSsid && validPassword);
         setHostnameButton.setEnabled(validHostname);
+//        setHostnameAndStationButton.setEnabled(validHostname && validSsid && validPassword);
         resetButton.setEnabled(enabled);
 
     }

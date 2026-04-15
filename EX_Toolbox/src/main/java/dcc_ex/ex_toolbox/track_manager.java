@@ -664,6 +664,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         tMenu = menu;
 
         mainapp.setCurrentsMenuOption(menu);
+        mainapp.setWifiMenuOption(menu);
 
         mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);

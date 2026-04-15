@@ -807,6 +807,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
 
         mainapp.setTrackmanagerMenuOption(menu);
         mainapp.setCurrentsMenuOption(menu);
+        mainapp.setWifiMenuOption(menu);
 
         mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);

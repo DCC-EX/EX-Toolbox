@@ -672,6 +672,7 @@ public class speed_matching extends AppCompatActivity implements GestureOverlayV
         tMenu = menu;
 
         mainapp.setCurrentsMenuOption(menu);
+        mainapp.setWifiMenuOption(menu);
 
         mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);

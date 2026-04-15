@@ -472,6 +472,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
 
         mainapp.setTrackmanagerMenuOption(menu);
         mainapp.setCurrentsMenuOption(menu);
+        mainapp.setWifiMenuOption(menu);
 
         mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);

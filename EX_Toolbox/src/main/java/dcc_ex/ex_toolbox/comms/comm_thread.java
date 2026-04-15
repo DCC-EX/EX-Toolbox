@@ -868,6 +868,8 @@ public class comm_thread extends Thread {
                             Log.d("EX_Toolbox", "comm_thread.processWifiResponse: version already set to " + mainapp.dccexVersion + ", ignoring");
                         }
 
+                        mainapp.isEsp32OrCsb1 = ( (args[3].equals("ESP32")) || (args[5].contains("CSB1")) );
+
                         String serverDesc = responseStr.substring(2, responseStr.length() - 1);
                         mainapp.setServerType("DCC-EX");
                         mainapp.setServerDescription(serverDesc); //store the description

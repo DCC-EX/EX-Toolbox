@@ -494,6 +494,7 @@ public class locos extends AppCompatActivity implements GestureOverlayView.OnGes
 
         mainapp.setTrackmanagerMenuOption(menu);
         mainapp.setCurrentsMenuOption(menu);
+        mainapp.setWifiMenuOption(menu);
 
         mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);

@@ -2,6 +2,7 @@
 <resources>
     <attr name="ed_loco_label_style" format="reference" />
     <attr name="floating_text_style" format="reference" />
+    <attr name="floating_text_condensed_style" format="reference" />
     <attr name="edit_label_style" format="reference" />
     <attr name="edit_func_style" format="reference" />
     <attr name="list_item_style" format="reference" />

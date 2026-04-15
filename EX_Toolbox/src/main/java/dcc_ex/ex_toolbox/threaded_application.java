@@ -185,10 +185,12 @@ public class threaded_application extends Application {
 
     public HashMap<String, String> knownDccexServerIps = new HashMap<>();
     public boolean isDccex = true;  // is a DCC-EX EX-CommandStation
+    public boolean isEsp32OrCsb1 = false;
     public String dccexVersion = "";
     public double dccexVersionValue = 0.0;
-    public static final double DCCEX_MIN_VERSION_FOR_TRACK_MANAGER = 04.002007;
-    public static final double DCCEX_MIN_VERSION_FOR_CURRENTS = 04.002019;
+    public static final double DCCEX_MIN_VERSION_FOR_TRACK_MANAGER = 04.02007;
+    public static final double DCCEX_MIN_VERSION_FOR_CURRENTS = 04.02019;
+    public static final double DCCEX_MIN_VERSION_FOR_WIFI = 05.05068;
     public int dccexListsRequested = -1;  // -1=not requested  0=requested  1,2,3= no. of lists received
 
     public boolean dccexScreenIsOpen = false;
@@ -337,31 +339,33 @@ public class threaded_application extends Application {
     public boolean prefHapticFeedbackButtons = false;
 
     /// swipe right sequence
-    public static final int SCREEN_SWIPE_INDEX_CV_PROGRAMMER = 0;
-    public static final int SCREEN_SWIPE_INDEX_LOCOS = 1;
-    public static final int SCREEN_SWIPE_INDEX_ROSTER = 2;
-    public static final int SCREEN_SWIPE_INDEX_SPEED_MATCHING = 3;
-    public static final int SCREEN_SWIPE_INDEX_SPEED_TRAP = 4;
-    public static final int SCREEN_SWIPE_INDEX_SERVOS = 5;
-    public static final int SCREEN_SWIPE_INDEX_SENSORS = 6;
-    public static final int SCREEN_SWIPE_INDEX_CURRENTS = 7;
-    public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 8;
-    public static final int SCREEN_SWIPE_INDEX_NEOPIXEL = 9;
+    public static final int SCREEN_SWIPE_INDEX_CV_PROGRAMMER  = 0;
+    public static final int SCREEN_SWIPE_INDEX_WIFI           = 1;
+    public static final int SCREEN_SWIPE_INDEX_LOCOS          = 2;
+    public static final int SCREEN_SWIPE_INDEX_ROSTER         = 3;
+    public static final int SCREEN_SWIPE_INDEX_SPEED_MATCHING = 4;
+    public static final int SCREEN_SWIPE_INDEX_SPEED_TRAP     = 5;
+    public static final int SCREEN_SWIPE_INDEX_SERVOS         = 6;
+    public static final int SCREEN_SWIPE_INDEX_SENSORS        = 7;
+    public static final int SCREEN_SWIPE_INDEX_CURRENTS       = 8;
+    public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER   = 9;
+    public static final int SCREEN_SWIPE_INDEX_NEOPIXEL       = 10;
 //    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 10;
 //    public static final int SCREEN_SWIPE_INDEX_DIAG = 11;
 
-    public static final int SCREEN_SWIPE_INDEX_LAST = 9;
+    public static final int SCREEN_SWIPE_INDEX_LAST          = 10;
 
-    public static final int ACTIVE_SCREEN_CV_PROGRAMMER = 0;
-    public static final int ACTIVE_SCREEN_SPEED_MATCHING = 1;
-    public static final int ACTIVE_SCREEN_SERVOS = 2;
-    public static final int ACTIVE_SCREEN_SENSORS = 3;
-    public static final int ACTIVE_SCREEN_CURRENTS = 4;
-    public static final int ACTIVE_SCREEN_TRACK_MANAGER = 5;
-    public static final int ACTIVE_SCREEN_ROSTER = 6;
-    public static final int ACTIVE_SCREEN_SPEED_TRAP = 7;
-    public static final int ACTIVE_SCREEN_TRACK_MANGER = 8;
-    public static final int ACTIVE_SCREEN_NEOPIXEL = 9;
+    public static final int ACTIVE_SCREEN_CV_PROGRAMMER  = 0;
+    public static final int ACTIVE_SCREEN_WIFI           = 1;
+    public static final int ACTIVE_SCREEN_SPEED_MATCHING = 2;
+    public static final int ACTIVE_SCREEN_SERVOS         = 3;
+    public static final int ACTIVE_SCREEN_SENSORS        = 4;
+    public static final int ACTIVE_SCREEN_CURRENTS       = 5;
+    public static final int ACTIVE_SCREEN_TRACK_MANAGER  = 6;
+    public static final int ACTIVE_SCREEN_ROSTER         = 7;
+    public static final int ACTIVE_SCREEN_SPEED_TRAP     = 8;
+    public static final int ACTIVE_SCREEN_TRACK_MANGER   = 9;
+    public static final int ACTIVE_SCREEN_NEOPIXEL       = 10;
 
     public int activeScreen = 0;
 
@@ -989,6 +993,16 @@ public class threaded_application extends Application {
         }
     }
 
+    public void setWifiMenuOption(Menu menu) {
+        if (menu != null) {
+            MenuItem item = menu.findItem(R.id.wifi_mnu);
+            if (item != null) {
+                boolean isVisable = (mainapp.dccexVersionValue > DCCEX_MIN_VERSION_FOR_WIFI) && mainapp.isEsp32OrCsb1;
+                item.setVisible(mainapp.dccexVersionValue > DCCEX_MIN_VERSION_FOR_WIFI);
+            }
+        }
+    }
+
     public void setMenuItemById(Menu menu, int id, boolean show) {
         if (menu != null) {
             MenuItem item = menu.findItem(id);
@@ -1579,6 +1593,9 @@ public class threaded_application extends Application {
             if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen++;
             }
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_WIFI) && ((mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_WIFI) || (!mainapp.isEsp32OrCsb1)) ) {
+                nextScreen++;
+            }
             if (nextScreen > SCREEN_SWIPE_INDEX_LAST) {
                 nextScreen = 0;
             }
@@ -1586,6 +1603,9 @@ public class threaded_application extends Application {
             nextScreen = currentScreen - 1;
             if (nextScreen < 0) {
                 nextScreen = SCREEN_SWIPE_INDEX_LAST;
+            }
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_WIFI) && ((mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_WIFI) || (!mainapp.isEsp32OrCsb1)) ) {
+                nextScreen--;
             }
             if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen--;
@@ -1600,6 +1620,9 @@ public class threaded_application extends Application {
             case SCREEN_SWIPE_INDEX_CV_PROGRAMMER:
             default:
                 nextIntent = new Intent().setClass(this, cv_programmer.class);
+                break;
+            case SCREEN_SWIPE_INDEX_WIFI:
+                nextIntent = new Intent().setClass(this, WifiActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_SPEED_MATCHING:
                 nextIntent = new Intent().setClass(this, speed_matching.class);

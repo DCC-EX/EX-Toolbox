@@ -83,7 +83,7 @@
                         <LinearLayout
                             android:id="@+id/dccexWifiSliderArea"
                             android:layout_width="fill_parent"
-                            android:layout_height="380sp"
+                            android:layout_height="400sp"
                             android:layout_margin="0sp"
                             android:padding="0sp"
                             android:orientation="vertical"
@@ -91,47 +91,188 @@
                             android:baselineAligned="false">
 
                             <LinearLayout
-                                android:layout_width="fill_parent"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8sp"
+                                android:layout_marginTop="0dp"
                                 android:background="#00000000"
                                 android:weightSum="1"
                                 android:orientation="horizontal">
 
-                                <TextView
-                                    style="?attr/floating_text_style"
+                                <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
                                     android:layout_marginTop="0dp"
-                                    android:layout_marginStart="0dp"
-                                    android:padding="4sp"
-                                    android:layout_weight=".3"
-                                    android:text="@string/dccexWifiSsidValueLabel" />
+                                    android:background="#00000000"
+                                    android:layout_weight=".8"
+                                    android:weightSum="1"
+                                    android:orientation="vertical">
 
-                                <EditText
-                                    android:id="@+id/dccexWifiSsidValue"
-                                    style="?attr/edit_label_style"
+                                    <LinearLayout
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="8sp"
+                                        android:background="#00000000"
+                                        android:weightSum="1"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            style="?attr/floating_text_condensed_style"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginTop="0dp"
+                                            android:layout_marginStart="0dp"
+                                            android:padding="4sp"
+                                            android:layout_weight=".3"
+                                            android:text="@string/dccexWifiSsidValueLabel" />
+
+                                        <EditText
+                                            android:id="@+id/dccexWifiSsidValue"
+                                            style="?attr/edit_label_style"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginTop="0dp"
+                                            android:layout_marginStart="0sp"
+                                            android:layout_marginLeft="8sp"
+                                            android:layout_marginEnd="0sp"
+                                            android:layout_marginRight="4sp"
+                                            android:layout_weight=".7"
+                                            android:inputType="text"
+                                            android:paddingTop="0dp"
+                                            android:paddingLeft="5dp"
+                                            android:shadowColor="#FFFFFFFF"
+                                            android:shadowDx="1"
+                                            android:shadowDy="1"
+                                            android:shadowRadius="0.3"
+                                            android:singleLine="true"
+                                            android:text=""
+                                            android:textSize="18sp"
+                                            tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="8sp"
+                                        android:background="#00000000"
+                                        android:weightSum="1"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            style="?attr/floating_text_condensed_style"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginTop="0dp"
+                                            android:layout_marginStart="0dp"
+                                            android:padding="4sp"
+                                            android:layout_weight=".3"
+                                            android:text="@string/dccexWifiPasswordValueLabel" />
+
+                                        <EditText
+                                            android:id="@+id/dccexWifiPasswordValue"
+                                            style="?attr/edit_label_style"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginStart="0sp"
+                                            android:layout_marginEnd="4sp"
+                                            android:layout_weight=".7"
+                                            android:inputType="text"
+                                            android:paddingTop="0dp"
+                                            android:paddingLeft="5dp"
+                                            android:shadowColor="#FFFFFFFF"
+                                            android:shadowDx="1"
+                                            android:shadowDy="1"
+                                            android:shadowRadius="0.3"
+                                            android:singleLine="true"
+                                            android:text=""
+                                            android:textSize="18sp"
+                                            tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                                <Button
+                                    android:id="@+id/dccexWifiSetStationButton"
+                                    style="?attr/ed_small_button_condensed_text_style"
+                                    android:layout_width="0dp"
+                                    android:layout_weight=".2"
+                                    android:layout_gravity="center"
+                                    android:layout_height="40dp"
+                                    android:text="@string/dccexWifiSetStationLabel"
+                                    tools:ignore="RtlHardcoded"
+                                    android:layout_marginStart="8sp"
+                                    android:layout_marginEnd="8sp"/>
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
+                                android:background="#00000000"
+                                android:weightSum="1"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="8sp"
+                                    android:background="#00000000"
+                                    android:layout_weight=".8"
+                                    android:weightSum="1"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        style="?attr/floating_text_condensed_style"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="0dp"
+                                        android:layout_marginStart="0dp"
+                                        android:padding="4sp"
+                                        android:layout_weight=".3"
+                                        android:text="@string/dccexWifiHostnameValueLabel" />
+
+                                    <EditText
+                                        android:id="@+id/dccexWifiHostnameValue"
+                                        style="?attr/edit_label_style"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginStart="0sp"
+                                        android:layout_marginEnd="4sp"
+                                        android:layout_weight=".7"
+                                        android:inputType="text"
+                                        android:paddingTop="0dp"
+                                        android:paddingLeft="5dp"
+                                        android:shadowColor="#FFFFFFFF"
+                                        android:shadowDx="1"
+                                        android:shadowDy="1"
+                                        android:shadowRadius="0.3"
+                                        android:singleLine="true"
+                                        android:text=""
+                                        android:textSize="18sp"
+                                        tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+
+                                </LinearLayout>
+
+                                <Button
+                                    android:id="@+id/dccexWifiSetHostnameButton"
+                                    style="?attr/ed_small_button_condensed_text_style"
+                                    android:layout_width="0dp"
+                                    android:layout_weight=".2"
                                     android:layout_gravity="center"
-                                    android:layout_marginTop="0dp"
-                                    android:layout_marginStart="0sp"
-                                    android:layout_marginLeft="8sp"
-                                    android:layout_marginEnd="0sp"
-                                    android:layout_marginRight="4sp"
-                                    android:layout_weight=".7"
-                                    android:inputType="text"
-                                    android:paddingTop="0dp"
-                                    android:paddingLeft="5dp"
-                                    android:shadowColor="#FFFFFFFF"
-                                    android:shadowDx="1"
-                                    android:shadowDy="1"
-                                    android:shadowRadius="0.3"
-                                    android:singleLine="true"
-                                    android:text=""
-                                    android:textSize="18sp"
-                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
+                                    android:layout_height="40dp"
+                                    android:text="@string/dccexWifiSetHostnameLabel"
+                                    tools:ignore="RtlHardcoded"
+                                    android:layout_marginStart="8sp"
+                                    android:layout_marginEnd="8sp"/>
 
                             </LinearLayout>
 
@@ -140,127 +281,45 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8sp"
                                 android:background="#00000000"
-                                android:weightSum="1"
                                 android:orientation="horizontal">
-
-                                <TextView
-                                    style="?attr/floating_text_style"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="0dp"
-                                    android:layout_marginStart="0dp"
-                                    android:padding="4sp"
-                                    android:layout_weight=".3"
-                                    android:text="@string/dccexWifiPasswordValueLabel" />
-
-                                <EditText
-                                    android:id="@+id/dccexWifiPasswordValue"
-                                    style="?attr/edit_label_style"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginStart="0sp"
-                                    android:layout_marginEnd="4sp"
-                                    android:layout_weight=".7"
-                                    android:inputType="text"
-                                    android:paddingTop="0dp"
-                                    android:paddingLeft="5dp"
-                                    android:shadowColor="#FFFFFFFF"
-                                    android:shadowDx="1"
-                                    android:shadowDy="1"
-                                    android:shadowRadius="0.3"
-                                    android:singleLine="true"
-                                    android:text=""
-                                    android:textSize="18sp"
-                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8sp"
-                                android:background="#00000000"
-                                android:weightSum="1"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    style="?attr/floating_text_style"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginTop="0dp"
-                                    android:layout_marginStart="0dp"
-                                    android:padding="4sp"
-                                    android:layout_weight=".3"
-                                    android:text="@string/dccexWifiHostnameValueLabel" />
-
-                                <EditText
-                                    android:id="@+id/dccexWifiHostnameValue"
-                                    style="?attr/edit_label_style"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginStart="0sp"
-                                    android:layout_marginEnd="4sp"
-                                    android:layout_weight=".7"
-                                    android:inputType="text"
-                                    android:paddingTop="0dp"
-                                    android:paddingLeft="5dp"
-                                    android:shadowColor="#FFFFFFFF"
-                                    android:shadowDx="1"
-                                    android:shadowDy="1"
-                                    android:shadowRadius="0.3"
-                                    android:singleLine="true"
-                                    android:text=""
-                                    android:textSize="18sp"
-                                    tools:ignore="Autofill,LabelFor,RtlHardcoded,RtlSymmetry" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8sp"
-                                android:background="#00000000"
-                                android:orientation="horizontal">
-
 
                                 <Button
                                     android:id="@+id/dccexWifiResetButton"
                                     style="?attr/ed_small_button_condensed_text_style"
                                     android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="30dp"
                                     android:text="@string/dccexWifiResetLabel"
                                     tools:ignore="RtlHardcoded"
                                     android:layout_marginStart="8sp"
-                                    android:layout_marginLeft="8sp"/>
+                                    android:layout_marginEnd="8sp"/>
 
-                                <Space
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1" />
+                                <TextView
+                                    android:id="@+id/dccexWifiCurrentSettings"
+                                    style="?attr/floating_text_condensed_style"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10sp"
+                                    android:layout_marginTop="8sp"
+                                    android:text="@string/dccexWifiCurrentSettings"
+                                    android:textSize="12sp" />
 
-                                <Button
-                                    android:id="@+id/dccexWifiSetHostnameButton"
-                                    style="?attr/ed_small_button_condensed_text_style"
-                                    android:layout_gravity="center"
-                                    android:layout_height="30dp"
-                                    android:text="@string/dccexWifiSetHostnameLabel"
-                                    tools:ignore="RtlHardcoded"
-                                    android:layout_marginStart="8sp"
-                                    android:layout_marginLeft="8sp"/>
+<!--                                <Space-->
+<!--                                    android:layout_width="0dp"-->
+<!--                                    android:layout_height="match_parent"-->
+<!--                                    android:layout_weight="1" />-->
 
-                                <Button
-                                    android:id="@+id/dccexWifiSetStationButton"
-                                    style="?attr/ed_small_button_condensed_text_style"
-                                    android:layout_gravity="center"
-                                    android:layout_height="30dp"
-                                    android:text="@string/dccexWifiSetStationLabel"
-                                    tools:ignore="RtlHardcoded"
-                                    android:layout_marginStart="8sp"
-                                    android:layout_marginLeft="8sp"/>
+
+<!--                                <Button-->
+<!--                                    android:id="@+id/dccexWifiSetHostnameAndStationButton"-->
+<!--                                    style="?attr/ed_small_button_condensed_text_style"-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    android:layout_height="40dp"-->
+<!--                                    android:lines="2"-->
+<!--                                    android:text="@string/dccexWifiSetHostnameAndStationLabel"-->
+<!--                                    tools:ignore="RtlHardcoded"-->
+<!--                                    android:layout_marginStart="8sp"-->
+<!--                                    android:layout_marginEnd="8sp"/>-->
 
 
                             </LinearLayout>
@@ -276,14 +335,6 @@
                                     android:layout_margin="0dp"
                                     android:orientation="vertical">
 
-                                    <TextView
-                                        android:id="@+id/dccexWifiCurrentSettings"
-                                        style="?attr/floating_text_style"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="8sp"
-                                        android:text="@string/dccexWifiCurrentSettings"
-                                        android:textSize="12sp" />
 
                                     <LinearLayout
                                         android:layout_width="fill_parent"
@@ -293,7 +344,7 @@
                                         android:orientation="vertical" />
 
                                     <TextView
-                                        style="?attr/floating_text_style"
+                                        style="?attr/floating_text_condensed_style"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="8sp"

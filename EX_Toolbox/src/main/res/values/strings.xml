@@ -463,16 +463,25 @@
     <string name="dccexWifiHostnameValueLabel">Hostname</string>
     <string name="dccexWifiChannelValueLabel">Channel</string>
 
-    <string name="dccexWifiCurrentSettings">Current Settings</string>
+    <string name="dccexWifiCurrentSettings">Current Settings:</string>
     <string name="dccexWifiAccessPoint">Access Point Mode</string>
     <string name="dccexWifiStation">Station Mode</string>
     <string name="dccexWifiOnLabel">Enabled</string>
     <string name="dccexWifiOffLabel">Disabled</string>
     <string name="dccexWifiSetStationLabel">Set Station</string>
     <string name="dccexWifiSetHostnameLabel">Set Hostname</string>
-    <string name="dccexWifiResetLabel">Reset</string>
+    <string name="dccexWifiSetHostnameAndStationLabel">Set Hostname\n + Station</string>
+    <string name="dccexWifiResetLabel">Reset WiFi</string>
 
-    <string name="dccexWifiHelp">Only Station mode can be set over WiFi. To set Access Point mode you must use a serial connection\nAs soon as you press \'Set\' or \'Reset\' the Command Station will reload. Your phone will likely lose the WiFi connection.\nYou should immediately exit EX-Toolbox and reconnect.</string>
+    <string name="dccexWifiHelp">Only Station mode can be set over WiFi. To set Access Point mode you must use a serial connection.
+        \nWARNING: As soon as you press ANY \'Set...\' or \'Reset\' the Command Station will reload. Your phone will likely lose the WiFi connection.
+        \nYou should immediately exit EX-Toolbox and reconnect.
+        \nNOTE:
+        \n- You cannot set the \'Hostname\' and \'SSID\' at the same time. Do one, then reconnect to do the other.
+        \n- Changing the Hostname while in Access Point works, but will not be visible.
+        \n- Passwords must be at least 8 characters.
+        \n- SSID and Hostname cannot contain spaces. Other than \'_\' and \'-\', special characters should be avoided.
+    </string>
 
     <string name="dccexActionTypeLabel">Action</string>
     <string name="dccexWriteAddressLabel">DCC Address</string>

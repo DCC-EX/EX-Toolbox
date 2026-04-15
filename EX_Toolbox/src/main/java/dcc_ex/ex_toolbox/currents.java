@@ -538,6 +538,7 @@ public class currents extends AppCompatActivity implements GestureOverlayView.On
         tMenu = menu;
 
         mainapp.setTrackmanagerMenuOption(menu);
+        mainapp.setWifiMenuOption(menu);
 
         mainapp.displayToolbarMenuButtons(menu);
         mainapp.displayPowerStateMenuButton(menu);
