@@ -42,10 +42,10 @@
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp">
+                    android:paddingTop="5dp"
+                    android:paddingBottom="6dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp">
 
                     <LinearLayout
                         android:layout_width="fill_parent"
@@ -76,14 +76,15 @@
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="2dp"
-                            android:layout_marginTop="8sp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="0dp"
                             android:background="#888888"
                             android:orientation="vertical" />
 
                         <LinearLayout
                             android:id="@+id/dccexWifiSliderArea"
                             android:layout_width="fill_parent"
-                            android:layout_height="400sp"
+                            android:layout_height="wrap_content"
                             android:layout_margin="0sp"
                             android:padding="0sp"
                             android:orientation="vertical"
@@ -278,6 +279,14 @@
 
                             <LinearLayout
                                 android:layout_width="fill_parent"
+                                android:layout_height="2dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="0dp"
+                                android:background="#888888"
+                                android:orientation="vertical" />
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8sp"
                                 android:background="#00000000"
@@ -339,7 +348,8 @@
                                     <LinearLayout
                                         android:layout_width="fill_parent"
                                         android:layout_height="2dp"
-                                        android:layout_marginTop="8sp"
+                                        android:layout_marginTop="5dp"
+                                        android:layout_marginBottom="5dp"
                                         android:background="#888888"
                                         android:orientation="vertical" />
 
@@ -347,7 +357,8 @@
                                         style="?attr/floating_text_condensed_style"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="8sp"
+                                        android:layout_marginTop="0dp"
+                                        android:layout_marginBottom="0dp"
                                         android:text="@string/dccexWifiHelp"
                                         android:textSize="12sp" />
 
@@ -357,13 +368,15 @@
 
                         </LinearLayout>
 
+<!--                        not currently using this but may later -->
                         <LinearLayout
                             android:id="@+id/ex_DccexWriteInfoLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="0sp"
                             android:background="#00000000"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
                             <LinearLayout
                                 android:layout_width="fill_parent"

@@ -48,6 +48,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -714,6 +715,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
 
         public void onClick(View v) {
             mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SEND_WIFI_STATION, dccexWifiSsidValue + " " + dccexWifiPasswordValue);
+            threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastWifiChangeComplete), Toast.LENGTH_LONG);
 
             mainapp.buttonVibration();
             mainapp.hideSoftKeyboard(v);
@@ -728,6 +730,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
 
         public void onClick(View v) {
             mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SEND_WIFI_HOSTNAME, dccexWifiHostnameValue);
+            threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastWifiChangeComplete), Toast.LENGTH_LONG);
 
             mainapp.buttonVibration();
             mainapp.hideSoftKeyboard(v);
@@ -757,6 +760,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
 
         public void onClick(View v) {
             mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_RESET_WIFI,"");
+            threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastWifiChangeComplete), Toast.LENGTH_LONG);
 
             mainapp.buttonVibration();
             mainapp.hideSoftKeyboard(v);

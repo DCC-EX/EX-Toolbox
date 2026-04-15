@@ -473,15 +473,17 @@
     <string name="dccexWifiSetHostnameAndStationLabel">Set Hostname\n + Station</string>
     <string name="dccexWifiResetLabel">Reset WiFi</string>
 
-    <string name="dccexWifiHelp">Only Station mode can be set over WiFi. To set Access Point mode you must use a serial connection.
+    <string name="dccexWifiHelp">Only Station (STA) mode can be changed over WiFi. Access Point (AP) mode changes require a serial connection.
         \nWARNING: As soon as you press ANY \'Set...\' or \'Reset\' the Command Station will reload. Your phone will likely lose the WiFi connection.
-        \nYou should immediately exit EX-Toolbox and reconnect.
-        \nNOTE:
+        You should immediately exit EX-Toolbox and reconnect.
+        \nNOTES:
         \n- You cannot set the \'Hostname\' and \'SSID\' at the same time. Do one, then reconnect to do the other.
-        \n- Changing the Hostname while in Access Point works, but will not be visible.
-        \n- Passwords must be at least 8 characters.
+        \n- Changing the Hostname while in AP mode works, but will not be visible.
         \n- SSID and Hostname cannot contain spaces. Other than \'_\' and \'-\', special characters should be avoided.
+        \n- Passwords must be at least 8 characters.
     </string>
+
+    <string name="toastWifiChangeComplete">Change sent. Exit EX-Toolbox now and reconnect.</string>
 
     <string name="dccexActionTypeLabel">Action</string>
     <string name="dccexWriteAddressLabel">DCC Address</string>
