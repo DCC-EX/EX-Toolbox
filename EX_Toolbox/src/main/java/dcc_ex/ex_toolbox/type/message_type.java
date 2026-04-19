@@ -98,5 +98,6 @@ public interface message_type {
     int DCCEX_RECEIVED_WIFI_DETAILS = 97;
     int REQUEST_RESET_WIFI = 98;
     int SEND_WIFI_STATION = 99;
-    int SEND_WIFI_HOSTNAME = 100;
+    int SEND_WIFI_TEMP = 100;
+    int SEND_WIFI_HOSTNAME = 101;
 }

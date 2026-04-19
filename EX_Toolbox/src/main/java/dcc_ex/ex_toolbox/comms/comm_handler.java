@@ -257,6 +257,11 @@ public class comm_handler extends Handler {
             comm_thread.sendWifiStation(args[0], args[1]);
             break;
          }
+         case message_type.SEND_WIFI_TEMP: {
+            String [] args = msg.obj.toString().split(" ");
+            comm_thread.sendWifiTemp(args[0], args[1]);
+            break;
+         }
          case message_type.SEND_WIFI_HOSTNAME: {
             String [] args = msg.obj.toString().split(" ");
             comm_thread.sendWifiHostname(args[0]);

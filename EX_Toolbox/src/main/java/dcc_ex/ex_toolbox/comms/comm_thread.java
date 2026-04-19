@@ -457,6 +457,11 @@ public class comm_thread extends Thread {
         wifiSend(msgTxt);
     }
 
+    public static void sendWifiTemp(String ssid, String password) {
+        String msgTxt = "<C WIFI TEMP \"" + ssid + "\" \"" + password + "\">";
+        wifiSend(msgTxt);
+    }
+
     public static void sendWifiHostname(String hostname) {
         String msgTxt = "<C WIFI HOSTNAME \"" + hostname + "\">";
         wifiSend(msgTxt);

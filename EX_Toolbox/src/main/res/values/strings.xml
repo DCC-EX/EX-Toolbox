@@ -469,11 +469,12 @@
     <string name="dccexWifiOnLabel">Enabled</string>
     <string name="dccexWifiOffLabel">Disabled</string>
     <string name="dccexWifiSetStationLabel">Set Station</string>
+    <string name="dccexWifiSetTempLabel">Set Temp</string>
     <string name="dccexWifiSetHostnameLabel">Set Hostname</string>
     <string name="dccexWifiSetHostnameAndStationLabel">Set Hostname\n + Station</string>
     <string name="dccexWifiResetLabel">Reset WiFi</string>
 
-    <string name="dccexWifiHelp">Only Station (STA) mode can be changed over WiFi. Access Point (AP) mode changes require a serial connection.
+    <string name="dccexWifiHelp" tools:ignore="TypographyEllipsis">Only Station (STA) mode can be changed over WiFi. Access Point (AP) mode changes require a serial connection.
         \nWARNING: As soon as you press ANY \'Set...\' or \'Reset\' the Command Station will reload. Your phone will likely lose the WiFi connection.
         You should immediately exit EX-Toolbox and reconnect.
         \nNOTES:

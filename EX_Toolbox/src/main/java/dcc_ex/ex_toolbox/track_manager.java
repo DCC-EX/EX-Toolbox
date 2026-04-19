@@ -672,6 +672,7 @@ public class track_manager extends AppCompatActivity implements GestureOverlayVi
         mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
         mainapp.setPowerMenuOption(menu);
         mainapp.reformatMenu(menu);
+        mainapp.showHideWiFiMenuItem(menu);
 
         adjustToolbarSize(menu);
 

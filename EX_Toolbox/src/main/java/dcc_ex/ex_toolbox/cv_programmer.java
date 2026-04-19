@@ -815,6 +815,7 @@ public class cv_programmer extends AppCompatActivity implements android.gesture.
         mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
         mainapp.setPowerMenuOption(menu);
         mainapp.reformatMenu(menu);
+        mainapp.showHideWiFiMenuItem(menu);
 
         adjustToolbarSize(menu);
 

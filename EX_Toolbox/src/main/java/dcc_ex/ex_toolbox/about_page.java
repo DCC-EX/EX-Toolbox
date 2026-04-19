@@ -105,7 +105,7 @@ public class about_page extends AppCompatActivity {
         mainapp.displayPowerStateMenuButton(menu);
         mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
         mainapp.reformatMenu(menu);
-
+        mainapp.showHideWiFiMenuItem(menu);
         adjustToolbarSize(menu);
 
         return super.onCreateOptionsMenu(menu);

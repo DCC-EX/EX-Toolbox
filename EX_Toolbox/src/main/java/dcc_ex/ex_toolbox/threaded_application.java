@@ -997,8 +997,8 @@ public class threaded_application extends Application {
         if (menu != null) {
             MenuItem item = menu.findItem(R.id.wifi_mnu);
             if (item != null) {
-                boolean isVisable = (mainapp.dccexVersionValue > DCCEX_MIN_VERSION_FOR_WIFI) && mainapp.isEsp32OrCsb1;
-                item.setVisible(mainapp.dccexVersionValue > DCCEX_MIN_VERSION_FOR_WIFI);
+                boolean isVisible = (mainapp.dccexVersionValue > DCCEX_MIN_VERSION_FOR_WIFI) && mainapp.isEsp32OrCsb1;
+                item.setVisible(isVisible);
             }
         }
     }
@@ -1920,6 +1920,17 @@ public class threaded_application extends Application {
         } catch (Exception e) {
             Log.d("ex_toolbox", "Throttle: failed loading background image");
         }
+    }
+
+    public void showHideWiFiMenuItem(Menu menu) {
+        if (menu == null) return;
+
+        MenuItem mi = menu.findItem(R.id.wifi_mnu);
+        if (mi == null) return;
+
+        boolean isVisible = (mainapp.dccexVersionValue > DCCEX_MIN_VERSION_FOR_WIFI) && mainapp.isEsp32OrCsb1;
+        mi.setVisible(isVisible);
+
     }
 
     public void reformatMenu(Menu menu) {

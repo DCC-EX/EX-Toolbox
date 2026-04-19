@@ -482,6 +482,7 @@ public class roster extends AppCompatActivity implements GestureOverlayView.OnGe
         mainapp.setPowerMenuOption(menu);
 
         mainapp.reformatMenu(menu);
+        mainapp.showHideWiFiMenuItem(menu);
 
         adjustToolbarSize(menu);
 

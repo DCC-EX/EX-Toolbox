@@ -602,6 +602,7 @@ public class neopixel extends AppCompatActivity implements GestureOverlayView.On
         mainapp.setPowerStateActionViewButton(menu, findViewById(R.id.powerLayoutButton));
         mainapp.setPowerMenuOption(menu);
         mainapp.reformatMenu(menu);
+        mainapp.showHideWiFiMenuItem(menu);
 
         adjustToolbarSize(menu);
 
