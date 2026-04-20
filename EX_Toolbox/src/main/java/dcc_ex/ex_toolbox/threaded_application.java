@@ -186,6 +186,7 @@ public class threaded_application extends Application {
     public HashMap<String, String> knownDccexServerIps = new HashMap<>();
     public boolean isDccex = true;  // is a DCC-EX EX-CommandStation
     public boolean isEsp32OrCsb1 = false;
+    public boolean isUSB = false;
     public String dccexVersion = "";
     public double dccexVersionValue = 0.0;
     public static final double DCCEX_MIN_VERSION_FOR_TRACK_MANAGER = 04.02007;
@@ -388,10 +389,12 @@ public class threaded_application extends Application {
 
     public String wifiAccessPointSsid = "";
     public String wifiAccessPointPassword = "";
+    public String wifiAccessPointChannel = "";
+
     public String wifiStationSsid = "";
     public String wifiStationPassword = "";
+
     public String wifiHostname = "";
-    public String wifiChannel = "";
 
     public ImportExport importExport = new ImportExport();
 

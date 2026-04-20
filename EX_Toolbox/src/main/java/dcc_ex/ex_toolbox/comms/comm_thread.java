@@ -21,31 +21,14 @@ package dcc_ex.ex_toolbox.comms;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
-import android.net.NetworkRequest;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Looper;
 import android.os.Message;
-import android.os.SystemClock;
 import android.text.Html;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -68,7 +51,9 @@ public class comm_thread extends Thread {
     volatile boolean endingJmdns = false;
     withrottle_listener listener;
     android.net.wifi.WifiManager.MulticastLock multicast_lock;
-    static socketWifi socketWiT;
+//    static socketWifi socketWiT;
+    static SocketWiFi socketWiT;
+    static SocketUsb socketUsb;
     static heartbeat heart = new heartbeat();
     private static long lastSentMs = System.currentTimeMillis();
     private static long lastQueuedMs = System.currentTimeMillis();
@@ -268,6 +253,38 @@ public class comm_thread extends Thread {
 
     }
 
+    void addFakeUsbServer() {
+
+        String serverAddress = "0.0.0.0";
+        String serverPort = "2560";
+        String entryName = "DCC-EX-USB-OTG";
+        HashMap<String, String> hm = new HashMap<>();
+        hm.put("ip_address", serverAddress);
+        hm.put("port", serverPort);
+        hm.put("host_name", entryName);
+        hm.put("ssid", mainapp.client_ssid);
+        hm.put("service_type", mainapp.JMDNS_SERVICE_JMRI_DCCPP_OVERTCP);
+
+//        mainapp.knownDCCEXserverIps.put(server_addr, serverType);
+        String key = serverAddress + ":" + serverPort;
+        mainapp.knownDccexServerIps.put(key, "DCC-EX");
+
+        Message service_message = Message.obtain();
+        service_message.what = message_type.SERVICE_RESOLVED;
+        service_message.arg1 = mainapp.port;
+        service_message.obj = hm;  //send the hashmap as the payload
+        boolean sent = false;
+        try {
+            sent = mainapp.connection_msg_handler.sendMessage(service_message);
+        } catch (Exception ignored) {
+        }
+        if (!sent)
+            service_message.recycle();
+
+        Log.d("EX_Toolbox", String.format("comm_thread.addFakeUsbServer: added '%s' at %s to Discovered List", entryName, serverAddress));
+
+    }
+
 //        class comm_handler extends Handler {}
 
     protected void stoppingConnection() {
@@ -279,8 +296,14 @@ public class comm_thread extends Thread {
 
     protected void shutdown(boolean fast) {
         Log.d("EX_Toolbox", "comm_thread.Shutdown");
-        if (socketWiT != null) {
-            socketWiT.disconnect(true, fast);     //stop reading from the socket
+        if (!mainapp.isUSB) {
+            if (socketWiT != null) {
+                socketWiT.disconnect(true, fast);     //stop reading from the socket
+            }
+        } else {
+            if (socketUsb != null) {
+                socketUsb.disconnect(true, fast);     //stop reading from the socket
+            }
         }
         Log.d("EX_Toolbox", "comm_thread.Shutdown: socketWit down");
         mainapp.host_ip = null;
@@ -459,6 +482,15 @@ public class comm_thread extends Thread {
 
     public static void sendWifiTemp(String ssid, String password) {
         String msgTxt = "<C WIFI TEMP \"" + ssid + "\" \"" + password + "\">";
+        wifiSend(msgTxt);
+    }
+
+    public static void sendWifiAccessPoint(String ssid, String password, String channel) {
+        String msgTxt;
+        if (channel.isEmpty())
+            msgTxt = "<C WIFI AP \"" + ssid + "\" \"" + password + "\">";
+        else
+            msgTxt = "<C WIFI AP \"" + ssid + "\" \"" + password + "\" " + channel + ">";
         wifiSend(msgTxt);
     }
 
@@ -803,7 +835,7 @@ public class comm_thread extends Thread {
              */
 
         //send response to debug log for review
-        Log.d("EX_Toolbox", "comm_thread.processWifiResponse: " + (mainapp.isDccex ? "DCC-EX" : "") + "<--:" + responseStr);
+        Log.d("EX_Toolbox", "comm_thread.processWifiResponse: " + (mainapp.isDccex ? "DCC-EX" : "") + "<:> <--:" + responseStr);
 
         boolean skipAlert = false;          //set to true if the Activities do not need to be Alerted
 
@@ -1126,7 +1158,7 @@ public class comm_thread extends Thread {
                             mainapp.wifiAccessPointPassword = args[5];
                             validCommand = true;
                             if (args.length >= 7) {
-                                mainapp.wifiChannel = args[6];
+                                mainapp.wifiAccessPointChannel = args[6];
                             }
                         }
 
@@ -1136,7 +1168,7 @@ public class comm_thread extends Thread {
                             mainapp.wifiAccessPointPassword = args[5];
                             validCommand = true;
                             if (args.length == 7) {
-                                mainapp.wifiChannel = args[6];
+                                mainapp.wifiAccessPointChannel = args[6];
                             }
                         }
 
@@ -1858,9 +1890,18 @@ public class comm_thread extends Thread {
         if (msg == null) { //exit if no message
             Log.d("EX_Toolbox", "comm_thread.wifiSend: --> null msg");
             return;
-        } else if (socketWiT == null) {
-            Log.e("EX_Toolbox", "comm_thread.wifiSend: socketWiT is null, message '" + msg + "' not sent!");
-            return;
+        } else {
+            if (!mainapp.isUSB) {
+                if (socketWiT == null) {
+                    Log.e("EX_Toolbox", "comm_thread.wifiSend: socketWiT is null, message '" + msg + "' not sent!");
+                    return;
+                }
+            } else {
+                if (socketUsb == null) {
+                    Log.e("EX_Toolbox", "comm_thread.wifiSend: sockeUsb is null, message '" + msg + "' not sent!");
+                    return;
+                }
+            }
         }
 
         long now = System.currentTimeMillis();
@@ -1868,10 +1909,14 @@ public class comm_thread extends Thread {
 
         //send if sufficient gap between messages or msg is timingSensitive, requeue if not
         if (lastGap >= threaded_application.WiThrottle_Msg_Interval || timingSensitive(msg)) {
-            //perform the send
-            Log.d("EX_Toolbox", "comm_thread.wifiSend: " + (mainapp.isDccex ? "DCC-EX" : "") + "           -->:" + msg.replaceAll("\n", "\u21B5") + " (" + lastGap + ")"); //replace newline with cr arrow
+            //perform the 'send'
+            Log.d("EX_Toolbox", "comm_thread.wifiSend: " + (mainapp.isDccex ? "DCC-EX" : "") + "           <:> -->:" + msg.replaceAll("\n", "\u21B5") + " (" + lastGap + ")"); //replace newline with cr arrow
             lastSentMs = now;
-            socketWiT.Send(msg);
+            if (!mainapp.isUSB) {
+                socketWiT.Send(msg);
+            } else {
+                socketUsb.Send(msg);
+            }
 
             if (mainapp.dccexScreenIsOpen) { // only relevant to some DCC-EX commands that we want to see in the DCC-EC Screen.
                 mainapp.sendMsg(mainapp.comm_msg_handler, message_type.DCCEX_COMMAND_ECHO, msg);
@@ -1910,314 +1955,314 @@ public class comm_thread extends Thread {
 
     /* ******************************************************************************************** */
     /* ******************************************************************************************** */
-
-    static class socketWifi extends Thread {
-        InetAddress host_address;
-        Socket clientSocket = null;
-        BufferedReader inputBR = null;
-        PrintWriter outputPW = null;
-        private volatile boolean endRead = false;           //signals rcvr to terminate
-        private volatile boolean socketGood = false;        //indicates socket condition
-        private volatile boolean inboundTimeout = false;    //indicates inbound messages are not arriving from WiT
-        private boolean firstConnect = false;               //indicates initial socket connection was achieved
-        private int connectTimeoutMs = 3000; //connection timeout in milliseconds
-        private int socketTimeoutMs = 500; //socket timeout in milliseconds
-
-        private final int MAX_INBOUND_TIMEOUT_RETRIES = 2;
-        private int inboundTimeoutRetryCount = 0;           // number of consecutive inbound timeouts
-        private boolean inboundTimeoutRecovery = false;     // attempting to force WiT to respond
-
-
-        socketWifi() {
-            super("socketWifi");
-        }
-
-        public boolean connect() {
-
-            //use local socketOk instead of setting socketGood so that the rcvr doesn't resume until connect() is done
-            boolean socketOk = HaveNetworkConnection();
-
-            connectTimeoutMs = Integer.parseInt(prefs.getString("prefConnectTimeoutMs", mainapp.getResources().getString(R.string.prefConnectTimeoutMsDefaultValue)));
-            socketTimeoutMs = Integer.parseInt(prefs.getString("prefSocketTimeoutMs", mainapp.getResources().getString(R.string.prefSocketTimeoutMsDefaultValue)));
-
-            //validate address
-            if (socketOk) {
-                try {
-                    host_address = InetAddress.getByName(mainapp.host_ip);
-                } catch (UnknownHostException except) {
-//                        show_toast_message("Can't determine IP address of " + host_ip, Toast.LENGTH_LONG);
-                    threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppCantDetermineIp, mainapp.host_ip), Toast.LENGTH_SHORT);
-                    socketOk = false;
-                }
-            }
-
-            //socket
-            if (socketOk) {
-                try {
-                    //look for someone to answer on specified socket, and set timeout
-                    Log.d("EX_Toolbox", "comm_thread.socketWifi: Opening socket, connectTimeout=" + connectTimeoutMs + " and socketTimeout=" + socketTimeoutMs);
-                    clientSocket = new Socket();
-                    InetSocketAddress sa = new InetSocketAddress(mainapp.host_ip, mainapp.port);
-                    clientSocket.connect(sa, connectTimeoutMs);
-                    Log.d("EX_Toolbox", "comm_thread.socketWifi: Opening socket: Connect successful.");
-                    clientSocket.setSoTimeout(socketTimeoutMs);
-                    Log.d("EX_Toolbox", "comm_thread.socketWifi: Opening socket: set timeout successful.");
-                } catch (Exception except) {
-                    if (!firstConnect) {
-                        threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppCantConnect,
-                                mainapp.host_ip, Integer.toString(mainapp.port), mainapp.client_address, except.getMessage()), Toast.LENGTH_LONG);
-                    }
-                    if ((!mainapp.client_type.equals("WIFI")) && (mainapp.prefAllowMobileData)) { //show additional message if using mobile data
-                        Log.d("EX_Toolbox", "comm_thread.socketWifi: Opening socket: Using mobile network, not WIFI. Check your WiFi settings and Preferences.");
-                        threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppNotWIFI, mainapp.client_type), Toast.LENGTH_LONG);
-                    }
-                    socketOk = false;
-                }
-            }
-
-            //rcvr
-            if (socketOk) {
-                try {
-                    inputBR = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                } catch (IOException except) {
-                    threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppErrorInputStream, except.getMessage()), Toast.LENGTH_SHORT);
-                    socketOk = false;
-                }
-            }
-
-            //start the socketWifi thread.
-            if (socketOk) {
-                if (!this.isAlive()) {
-                    endRead = false;
-                    try {
-                        this.start();
-                    } catch (IllegalThreadStateException except) {
-                        //ignore "already started" errors
-                        threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppErrorStartingSocket, except.getMessage()), Toast.LENGTH_SHORT);
-                    }
-                }
-            }
-
-            //xmtr
-            if (socketOk) {
-                try {
-                    outputPW = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()), true);
-                    if (outputPW.checkError()) {
-                        socketOk = false;
-                    }
-                } catch (IOException e) {
-                    threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppErrorCreatingOutputStream, e.getMessage()), Toast.LENGTH_SHORT);
-                    socketOk = false;
-                }
-            }
-            socketGood = socketOk;
-            if (socketOk)
-                firstConnect = true;
-            return socketOk;
-        }
-
-        public void disconnect(boolean shutdown) {
-            disconnect(shutdown, false);
-        }
-
-        public void disconnect(boolean shutdown, boolean fastShutdown) {
-            if (shutdown) {
-                endRead = true;
-                if (!fastShutdown) {
-                    for (int i = 0; i < 5 && this.isAlive(); i++) {
-                        try {
-                            Thread.sleep(connectTimeoutMs);     //  give run() a chance to see endRead and exit
-                        } catch (InterruptedException e) {
-                            threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppErrorSleepingThread, e.getMessage()), Toast.LENGTH_SHORT);
-                        }
-                    }
-                }
-            }
-
-            socketGood = false;
-
-            //close socket
-            if (clientSocket != null) {
-                try {
-                    clientSocket.close();
-                } catch (Exception e) {
-                    Log.d("EX_Toolbox", "comm_thread.socketWifi: Error closing the Socket: " + e.getMessage());
-                }
-            }
-        }
-
-        //read the input buffer
-        public void run() {
-            String str;
-            //continue reading until signaled to exit by endRead
-            while (!endRead) {
-                if (socketGood) {        //skip read when the socket is down
-                    try {
-                        if ((str = inputBR.readLine()) != null) {
-                            if (str.length() > 0) {
-                                heart.restartInboundInterval();
-                                clearInboundTimeout();
-                                processWifiResponse(str);
-                            }
-                        }
-                    } catch (SocketTimeoutException e) {
-                        socketGood = this.SocketCheck();
-                    } catch (IOException e) {
-                        if (socketGood) {
-                            Log.d("EX_Toolbox", "comm_thread.run(): WiT rcvr error.");
-                            socketGood = false;     //input buffer error so force reconnection on next send
-                        }
-                    }
-                }
-                if (!socketGood) {
-                    SystemClock.sleep(500L);        //don't become compute bound here when the socket is down
-                }
-            }
-            heart.stopHeartbeat();
-            Log.d("EX_Toolbox", "comm_thread.run(): socketWifi exit.");
-        }
-
-        @SuppressLint("StringFormatMatches")
-        void Send(String msg) {
-            boolean reconInProg = false;
-            //reconnect socket if needed
-            if (!socketGood || inboundTimeout) {
-                String status;
-                if (mainapp.client_address == null) {
-                    status = threaded_application.context.getResources().getString(R.string.statusThreadedAppNotConnected);
-                    Log.d("EX_Toolbox", "comm_thread.send(): WiT send reconnection attempt.");
-                } else if (inboundTimeout) {
-                    status = threaded_application.context.getResources().getString(R.string.statusThreadedAppNoResponse, mainapp.host_ip, Integer.toString(mainapp.port), heart.getInboundInterval());
-                    Log.d("EX_Toolbox", "comm_thread.send(): WiT receive reconnection attempt.");
-                } else {
-                    status = threaded_application.context.getResources().getString(R.string.statusThreadedAppUnableToConnect, mainapp.host_ip, Integer.toString(mainapp.port), mainapp.client_address);
-                    Log.d("EX_Toolbox", "comm_thread.send(): WiT send reconnection attempt.");
-                }
-                socketGood = false;
-
-                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WIT_CON_RETRY, status);
-
-                //perform the reconnection sequence
-                this.disconnect(false);             //clean up socket but do not shut down the receiver
-                this.connect();                     //attempt to reestablish connection
-                reconInProg = true;
-            }
-
-            //try to send the message
-            if (socketGood) {
-                try {
-                    outputPW.println(msg);
-                    outputPW.flush();
-                    heart.restartOutboundInterval();
-
-                    // if we get here without an exception then the socket is ok
-                    if (reconInProg) {
-                        String status = "Connected to WiThrottle Server at " + mainapp.host_ip + ":" + mainapp.port;
-                        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WIT_CON_RECONNECT, status);
-                        Log.d("EX_Toolbox", "comm_thread.send(): WiT reconnection successful.");
-                        clearInboundTimeout();
-                        heart.restartInboundInterval();     //socket is good so restart inbound heartbeat timer
-                    }
-                } catch (Exception e) {
-                    Log.d("EX_Toolbox", "comm_thread.send(): WiT xmtr error.");
-                    socketGood = false;             //output buffer error so force reconnection on next send
-                }
-            }
-
-            if (!socketGood) {
-                mainapp.comm_msg_handler.postDelayed(heart.outboundHeartbeatTimer, 500L);   //try connection again in 0.5 second
-            }
-        }
-
-        // Attempt to determine if the socket connection is still good.
-        // unfortunately isConnected returns true if the Socket was disconnected other than by calling close()
-        // so on signal loss it still returns true.
-        // Eventually we just try to send and handle the IOException if the socket was disconnected.
-        boolean SocketCheck() {
-            boolean status = clientSocket.isConnected() && !clientSocket.isInputShutdown() && !clientSocket.isOutputShutdown();
-            if (status)
-                status = HaveNetworkConnection();   // can't trust the socket flags so try something else...
-            return status;
-        }
-
-        // temporary - SocketCheck should determine whether socket connection is good however socket flags sometimes do not get updated
-        // so it doesn't work.  This is better than nothing though?
-        private boolean HaveNetworkConnection() {
-            boolean haveConnectedWifi = false;
-            boolean haveConnectedMobile = false;
-            mainapp.prefAllowMobileData = prefs.getBoolean("prefAllowMobileData", false);
-
-            final ConnectivityManager cm = (ConnectivityManager) mainapp.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-            for (NetworkInfo ni : netInfo) {
-                if ("WIFI".equalsIgnoreCase(ni.getTypeName()))
-
-                    if (!mainapp.prefAllowMobileData) {
-                        // attempt to resolve the problem where some devices won't connect over wifi unless mobile data is turned off
-                        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                                && (!mainapp.haveForcedWiFiConnection)) {
-
-                            Log.d("EX_Toolbox", "comm_thread.HaveNetworkConnection: NetworkRequest.Builder");
-                            NetworkRequest.Builder request = new NetworkRequest.Builder();
-                            request.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
-
-                            cm.registerNetworkCallback(request.build(), new ConnectivityManager.NetworkCallback() {
-                                @Override
-                                public void onAvailable(Network network) {
-                                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                                        ConnectivityManager.setProcessDefaultNetwork(network);
-                                    } else {
-                                        cm.bindProcessToNetwork(network);  //API23+
-                                    }
-                                }
-                            });
-                            mainapp.haveForcedWiFiConnection = true;
-                        }
-                    }
-
-                if (ni.isConnected()) {
-                    haveConnectedWifi = true;
-                } else {
-                    // attempt to resolve the problem where some devices won't connect over wifi unless mobile data is turned off
-                    if (mainapp.prefAllowMobileData) {
-                        haveConnectedWifi = true;
-                    }
-                }
-                if ("MOBILE".equalsIgnoreCase(ni.getTypeName()))
-                    if ((ni.isConnected()) && (mainapp.prefAllowMobileData)) {
-                        haveConnectedMobile = true;
-                    }
-            }
-            return haveConnectedWifi || haveConnectedMobile;
-        }
-
-        boolean SocketGood() {
-            return this.socketGood;
-        }
-
-        void InboundTimeout() {
-            if (++inboundTimeoutRetryCount >= MAX_INBOUND_TIMEOUT_RETRIES) {
-                Log.d("EX_Toolbox", "comm_thread.InboundTimeout: WiT max inbound timeouts");
-                inboundTimeout = true;
-                inboundTimeoutRetryCount = 0;
-                inboundTimeoutRecovery = false;
-                // force a send to start the reconnection process
-                mainapp.comm_msg_handler.postDelayed(heart.outboundHeartbeatTimer, 200L);
-            } else {
-                Log.d("EX_Toolbox", "comm_thread.InboundTimeout: WiT inbound timeout " +
-                        Integer.toString(inboundTimeoutRetryCount) + " of " + MAX_INBOUND_TIMEOUT_RETRIES);
-                // heartbeat should trigger a WiT reply so force that now
-                inboundTimeoutRecovery = true;
-                mainapp.comm_msg_handler.post(heart.outboundHeartbeatTimer);
-            }
-        }
-
-        void clearInboundTimeout() {
-            inboundTimeout = false;
-            inboundTimeoutRecovery = false;
-            inboundTimeoutRetryCount = 0;
-        }
-    }
+//
+//    static class socketWifi extends Thread {
+//        InetAddress host_address;
+//        Socket clientSocket = null;
+//        BufferedReader inputBR = null;
+//        PrintWriter outputPW = null;
+//        private volatile boolean endRead = false;           //signals rcvr to terminate
+//        private volatile boolean socketGood = false;        //indicates socket condition
+//        private volatile boolean inboundTimeout = false;    //indicates inbound messages are not arriving from WiT
+//        private boolean firstConnect = false;               //indicates initial socket connection was achieved
+//        private int connectTimeoutMs = 3000; //connection timeout in milliseconds
+//        private int socketTimeoutMs = 500; //socket timeout in milliseconds
+//
+//        private final int MAX_INBOUND_TIMEOUT_RETRIES = 2;
+//        private int inboundTimeoutRetryCount = 0;           // number of consecutive inbound timeouts
+//        private boolean inboundTimeoutRecovery = false;     // attempting to force WiT to respond
+//
+//
+//        socketWifi() {
+//            super("socketWifi");
+//        }
+//
+//        public boolean connect() {
+//
+//            //use local socketOk instead of setting socketGood so that the rcvr doesn't resume until connect() is done
+//            boolean socketOk = HaveNetworkConnection();
+//
+//            connectTimeoutMs = Integer.parseInt(prefs.getString("prefConnectTimeoutMs", mainapp.getResources().getString(R.string.prefConnectTimeoutMsDefaultValue)));
+//            socketTimeoutMs = Integer.parseInt(prefs.getString("prefSocketTimeoutMs", mainapp.getResources().getString(R.string.prefSocketTimeoutMsDefaultValue)));
+//
+//            //validate address
+//            if (socketOk) {
+//                try {
+//                    host_address = InetAddress.getByName(mainapp.host_ip);
+//                } catch (UnknownHostException except) {
+////                        show_toast_message("Can't determine IP address of " + host_ip, Toast.LENGTH_LONG);
+//                    threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppCantDetermineIp, mainapp.host_ip), Toast.LENGTH_SHORT);
+//                    socketOk = false;
+//                }
+//            }
+//
+//            //socket
+//            if (socketOk) {
+//                try {
+//                    //look for someone to answer on specified socket, and set timeout
+//                    Log.d("EX_Toolbox", "comm_thread.socketWifi: Opening socket, connectTimeout=" + connectTimeoutMs + " and socketTimeout=" + socketTimeoutMs);
+//                    clientSocket = new Socket();
+//                    InetSocketAddress sa = new InetSocketAddress(mainapp.host_ip, mainapp.port);
+//                    clientSocket.connect(sa, connectTimeoutMs);
+//                    Log.d("EX_Toolbox", "comm_thread.socketWifi: Opening socket: Connect successful.");
+//                    clientSocket.setSoTimeout(socketTimeoutMs);
+//                    Log.d("EX_Toolbox", "comm_thread.socketWifi: Opening socket: set timeout successful.");
+//                } catch (Exception except) {
+//                    if (!firstConnect) {
+//                        threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppCantConnect,
+//                                mainapp.host_ip, Integer.toString(mainapp.port), mainapp.client_address, except.getMessage()), Toast.LENGTH_LONG);
+//                    }
+//                    if ((!mainapp.client_type.equals("WIFI")) && (mainapp.prefAllowMobileData)) { //show additional message if using mobile data
+//                        Log.d("EX_Toolbox", "comm_thread.socketWifi: Opening socket: Using mobile network, not WIFI. Check your WiFi settings and Preferences.");
+//                        threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppNotWIFI, mainapp.client_type), Toast.LENGTH_LONG);
+//                    }
+//                    socketOk = false;
+//                }
+//            }
+//
+//            //rcvr
+//            if (socketOk) {
+//                try {
+//                    inputBR = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//                } catch (IOException except) {
+//                    threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppErrorInputStream, except.getMessage()), Toast.LENGTH_SHORT);
+//                    socketOk = false;
+//                }
+//            }
+//
+//            //start the socketWifi thread.
+//            if (socketOk) {
+//                if (!this.isAlive()) {
+//                    endRead = false;
+//                    try {
+//                        this.start();
+//                    } catch (IllegalThreadStateException except) {
+//                        //ignore "already started" errors
+//                        threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppErrorStartingSocket, except.getMessage()), Toast.LENGTH_SHORT);
+//                    }
+//                }
+//            }
+//
+//            //xmtr
+//            if (socketOk) {
+//                try {
+//                    outputPW = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()), true);
+//                    if (outputPW.checkError()) {
+//                        socketOk = false;
+//                    }
+//                } catch (IOException e) {
+//                    threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppErrorCreatingOutputStream, e.getMessage()), Toast.LENGTH_SHORT);
+//                    socketOk = false;
+//                }
+//            }
+//            socketGood = socketOk;
+//            if (socketOk)
+//                firstConnect = true;
+//            return socketOk;
+//        }
+//
+//        public void disconnect(boolean shutdown) {
+//            disconnect(shutdown, false);
+//        }
+//
+//        public void disconnect(boolean shutdown, boolean fastShutdown) {
+//            if (shutdown) {
+//                endRead = true;
+//                if (!fastShutdown) {
+//                    for (int i = 0; i < 5 && this.isAlive(); i++) {
+//                        try {
+//                            Thread.sleep(connectTimeoutMs);     //  give run() a chance to see endRead and exit
+//                        } catch (InterruptedException e) {
+//                            threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastThreadedAppErrorSleepingThread, e.getMessage()), Toast.LENGTH_SHORT);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            socketGood = false;
+//
+//            //close socket
+//            if (clientSocket != null) {
+//                try {
+//                    clientSocket.close();
+//                } catch (Exception e) {
+//                    Log.d("EX_Toolbox", "comm_thread.socketWifi: Error closing the Socket: " + e.getMessage());
+//                }
+//            }
+//        }
+//
+//        //read the input buffer
+//        public void run() {
+//            String str;
+//            //continue reading until signaled to exit by endRead
+//            while (!endRead) {
+//                if (socketGood) {        //skip read when the socket is down
+//                    try {
+//                        if ((str = inputBR.readLine()) != null) {
+//                            if (str.length() > 0) {
+//                                heart.restartInboundInterval();
+//                                clearInboundTimeout();
+//                                processWifiResponse(str);
+//                            }
+//                        }
+//                    } catch (SocketTimeoutException e) {
+//                        socketGood = this.SocketCheck();
+//                    } catch (IOException e) {
+//                        if (socketGood) {
+//                            Log.d("EX_Toolbox", "comm_thread.run(): WiT rcvr error.");
+//                            socketGood = false;     //input buffer error so force reconnection on next send
+//                        }
+//                    }
+//                }
+//                if (!socketGood) {
+//                    SystemClock.sleep(500L);        //don't become compute bound here when the socket is down
+//                }
+//            }
+//            heart.stopHeartbeat();
+//            Log.d("EX_Toolbox", "comm_thread.run(): socketWifi exit.");
+//        }
+//
+//        @SuppressLint("StringFormatMatches")
+//        void Send(String msg) {
+//            boolean reconInProg = false;
+//            //reconnect socket if needed
+//            if (!socketGood || inboundTimeout) {
+//                String status;
+//                if (mainapp.client_address == null) {
+//                    status = threaded_application.context.getResources().getString(R.string.statusThreadedAppNotConnected);
+//                    Log.d("EX_Toolbox", "comm_thread.send(): WiT send reconnection attempt.");
+//                } else if (inboundTimeout) {
+//                    status = threaded_application.context.getResources().getString(R.string.statusThreadedAppNoResponse, mainapp.host_ip, Integer.toString(mainapp.port), heart.getInboundInterval());
+//                    Log.d("EX_Toolbox", "comm_thread.send(): WiT receive reconnection attempt.");
+//                } else {
+//                    status = threaded_application.context.getResources().getString(R.string.statusThreadedAppUnableToConnect, mainapp.host_ip, Integer.toString(mainapp.port), mainapp.client_address);
+//                    Log.d("EX_Toolbox", "comm_thread.send(): WiT send reconnection attempt.");
+//                }
+//                socketGood = false;
+//
+//                mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WIT_CON_RETRY, status);
+//
+//                //perform the reconnection sequence
+//                this.disconnect(false);             //clean up socket but do not shut down the receiver
+//                this.connect();                     //attempt to reestablish connection
+//                reconInProg = true;
+//            }
+//
+//            //try to send the message
+//            if (socketGood) {
+//                try {
+//                    outputPW.println(msg);
+//                    outputPW.flush();
+//                    heart.restartOutboundInterval();
+//
+//                    // if we get here without an exception then the socket is ok
+//                    if (reconInProg) {
+//                        String status = "Connected to WiThrottle Server at " + mainapp.host_ip + ":" + mainapp.port;
+//                        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.WIT_CON_RECONNECT, status);
+//                        Log.d("EX_Toolbox", "comm_thread.send(): WiT reconnection successful.");
+//                        clearInboundTimeout();
+//                        heart.restartInboundInterval();     //socket is good so restart inbound heartbeat timer
+//                    }
+//                } catch (Exception e) {
+//                    Log.d("EX_Toolbox", "comm_thread.send(): WiT xmtr error.");
+//                    socketGood = false;             //output buffer error so force reconnection on next send
+//                }
+//            }
+//
+//            if (!socketGood) {
+//                mainapp.comm_msg_handler.postDelayed(heart.outboundHeartbeatTimer, 500L);   //try connection again in 0.5 second
+//            }
+//        }
+//
+//        // Attempt to determine if the socket connection is still good.
+//        // unfortunately isConnected returns true if the Socket was disconnected other than by calling close()
+//        // so on signal loss it still returns true.
+//        // Eventually we just try to send and handle the IOException if the socket was disconnected.
+//        boolean SocketCheck() {
+//            boolean status = clientSocket.isConnected() && !clientSocket.isInputShutdown() && !clientSocket.isOutputShutdown();
+//            if (status)
+//                status = HaveNetworkConnection();   // can't trust the socket flags so try something else...
+//            return status;
+//        }
+//
+//        // temporary - SocketCheck should determine whether socket connection is good however socket flags sometimes do not get updated
+//        // so it doesn't work.  This is better than nothing though?
+//        private boolean HaveNetworkConnection() {
+//            boolean haveConnectedWifi = false;
+//            boolean haveConnectedMobile = false;
+//            mainapp.prefAllowMobileData = prefs.getBoolean("prefAllowMobileData", false);
+//
+//            final ConnectivityManager cm = (ConnectivityManager) mainapp.getSystemService(Context.CONNECTIVITY_SERVICE);
+//            NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+//            for (NetworkInfo ni : netInfo) {
+//                if ("WIFI".equalsIgnoreCase(ni.getTypeName()))
+//
+//                    if (!mainapp.prefAllowMobileData) {
+//                        // attempt to resolve the problem where some devices won't connect over wifi unless mobile data is turned off
+//                        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+//                                && (!mainapp.haveForcedWiFiConnection)) {
+//
+//                            Log.d("EX_Toolbox", "comm_thread.HaveNetworkConnection: NetworkRequest.Builder");
+//                            NetworkRequest.Builder request = new NetworkRequest.Builder();
+//                            request.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
+//
+//                            cm.registerNetworkCallback(request.build(), new ConnectivityManager.NetworkCallback() {
+//                                @Override
+//                                public void onAvailable(Network network) {
+//                                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+//                                        ConnectivityManager.setProcessDefaultNetwork(network);
+//                                    } else {
+//                                        cm.bindProcessToNetwork(network);  //API23+
+//                                    }
+//                                }
+//                            });
+//                            mainapp.haveForcedWiFiConnection = true;
+//                        }
+//                    }
+//
+//                if (ni.isConnected()) {
+//                    haveConnectedWifi = true;
+//                } else {
+//                    // attempt to resolve the problem where some devices won't connect over wifi unless mobile data is turned off
+//                    if (mainapp.prefAllowMobileData) {
+//                        haveConnectedWifi = true;
+//                    }
+//                }
+//                if ("MOBILE".equalsIgnoreCase(ni.getTypeName()))
+//                    if ((ni.isConnected()) && (mainapp.prefAllowMobileData)) {
+//                        haveConnectedMobile = true;
+//                    }
+//            }
+//            return haveConnectedWifi || haveConnectedMobile;
+//        }
+//
+//        boolean SocketGood() {
+//            return this.socketGood;
+//        }
+//
+//        void InboundTimeout() {
+//            if (++inboundTimeoutRetryCount >= MAX_INBOUND_TIMEOUT_RETRIES) {
+//                Log.d("EX_Toolbox", "comm_thread.InboundTimeout: WiT max inbound timeouts");
+//                inboundTimeout = true;
+//                inboundTimeoutRetryCount = 0;
+//                inboundTimeoutRecovery = false;
+//                // force a send to start the reconnection process
+//                mainapp.comm_msg_handler.postDelayed(heart.outboundHeartbeatTimer, 200L);
+//            } else {
+//                Log.d("EX_Toolbox", "comm_thread.InboundTimeout: WiT inbound timeout " +
+//                        Integer.toString(inboundTimeoutRetryCount) + " of " + MAX_INBOUND_TIMEOUT_RETRIES);
+//                // heartbeat should trigger a WiT reply so force that now
+//                inboundTimeoutRecovery = true;
+//                mainapp.comm_msg_handler.post(heart.outboundHeartbeatTimer);
+//            }
+//        }
+//
+//        void clearInboundTimeout() {
+//            inboundTimeout = false;
+//            inboundTimeoutRecovery = false;
+//            inboundTimeoutRetryCount = 0;
+//        }
+//    }
 
     /* ******************************************************************************************** */
 
@@ -2327,7 +2372,7 @@ public class comm_thread extends Thread {
 
         //outboundHeartbeatTimer()
         //sends a periodic message to WiT
-        private final Runnable outboundHeartbeatTimer = new Runnable() {
+        final Runnable outboundHeartbeatTimer = new Runnable() {
             @Override
             public void run() {
                 mainapp.comm_msg_handler.removeCallbacks(this);             //remove pending requests
@@ -2345,8 +2390,14 @@ public class comm_thread extends Thread {
                     // prior to JMRI 4.20 there were cases where WiT might not respond to
                     // speed and direction request.  If inboundTimeout handling is in progress
                     // then we always send the Throttle Name to ensure a response
-                    if (!anySent || (mainapp.getServerType().isEmpty() && socketWiT.inboundTimeoutRecovery)) {
-                        sendThrottleName(false);    //send message that will get a response
+                    if (!mainapp.isUSB) {
+                        if (!anySent || (mainapp.getServerType().isEmpty() && socketWiT.inboundTimeoutRecovery)) {
+                            sendThrottleName(false);    //send message that will get a response
+                        }
+                    } else {
+                        if (!anySent || (mainapp.getServerType().isEmpty() && socketUsb.inboundTimeoutRecovery)) {
+                            sendThrottleName(false);    //send message that will get a response
+                        }
                     }
                     mainapp.comm_msg_handler.postDelayed(this, heartbeatOutboundInterval);   //set next beat
                 }
@@ -2360,8 +2411,14 @@ public class comm_thread extends Thread {
             public void run() {
                 mainapp.comm_msg_handler.removeCallbacks(this); //remove pending requests
                 if (heartbeatIntervalSetpoint != 0) {
-                    if (socketWiT != null && socketWiT.SocketGood()) {
-                        socketWiT.InboundTimeout();
+                    if (!mainapp.isUSB) {
+                        if (socketWiT != null && socketWiT.SocketGood()) {
+                            socketWiT.InboundTimeout();
+                        }
+                    } else {
+                        if (socketUsb != null && socketUsb.SocketGood()) {
+                            socketUsb.InboundTimeout();
+                        }
                     }
                     mainapp.comm_msg_handler.postDelayed(this, heartbeatInboundInterval);    //set next inbound timeout
                 }

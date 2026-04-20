@@ -280,6 +280,16 @@
         <item>4</item>
     </string-array>
 
+
+    <string-array name="wifiActionTypeEntries">  <!-- display version -->
+        <item>WiFi Station Mode</item>
+        <item>WiFi Access Point Mode</item>
+    </string-array>
+    <string-array name="wifiActionTypeEntryValues" translatable="false">  <!-- DO NOT TRANSLATE -->
+        <item>STA</item>
+        <item>AP</item>
+    </string-array>
+
     <string-array name="prefImportExportEntries">  <!-- display version -->
         <item>None</item>
         <item>Export</item>

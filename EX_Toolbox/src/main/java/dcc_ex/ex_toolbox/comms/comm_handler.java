@@ -58,6 +58,7 @@ public class comm_handler extends Handler {
 
          //Start or Stop jmdns stuff, or add "fake" discovered servers
          case message_type.SET_LISTENER:
+            commThread.addFakeUsbServer();
             if (mainapp.client_ssid != null &&
                     mainapp.client_ssid.matches("DCCEX_[0-9a-f]{6}$")) {
                //add "fake" discovered server entry for DCCEX: DCCEX_123abc
@@ -106,34 +107,70 @@ public class comm_handler extends Handler {
             new_host_ip = new_host_ip.trim();
             int new_port = msg.arg1;
 
-            //avoid duplicate connects, seen when user clicks address multiple times quickly
-            if (comm_thread.socketWiT != null && comm_thread.socketWiT.SocketGood()
-                    && new_host_ip.equals(mainapp.host_ip) && new_port == mainapp.port) {
-               Log.d("EX_Toolbox", "comm_handler.handleMessage: Duplicate CONNECT message received.");
-               break;
-            }
+            if (new_host_ip.equals("0.0.0.0")) { // USB OTG
 
-            //clear app.thread shared variables so they can be reinitialized
-            mainapp.initShared();
-            mainapp.fastClockSeconds = 0L;
+               //avoid duplicate connects, seen when user clicks address multiple times quickly
+               if (comm_thread.socketUsb != null && comm_thread.socketUsb.SocketGood()
+                       && new_host_ip.equals(mainapp.host_ip) && new_port == mainapp.port) {
+                  Log.d("EX_Toolbox", "comm_handler.handleMessage: Duplicate CONNECT message received.");
+                  break;
+               }
 
-            //store ip and port in global variables
-            mainapp.host_ip = new_host_ip;
-            mainapp.port = new_port;
-            // skip url checking on Play Protect
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-               WebView.setSafeBrowsingWhitelist(Collections.singletonList(mainapp.host_ip), null);
-            }
+               //clear app.thread shared variables so they can be reinitialized
+               mainapp.initShared();
+               mainapp.fastClockSeconds = 0L;
 
-            //attempt connection to server
-            comm_thread.socketWiT = new comm_thread.socketWifi();
-            if (comm_thread.socketWiT.connect()) {
+               //store ip and port in global variables
+               mainapp.host_ip = new_host_ip;
+               mainapp.port = new_port;
+               // skip url checking on Play Protect
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                  WebView.setSafeBrowsingWhitelist(Collections.singletonList(mainapp.host_ip), null);
+               }
 
-               commThread.sendThrottleName();
-               mainapp.sendMsgDelay(mainapp.comm_msg_handler, 5000L, message_type.CONNECTION_COMPLETED_CHECK);
+               //attempt connection to server
+               comm_thread.socketUsb = new SocketUsb(mainapp, prefs, commThread, mainapp.getBaseContext());
+               if (comm_thread.socketUsb.connect()) {
+
+                  commThread.sendThrottleName();
+                  mainapp.sendMsgDelay(mainapp.comm_msg_handler, 5000L, message_type.CONNECTION_COMPLETED_CHECK);
+               } else {
+                  mainapp.host_ip = null;  //clear vars if failed to connect
+                  mainapp.port = 0;
+               }
+
             } else {
-               mainapp.host_ip = null;  //clear vars if failed to connect
-               mainapp.port = 0;
+
+               //avoid duplicate connects, seen when user clicks address multiple times quickly
+               if (comm_thread.socketWiT != null && comm_thread.socketWiT.SocketGood()
+                       && new_host_ip.equals(mainapp.host_ip) && new_port == mainapp.port) {
+                  Log.d("EX_Toolbox", "comm_handler.handleMessage: Duplicate CONNECT message received.");
+                  break;
+               }
+
+               //clear app.thread shared variables so they can be reinitialized
+               mainapp.initShared();
+               mainapp.fastClockSeconds = 0L;
+
+               //store ip and port in global variables
+               mainapp.host_ip = new_host_ip;
+               mainapp.port = new_port;
+               // skip url checking on Play Protect
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                  WebView.setSafeBrowsingWhitelist(Collections.singletonList(mainapp.host_ip), null);
+               }
+
+               //attempt connection to server
+//            comm_thread.socketWiT = new comm_thread.socketWifi();
+               comm_thread.socketWiT = new SocketWiFi(mainapp, prefs, commThread);
+               if (comm_thread.socketWiT.connect()) {
+
+                  commThread.sendThrottleName();
+                  mainapp.sendMsgDelay(mainapp.comm_msg_handler, 5000L, message_type.CONNECTION_COMPLETED_CHECK);
+               } else {
+                  mainapp.host_ip = null;  //clear vars if failed to connect
+                  mainapp.port = 0;
+               }
             }
             break;
 
@@ -260,6 +297,16 @@ public class comm_handler extends Handler {
          case message_type.SEND_WIFI_TEMP: {
             String [] args = msg.obj.toString().split(" ");
             comm_thread.sendWifiTemp(args[0], args[1]);
+            break;
+         }
+         case message_type.SEND_WIFI_ACCESS_POINT: {
+            String [] args = msg.obj.toString().split(" ");
+            if (args.length == 2) {
+               comm_thread.sendWifiAccessPoint(args[0], args[1], "");
+            } else {
+               comm_thread.sendWifiAccessPoint(args[0], args[1], args[2]);
+
+            }
             break;
          }
          case message_type.SEND_WIFI_HOSTNAME: {

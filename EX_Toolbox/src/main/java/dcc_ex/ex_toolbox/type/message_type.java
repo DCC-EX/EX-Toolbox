@@ -100,4 +100,5 @@ public interface message_type {
     int SEND_WIFI_STATION = 99;
     int SEND_WIFI_TEMP = 100;
     int SEND_WIFI_HOSTNAME = 101;
+    int SEND_WIFI_ACCESS_POINT = 102;
 }

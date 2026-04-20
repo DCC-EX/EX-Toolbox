@@ -47,7 +47,8 @@ public class PermissionsHelper {
             READ_MEDIA_IMAGES,
 //            READ_LEGACY_FILES,
             POST_NOTIFICATIONS,
-            READ_MEDIA_VISUAL_USER_SELECTED
+            READ_MEDIA_VISUAL_USER_SELECTED,
+            USB_PERMISSION
     })
     public @interface RequestCodes {}
 
@@ -64,6 +65,7 @@ public class PermissionsHelper {
 //    public static final int READ_LEGACY_FILES = 49;
     public static final int POST_NOTIFICATIONS = 50;
     public static final int READ_MEDIA_VISUAL_USER_SELECTED = 51;
+    public static final int USB_PERMISSION = 52;
 
     private boolean isDialogOpen = false;
     private static PermissionsHelper instance = null;

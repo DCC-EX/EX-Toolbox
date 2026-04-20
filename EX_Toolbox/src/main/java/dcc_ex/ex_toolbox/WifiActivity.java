@@ -42,11 +42,15 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieSyncManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,25 +71,52 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
     private Menu tMenu;
     private static boolean savedMenuSelected;
 
+    Spinner wifiActionTypeSpinner;
+    private int wifiActionTypeIndex = 0;
+    String[] wifiActionTypeEntryValuesArray;
+    String[] wifiActionTypeEntriesArray; // display version
+
+    EditText dccexWifiHostnameValueEditText;
+    String dccexWifiHostnameValue = "";
+    boolean validHostname = false;
+
+    LinearLayout dccexWifiStationModeLayout;
     EditText dccexWifiSsidValueEditText;
     EditText dccexWifiPasswordValueEditText;
-    EditText dccexWifiHostnameValueEditText;
 
     String dccexWifiSsidValue = "";
     String dccexWifiPasswordValue = "";
-    String dccexWifiHostnameValue = "";
 
     boolean validSsid = false;
     boolean validPassword = false;
-    boolean validHostname = false;
+
+    LinearLayout dccexWifiAccessPointModeLayout;
+    EditText dccexWifiAccessPointSsidValueEditText;
+    EditText dccexWifiAccessPointPasswordValueEditText;
+    EditText dccexWifiAccessPointChannelValueEditText;
+
+    String dccexWifiAccessPointSsidValue = "";
+    String dccexWifiAccessPointPasswordValue = "";
+    String dccexWifiAccessPointChannelValue = "";
+
+    boolean validAccessPointSsid = false;
+    boolean validAccessPointPassword = false;
+    boolean validAccessPointChannel = true;
 
     TextView dccexWifiCurrentSettingsTextView;
 
     Button setStationButton;
     Button setTempButton;
+    Button setAccessPointButton;
     Button setHostnameButton;
 //    Button setHostnameAndStationButton;
     Button resetButton;
+
+    private static final int SET_STATION_BUTTON = 0;
+    private static final int SET_TEMP_BUTTON = 1;
+    private static final int SET_ACCESS_POINT_BUTTON = 2;
+    private static final int SET_HOSTNAME_BUTTON = 3;
+    private static final int SET_RESET_BUTTON = 4;
 
     protected GestureOverlayView ov;
     // these are used for gesture tracking
@@ -147,15 +178,15 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
         mVelocityTracker.clear();
 
         // start the gesture timeout timer
-        if (mainapp.neopixel_msg_handler != null)
-            mainapp.neopixel_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
+        if (mainapp.wifi_msg_handler != null)
+            mainapp.wifi_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
     }
 
     public void gestureMove(MotionEvent event) {
         // Log.d(""EX_Toolbox", "gestureMove action " + event.getAction());
         if ( (mainapp != null) && (mainapp.neopixel_msg_handler != null) && (gestureInProgress) ) {
             // stop the gesture timeout timer
-            mainapp.neopixel_msg_handler.removeCallbacks(gestureStopped);
+            mainapp.wifi_msg_handler.removeCallbacks(gestureStopped);
 
             mVelocityTracker.addMovement(event);
             if ((event.getEventTime() - gestureLastCheckTime) > gestureCheckRate) {
@@ -172,15 +203,15 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
             }
             if (gestureInProgress) {
                 // restart the gesture timeout timer
-                mainapp.neopixel_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
+                mainapp.wifi_msg_handler.postDelayed(gestureStopped, gestureCheckRate);
             }
         }
     }
 
     private void gestureEnd(MotionEvent event) {
         // Log.d(""EX_Toolbox", "gestureEnd action " + event.getAction() + " inProgress? " + gestureInProgress);
-        if ( (mainapp != null) && (mainapp.neopixel_msg_handler != null) && (gestureInProgress) ) {
-            mainapp.neopixel_msg_handler.removeCallbacks(gestureStopped);
+        if ( (mainapp != null) && (mainapp.wifi_msg_handler != null) && (gestureInProgress) ) {
+            mainapp.wifi_msg_handler.removeCallbacks(gestureStopped);
 
             float deltaX = (event.getX() - gestureStartX);
             float absDeltaX =  Math.abs(deltaX);
@@ -198,8 +229,8 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
     }
 
     private void gestureCancel(MotionEvent event) {
-        if (mainapp.neopixel_msg_handler != null)
-            mainapp.neopixel_msg_handler.removeCallbacks(gestureStopped);
+        if (mainapp.wifi_msg_handler != null)
+            mainapp.wifi_msg_handler.removeCallbacks(gestureStopped);
         gestureInProgress = false;
     }
 
@@ -343,16 +374,35 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
 
         mainapp.getCommonPreferences();
 
+//        ******************************************************************
+
+        wifiActionTypeEntryValuesArray = this.getResources().getStringArray(R.array.wifiActionTypeEntryValues);
+        wifiActionTypeEntriesArray = this.getResources().getStringArray(R.array.wifiActionTypeEntries); // display version
+
+        wifiActionTypeIndex=0;
+        wifiActionTypeSpinner = findViewById(R.id.ex_wifi_action_type_list);
+        ArrayAdapter<?> spinner_adapter = ArrayAdapter.createFromResource(this, R.array.wifiActionTypeEntries, android.R.layout.simple_spinner_item);
+        spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        wifiActionTypeSpinner.setAdapter(spinner_adapter);
+        wifiActionTypeSpinner.setOnItemSelectedListener(new wifiActionTypeSpinnerListener());
+        wifiActionTypeSpinner.setSelection(wifiActionTypeIndex);
+
+        dccexWifiStationModeLayout = findViewById(R.id.dccexWifiStationModeLayout);
+        dccexWifiAccessPointModeLayout = findViewById(R.id.dccexWifiAccessPointModeLayout);
+        showHideModeLayouts();
+
+//        ******************************************************************
+
         dccexWifiSsidValueEditText = findViewById(R.id.dccexWifiSsidValue);
         dccexWifiSsidValueEditText.setText("");
         dccexWifiSsidValueEditText.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                    dccexWifiSsidValue = dccexWifiSsidValueEditText.getText().toString();
-
-                validSsid = true;
-                if (dccexWifiSsidValue.contains(" ")) validSsid = false;
-                if (dccexWifiSsidValue.isEmpty()) validSsid = false;
-
+//                    dccexWifiSsidValue = dccexWifiSsidValueEditText.getText().toString();
+//
+//                validSsid = true;
+//                if (dccexWifiSsidValue.contains(" ")) validSsid = false;
+//                if (dccexWifiSsidValue.isEmpty()) validSsid = false;
+                validateEntries();
                 refreshDccexWifiView();
                 showResult();
             }
@@ -364,12 +414,12 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
         dccexWifiPasswordValueEditText.setText("");
         dccexWifiPasswordValueEditText.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                dccexWifiPasswordValue = dccexWifiPasswordValueEditText.getText().toString();
+//                dccexWifiPasswordValue = dccexWifiPasswordValueEditText.getText().toString();
+//                validPassword = true;
+//                if (dccexWifiPasswordValue.isEmpty()) validPassword = false;
+//                if (dccexWifiPasswordValue.length()<8) validPassword = false;
 
-                validPassword = true;
-                if (dccexWifiPasswordValue.isEmpty()) validPassword = false;
-                if (dccexWifiPasswordValue.length()<8) validPassword = false;
-
+                validateEntries();
                 refreshDccexWifiView();
                 showResult();
             }
@@ -377,16 +427,79 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
             public void onTextChanged(CharSequence s, int start, int before, int count) { }
         });
 
+//        ******************************************************************
+
+        dccexWifiAccessPointSsidValueEditText = findViewById(R.id.dccexWifiAccessPointSsidValue);
+        dccexWifiAccessPointSsidValueEditText.setText("");
+        dccexWifiAccessPointSsidValueEditText.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+//                    dccexWifiAccessPointSsidValue = dccexWifiAccessPointSsidValueEditText.getText().toString();
+//                validAccessPointSsid = true;
+//                if (dccexWifiAccessPointSsidValue.contains(" ")) validAccessPointSsid = false;
+//                if (dccexWifiAccessPointSsidValue.isEmpty()) validAccessPointSsid = false;
+
+                validateEntries();
+                refreshDccexWifiView();
+                showResult();
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+        });
+
+        dccexWifiAccessPointPasswordValueEditText = findViewById(R.id.dccexWifiAccessPointPasswordValue);
+        dccexWifiAccessPointPasswordValueEditText.setText("");
+        dccexWifiAccessPointPasswordValueEditText.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+//                dccexWifiAccessPointPasswordValue = dccexWifiAccessPointPasswordValueEditText.getText().toString();
+//                validAccessPointPassword = true;
+//                if (dccexWifiAccessPointPasswordValue.isEmpty()) validAccessPointPassword = false;
+//                if (dccexWifiAccessPointPasswordValue.length()<8) validAccessPointPassword = false;
+
+                validateEntries();
+                refreshDccexWifiView();
+                showResult();
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+        });
+
+        dccexWifiAccessPointChannelValueEditText = findViewById(R.id.dccexWifiAccessPointChannelValue);
+        dccexWifiAccessPointChannelValueEditText.setText("");
+        dccexWifiAccessPointChannelValueEditText.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+//                dccexWifiAccessPointChannelValue = dccexWifiAccessPointChannelValueEditText.getText().toString();
+//
+//                validAccessPointChannel = true;
+//
+//                if (!dccexWifiAccessPointChannelValue.isEmpty()) {
+//                    try {
+//                        int channelInt = Integer.parseInt(dccexWifiAccessPointChannelValue);
+//                        if (channelInt < 1 || channelInt > 11) validAccessPointChannel = false;
+//                    } catch (NumberFormatException e) {
+//                        validAccessPointChannel = false;
+//                    }
+//                }
+
+                validateEntries();
+                refreshDccexWifiView();
+                showResult();
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+        });
+
+//        ******************************************************************
+
         dccexWifiHostnameValueEditText = findViewById(R.id.dccexWifiHostnameValue);
         dccexWifiHostnameValueEditText.setText("");
         dccexWifiHostnameValueEditText.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                dccexWifiHostnameValue = dccexWifiHostnameValueEditText.getText().toString();
+//                dccexWifiHostnameValue = dccexWifiHostnameValueEditText.getText().toString();
+//                validHostname = true;
+//                if (dccexWifiHostnameValue.contains(" ")) validHostname = false;
+//                if (dccexWifiHostnameValue.isEmpty()) validHostname = false;
 
-                validHostname = true;
-                if (dccexWifiHostnameValue.contains(" ")) validHostname = false;
-                if (dccexWifiHostnameValue.isEmpty()) validHostname = false;
-
+                validateEntries();
                 refreshDccexWifiView();
                 showResult();
             }
@@ -397,15 +510,19 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
         dccexWifiCurrentSettingsTextView = findViewById(R.id.dccexWifiCurrentSettings);
 
         setStationButton = findViewById(R.id.dccexWifiSetStationButton);
-        SetStationButtonListener setStationButtonListener = new SetStationButtonListener();
+        SetButtonListener setStationButtonListener = new SetButtonListener(SET_STATION_BUTTON);
         setStationButton.setOnClickListener(setStationButtonListener);
 
         setTempButton = findViewById(R.id.dccexWifiSetTempButton);
-        SetTempButtonListener setTempButtonListener = new SetTempButtonListener();
+        SetButtonListener setTempButtonListener = new SetButtonListener(SET_TEMP_BUTTON);
         setTempButton.setOnClickListener(setTempButtonListener);
 
+        setAccessPointButton = findViewById(R.id.dccexWifiSetAccessPointButton);
+        SetButtonListener setAccessPointButtonListener = new SetButtonListener(SET_ACCESS_POINT_BUTTON);
+        setAccessPointButton.setOnClickListener(setAccessPointButtonListener);
+
         setHostnameButton = findViewById(R.id.dccexWifiSetHostnameButton);
-        SetHostnameButtonListener setHostnameButtonListener = new SetHostnameButtonListener();
+        SetButtonListener setHostnameButtonListener = new SetButtonListener(SET_HOSTNAME_BUTTON);
         setHostnameButton.setOnClickListener(setHostnameButtonListener);
 
 //        setHostnameAndStationButton = findViewById(R.id.dccexWifiSetHostnameAndStationButton);
@@ -449,11 +566,17 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
         mainapp.activeScreen = mainapp.ACTIVE_SCREEN_WIFI;
         mainapp.dccexScreenIsOpen = true;
 
+        mainapp.wifiStationSsid = "";
+        mainapp.wifiStationPassword = "";
+
+        mainapp.wifiAccessPointSsid = "";
+        mainapp.wifiAccessPointPassword = "";
+        mainapp.wifiAccessPointChannel = "";
+        mainapp.wifiHostname = "";
+
         mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_WIFI_DETAILS,"");
 
-        validSsid = false;
-        validPassword = false;
-        validHostname = false;
+        validateEntries();
 
         refreshDccexView();
         refreshDccexWifiView();
@@ -713,14 +836,54 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
 
 //**************************************************************************************
 
-    public class SetStationButtonListener implements View.OnClickListener {
 
-        public SetStationButtonListener() {
+    public class SetButtonListener implements View.OnClickListener {
+        int buttonNumber;
+
+        public SetButtonListener(int buttonNumber) {
+            this.buttonNumber = buttonNumber;
         }
 
         public void onClick(View v) {
-            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SEND_WIFI_STATION, dccexWifiSsidValue + " " + dccexWifiPasswordValue);
-            threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastWifiChangeComplete), Toast.LENGTH_LONG);
+            switch (buttonNumber) {
+                case SET_STATION_BUTTON: {
+                    mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SEND_WIFI_STATION, dccexWifiSsidValue + " " + dccexWifiPasswordValue);
+                    break;
+                }
+                case SET_TEMP_BUTTON: {
+                    mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SEND_WIFI_TEMP, dccexWifiSsidValue + " " + dccexWifiPasswordValue);
+                    break;
+                }
+                case SET_ACCESS_POINT_BUTTON: {
+                    mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SEND_WIFI_ACCESS_POINT, dccexWifiAccessPointSsidValue+ " " + dccexWifiAccessPointPasswordValue + " " + dccexWifiAccessPointChannelValue);
+                    break;
+                }
+                case SET_HOSTNAME_BUTTON: {
+                    mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SEND_WIFI_HOSTNAME, dccexWifiHostnameValue);
+                    break;
+                }
+                case SET_RESET_BUTTON: {
+                    mainapp.sendMsg(mainapp.comm_msg_handler, message_type.REQUEST_RESET_WIFI,"");
+                    break;
+                }
+                default: {
+                    // do nothing
+                }
+
+                threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastWifiChangeComplete), Toast.LENGTH_LONG);
+                if (mainapp.isUSB) {
+                    mainapp.wifiStationSsid = "";
+                    mainapp.wifiStationPassword = "";
+
+                    mainapp.wifiAccessPointSsid = "";
+                    mainapp.wifiAccessPointPassword = "";
+                    mainapp.wifiAccessPointChannel = "";
+
+                    mainapp.wifiHostname = "";
+                    mainapp.sendMsgDelay(mainapp.comm_msg_handler, 10000, message_type.REQUEST_WIFI_DETAILS,"");
+                }
+
+            }
 
             mainapp.buttonVibration();
             mainapp.hideSoftKeyboard(v);
@@ -728,35 +891,6 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
         }
     }
 
-    public class SetTempButtonListener implements View.OnClickListener {
-
-        public SetTempButtonListener() {
-        }
-
-        public void onClick(View v) {
-            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SEND_WIFI_TEMP, dccexWifiSsidValue + " " + dccexWifiPasswordValue);
-            threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastWifiChangeComplete), Toast.LENGTH_LONG);
-
-            mainapp.buttonVibration();
-            mainapp.hideSoftKeyboard(v);
-
-        }
-    }
-
-    public class SetHostnameButtonListener implements View.OnClickListener {
-
-        public SetHostnameButtonListener() {
-        }
-
-        public void onClick(View v) {
-            mainapp.sendMsg(mainapp.comm_msg_handler, message_type.SEND_WIFI_HOSTNAME, dccexWifiHostnameValue);
-            threaded_application.safeToast(threaded_application.context.getResources().getString(R.string.toastWifiChangeComplete), Toast.LENGTH_LONG);
-
-            mainapp.buttonVibration();
-            mainapp.hideSoftKeyboard(v);
-
-        }
-    }
 
 //    public class SetHostnameAndStationButtonListener implements View.OnClickListener {
 //
@@ -788,6 +922,33 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
         }
     }
 
+
+    public class wifiActionTypeSpinnerListener implements AdapterView.OnItemSelectedListener {
+
+        @SuppressLint("ApplySharedPref")
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            mainapp.exitDoubleBackButtonInitiated = 0;
+
+            Spinner spinner = findViewById(R.id.ex_wifi_action_type_list);
+            wifiActionTypeIndex = spinner.getSelectedItemPosition();
+
+            InputMethodManager imm =
+                    (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if ((imm != null) && (view != null)) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS); // force the soft keyboard to close
+            }
+
+            refreshDccexView();
+            showHideModeLayouts();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    }
+
     public class ClearCommandsButtonListener implements View.OnClickListener {
         public void onClick(View v) {
             mainapp.exitDoubleBackButtonInitiated = 0;
@@ -799,11 +960,57 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
         }
     }
 
+    private void validateEntries() {
+        // ssid
+        dccexWifiSsidValue = dccexWifiSsidValueEditText.getText().toString();
+        validSsid = true;
+        if (dccexWifiSsidValue.contains(" ")) validSsid = false;
+        if (dccexWifiSsidValue.isEmpty()) validSsid = false;
+
+        // password
+        dccexWifiPasswordValue = dccexWifiPasswordValueEditText.getText().toString();
+        validPassword = true;
+        if (dccexWifiPasswordValue.isEmpty()) validPassword = false;
+        if (dccexWifiPasswordValue.length()<8) validPassword = false;
+
+        // Access Point ssid
+        dccexWifiAccessPointSsidValue = dccexWifiAccessPointSsidValueEditText.getText().toString();
+        validAccessPointSsid = true;
+        if (dccexWifiAccessPointSsidValue.contains(" ")) validAccessPointSsid = false;
+        if (dccexWifiAccessPointSsidValue.isEmpty()) validAccessPointSsid = false;
+
+        // Access Point password
+        dccexWifiAccessPointPasswordValue = dccexWifiAccessPointPasswordValueEditText.getText().toString();
+        validAccessPointPassword = true;
+        if (dccexWifiAccessPointPasswordValue.isEmpty()) validAccessPointPassword = false;
+        if (dccexWifiAccessPointPasswordValue.length()<8) validAccessPointPassword = false;
+
+        // Access Point channel
+        dccexWifiAccessPointChannelValue = dccexWifiAccessPointChannelValueEditText.getText().toString();
+        validAccessPointChannel = true;
+        if (!dccexWifiAccessPointChannelValue.isEmpty()) {
+            try {
+                int channelInt = Integer.parseInt(dccexWifiAccessPointChannelValue);
+                if (channelInt < 1 || channelInt > 11) validAccessPointChannel = false;
+            } catch (NumberFormatException e) {
+                validAccessPointChannel = false;
+            }
+        }
+
+        //hostname
+        dccexWifiHostnameValue = dccexWifiHostnameValueEditText.getText().toString();
+        validHostname = true;
+        if (dccexWifiHostnameValue.contains(" ")) validHostname = false;
+        if (dccexWifiHostnameValue.isEmpty()) validHostname = false;
+
+    }
+
     private void showResult() {
         String currentWifi = getApplicationContext().getResources().getString(R.string.dccexWifiCurrentSettings) + "\n"
                 + getApplicationContext().getResources().getString(R.string.dccexWifiAccessPoint) + "\n"
                 + " - " + getApplicationContext().getResources().getString(R.string.dccexWifiSsidValueLabel) + ": " + mainapp.wifiAccessPointSsid + "   "
-                + getApplicationContext().getResources().getString(R.string.dccexWifiPasswordValueLabel) + ":" + mainapp.wifiAccessPointPassword + "\n"
+                + getApplicationContext().getResources().getString(R.string.dccexWifiPasswordValueLabel) + ":" + mainapp.wifiAccessPointPassword + "   "
+                + getApplicationContext().getResources().getString(R.string.dccexWifiChannelValueLabel) + ":" + mainapp.wifiAccessPointChannel + "\n"
                 + getApplicationContext().getResources().getString(R.string.dccexWifiStation) + "\n"
                 + " - " + getApplicationContext().getResources().getString(R.string.dccexWifiSsidValueLabel) + ": " + mainapp.wifiStationSsid + "   "
                 + getApplicationContext().getResources().getString(R.string.dccexWifiPasswordValueLabel) + ": " + mainapp.wifiStationPassword + "\n"
@@ -830,10 +1037,18 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
 
         setStationButton.setEnabled(validSsid && validPassword);
         setTempButton.setEnabled(validSsid && validPassword);
+
+        setAccessPointButton.setEnabled(validAccessPointSsid && validAccessPointPassword && validAccessPointChannel && mainapp.isUSB && mainapp.isEsp32OrCsb1);
+
         setHostnameButton.setEnabled(validHostname);
 //        setHostnameAndStationButton.setEnabled(validHostname && validSsid && validPassword);
         resetButton.setEnabled(enabled);
+        showHideModeLayouts();
+    }
 
+    private void showHideModeLayouts() {
+        dccexWifiStationModeLayout.setVisibility(wifiActionTypeIndex==0 ? View.VISIBLE : View.GONE);
+        dccexWifiAccessPointModeLayout.setVisibility(wifiActionTypeIndex==1 ? View.VISIBLE : View.GONE);;
     }
 
     void adjustToolbarSize(Menu menu) {

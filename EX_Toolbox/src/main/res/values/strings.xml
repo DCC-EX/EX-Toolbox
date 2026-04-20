@@ -48,7 +48,7 @@
     <string name="app_name_currents_short">Currents</string>
     <string name="app_name_neopixel">Neopixel Setup</string>
     <string name="app_name_neopixel_short">Neopixel</string>
-    <string name="app_name_wifi">WiFi Station Mode Setup</string>
+    <string name="app_name_wifi">WiFi Setup</string>
     <string name="app_name_wifi_short">WiFi</string>
     <string name="app_name_roster">Roster</string>
     <string name="app_name_speed_trap">Speedometer</string>
@@ -239,7 +239,7 @@
     <string name="toastThreadedAppErrorCreatingWiThrottle">Error creating withrottle zeroconf listener: IOException:\n%1$s</string>
     <string name="toastThreadedAppWiThrottleNotSupported">WiThrottle Server version %1$s not supported.</string>
     <string name="toastThreadedAppCantDetermineIp">Can\'t determine IP address of %1$s</string>
-    <string name="toastThreadedAppCantConnect">Can\'t connect to %1$s:%2$s from %3$s - %4$s\nCheck WiThrottle Server and network settings.</string>
+    <string name="toastThreadedAppCantConnect">Can\'t connect to %1$s:%2$s from %3$s - %4$s\nCheck Server and network settings.</string>
     <string name="toastThreadedAppErrorInputStream">Error creating input stream, IOException: %1$s</string>
     <string name="toastThreadedAppErrorStartingSocket">Error starting socket_WiT thread: %1$s</string>
     <string name="toastThreadedAppErrorCreatingOutputStream">Error creating output stream, IOException: %1$s</string>
@@ -323,6 +323,7 @@
     <string name="permissionsWriteSettingsAdditional2">Ignore this if you don\\\'t need EX-Toolbox to alter the brightness.</string>
 
     <string name="permissionsACCESS_FINE_LOCATION">EX-Toolbox needs ACCESS_FINE_LOCATION permissions to retrieve current wifi SSID.</string>
+    <string name="permissionsUSB_PERMISSION">EX-Toolbox needs USB_PERMISSION permissions to connect to a Command Station via USB OTG.</string>
 <!--    <string name="permissionsNEARBY_WIFI_DEVICES">EX-Toolbox needs NEARBY_WIFI_DEVICES permissions to retrieve current wifi SSID.</string>-->
 
     <string name="permissionsVIBRATE">EX-Toolbox needs VIBRATE permissions to provide additional feedback.</string>
@@ -462,6 +463,7 @@
     <string name="dccexWifiPasswordValueLabel">Password</string>
     <string name="dccexWifiHostnameValueLabel">Hostname</string>
     <string name="dccexWifiChannelValueLabel">Channel</string>
+    <string name="dccexWifiChannelValueHint">1-11 or blank</string>
 
     <string name="dccexWifiCurrentSettings">Current Settings:</string>
     <string name="dccexWifiAccessPoint">Access Point Mode</string>
@@ -469,6 +471,7 @@
     <string name="dccexWifiOnLabel">Enabled</string>
     <string name="dccexWifiOffLabel">Disabled</string>
     <string name="dccexWifiSetStationLabel">Set Station</string>
+    <string name="dccexWifiSetAccessPointLabel">Set Access Point</string>
     <string name="dccexWifiSetTempLabel">Set Temp</string>
     <string name="dccexWifiSetHostnameLabel">Set Hostname</string>
     <string name="dccexWifiSetHostnameAndStationLabel">Set Hostname\n + Station</string>
@@ -482,6 +485,7 @@
         \n- Changing the Hostname while in AP mode works, but will not be visible.
         \n- SSID and Hostname cannot contain spaces. Other than \'_\' and \'-\', special characters should be avoided.
         \n- Passwords must be at least 8 characters.
+        \n- Channel = blank or 1-11. (1,6 or 11 recommended.)
     </string>
 
     <string name="toastWifiChangeComplete">Change sent. Exit EX-Toolbox now and reconnect.</string>
