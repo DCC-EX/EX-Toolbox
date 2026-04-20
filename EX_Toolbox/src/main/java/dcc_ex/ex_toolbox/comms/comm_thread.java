@@ -21,6 +21,7 @@ package dcc_ex.ex_toolbox.comms;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.hardware.usb.UsbManager;
 import android.net.wifi.WifiManager;
 import android.os.Looper;
 import android.os.Message;

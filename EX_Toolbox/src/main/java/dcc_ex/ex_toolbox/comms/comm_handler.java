@@ -19,8 +19,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package dcc_ex.ex_toolbox.comms;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -29,6 +32,7 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
@@ -58,15 +62,19 @@ public class comm_handler extends Handler {
 
          //Start or Stop jmdns stuff, or add "fake" discovered servers
          case message_type.SET_LISTENER:
-            commThread.addFakeUsbServer();
+
+            if (areAnyUsbDevicesConnected()) commThread.addFakeUsbServer();
+
             if (mainapp.client_ssid != null &&
                     mainapp.client_ssid.matches("DCCEX_[0-9a-f]{6}$")) {
                //add "fake" discovered server entry for DCCEX: DCCEX_123abc
                commThread.addFakeDiscoveredServer(mainapp.client_ssid, mainapp.client_address, "2560", "DCC-EX");
+
             } else if (mainapp.client_ssid != null &&
                     mainapp.client_ssid.matches("^Dtx[0-9]{1,2}-.*_[0-9,A-F]{4}-[0-9]{1,3}$")) {
                //add "fake" discovered server entry for Digitrax LnWi: Dtx1-LnServer_0009-7
                commThread.addFakeDiscoveredServer(mainapp.client_ssid, mainapp.client_address, "12090", "LnWi");
+
             } else {
                //arg1= 1 to turn on, arg1=0 to turn off
                if (msg.arg1 == 0) {
@@ -604,6 +612,22 @@ public class comm_handler extends Handler {
             break;
 
       }
+   }
+
+   public boolean areAnyUsbDevicesConnected() {
+      UsbManager manager = (UsbManager) mainapp.getBaseContext().getSystemService(Context.USB_SERVICE);
+      HashMap<String, UsbDevice> deviceList = manager.getDeviceList();
+
+      if (!deviceList.isEmpty()) {
+         for (UsbDevice device : deviceList.values()) {
+            // A USB device is connected
+            Log.d("USB", "Device Name: " + device.getDeviceName());
+            return true;
+         }
+      } else {
+         Log.d("USB", "No USB devices connected.");
+      }
+      return false;
    }
 }
 

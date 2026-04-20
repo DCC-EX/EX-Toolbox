@@ -1,6 +1,8 @@
 package dcc_ex.ex_toolbox.comms;
 
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -19,6 +21,7 @@ import com.hoho.android.usbserial.driver.UsbSerialProber;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -155,7 +158,6 @@ class SocketUsb extends Thread {
             Log.d("EX_Toolbox", "SocketUsb.disconnect(): Error closing the Socket: " + e.getMessage());
         }
     }
-
 
     private void startReading() {
         executor.submit(new Runnable() {
