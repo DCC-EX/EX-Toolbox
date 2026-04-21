@@ -922,8 +922,9 @@ public class connection_activity extends AppCompatActivity implements Permission
         if (key == KeyEvent.KEYCODE_BACK) {
             mainapp.checkExit(this);
             return true;
+        } else {
+            mainapp.exitDoubleBackButtonInitiated = 0;
         }
-        mainapp.exitDoubleBackButtonInitiated = 0;
         return (super.onKeyDown(key, event));
     }
 

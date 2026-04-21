@@ -621,11 +621,11 @@ public class comm_handler extends Handler {
       if (!deviceList.isEmpty()) {
          for (UsbDevice device : deviceList.values()) {
             // A USB device is connected
-            Log.d("USB", "Device Name: " + device.getDeviceName());
+            Log.d("EX_Toolbox", "SocketUsb.areAnyUsbDevicesConnected(): USB: Device Name: " + device.getDeviceName());
             return true;
          }
       } else {
-         Log.d("USB", "No USB devices connected.");
+         Log.d("EX_Toolbox", "SocketUsb.areAnyUsbDevicesConnected(): USB: No USB devices connected.");
       }
       return false;
    }
