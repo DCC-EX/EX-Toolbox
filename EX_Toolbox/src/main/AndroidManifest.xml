@@ -60,7 +60,7 @@
             android:theme="@style/app_intro"/>
 
         <activity
-            android:name=".connection_activity"
+            android:name=".ConnectionActivity"
             android:theme="@style/app_theme_black"
             android:exported="true">
             <intent-filter>
@@ -77,7 +77,7 @@
         </activity>
 
         <activity
-            android:name=".cv_programmer"
+            android:name=".CvProgrammerActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:configChanges="orientation|screenSize"
@@ -93,7 +93,7 @@
             android:label="@string/app_name_wifi"
             android:theme="@style/app_theme_black" />
         <activity
-            android:name=".servos"
+            android:name=".ServosActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:configChanges="orientation|screenSize"
@@ -101,7 +101,7 @@
             android:label="@string/app_name_servos"
             android:theme="@style/app_theme_black" />
         <activity
-            android:name=".sensors"
+            android:name=".SensorsActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:configChanges="orientation|screenSize"
@@ -109,7 +109,7 @@
             android:label="@string/app_name_sensors"
             android:theme="@style/app_theme_black" />
         <activity
-            android:name=".locos"
+            android:name=".LocosActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:configChanges="orientation|screenSize"
@@ -117,7 +117,7 @@
             android:label="@string/app_name_locos"
             android:theme="@style/app_theme_black" />
         <activity
-            android:name=".currents"
+            android:name=".CurrentsActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:configChanges="orientation|screenSize"
@@ -125,7 +125,7 @@
             android:label="@string/app_name_currents"
             android:theme="@style/app_theme_black" />
         <activity
-            android:name=".track_manager"
+            android:name=".TrackManagerActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:configChanges="orientation|screenSize"
@@ -133,7 +133,7 @@
             android:label="@string/app_name_track_manager"
             android:theme="@style/app_theme_black" />
         <activity
-            android:name=".speed_matching"
+            android:name=".SpeedMatchingActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:configChanges="orientation|screenSize"
@@ -141,7 +141,7 @@
             android:label="@string/app_name_speed_matching"
             android:theme="@style/app_theme_black" />
         <activity
-            android:name=".neopixel"
+            android:name=".NeopixelActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:configChanges="orientation|screenSize"
@@ -149,7 +149,7 @@
             android:label="@string/app_name_neopixel"
             android:theme="@style/app_theme_black" />
         <activity
-            android:name=".roster"
+            android:name=".RosterActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:configChanges="orientation|screenSize"
@@ -157,7 +157,7 @@
             android:label="@string/app_name_roster"
             android:theme="@style/app_theme_black" />
         <activity
-            android:name=".speed_trap"
+            android:name=".SpeedTrapActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:configChanges="orientation|screenSize"
@@ -166,28 +166,28 @@
             android:theme="@style/app_theme_black" />
 
         <activity
-            android:name=".SettingsActivity"
+            android:name=".PreferencesActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:label="@string/app_name_preferences"
             android:theme="@style/app_theme_black" >
         </activity>
         <activity
-            android:name=".about_page"
+            android:name=".AboutActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:label="@string/app_name_about"
             android:theme="@style/app_theme_black" >
         </activity>
         <activity
-            android:name=".power_control"
+            android:name=".PowerActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:label="@string/app_name_power_control"
             android:theme="@style/app_theme_black" >
         </activity>
         <activity
-            android:name=".reconnect_status"
+            android:name=".ReconnectActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleInstance"
             android:excludeFromRecents="true"

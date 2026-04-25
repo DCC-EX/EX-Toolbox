@@ -325,10 +325,10 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
     }
 
     private void witRetry(String s) {
-        Intent in = new Intent().setClass(this, reconnect_status.class);
+        Intent in = new Intent().setClass(this, ReconnectActivity.class);
         in.putExtra("status", s);
         startActivity(in);
-        connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
+        ConnectionActivity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
     }
 
     /**
@@ -349,7 +349,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
             return;
         }
 
-        setContentView(R.layout.wifi);
+        setContentView(R.layout.wifi_page);
 
         //put pointer to this activity's handler in main app's shared variable
         mainapp.wifi_msg_handler = new wifi_handler(Looper.getMainLooper());
@@ -555,7 +555,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
 
     @Override
     public void onResume() {
-        Log.d("EX_Toolbox", "neopixel.onResume() called");
+        Log.d("EX_Toolbox", "NeopixelActivity.onResume() called");
         mainapp.applyTheme(this);
 
         super.onResume();
@@ -601,7 +601,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
 
     @Override
     public void onPause() {
-        Log.d("EX_Toolbox", "neopixel.onPause() called");
+        Log.d("EX_Toolbox", "NeopixelActivity.onPause() called");
         super.onPause();
         CookieSyncManager.getInstance().stopSync();
 //        mainapp.sendMsg(mainapp.comm_msg_handler, message_type.STOP_CURRENTS_TIMER);
@@ -610,7 +610,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("EX_Toolbox", "neopixel.onStart() called");
+        Log.d("EX_Toolbox", "NeopixelActivity.onStart() called");
         // put pointer to this activity's handler in main app's shared variable
         if (mainapp.wifi_msg_handler == null)
             mainapp.wifi_msg_handler = new wifi_handler(Looper.getMainLooper());
@@ -624,14 +624,14 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
             Intent in = mainapp.getCvProgrammerIntent();
             in.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT );
             startActivity(in);
-            connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
+            ConnectionActivity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
         }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("EX_Toolbox", "neopixel.onDestroy() called");
+        Log.d("EX_Toolbox", "NeopixelActivity.onDestroy() called");
 
         if (mainapp.wifi_msg_handler !=null) {
             mainapp.wifi_msg_handler.removeCallbacksAndMessages(null);
@@ -691,22 +691,22 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
         Intent in;
         if ( (item.getItemId() == R.id.cv_programmer_mnu) || (item.getItemId() == R.id.toolbar_button_cv_programmer) ) {
             navigateAway(true, null);
-            in = new Intent().setClass(this, cv_programmer.class);
+            in = new Intent().setClass(this, CvProgrammerActivity.class);
             startACoreActivity(this, in, false, 0);
             return true;
         } else if ( (item.getItemId() == R.id.speed_matching_mnu) || (item.getItemId() == R.id.toolbar_button_speed_matching) ) {
             navigateAway(true, null);
-            in = new Intent().setClass(this, speed_matching.class);
+            in = new Intent().setClass(this, SpeedMatchingActivity.class);
             startACoreActivity(this, in, false, 0);
             return true;
         } else if ( (item.getItemId() == R.id.servos_mnu) || (item.getItemId() == R.id.toolbar_button_servos) ) {
             navigateAway(true, null);
-            in = new Intent().setClass(this, servos.class);
+            in = new Intent().setClass(this, ServosActivity.class);
             startACoreActivity(this, in, false, 0);
             return true;
         } else if ( (item.getItemId() == R.id.track_manager_mnu) || (item.getItemId() == R.id.toolbar_button_track_manager) ) {
             navigateAway(true, null);
-            in = new Intent().setClass(this, track_manager.class);
+            in = new Intent().setClass(this, TrackManagerActivity.class);
             startACoreActivity(this, in, false, 0);
             return true;
         } else if ( (item.getItemId() == R.id.currents_mnu) || (item.getItemId() == R.id.toolbar_button_currents) ) {
@@ -716,27 +716,27 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
             return true;
         } else if ( (item.getItemId() == R.id.sensors_mnu) || (item.getItemId() == R.id.toolbar_button_sensors) ) {
             navigateAway(true, null);
-            in = new Intent().setClass(this, sensors.class);
+            in = new Intent().setClass(this, SensorsActivity.class);
             startACoreActivity(this, in, false, 0);
             return true;
         } else if ( (item.getItemId() == R.id.locos_mnu) || (item.getItemId() == R.id.toolbar_button_locos) ) {
             navigateAway(true, null);
-            in = new Intent().setClass(this, locos.class);
+            in = new Intent().setClass(this, LocosActivity.class);
             startACoreActivity(this, in, false, 0);
             return true;
         } else if ( (item.getItemId() == R.id.roster_mnu) || (item.getItemId() == R.id.toolbar_button_roster) ) {
             navigateAway(true, null);
-            in = new Intent().setClass(this, roster.class);
+            in = new Intent().setClass(this, RosterActivity.class);
             startACoreActivity(this, in, false, 0);
             return true;
         } else if ( (item.getItemId() == R.id.speed_trap_mnu) || (item.getItemId() == R.id.toolbar_button_speed_trap) ) {
             navigateAway(true, null);
-            in = new Intent().setClass(this, speed_trap.class);
+            in = new Intent().setClass(this, SpeedTrapActivity.class);
             startACoreActivity(this, in, false, 0);
             return true;
         } else if ( (item.getItemId() == R.id.neopixel_mnu) || (item.getItemId() == R.id.toolbar_button_neopixel) ) {
             navigateAway(true, null);
-            in = new Intent().setClass(this, neopixel.class);
+            in = new Intent().setClass(this, NeopixelActivity.class);
             startACoreActivity(this, in, false, 0);
             return true;
 
@@ -744,18 +744,18 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
             mainapp.checkAskExit(this);
             return true;
         } else if (item.getItemId() == R.id.power_control_mnu) {
-            navigateAway(false, power_control.class);
+            navigateAway(false, PowerActivity.class);
             return true;
         } else if (item.getItemId() == R.id.settings_mnu) {
-            in = new Intent().setClass(this, SettingsActivity.class);
+            in = new Intent().setClass(this, PreferencesActivity.class);
             startActivityForResult(in, 0);
-            connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
+            ConnectionActivity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
             return true;
         } else if (item.getItemId() == R.id.logviewer_menu) {
             navigateAway(false, LogViewerActivity.class);
             return true;
         } else if (item.getItemId() == R.id.about_mnu) {
-            navigateAway(false, about_page.class);
+            navigateAway(false, AboutActivity.class);
             return true;
         } else if (item.getItemId() == R.id.powerLayoutButton) {
             if (!mainapp.isPowerControlAllowed()) {
@@ -778,7 +778,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
     // helper methods to handle navigating away from this activity
     private void navigateAway() {
         this.finish();
-        connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
+        ConnectionActivity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
     }
 
     private void navigateAway(boolean returningToOtherActivity, Class activityClass) {
@@ -792,7 +792,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
             startACoreActivity(this, in, false, 0);
         } else {
             startActivityForResult(in, 0);
-            connection_activity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
+            ConnectionActivity.overridePendingTransition(this, R.anim.fade_in, R.anim.fade_out);
         }
     }
 
@@ -827,7 +827,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
 
     @SuppressLint("ApplySharedPref")
     public void forceRestartApp(int forcedRestartReason) {
-        Log.d("EX-Toolbox", "neopixel.forceRestartApp() ");
+        Log.d("EX-Toolbox", "NeopixelActivity.forceRestartApp() ");
         Message msg = Message.obtain();
         msg.what = message_type.RESTART_APP;
         msg.arg1 = forcedRestartReason;
@@ -962,9 +962,9 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
 
     private void validateEntries() {
         // ssid
-        dccexWifiSsidValue = dccexWifiSsidValueEditText.getText().toString();
+        dccexWifiSsidValue = dccexWifiSsidValueEditText.getText().toString().trim();
         validSsid = true;
-        if (dccexWifiSsidValue.contains(" ")) validSsid = false;
+//        if (dccexWifiSsidValue.contains(" ")) validSsid = false;
         if (dccexWifiSsidValue.isEmpty()) validSsid = false;
 
         // password
@@ -974,9 +974,9 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
         if (dccexWifiPasswordValue.length()<8) validPassword = false;
 
         // Access Point ssid
-        dccexWifiAccessPointSsidValue = dccexWifiAccessPointSsidValueEditText.getText().toString();
+        dccexWifiAccessPointSsidValue = dccexWifiAccessPointSsidValueEditText.getText().toString().trim();
         validAccessPointSsid = true;
-        if (dccexWifiAccessPointSsidValue.contains(" ")) validAccessPointSsid = false;
+//        if (dccexWifiAccessPointSsidValue.contains(" ")) validAccessPointSsid = false;
         if (dccexWifiAccessPointSsidValue.isEmpty()) validAccessPointSsid = false;
 
         // Access Point password

@@ -1581,7 +1581,7 @@ public class threaded_application extends Application {
     public Intent getCvProgrammerIntent() {
         Intent cv_programer;
         appIsFinishing = false;
-        cv_programer = new Intent().setClass(this, cv_programmer.class);
+        cv_programer = new Intent().setClass(this, CvProgrammerActivity.class);
         return cv_programer;
     }
 
@@ -1622,37 +1622,37 @@ public class threaded_application extends Application {
         switch (nextScreen) {
             case SCREEN_SWIPE_INDEX_CV_PROGRAMMER:
             default:
-                nextIntent = new Intent().setClass(this, cv_programmer.class);
+                nextIntent = new Intent().setClass(this, CvProgrammerActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_WIFI:
                 nextIntent = new Intent().setClass(this, WifiActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_SPEED_MATCHING:
-                nextIntent = new Intent().setClass(this, speed_matching.class);
+                nextIntent = new Intent().setClass(this, SpeedMatchingActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_LOCOS:
-                nextIntent = new Intent().setClass(this, locos.class);
+                nextIntent = new Intent().setClass(this, LocosActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_SERVOS:
-                nextIntent = new Intent().setClass(this, servos.class);
+                nextIntent = new Intent().setClass(this, ServosActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_SENSORS:
-                nextIntent = new Intent().setClass(this, sensors.class);
+                nextIntent = new Intent().setClass(this, SensorsActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_CURRENTS:
-                nextIntent = new Intent().setClass(this, currents.class);
+                nextIntent = new Intent().setClass(this, CurrentsActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_TRACK_MANGER:
-                nextIntent = new Intent().setClass(this, track_manager.class);
+                nextIntent = new Intent().setClass(this, TrackManagerActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_ROSTER:
-                nextIntent = new Intent().setClass(this, roster.class);
+                nextIntent = new Intent().setClass(this, RosterActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_SPEED_TRAP:
-                nextIntent = new Intent().setClass(this, speed_trap.class);
+                nextIntent = new Intent().setClass(this, SpeedTrapActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_NEOPIXEL:
-                nextIntent = new Intent().setClass(this, neopixel.class);
+                nextIntent = new Intent().setClass(this, NeopixelActivity.class);
                 break;
         }
         return nextIntent;

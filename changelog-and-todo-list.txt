@@ -1,13 +1,16 @@
 **Version 0.1.35
- * reduce the auto button size if too many buttons
- * bug fix for the button sizing where there are dialogs
- * upgrade to gradle 8.11.0
- * preference screen colours now match the chosen theme
- * fixed colour of the status bar elements when using the colourful theme
- * Support for the new DCC-EX WiFi commands in the drop list.
- * Added a separate page for the DCC-EX WiFi modes.
- * Added support for USB connection to the CS.
- * Added support for changing the Access Point details over USB only.
+ * New Features
+   * Added support for USB connection to the CS.
+   * Added a separate page for the DCC-EX WiFi modes.
+   * Preference screen colours now match the chosen theme.
+   * Support for the new DCC-EX WiFi commands in the drop list.
+ * Bug Fixes
+   * bug fix for the button sizing where there are dialogs.
+   * Fixed colour of the status bar elements when using the colourful theme.
+ * Other
+   * Reduce the auto button size if too many buttons.
+   * Upgrade to Gradle 9.2.0
+   * Started renaming files for consistency.
 **Version 0.1.34
  * Japanese translation updates
  * Option to adjust the toolbar/action bar button sizes. The 'auto' option will make screens >=13.97cm (5.5") will use the medium size buttons and large on screens >17cm (6.7").

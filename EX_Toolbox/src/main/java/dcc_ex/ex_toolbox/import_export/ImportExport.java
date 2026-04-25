@@ -182,7 +182,7 @@ public class ImportExport {
 //            Log.d("EX_Toolbox", "getRecentLocosListFromFile: readServoListFromFile: Read servos from file complete successfully");
 
         } catch (IOException except) {
-            Log.e("EX_Toolbox", "ImportExport: readServoListFromFile: Error reading servos file. "
+            Log.e("EX_Toolbox", "ImportExport: readServoListFromFile: Error reading ServosActivity file. "
                     + except.getMessage());
         }
     }
