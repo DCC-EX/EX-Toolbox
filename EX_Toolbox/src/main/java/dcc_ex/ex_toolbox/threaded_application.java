@@ -191,7 +191,7 @@ public class threaded_application extends Application {
     public double dccexVersionValue = 0.0;
     public static final double DCCEX_MIN_VERSION_FOR_TRACK_MANAGER = 04.02007;
     public static final double DCCEX_MIN_VERSION_FOR_CURRENTS = 04.02019;
-    public static final double DCCEX_MIN_VERSION_FOR_WIFI = 05.05068;
+    public static final double DCCEX_MIN_VERSION_FOR_WIFI = 05.07000;
     public int dccexListsRequested = -1;  // -1=not requested  0=requested  1,2,3= no. of lists received
 
     public boolean dccexScreenIsOpen = false;
