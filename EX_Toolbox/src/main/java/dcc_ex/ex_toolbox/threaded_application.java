@@ -1875,30 +1875,30 @@ public class threaded_application extends Application {
 
 
     public void loadBackgroundImage(ImageView myImage) {
-        if (prefBackgroundImage) {
-            boolean result = false;
-            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                if (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_IMAGES)) {
-                    result = true;
-                }
-            } else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                if (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_IMAGES)) {
-                    result = true;
-                }
-            } else {
-                if ((PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_VISUAL_USER_SELECTED))
-                        || (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_VISUAL_USER_SELECTED)) ) {
-                    result = true;
-                }
-            }
-            if (result) {
-                loadBackgroundImageImpl(myImage);
-                myImage.invalidate();
-            }
-        }
-    }
-
-    public void loadBackgroundImageImpl(ImageView myImage) {
+//        if (prefBackgroundImage) {
+//            boolean result = false;
+//            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+//                if (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_IMAGES)) {
+//                    result = true;
+//                }
+//            } else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+//                if (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_IMAGES)) {
+//                    result = true;
+//                }
+//            } else {
+//                if ((PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_VISUAL_USER_SELECTED))
+//                        || (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_VISUAL_USER_SELECTED)) ) {
+//                    result = true;
+//                }
+//            }
+//            if (result) {
+//                loadBackgroundImageImpl(myImage);
+//                myImage.invalidate();
+//            }
+//        }
+//    }
+//
+//    public void loadBackgroundImageImpl(ImageView myImage) {
 //        ImageView myImage = findViewById(R.id.backgroundImgView);
         try {
             File image_file = new File(prefBackgroundImageFileName);

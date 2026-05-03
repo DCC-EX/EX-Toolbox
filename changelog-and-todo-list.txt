@@ -4,6 +4,7 @@
    * Added a separate page for the DCC-EX WiFi modes.
    * Preference screen colours now match the chosen theme.
    * Support for the new DCC-EX WiFi commands in the drop list.
+   * Removed need for READ_MEDIA_VISUAL_USER_SELECTED and READ_MEDIA_IMAGES Permissions.
  * Bug Fixes
    * bug fix for the button sizing where there are dialogs.
    * Fixed colour of the status bar elements when using the colourful theme.
