@@ -313,8 +313,8 @@
     <string name="prefActionBarShowServerDescriptionSummary">Show the description of the current server on the action bar</string>
 
     <string name="permissionsReadImages">EX-Toolbox needs STORAGE permissions to load background images.</string>
-    <string name="permissionsREAD_MEDIA_IMAGES">EX-Toolbox needs READ_MEDIA_IMAGES permissions to load background images.\n\nEngine Driver will work without it.</string>
-    <string name="permissionsREAD_MEDIA_VISUAL_USER_SELECTED">EX-Toolbox needs READ_MEDIA_VISUAL_USER_SELECTED permissions to load background images.\n\nEngine Driver will work without it</string>
+<!--    <string name="permissionsREAD_MEDIA_IMAGES">EX-Toolbox needs READ_MEDIA_IMAGES permissions to load background images.\n\nEngine Driver will work without it.</string>-->
+<!--    <string name="permissionsREAD_MEDIA_VISUAL_USER_SELECTED">EX-Toolbox needs READ_MEDIA_VISUAL_USER_SELECTED permissions to load background images.\n\nEngine Driver will work without it</string>-->
 
 <!--    <string name="permissionsReadLegacyFiles">EX-Toolbox needs STORAGE permissions to load legacy (old location) settings.</string>-->
     <string name="permissionsReadPhoneState">EX-Toolbox needs PHONE permissions to pause operations when on a call.</string>

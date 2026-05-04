@@ -44,10 +44,10 @@ public class PermissionsHelper {
 //            NEARBY_WIFI_DEVICES,
             VIBRATE,
             READ_IMAGES,
-            READ_MEDIA_IMAGES,
+//            READ_MEDIA_IMAGES,
 //            READ_LEGACY_FILES,
             POST_NOTIFICATIONS,
-            READ_MEDIA_VISUAL_USER_SELECTED,
+//            READ_MEDIA_VISUAL_USER_SELECTED,
             USB_PERMISSION
     })
     public @interface RequestCodes {}
@@ -61,10 +61,10 @@ public class PermissionsHelper {
 //    public static final int NEARBY_WIFI_DEVICES = 43;
     public static final int VIBRATE = 46;
     public static final int READ_IMAGES = 47;
-    public static final int READ_MEDIA_IMAGES = 48;
+//    public static final int READ_MEDIA_IMAGES = 48;
 //    public static final int READ_LEGACY_FILES = 49;
     public static final int POST_NOTIFICATIONS = 50;
-    public static final int READ_MEDIA_VISUAL_USER_SELECTED = 51;
+//    public static final int READ_MEDIA_VISUAL_USER_SELECTED = 51;
     public static final int USB_PERMISSION = 52;
 
     private boolean isDialogOpen = false;
@@ -137,10 +137,10 @@ public class PermissionsHelper {
         switch (requestCode) {
             case READ_IMAGES:
                 return context.getResources().getString(R.string.permissionsReadImages);
-            case READ_MEDIA_IMAGES:
-                return context.getResources().getString(R.string.permissionsREAD_MEDIA_IMAGES);
-            case READ_MEDIA_VISUAL_USER_SELECTED: // needed for API 34
-                return context.getResources().getString(R.string.permissionsREAD_MEDIA_VISUAL_USER_SELECTED);
+//            case READ_MEDIA_IMAGES:
+//                return context.getResources().getString(R.string.permissionsREAD_MEDIA_IMAGES);
+//            case READ_MEDIA_VISUAL_USER_SELECTED: // needed for API 34
+//                return context.getResources().getString(R.string.permissionsREAD_MEDIA_VISUAL_USER_SELECTED);
             case CONNECT_TO_SERVER:
                 return context.getResources().getString(R.string.permissionsConnectToServer);
             case WRITE_SETTINGS:
@@ -178,20 +178,20 @@ public class PermissionsHelper {
                                     Manifest.permission.READ_EXTERNAL_STORAGE},
                             requestCode);
                     break;
-                case READ_MEDIA_IMAGES: // needed for API 33
-                    Log.d("EX_Toolbox", "Requesting READ_MEDIA_IMAGES permissions");
-                    activity.requestPermissions(new String[]{
-                                    Manifest.permission.READ_MEDIA_IMAGES},
-                            requestCode);
-                    break;
-                case READ_MEDIA_VISUAL_USER_SELECTED: // needed for API 34
-                    Log.d("EX_Toolbox", "Requesting READ_MEDIA_VISUAL_USER_SELECTED permissions");
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                        activity.requestPermissions(new String[]{
-                                        Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED},
-                                requestCode);
-                    }
-                    break;
+//                case READ_MEDIA_IMAGES: // needed for API 33
+//                    Log.d("EX_Toolbox", "Requesting READ_MEDIA_IMAGES permissions");
+//                    activity.requestPermissions(new String[]{
+//                                    Manifest.permission.READ_MEDIA_IMAGES},
+//                            requestCode);
+//                    break;
+//                case READ_MEDIA_VISUAL_USER_SELECTED: // needed for API 34
+//                    Log.d("EX_Toolbox", "Requesting READ_MEDIA_VISUAL_USER_SELECTED permissions");
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+//                        activity.requestPermissions(new String[]{
+//                                        Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED},
+//                                requestCode);
+//                    }
+//                    break;
                 case ACCESS_FINE_LOCATION:
                     Log.d("EX_Toolbox", "Requesting ACCESS_FINE_LOCATION permissions");
                     activity.requestPermissions(new String[]{
@@ -350,8 +350,8 @@ public class PermissionsHelper {
 //                return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
             case READ_IMAGES:
                 return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-            case READ_MEDIA_IMAGES:
-                return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED;
+//            case READ_MEDIA_IMAGES:
+//                return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED;
             case CONNECT_TO_SERVER:
                   return  ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED;
             case ACCESS_FINE_LOCATION :
@@ -391,8 +391,8 @@ public class PermissionsHelper {
 //                return ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
             case READ_IMAGES:
                 return ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
-            case READ_MEDIA_IMAGES:
-                return ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_MEDIA_IMAGES);
+//            case READ_MEDIA_IMAGES:
+//                return ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_MEDIA_IMAGES);
             case CONNECT_TO_SERVER:
                 return ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_PHONE_STATE);
             case ACCESS_FINE_LOCATION:
@@ -423,14 +423,14 @@ public class PermissionsHelper {
                 return Manifest.permission.ACCESS_FINE_LOCATION;
             case WRITE_SETTINGS:
                 return Manifest.permission.WRITE_SETTINGS;
-            case READ_MEDIA_IMAGES:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    return Manifest.permission.READ_MEDIA_IMAGES;
-                } else { return "";}
-            case READ_MEDIA_VISUAL_USER_SELECTED:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                    return Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED;
-                } else { return "";}
+//            case READ_MEDIA_IMAGES:
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//                    return Manifest.permission.READ_MEDIA_IMAGES;
+//                } else { return "";}
+//            case READ_MEDIA_VISUAL_USER_SELECTED:
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+//                    return Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED;
+//                } else { return "";}
             case POST_NOTIFICATIONS:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     return Manifest.permission.POST_NOTIFICATIONS;

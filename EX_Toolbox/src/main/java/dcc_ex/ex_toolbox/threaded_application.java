@@ -1000,7 +1000,7 @@ public class threaded_application extends Application {
         if (menu != null) {
             MenuItem item = menu.findItem(R.id.wifi_mnu);
             if (item != null) {
-                boolean isVisible = (mainapp.dccexVersionValue > DCCEX_MIN_VERSION_FOR_WIFI) && mainapp.isEsp32OrCsb1;
+                boolean isVisible = (mainapp.dccexVersionValue >= DCCEX_MIN_VERSION_FOR_WIFI) && mainapp.isEsp32OrCsb1;
                 item.setVisible(isVisible);
             }
         }
@@ -1596,7 +1596,7 @@ public class threaded_application extends Application {
             if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen++;
             }
-            if ( (nextScreen == SCREEN_SWIPE_INDEX_WIFI) && ((mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_WIFI) || (!mainapp.isEsp32OrCsb1)) ) {
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_WIFI) && ((mainapp.dccexVersionValue < DCCEX_MIN_VERSION_FOR_WIFI) || (!mainapp.isEsp32OrCsb1)) ) {
                 nextScreen++;
             }
             if (nextScreen > SCREEN_SWIPE_INDEX_LAST) {
@@ -1607,7 +1607,7 @@ public class threaded_application extends Application {
             if (nextScreen < 0) {
                 nextScreen = SCREEN_SWIPE_INDEX_LAST;
             }
-            if ( (nextScreen == SCREEN_SWIPE_INDEX_WIFI) && ((mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_WIFI) || (!mainapp.isEsp32OrCsb1)) ) {
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_WIFI) && ((mainapp.dccexVersionValue < DCCEX_MIN_VERSION_FOR_WIFI) || (!mainapp.isEsp32OrCsb1)) ) {
                 nextScreen--;
             }
             if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
@@ -1931,7 +1931,7 @@ public class threaded_application extends Application {
         MenuItem mi = menu.findItem(R.id.wifi_mnu);
         if (mi == null) return;
 
-        boolean isVisible = (mainapp.dccexVersionValue > DCCEX_MIN_VERSION_FOR_WIFI) && mainapp.isEsp32OrCsb1;
+        boolean isVisible = (mainapp.dccexVersionValue >= DCCEX_MIN_VERSION_FOR_WIFI) && mainapp.isEsp32OrCsb1;
         mi.setVisible(isVisible);
 
     }
