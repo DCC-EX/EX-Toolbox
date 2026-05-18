@@ -1,3 +1,8 @@
+**Version 0.1.38
+ * New Features
+ * Bug Fixes
+   * Fixed a bug with the USB connection to ESP32 devices (not the EX-CSB1)
+ * Other
 **Version 0.1.35
  * New Features
    * Added support for USB connection to the CS.

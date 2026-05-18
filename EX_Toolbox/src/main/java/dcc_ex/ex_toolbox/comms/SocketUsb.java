@@ -1,8 +1,6 @@
 package dcc_ex.ex_toolbox.comms;
 
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -21,7 +19,6 @@ import com.hoho.android.usbserial.driver.UsbSerialProber;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -164,30 +161,48 @@ class SocketUsb extends Thread {
             @Override
             public void run() {
                 byte[] buffer = new byte[4096];
+                StringBuilder str = new StringBuilder();
                 while ( (socketGood) && (!endRead) ) {
                     try {
-                        String str = new String(buffer, 0, port.read(buffer, socketTimeoutMs));
-                        if (!str.isEmpty()) {
-                            Log.d("EX_Toolbox", "SocketUsb.read(): " + str);
+                        String bitOfStr = new String(buffer, 0, port.read(buffer, socketTimeoutMs));
+                        str.append(bitOfStr);
+                        if (!str.toString().isEmpty()) {
+                            if ( (str.toString().contains("<")) && (str.toString().contains(">")) ) {
 
-                            String [] superCmds = str.split("\n");
-                            for (int j=0; j< superCmds.length; j++) {
-                                String[] cmds = superCmds[j].split("><");
-                                if (cmds.length == 1) { // multiple concatenated commands
-                                    comm_thread.processWifiResponse(cmds[0]);
-                                } else {
-                                    for (int i = 0; i < cmds.length; i++) {
-                                        if ((cmds[i].charAt(0) == '<') && (cmds[i].charAt(cmds[i].length() - 1)) == '>') {
-                                            comm_thread.processWifiResponse(cmds[i]);
-                                        } else if ((cmds[i].charAt(0) == '<') && (cmds[i].charAt(cmds[i].length() - 1)) != '>') {
-                                            comm_thread.processWifiResponse(cmds[i] + ">");
-                                        } else if ((cmds[i].charAt(0) != '<') && (cmds[i].charAt(cmds[i].length() - 1)) == '>') {
-                                            comm_thread.processWifiResponse("<" + cmds[i]);
-                                        } else {
-                                            comm_thread.processWifiResponse("<" + cmds[i] + ">");
+                                String wholeStr = str.toString();
+                                String remainder = wholeStr.substring(wholeStr.indexOf(">")+2);
+
+                                String oneStr = wholeStr.substring(wholeStr.indexOf("<"), wholeStr.indexOf(">") + 1);
+
+                                Log.d("EX_Toolbox", "SocketUsb.read(): whole str »" + str +"«");
+                                Log.d("EX_Toolbox", "SocketUsb.read(): one str   »" + oneStr +"«");
+                                Log.d("EX_Toolbox", "SocketUsb.read(): remainder »" + remainder +"«\n\n");
+
+                                String[] superCmds = oneStr.split("\n");
+
+                                for (int j = 0; j < superCmds.length; j++) {
+                                    String[] cmds = superCmds[j].split("><");
+                                    if (cmds.length == 1) { // multiple concatenated commands
+                                        comm_thread.processWifiResponse(cmds[0]);
+                                    } else {
+                                        for (int i = 0; i < cmds.length; i++) {
+                                            if ((cmds[i].charAt(0) == '<') && (cmds[i].charAt(cmds[i].length() - 1)) == '>') {
+                                                comm_thread.processWifiResponse(cmds[i]);
+                                            } else if ((cmds[i].charAt(0) == '<') && (cmds[i].charAt(cmds[i].length() - 1)) != '>') {
+                                                comm_thread.processWifiResponse(cmds[i] + ">");
+                                            } else if ((cmds[i].charAt(0) != '<') && (cmds[i].charAt(cmds[i].length() - 1)) == '>') {
+                                                comm_thread.processWifiResponse("<" + cmds[i]);
+                                            } else {
+                                                comm_thread.processWifiResponse("<" + cmds[i] + ">");
+                                            }
                                         }
                                     }
                                 }
+                                str.setLength(0);
+                                if (!remainder.isEmpty()) str.append(remainder);
+
+                            } else {
+                                Log.d("EX_Toolbox", "SocketUsb.read(): partial: »" + str + "«");
                             }
 
                             comm_thread.heart.restartInboundInterval();

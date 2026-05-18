@@ -21,7 +21,6 @@ package dcc_ex.ex_toolbox.comms;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.hardware.usb.UsbManager;
 import android.net.wifi.WifiManager;
 import android.os.Looper;
 import android.os.Message;
@@ -822,18 +821,6 @@ public class comm_thread extends Thread {
 
     @SuppressLint("DefaultLocale")
     protected static void processWifiResponse(String responseStr) {
-            /* see java/arc/jmri/jmrit/withrottle/deviceserver.java for server code and some documentation
-          VN<Version#>
-          RL<RosterSize>]<RosterList>
-          RF<RosterFunctionList>
-          RS<2ndRosterFunctionList>
-          *<HeartbeatIntervalInSeconds>
-          PTL[<SystemTurnoutName><UserName><State>repeat] where state 1=Unknown. 2=Closed, 4=Thrown
-          PTA<NewTurnoutState><SystemName>
-          PPA<NewPowerState> where state 0=off, 1=on, 2=unknown
-          M<throttleid> multi-throttle command
-          TODO: add remaining items, or move examples into code below
-             */
 
         //send response to debug log for review
         Log.d("EX_Toolbox", "comm_thread.processWifiResponse: " + (mainapp.isDccex ? "DCC-EX" : "") + "<:> <--:" + responseStr);
