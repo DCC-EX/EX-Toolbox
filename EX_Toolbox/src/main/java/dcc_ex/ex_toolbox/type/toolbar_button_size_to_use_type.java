@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package dcc_ex.ex_toolbox.type;
 
 public interface toolbar_button_size_to_use_type {
-    int AUTO = 0;
+//    int AUTO = 0;
     int SMALL = 1;
     int MEDIUM = 2;
     int LARGE = 3;

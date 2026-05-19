@@ -1,3 +1,22 @@
+**Version 0.1.38
+ * New Features
+ * Bug Fixes
+   * Fixed a bug with the USB connection to ESP32 devices (not the EX-CSB1)
+ * Other
+**Version 0.1.35
+ * New Features
+   * Added support for USB connection to the CS.
+   * Added a separate page for the DCC-EX WiFi modes.
+   * Preference screen colours now match the chosen theme.
+   * Support for the new DCC-EX WiFi commands in the drop list.
+   * Removed need for READ_MEDIA_VISUAL_USER_SELECTED and READ_MEDIA_IMAGES Permissions.
+ * Bug Fixes
+   * bug fix for the button sizing where there are dialogs.
+   * Fixed colour of the status bar elements when using the colourful theme.
+ * Other
+   * Reduce the auto button size if too many buttons.
+   * Upgrade to Gradle 9.2.0
+   * Started renaming files for consistency.
 **Version 0.1.34
  * Japanese translation updates
  * Option to adjust the toolbar/action bar button sizes. The 'auto' option will make screens >=13.97cm (5.5") will use the medium size buttons and large on screens >17cm (6.7").

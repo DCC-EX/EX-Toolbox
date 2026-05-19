@@ -104,11 +104,11 @@ public class ImportExportConnectionList {
                 }
                 list_reader.close();
             } else {
-                Log.d("connection_activity", "Recent connections not found");
+                Log.d("ConnectionActivity", "Recent connections not found");
             }
         } catch (IOException except) {
             errMsg = except.getMessage();
-            Log.e("connection_activity", "Error reading recent connections list: " + errMsg);
+            Log.e("ConnectionActivity", "Error reading recent connections list: " + errMsg);
             failureReason = errMsg;
 //                    Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.toastConnectErrorReadingRecentConnections) + " " + errMsg, Toast.LENGTH_SHORT).show();
         }

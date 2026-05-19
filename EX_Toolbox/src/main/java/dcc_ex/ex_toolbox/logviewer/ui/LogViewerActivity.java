@@ -82,12 +82,12 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
         }
 
         mainapp.applyTheme(this);
-        setContentView(R.layout.log_main);
+        setContentView(R.layout.log_viewer_page);
 
         final ListView listView = findViewById(android.R.id.list);
 
         ArrayList<String> logArray = new ArrayList<>();
-        adaptor = new LogStringAdaptor(this, R.layout.logitem, logArray);
+        adaptor = new LogStringAdaptor(this, R.layout.log_viewer_item, logArray);
 
         listView.setAdapter(adaptor);
 
@@ -374,7 +374,7 @@ public class LogViewerActivity extends AppCompatActivity implements PermissionsH
 
             if (null == view) {
                 LayoutInflater vi = (LayoutInflater) LogViewerActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = vi.inflate(R.layout.logitem, null);
+                view = vi.inflate(R.layout.log_viewer_item, null);
             }
 
             String data = objects.get(position);

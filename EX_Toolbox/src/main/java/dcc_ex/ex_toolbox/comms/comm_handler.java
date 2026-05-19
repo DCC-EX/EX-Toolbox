@@ -19,8 +19,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package dcc_ex.ex_toolbox.comms;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -29,6 +32,7 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
@@ -58,14 +62,19 @@ public class comm_handler extends Handler {
 
          //Start or Stop jmdns stuff, or add "fake" discovered servers
          case message_type.SET_LISTENER:
+
+            if (areAnyUsbDevicesConnected()) commThread.addFakeUsbServer();
+
             if (mainapp.client_ssid != null &&
                     mainapp.client_ssid.matches("DCCEX_[0-9a-f]{6}$")) {
                //add "fake" discovered server entry for DCCEX: DCCEX_123abc
                commThread.addFakeDiscoveredServer(mainapp.client_ssid, mainapp.client_address, "2560", "DCC-EX");
+
             } else if (mainapp.client_ssid != null &&
                     mainapp.client_ssid.matches("^Dtx[0-9]{1,2}-.*_[0-9,A-F]{4}-[0-9]{1,3}$")) {
                //add "fake" discovered server entry for Digitrax LnWi: Dtx1-LnServer_0009-7
                commThread.addFakeDiscoveredServer(mainapp.client_ssid, mainapp.client_address, "12090", "LnWi");
+
             } else {
                //arg1= 1 to turn on, arg1=0 to turn off
                if (msg.arg1 == 0) {
@@ -106,34 +115,70 @@ public class comm_handler extends Handler {
             new_host_ip = new_host_ip.trim();
             int new_port = msg.arg1;
 
-            //avoid duplicate connects, seen when user clicks address multiple times quickly
-            if (comm_thread.socketWiT != null && comm_thread.socketWiT.SocketGood()
-                    && new_host_ip.equals(mainapp.host_ip) && new_port == mainapp.port) {
-               Log.d("EX_Toolbox", "comm_handler.handleMessage: Duplicate CONNECT message received.");
-               break;
-            }
+            if (new_host_ip.equals("0.0.0.0")) { // USB OTG
 
-            //clear app.thread shared variables so they can be reinitialized
-            mainapp.initShared();
-            mainapp.fastClockSeconds = 0L;
+               //avoid duplicate connects, seen when user clicks address multiple times quickly
+               if (comm_thread.socketUsb != null && comm_thread.socketUsb.SocketGood()
+                       && new_host_ip.equals(mainapp.host_ip) && new_port == mainapp.port) {
+                  Log.d("EX_Toolbox", "comm_handler.handleMessage: Duplicate CONNECT message received.");
+                  break;
+               }
 
-            //store ip and port in global variables
-            mainapp.host_ip = new_host_ip;
-            mainapp.port = new_port;
-            // skip url checking on Play Protect
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-               WebView.setSafeBrowsingWhitelist(Collections.singletonList(mainapp.host_ip), null);
-            }
+               //clear app.thread shared variables so they can be reinitialized
+               mainapp.initShared();
+               mainapp.fastClockSeconds = 0L;
 
-            //attempt connection to server
-            comm_thread.socketWiT = new comm_thread.socketWifi();
-            if (comm_thread.socketWiT.connect()) {
+               //store ip and port in global variables
+               mainapp.host_ip = new_host_ip;
+               mainapp.port = new_port;
+               // skip url checking on Play Protect
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                  WebView.setSafeBrowsingWhitelist(Collections.singletonList(mainapp.host_ip), null);
+               }
 
-               commThread.sendThrottleName();
-               mainapp.sendMsgDelay(mainapp.comm_msg_handler, 5000L, message_type.CONNECTION_COMPLETED_CHECK);
+               //attempt connection to server
+               comm_thread.socketUsb = new SocketUsb(mainapp, prefs, commThread, mainapp.getBaseContext());
+               if (comm_thread.socketUsb.connect()) {
+
+                  commThread.sendThrottleName();
+                  mainapp.sendMsgDelay(mainapp.comm_msg_handler, 5000L, message_type.CONNECTION_COMPLETED_CHECK);
+               } else {
+                  mainapp.host_ip = null;  //clear vars if failed to connect
+                  mainapp.port = 0;
+               }
+
             } else {
-               mainapp.host_ip = null;  //clear vars if failed to connect
-               mainapp.port = 0;
+
+               //avoid duplicate connects, seen when user clicks address multiple times quickly
+               if (comm_thread.socketWiT != null && comm_thread.socketWiT.SocketGood()
+                       && new_host_ip.equals(mainapp.host_ip) && new_port == mainapp.port) {
+                  Log.d("EX_Toolbox", "comm_handler.handleMessage: Duplicate CONNECT message received.");
+                  break;
+               }
+
+               //clear app.thread shared variables so they can be reinitialized
+               mainapp.initShared();
+               mainapp.fastClockSeconds = 0L;
+
+               //store ip and port in global variables
+               mainapp.host_ip = new_host_ip;
+               mainapp.port = new_port;
+               // skip url checking on Play Protect
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                  WebView.setSafeBrowsingWhitelist(Collections.singletonList(mainapp.host_ip), null);
+               }
+
+               //attempt connection to server
+//            comm_thread.socketWiT = new comm_thread.socketWifi();
+               comm_thread.socketWiT = new SocketWiFi(mainapp, prefs, commThread);
+               if (comm_thread.socketWiT.connect()) {
+
+                  commThread.sendThrottleName();
+                  mainapp.sendMsgDelay(mainapp.comm_msg_handler, 5000L, message_type.CONNECTION_COMPLETED_CHECK);
+               } else {
+                  mainapp.host_ip = null;  //clear vars if failed to connect
+                  mainapp.port = 0;
+               }
             }
             break;
 
@@ -242,8 +287,44 @@ public class comm_handler extends Handler {
             break;
          }
 
-         case message_type.REQUEST_ALL_SENSORS: { // DCC-EX only
+         case message_type.REQUEST_WIFI_DETAILS: {
+            comm_thread.sendRequestWifi();
+            break;
+         }
+
+         case message_type.REQUEST_RESET_WIFI: {
+            comm_thread.sendResetWifi();
+            break;
+         }
+
+         case message_type.SEND_WIFI_STATION: {
             String [] args = msg.obj.toString().split(" ");
+            comm_thread.sendWifiStation(args[0], args[1]);
+            break;
+         }
+         case message_type.SEND_WIFI_TEMP: {
+            String [] args = msg.obj.toString().split(" ");
+            comm_thread.sendWifiTemp(args[0], args[1]);
+            break;
+         }
+         case message_type.SEND_WIFI_ACCESS_POINT: {
+            String [] args = msg.obj.toString().split(" ");
+            if (args.length == 2) {
+               comm_thread.sendWifiAccessPoint(args[0], args[1], "");
+            } else {
+               comm_thread.sendWifiAccessPoint(args[0], args[1], args[2]);
+
+            }
+            break;
+         }
+         case message_type.SEND_WIFI_HOSTNAME: {
+            String [] args = msg.obj.toString().split(" ");
+            comm_thread.sendWifiHostname(args[0]);
+            break;
+         }
+
+         case message_type.REQUEST_ALL_SENSORS: { // DCC-EX only
+//            String [] args = msg.obj.toString().split(" ");
             comm_thread.sendAllSensorsRequest();
             break;
          }
@@ -531,6 +612,22 @@ public class comm_handler extends Handler {
             break;
 
       }
+   }
+
+   public boolean areAnyUsbDevicesConnected() {
+      UsbManager manager = (UsbManager) mainapp.getBaseContext().getSystemService(Context.USB_SERVICE);
+      HashMap<String, UsbDevice> deviceList = manager.getDeviceList();
+
+      if (!deviceList.isEmpty()) {
+         for (UsbDevice device : deviceList.values()) {
+            // A USB device is connected
+            Log.d("EX_Toolbox", "SocketUsb.areAnyUsbDevicesConnected(): USB: Device Name: " + device.getDeviceName());
+            return true;
+         }
+      } else {
+         Log.d("EX_Toolbox", "SocketUsb.areAnyUsbDevicesConnected(): USB: No USB devices connected.");
+      }
+      return false;
    }
 }
 

@@ -221,7 +221,7 @@
     <string name="prefActionBarShowServerDescriptionTitle">サーバーの説明を表示</string>
     <string name="prefActionBarShowServerDescriptionSummary">アクションバーに現在のサーバーの説明を表示します</string>
     <string name="permissionsReadImages">EX-Toolbox では、背景画像を読み込むために STORAGE 権限が必要です。</string>
-    <string name="permissionsREAD_MEDIA_IMAGES">EX-Toolbox では、背景画像を読み込むために READ_MEDIA_IMAGES 権限が必要です。\n\nエンジン ドライバーは、この権限がなくても動作します。</string>
+<!--    <string name="permissionsREAD_MEDIA_IMAGES">EX-Toolbox では、背景画像を読み込むために READ_MEDIA_IMAGES 権限が必要です。\n\nエンジン ドライバーは、この権限がなくても動作します。</string>-->
     <string name="permissionsReadPhoneState">通話時に処理を一時停止するに、電話に関する権限が必要です。</string>
     <string name="permissionsWriteSettings">EX-Toolbox では、画面の明るさを変更するには、システム設定の変更を許可する権限が必要です。</string>
     <string name="permissionsWriteSettingsAdditional">- 下のボタンをクリックしてください。\n- 許可を付与してください。\n- ここに戻るには「戻る」をクリックしてください。</string>

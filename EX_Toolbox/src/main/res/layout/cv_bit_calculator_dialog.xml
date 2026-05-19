@@ -37,9 +37,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginRight="30dp"
             android:digits="0123456789"
             android:inputType="number"
             android:maxLength="3" />
@@ -265,7 +263,7 @@
 
         <Button
             android:id="@+id/cv_bit_calculator_button_close"
-            style="?android:attr/buttonBarButtonStyle"
+            style="?attr/ed_dialog_button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
@@ -279,10 +277,10 @@
 
         <Button
             android:id="@+id/cv_bit_calculator_button_confirm"
+            style="?attr/ed_dialog_button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dccexCvBitCalculatorConfirmButtonLabel"
-            style="?android:attr/buttonBarButtonStyle"/>
+            android:text="@string/dccexCvBitCalculatorConfirmButtonLabel" />
     </LinearLayout>
 
 </LinearLayout>

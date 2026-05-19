@@ -21,6 +21,8 @@ package dcc_ex.ex_toolbox;
 // Main java file.
 /* TODO: see changelog-and-todo-list.txt for complete list of project to-do's */
 
+import static android.view.View.VISIBLE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -84,6 +86,7 @@ import dcc_ex.ex_toolbox.type.Consist;
 import dcc_ex.ex_toolbox.type.message_type;
 import dcc_ex.ex_toolbox.import_export.ImportExport;
 import dcc_ex.ex_toolbox.type.toolbar_button_size_to_use_type;
+import dcc_ex.ex_toolbox.type.toolbar_button_size_type;
 import dcc_ex.ex_toolbox.util.LocaleHelper;
 import dcc_ex.ex_toolbox.util.PermissionsHelper;
 import dcc_ex.ex_toolbox.comms.comm_handler;
@@ -105,7 +108,8 @@ public class threaded_application extends Application {
     public static int toolbarButtonSizeToUse = toolbar_button_size_to_use_type.SMALL;
     public static final double MEDIUM_SCREEN_SIZE = 5.5; // inches
     public static final double LARGE_SCREEN_SIZE = 6.7; // inches
-
+    public static int toolbarButtonCount = 0;
+    private int initialToolbarHeight = -1;
 
     public String JMDNS_SERVICE_WITHROTTLE = "_withrottle._tcp.local.";
     public String JMDNS_SERVICE_JMRI_DCCPP_OVERTCP = "_dccppovertcpserver._tcp.local.";
@@ -181,10 +185,13 @@ public class threaded_application extends Application {
 
     public HashMap<String, String> knownDccexServerIps = new HashMap<>();
     public boolean isDccex = true;  // is a DCC-EX EX-CommandStation
+    public boolean isEsp32OrCsb1 = false;
+    public boolean isUSB = false;
     public String dccexVersion = "";
     public double dccexVersionValue = 0.0;
-    public static final double DCCEX_MIN_VERSION_FOR_TRACK_MANAGER = 04.002007;
-    public static final double DCCEX_MIN_VERSION_FOR_CURRENTS = 04.002019;
+    public static final double DCCEX_MIN_VERSION_FOR_TRACK_MANAGER = 04.02007;
+    public static final double DCCEX_MIN_VERSION_FOR_CURRENTS = 04.02019;
+    public static final double DCCEX_MIN_VERSION_FOR_WIFI = 05.07000;
     public int dccexListsRequested = -1;  // -1=not requested  0=requested  1,2,3= no. of lists received
 
     public boolean dccexScreenIsOpen = false;
@@ -249,6 +256,7 @@ public class threaded_application extends Application {
 
     public volatile Handler dcc_ex_msg_handler;
     public volatile Handler cv_programmer_msg_handler;
+    public volatile Handler wifi_msg_handler;
     public volatile Handler servos_msg_handler;
     public volatile Handler track_manager_msg_handler;
     public volatile Handler speed_matching_msg_handler;
@@ -332,31 +340,33 @@ public class threaded_application extends Application {
     public boolean prefHapticFeedbackButtons = false;
 
     /// swipe right sequence
-    public static final int SCREEN_SWIPE_INDEX_CV_PROGRAMMER = 0;
-    public static final int SCREEN_SWIPE_INDEX_LOCOS = 1;
-    public static final int SCREEN_SWIPE_INDEX_ROSTER = 2;
-    public static final int SCREEN_SWIPE_INDEX_SPEED_MATCHING = 3;
-    public static final int SCREEN_SWIPE_INDEX_SPEED_TRAP = 4;
-    public static final int SCREEN_SWIPE_INDEX_SERVOS = 5;
-    public static final int SCREEN_SWIPE_INDEX_SENSORS = 6;
-    public static final int SCREEN_SWIPE_INDEX_CURRENTS = 7;
-    public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER = 8;
-    public static final int SCREEN_SWIPE_INDEX_NEOPIXEL = 9;
+    public static final int SCREEN_SWIPE_INDEX_CV_PROGRAMMER  = 0;
+    public static final int SCREEN_SWIPE_INDEX_WIFI           = 1;
+    public static final int SCREEN_SWIPE_INDEX_LOCOS          = 2;
+    public static final int SCREEN_SWIPE_INDEX_ROSTER         = 3;
+    public static final int SCREEN_SWIPE_INDEX_SPEED_MATCHING = 4;
+    public static final int SCREEN_SWIPE_INDEX_SPEED_TRAP     = 5;
+    public static final int SCREEN_SWIPE_INDEX_SERVOS         = 6;
+    public static final int SCREEN_SWIPE_INDEX_SENSORS        = 7;
+    public static final int SCREEN_SWIPE_INDEX_CURRENTS       = 8;
+    public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER   = 9;
+    public static final int SCREEN_SWIPE_INDEX_NEOPIXEL       = 10;
 //    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 10;
 //    public static final int SCREEN_SWIPE_INDEX_DIAG = 11;
 
-    public static final int SCREEN_SWIPE_INDEX_LAST = 9;
+    public static final int SCREEN_SWIPE_INDEX_LAST          = 10;
 
-    public static final int ACTIVE_SCREEN_CV_PROGRAMMER = 0;
-    public static final int ACTIVE_SCREEN_SPEED_MATCHING = 1;
-    public static final int ACTIVE_SCREEN_SERVOS = 2;
-    public static final int ACTIVE_SCREEN_SENSORS = 3;
-    public static final int ACTIVE_SCREEN_CURRENTS = 4;
-    public static final int ACTIVE_SCREEN_TRACK_MANAGER = 5;
-    public static final int ACTIVE_SCREEN_ROSTER = 6;
-    public static final int ACTIVE_SCREEN_SPEED_TRAP = 7;
-    public static final int ACTIVE_SCREEN_TRACK_MANGER = 8;
-    public static final int ACTIVE_SCREEN_NEOPIXEL = 9;
+    public static final int ACTIVE_SCREEN_CV_PROGRAMMER  = 0;
+    public static final int ACTIVE_SCREEN_WIFI           = 1;
+    public static final int ACTIVE_SCREEN_SPEED_MATCHING = 2;
+    public static final int ACTIVE_SCREEN_SERVOS         = 3;
+    public static final int ACTIVE_SCREEN_SENSORS        = 4;
+    public static final int ACTIVE_SCREEN_CURRENTS       = 5;
+    public static final int ACTIVE_SCREEN_TRACK_MANAGER  = 6;
+    public static final int ACTIVE_SCREEN_ROSTER         = 7;
+    public static final int ACTIVE_SCREEN_SPEED_TRAP     = 8;
+    public static final int ACTIVE_SCREEN_TRACK_MANGER   = 9;
+    public static final int ACTIVE_SCREEN_NEOPIXEL       = 10;
 
     public int activeScreen = 0;
 
@@ -376,6 +386,15 @@ public class threaded_application extends Application {
 
     public String dccexResponsesStr = "";
     public String dccexSendsStr = "";
+
+    public String wifiAccessPointSsid = "";
+    public String wifiAccessPointPassword = "";
+    public String wifiAccessPointChannel = "";
+
+    public String wifiStationSsid = "";
+    public String wifiStationPassword = "";
+
+    public String wifiHostname = "";
 
     public ImportExport importExport = new ImportExport();
 
@@ -868,38 +887,61 @@ public class threaded_application extends Application {
     }
 
     public void displayToolbarMenuButtons(Menu menu) {
+        threaded_application.toolbarButtonCount = 0;
         MenuItem menuItem = menu.findItem(R.id.toolbar_button_cv_programmer);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarCvProgrammerMenuButtons",
-                                getResources().getBoolean(R.bool.prefShowToolbarMenuButtonsCvProgrammerDefaultValue)));
+        boolean isVisible = prefs.getBoolean("prefShowToolbarCvProgrammerMenuButtons",
+                getResources().getBoolean(R.bool.prefShowToolbarMenuButtonsCvProgrammerDefaultValue));
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_speed_matching);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarSpeedMatchingMenuButtons", false));
+        isVisible = prefs.getBoolean("prefShowToolbarSpeedMatchingMenuButtons", false);
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_servos);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarServosMenuButtons", false));
+        isVisible = prefs.getBoolean("prefShowToolbarServosMenuButtons", false);
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_sensors);
+        isVisible = prefs.getBoolean("prefShowToolbarSensorsMenuButtons", false);
         if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarSensorsMenuButtons", false));
 
         menuItem = menu.findItem(R.id.toolbar_button_locos);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarLocosMenuButtons", false));
+        isVisible = prefs.getBoolean("prefShowToolbarLocosMenuButtons", false);
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_currents);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarCurrentsMenuButtons", false));
+        isVisible = prefs.getBoolean("prefShowToolbarCurrentsMenuButtons", false);
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_track_manager);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarTrackManagerMenuButtons",
-                                getResources().getBoolean(R.bool.prefShowToolbarMenuButtonsTrackManagerDefaultValue)));
+        isVisible = prefs.getBoolean("prefShowToolbarTrackManagerMenuButtons",
+                getResources().getBoolean(R.bool.prefShowToolbarMenuButtonsTrackManagerDefaultValue));
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_roster);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarRosterMenuButtons", false));
+        isVisible = prefs.getBoolean("prefShowToolbarRosterMenuButtons", false);
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_speed_trap);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarSpeedTrapMenuButtons", false));
+        isVisible = prefs.getBoolean("prefShowToolbarSpeedTrapMenuButtons", false);
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
         menuItem = menu.findItem(R.id.toolbar_button_neopixel);
-        if (menuItem!=null ) menuItem.setVisible(prefs.getBoolean("prefShowToolbarNeopixelMenuButtons", false));
+        isVisible = prefs.getBoolean("prefShowToolbarNeopixelMenuButtons", false);
+        if (menuItem != null ) menuItem.setVisible(isVisible);
+        if (isVisible) threaded_application.toolbarButtonCount++;
 
+        if (prefs.getBoolean("show_layout_power_button_preference", false)) {
+            threaded_application.toolbarButtonCount++;
+        }
     }
 
     public void displayPowerStateMenuButton(Menu menu) {
@@ -950,6 +992,16 @@ public class threaded_application extends Application {
             MenuItem item = menu.findItem(R.id.currents_mnu);
             if (item != null) {
                 item.setVisible(mainapp.dccexVersionValue > DCCEX_MIN_VERSION_FOR_CURRENTS);
+            }
+        }
+    }
+
+    public void setWifiMenuOption(Menu menu) {
+        if (menu != null) {
+            MenuItem item = menu.findItem(R.id.wifi_mnu);
+            if (item != null) {
+                boolean isVisible = (mainapp.dccexVersionValue >= DCCEX_MIN_VERSION_FOR_WIFI) && mainapp.isEsp32OrCsb1;
+                item.setVisible(isVisible);
             }
         }
     }
@@ -1037,6 +1089,11 @@ public class threaded_application extends Application {
 
         try {
             sendMsg(cv_programmer_msg_handler, msgType, msgBody);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            sendMsg(wifi_msg_handler, msgType, msgBody);
         } catch (Exception ignored) {
         }
 
@@ -1208,32 +1265,22 @@ public class threaded_application extends Application {
     public int getSelectedTheme(boolean isPreferences) {
         String prefTheme = getCurrentTheme();
         if (!isPreferences) {  // not a preferences activity
-            switch (prefTheme) {
-                case "Black":
-                    return R.style.app_theme_black;
-                case "Outline":
-                    return R.style.app_theme_outline;
-                case "Ultra":
-                    return R.style.app_theme_ultra;
-                case "Colorful":
-                    return R.style.app_theme_colorful;
-                case "Neon":
-                    return R.style.app_theme_neon;
-                default:
-                    return R.style.app_theme;
-            }
+            return switch (prefTheme) {
+                case "Black" -> R.style.app_theme_black;
+                case "Outline" -> R.style.app_theme_outline;
+                case "Ultra" -> R.style.app_theme_ultra;
+                case "Colorful" -> R.style.app_theme_colorful;
+                case "Neon" -> R.style.app_theme_neon;
+                default -> R.style.app_theme;
+            };
         } else {
-            switch (prefTheme) {
-                case "Black":
-                case "Outline":
-                case "Ultra":
-                case "Neon":
-                    return R.style.app_theme_black_preferences;
-                case "Colorful":
-//                    return R.style.app_theme_colorful_preferences;
-                default:
-                    return R.style.app_theme_preferences;
-            }
+            return switch (prefTheme) {
+                case "Black", "Outline" -> R.style.app_theme_black_preferences;
+                case "Ultra" -> R.style.app_theme_ultra_preferences;
+                case "Neon" -> R.style.app_theme_neon_preferences;
+                case "Colorful" -> R.style.app_theme_colorful_preferences;
+                default -> R.style.app_theme_preferences;
+            };
         }
     }
 
@@ -1534,7 +1581,7 @@ public class threaded_application extends Application {
     public Intent getCvProgrammerIntent() {
         Intent cv_programer;
         appIsFinishing = false;
-        cv_programer = new Intent().setClass(this, cv_programmer.class);
+        cv_programer = new Intent().setClass(this, CvProgrammerActivity.class);
         return cv_programer;
     }
 
@@ -1549,6 +1596,9 @@ public class threaded_application extends Application {
             if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen++;
             }
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_WIFI) && ((mainapp.dccexVersionValue < DCCEX_MIN_VERSION_FOR_WIFI) || (!mainapp.isEsp32OrCsb1)) ) {
+                nextScreen++;
+            }
             if (nextScreen > SCREEN_SWIPE_INDEX_LAST) {
                 nextScreen = 0;
             }
@@ -1556,6 +1606,9 @@ public class threaded_application extends Application {
             nextScreen = currentScreen - 1;
             if (nextScreen < 0) {
                 nextScreen = SCREEN_SWIPE_INDEX_LAST;
+            }
+            if ( (nextScreen == SCREEN_SWIPE_INDEX_WIFI) && ((mainapp.dccexVersionValue < DCCEX_MIN_VERSION_FOR_WIFI) || (!mainapp.isEsp32OrCsb1)) ) {
+                nextScreen--;
             }
             if ( (nextScreen == SCREEN_SWIPE_INDEX_TRACK_MANGER) && (mainapp.dccexVersionValue <= DCCEX_MIN_VERSION_FOR_TRACK_MANAGER) ) {
                 nextScreen--;
@@ -1569,34 +1622,37 @@ public class threaded_application extends Application {
         switch (nextScreen) {
             case SCREEN_SWIPE_INDEX_CV_PROGRAMMER:
             default:
-                nextIntent = new Intent().setClass(this, cv_programmer.class);
+                nextIntent = new Intent().setClass(this, CvProgrammerActivity.class);
+                break;
+            case SCREEN_SWIPE_INDEX_WIFI:
+                nextIntent = new Intent().setClass(this, WifiActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_SPEED_MATCHING:
-                nextIntent = new Intent().setClass(this, speed_matching.class);
+                nextIntent = new Intent().setClass(this, SpeedMatchingActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_LOCOS:
-                nextIntent = new Intent().setClass(this, locos.class);
+                nextIntent = new Intent().setClass(this, LocosActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_SERVOS:
-                nextIntent = new Intent().setClass(this, servos.class);
+                nextIntent = new Intent().setClass(this, ServosActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_SENSORS:
-                nextIntent = new Intent().setClass(this, sensors.class);
+                nextIntent = new Intent().setClass(this, SensorsActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_CURRENTS:
-                nextIntent = new Intent().setClass(this, currents.class);
+                nextIntent = new Intent().setClass(this, CurrentsActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_TRACK_MANGER:
-                nextIntent = new Intent().setClass(this, track_manager.class);
+                nextIntent = new Intent().setClass(this, TrackManagerActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_ROSTER:
-                nextIntent = new Intent().setClass(this, roster.class);
+                nextIntent = new Intent().setClass(this, RosterActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_SPEED_TRAP:
-                nextIntent = new Intent().setClass(this, speed_trap.class);
+                nextIntent = new Intent().setClass(this, SpeedTrapActivity.class);
                 break;
             case SCREEN_SWIPE_INDEX_NEOPIXEL:
-                nextIntent = new Intent().setClass(this, neopixel.class);
+                nextIntent = new Intent().setClass(this, NeopixelActivity.class);
                 break;
         }
         return nextIntent;
@@ -1715,7 +1771,7 @@ public class threaded_application extends Application {
             }
             if (prefActionBarShowServerDescription) {
                 tvToolbarServerDesc.setText(getServerDescription());
-                tvToolbarServerDesc.setVisibility(View.VISIBLE);
+                tvToolbarServerDesc.setVisibility(VISIBLE);
             } else {
                 tvToolbarServerDesc.setVisibility(View.GONE);
             }
@@ -1813,34 +1869,36 @@ public class threaded_application extends Application {
         prefBackgroundImage = prefs.getBoolean("prefBackgroundImage", getResources().getBoolean(R.bool.prefBackgroundImageDefaultValue));
         prefBackgroundImageFileName = prefs.getString("prefBackgroundImageFileName", getResources().getString(R.string.prefBackgroundImageFileNameDefaultValue));
         prefBackgroundImagePosition = prefs.getString("prefBackgroundImagePosition", getResources().getString(R.string.prefBackgroundImagePositionDefaultValue));
+
+        getToolbarButtonSizeToUse();
     }
 
 
     public void loadBackgroundImage(ImageView myImage) {
-        if (prefBackgroundImage) {
-            boolean result = false;
-            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                if (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_IMAGES)) {
-                    result = true;
-                }
-            } else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                if (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_IMAGES)) {
-                    result = true;
-                }
-            } else {
-                if ((PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_VISUAL_USER_SELECTED))
-                        || (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_VISUAL_USER_SELECTED)) ) {
-                    result = true;
-                }
-            }
-            if (result) {
-                loadBackgroundImageImpl(myImage);
-                myImage.invalidate();
-            }
-        }
-    }
-
-    public void loadBackgroundImageImpl(ImageView myImage) {
+//        if (prefBackgroundImage) {
+//            boolean result = false;
+//            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+//                if (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_IMAGES)) {
+//                    result = true;
+//                }
+//            } else if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+//                if (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_IMAGES)) {
+//                    result = true;
+//                }
+//            } else {
+//                if ((PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_VISUAL_USER_SELECTED))
+//                        || (PermissionsHelper.getInstance().isPermissionGranted(mainapp, PermissionsHelper.READ_MEDIA_VISUAL_USER_SELECTED)) ) {
+//                    result = true;
+//                }
+//            }
+//            if (result) {
+//                loadBackgroundImageImpl(myImage);
+//                myImage.invalidate();
+//            }
+//        }
+//    }
+//
+//    public void loadBackgroundImageImpl(ImageView myImage) {
 //        ImageView myImage = findViewById(R.id.backgroundImgView);
         try {
             File image_file = new File(prefBackgroundImageFileName);
@@ -1867,6 +1925,17 @@ public class threaded_application extends Application {
         }
     }
 
+    public void showHideWiFiMenuItem(Menu menu) {
+        if (menu == null) return;
+
+        MenuItem mi = menu.findItem(R.id.wifi_mnu);
+        if (mi == null) return;
+
+        boolean isVisible = (mainapp.dccexVersionValue >= DCCEX_MIN_VERSION_FOR_WIFI) && mainapp.isEsp32OrCsb1;
+        mi.setVisible(isVisible);
+
+    }
+
     public void reformatMenu(Menu menu) {
 
         MenuItem menuItem = menu.findItem(R.id.extras_menu_item);
@@ -1885,12 +1954,21 @@ public class threaded_application extends Application {
 
     }
 
-    // note SettingsActivity does not use this
+    public void getInitialToolbarSize(Toolbar toolbar) {
+        if (initialToolbarHeight == -1) {
+            ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
+            initialToolbarHeight = layoutParams.height;
+        }
+    }
+
     public int adjustToolbarSize(Toolbar toolbar) {
-        ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
-        int toolbarHeight = layoutParams.height;
+        getToolbarButtonSizeToUse();
+
+        getInitialToolbarSize(toolbar);
+        int toolbarHeight = initialToolbarHeight;
         int newHeightAndWidth = toolbarHeight;
 
+        ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
         if (threaded_application.toolbarButtonSizeToUse == toolbar_button_size_to_use_type.MEDIUM) {
             newHeightAndWidth = (int) ((float) toolbarHeight * 1.32);
             layoutParams.height = newHeightAndWidth;
@@ -1901,5 +1979,32 @@ public class threaded_application extends Application {
             toolbar.setLayoutParams(layoutParams);
         }
         return newHeightAndWidth;
+    }
+
+    public void getToolbarButtonSizeToUse() {
+        threaded_application.prefToolbarButtonSize = prefs.getString("prefToolbarButtonSize", getApplicationContext().getResources().getString(R.string.prefToolbarButtonSizeDefaultValue));
+        if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.AUTO) ) {
+            if (threaded_application.displayDiagonalInches >= threaded_application.LARGE_SCREEN_SIZE) {
+                if (threaded_application.toolbarButtonCount <= 5) {
+                    threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.LARGE;
+                } else if (threaded_application.toolbarButtonCount <= 9) {
+                    threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.MEDIUM;
+                } else {
+                    threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.SMALL;
+                }
+            } else if  (threaded_application.displayDiagonalInches >= threaded_application.MEDIUM_SCREEN_SIZE) {
+                if (threaded_application.toolbarButtonCount <= 5) {
+                    threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.MEDIUM;
+                } else {
+                    threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.SMALL;
+                }
+            }
+        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.LARGE)) {
+            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.LARGE;
+        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.SMALL)) {
+            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.SMALL;
+        } else if (threaded_application.prefToolbarButtonSize.equals(toolbar_button_size_type.MEDIUM)) {
+            threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.MEDIUM;
+        }
     }
 }

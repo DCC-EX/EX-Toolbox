@@ -2,6 +2,7 @@
 <resources>
     <attr name="ed_loco_label_style" format="reference" />
     <attr name="floating_text_style" format="reference" />
+    <attr name="floating_text_condensed_style" format="reference" />
     <attr name="edit_label_style" format="reference" />
     <attr name="edit_func_style" format="reference" />
     <attr name="list_item_style" format="reference" />
@@ -10,6 +11,7 @@
     <attr name="EDListView" format="reference" />
     <attr name="EDRadioButton" format="reference" />
     <attr name="listSeparatorTextViewStyle" format="reference" />
+    <attr name="preferenceCategoryBackgroundColor" format="reference" />
 
     <attr name="ed_large_button_style" format="reference" />
     <attr name="ed_normal_button_style" format="reference" />
@@ -22,6 +24,12 @@
 <!--    <attr name="ed_stop_button_style" format="reference" />-->
     <attr name="ed_fn_button_style" format="reference" />
     <attr name="ed_list_button_style" format="reference" />
+
+    <attr name="ed_dialog_button_style" format="reference" />
+    <attr name="ed_dialog_positive_button_style" format="reference" />
+    <attr name="ed_dialog_negative_button_style" format="reference" />
+
+    <attr name="ed_dialog_secondary_background_color" format="reference" />
 
     <attr name="ed_thumb" format="reference" />
     <attr name="ed_thumb_red" format="reference" />
