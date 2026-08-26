@@ -22,6 +22,8 @@ import java.net.InetAddress;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import dcc_ex.ex_toolbox.R;
 import dcc_ex.ex_toolbox.threaded_application;
@@ -50,15 +52,13 @@ class SocketUsb extends Thread {
     static SharedPreferences prefs;
     static threaded_application mainapp;
     static comm_thread commThread;
-    Context context;
 
-     SocketUsb(threaded_application mainapp, SharedPreferences prefs, comm_thread commThread, Context myContext) {
+     SocketUsb(threaded_application mainapp, SharedPreferences prefs, comm_thread commThread) {
         super("socketUsb");
 
         SocketUsb.prefs = prefs;
         SocketUsb.mainapp = mainapp;
         SocketUsb.commThread = commThread;
-        context = myContext;
     }
 
     public boolean connect() {
@@ -78,7 +78,7 @@ class SocketUsb extends Thread {
                 mainapp.isUdp = false;
 
                 Log.d("EX_Toolbox", "SocketUsb.connect(): List USB");
-                UsbManager manager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
+                UsbManager manager = (UsbManager) mainapp.getSystemService(Context.USB_SERVICE);
                 List<UsbSerialDriver> availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager);
                 Log.d("EX_Toolbox", "SocketUsb.connect(): USB Ports: " + availableDrivers.size());
 
@@ -96,7 +96,7 @@ class SocketUsb extends Thread {
                     // You need to request permission.
                     // This usually involves a BroadcastReceiver to listen for the user's response.
                     // For a quick test, you can see if it's already granted or if you need to trigger the UI.
-                    PendingIntent permissionIntent = PendingIntent.getBroadcast(context, 0, new Intent("com.android.example.USB_PERMISSION"), PendingIntent.FLAG_IMMUTABLE);
+                    PendingIntent permissionIntent = PendingIntent.getBroadcast(mainapp, 0, new Intent("com.android.example.USB_PERMISSION"), PendingIntent.FLAG_IMMUTABLE);
                     manager.requestPermission(device, permissionIntent);
                     return false; // Or wait for the broadcast
                 }
@@ -170,7 +170,7 @@ class SocketUsb extends Thread {
                         if (!str.toString().isEmpty()) {
                             if ( (str.toString().contains("<")) && (str.toString().contains(">")) ) {
 
-                                String wholeStr = str.toString();
+                                String wholeStr = replaceAnglesInQuotes(str.toString());
                                 String remainder = wholeStr.substring(wholeStr.indexOf(">")+2);
 
                                 String oneStr = wholeStr.substring(wholeStr.indexOf("<"), wholeStr.indexOf(">") + 1);
@@ -400,5 +400,23 @@ class SocketUsb extends Thread {
         inboundTimeout = false;
         inboundTimeoutRecovery = false;
         inboundTimeoutRetryCount = 0;
+    }
+
+    public static String replaceAnglesInQuotes(String input) {
+        // Matches anything inside double quotes, handling escaped quotes \"
+        Pattern pattern = Pattern.compile("\"([^\"\\\\]|\\\\.)*\"");
+        Matcher matcher = pattern.matcher(input);
+        StringBuffer sb = new StringBuffer();
+
+        while (matcher.find()) {
+            String match = matcher.group();
+            // Replace < and > only within the matched quoted string
+            String replaced = match.replace("<", "‹").replace(">", "›");
+            // Use Matcher.quoteReplacement to safely handle special characters
+            matcher.appendReplacement(sb, Matcher.quoteReplacement(replaced));
+        }
+        matcher.appendTail(sb);
+
+        return sb.toString();
     }
 }

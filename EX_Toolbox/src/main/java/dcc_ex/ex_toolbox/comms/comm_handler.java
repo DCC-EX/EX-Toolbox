@@ -127,7 +127,7 @@ public class comm_handler extends Handler {
                }
 
                //attempt connection to server
-               comm_thread.socketUsb = new SocketUsb(mainapp, prefs, commThread, mainapp.getBaseContext());
+               comm_thread.socketUsb = new SocketUsb(mainapp, prefs, commThread);
                if (comm_thread.socketUsb.connect()) {
 
                   commThread.sendThrottleName();
@@ -159,7 +159,7 @@ public class comm_handler extends Handler {
                }
 
                //attempt connection to server
-               comm_thread.socketUdp = new SocketUdp(mainapp, prefs, commThread, mainapp.getBaseContext());
+               comm_thread.socketUdp = new SocketUdp(mainapp, prefs, commThread);
                if (comm_thread.socketUdp.connect()) {
 
                   commThread.sendThrottleName();

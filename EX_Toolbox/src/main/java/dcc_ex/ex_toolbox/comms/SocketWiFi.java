@@ -24,6 +24,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import dcc_ex.ex_toolbox.R;
 import dcc_ex.ex_toolbox.threaded_application;
@@ -177,15 +179,48 @@ class SocketWiFi extends Thread {
     //read the input buffer
     public void run() {
         String str;
+
+        StringBuilder multiLineStr = new StringBuilder();
+        String tempStr = "";
         //continue reading until signaled to exit by endRead
         while (!endRead) {
             if (socketGood) {        //skip read when the socket is down
                 try {
                     if ((str = inputBR.readLine()) != null) {
                         if (!str.isEmpty()) {
-                            comm_thread.heart.restartInboundInterval();
-                            clearInboundTimeout();
-                            comm_thread.processWifiResponse(str);
+                        Log.d("EX_Toolbox", "SocketWiFi.run(): <<-- " + str);
+                        comm_thread.heart.restartInboundInterval();
+                        clearInboundTimeout();
+                            if (str.contains(">")) {
+                                if (multiLineStr.length() > 0) {
+                                    multiLineStr.append(str);
+                                    tempStr = multiLineStr.toString();
+                                    multiLineStr = new StringBuilder();
+                                } else {
+                                    tempStr = str;
+                                }
+                                tempStr = replaceAnglesInQuotes(tempStr);
+
+                                String[] cmds = tempStr.split("><");
+                                if (cmds.length == 1) { // multiple concatenated commands
+                                    comm_thread.processWifiResponse(tempStr);
+                                } else {
+                                    for (int i = 0; i < cmds.length; i++) {
+                                        if ((cmds[i].charAt(0) == '<') && (cmds[i].charAt(cmds[i].length() - 1)) == '>') {
+                                            comm_thread.processWifiResponse(cmds[i]);
+                                        } else if ((cmds[i].charAt(0) == '<') && (cmds[i].charAt(cmds[i].length() - 1)) != '>') {
+                                            comm_thread.processWifiResponse(cmds[i] + ">");
+                                        } else if ((cmds[i].charAt(0) != '<') && (cmds[i].charAt(cmds[i].length() - 1)) == '>') {
+                                            comm_thread.processWifiResponse("<" + cmds[i]);
+                                        } else {
+                                            comm_thread.processWifiResponse("<" + cmds[i] + ">");
+                                        }
+                                    }
+                                }
+                            } else { // multi-line response
+                                multiLineStr.append(str);
+                                multiLineStr.append("\n");
+                            }
                         }
                     }
                 } catch (SocketTimeoutException e) {
@@ -343,5 +378,23 @@ class SocketWiFi extends Thread {
         inboundTimeout = false;
         inboundTimeoutRecovery = false;
         inboundTimeoutRetryCount = 0;
+    }
+
+    public static String replaceAnglesInQuotes(String input) {
+        // Matches anything inside double quotes, handling escaped quotes \"
+        Pattern pattern = Pattern.compile("\"([^\"\\\\]|\\\\.)*\"");
+        Matcher matcher = pattern.matcher(input);
+        StringBuffer sb = new StringBuffer();
+
+        while (matcher.find()) {
+            String match = matcher.group();
+            // Replace < and > only within the matched quoted string
+            String replaced = match.replace("<", "‹").replace(">", "›");
+            // Use Matcher.quoteReplacement to safely handle special characters
+            matcher.appendReplacement(sb, Matcher.quoteReplacement(replaced));
+        }
+        matcher.appendTail(sb);
+
+        return sb.toString();
     }
 }

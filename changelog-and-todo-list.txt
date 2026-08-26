@@ -1,3 +1,8 @@
+**Version 0.1.41
+ * New Features
+ * Bug Fixes
+ * Other
+  * Support '<' and '>' inside object names for DCC-EX. Accidentally already worked for TCP. More reliable solution added for TCP and UDP.
 **Version 0.1.40
  * New Features
  * Bug Fixes
