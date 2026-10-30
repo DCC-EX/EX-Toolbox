@@ -145,6 +145,14 @@
             android:label="@string/app_name_neopixel"
             android:theme="@style/app_theme_black" />
         <activity
+            android:name=".WebActivity"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustNothing"
+            android:label="@string/app_name_web"
+            android:theme="@style/app_theme_black" />
+        <activity
             android:name=".RosterActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"

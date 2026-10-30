@@ -42,6 +42,8 @@
     <string name="app_name_currents_short">電流値</string>
     <string name="app_name_neopixel">ネオピクセルのセットアップ</string>
     <string name="app_name_neopixel_short">ネオピクセル</string>
+    <string name="app_name_web">ウェブ</string>
+    <string name="app_name_web_short">ウェブ</string>
     <string name="app_name_roster">ロースター</string>
     <string name="app_name_speed_trap">スピードメーター</string>
     <string name="app_name_dcc_ex">DCC-EX</string>
@@ -170,6 +172,11 @@
     <string name="prefThrottleImportExportSummary">インポート/エクスポート/リセットとログ設定</string>
     <string name="prefImportExportTitle">インポート、エクスポート、またはリセット</string>
     <string name="prefImportExportSummary">設定を \'Android\\data\\dcc_ex.ex_toolbox\\files\\\' フォルダに \'インポート\' または \'エクスポート\' するか、\'リセット\' します。\nオプションを選択するとすぐに実行されます。\n警告! \'リセット\' および \'インポート\' を実行すると、EX-Toolbox が再起動します!\n(ファイルをコピーして、設定を別のスマートフォン等に移動することができます)</string>
+    <string name="prefWebTitle">ウェブ設定</string>
+    <string name="prefWebOrientationTitle">Web画面の向き</string>
+    <string name="prefWebOrientationSummary">Web画面の向き</string>
+    <string name="prefInitialWebPageTitle">最初の Web ページ</string>
+    <string name="prefInitialWebPageSummary">- 最初に機関車を選択します。\\n- 速度が最初に増加するとタイマーが開始されます。\\n- タイムアウト後に時間をリセット (またはクリア) するには、この設定に戻る必要があります。\\n\\n推奨事項:\\n-音量キーを無効にします。\\n- 「分岐器をスワイプ」を無効にします。\\n- 「ルートをスワイプ」を無効にします。\\n- EStop を無効にします。</string>
     <string name="toastThreadedAppNoLocalIp">ローカル IP アドレスが見つかりません。\nWiFi 接続を確認してください。</string>
     <string name="toastThreadedAppErrorCreatingWiThrottle">withrottleの検出リスナー(zeroconf listner)の初期化中にエラーが発生しました: IOException:\n%1$s</string>
     <string name="toastThreadedAppWiThrottleNotSupported">WiThrottle サーバー バージョン %1$s はサポートされていません。</string>

@@ -747,6 +747,11 @@ public class SpeedMatchingActivity extends AppCompatActivity implements GestureO
             in = new Intent().setClass(this, NeopixelActivity.class);
             startACoreActivity(this, in, false, 0);
             return true;
+        } else if ( (item.getItemId() == R.id.web_mnu) || (item.getItemId() == R.id.toolbar_button_web) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, WebActivity.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
 
         } else if (item.getItemId() == R.id.exit_mnu) {
             mainapp.checkAskExit(this);

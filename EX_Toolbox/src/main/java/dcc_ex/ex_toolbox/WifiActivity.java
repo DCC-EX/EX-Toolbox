@@ -184,7 +184,7 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
 
     public void gestureMove(MotionEvent event) {
         // Log.d(""EX_Toolbox", "gestureMove action " + event.getAction());
-        if ( (mainapp != null) && (mainapp.neopixel_msg_handler != null) && (gestureInProgress) ) {
+        if ( (mainapp != null) && (mainapp.wifi_msg_handler != null) && (gestureInProgress) ) {
             // stop the gesture timeout timer
             mainapp.wifi_msg_handler.removeCallbacks(gestureStopped);
 
@@ -737,6 +737,11 @@ public class WifiActivity extends AppCompatActivity implements GestureOverlayVie
         } else if ( (item.getItemId() == R.id.neopixel_mnu) || (item.getItemId() == R.id.toolbar_button_neopixel) ) {
             navigateAway(true, null);
             in = new Intent().setClass(this, NeopixelActivity.class);
+            startACoreActivity(this, in, false, 0);
+            return true;
+        } else if ( (item.getItemId() == R.id.web_mnu) || (item.getItemId() == R.id.toolbar_button_web) ) {
+            navigateAway(true, null);
+            in = new Intent().setClass(this, WebActivity.class);
             startACoreActivity(this, in, false, 0);
             return true;
 
