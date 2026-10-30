@@ -425,14 +425,14 @@
         android:layout="@layout/preferences_category_icon_left"
         android:title="@string/prefWebTitle">
 
-        <ListPreference
-            android:defaultValue="@string/prefWebOrientationDefaultValue"
-            android:entries="@array/WebOrientationEntries"
-            android:entryValues="@array/WebOrientationEntryValues"
-            android:key="prefWebOrientation"
-            android:layout="@layout/preferences_checkbox_icon_right"
-            android:summary="@string/prefWebOrientationSummary"
-            android:title="@string/prefWebOrientationTitle" />
+<!--        <ListPreference-->
+<!--            android:defaultValue="@string/prefWebOrientationDefaultValue"-->
+<!--            android:entries="@array/WebOrientationEntries"-->
+<!--            android:entryValues="@array/WebOrientationEntryValues"-->
+<!--            android:key="prefWebOrientation"-->
+<!--            android:layout="@layout/preferences_checkbox_icon_right"-->
+<!--            android:summary="@string/prefWebOrientationSummary"-->
+<!--            android:title="@string/prefWebOrientationTitle" />-->
 
         <EditTextPreference
             android:defaultValue="@string/prefInitialWebPageDefaultValue"

@@ -157,4 +157,9 @@
         <item>大きい</item>
     </string-array>
 
+    <string-array name="WebOrientationEntries">  <!-- display version -->
+        <item>縦長</item>
+        <item>横長</item>
+        <item>自動回転</item>
+    </string-array>
 </resources>
