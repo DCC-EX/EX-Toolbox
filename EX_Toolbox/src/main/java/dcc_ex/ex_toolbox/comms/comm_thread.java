@@ -1234,7 +1234,7 @@ public class comm_thread extends Thread {
                             }
                         }
 
-                        mainapp.dccexVersion = vn;
+                        mainapp.setDccexVersion(vn);
                         try {
                             mainapp.dccexVersionValue = Double.valueOf(mainapp.dccexVersion);
                         } catch (Exception ignored) { } // invalid version
@@ -1246,6 +1246,9 @@ public class comm_thread extends Thread {
                         }
 
                         mainapp.isEsp32OrCsb1 = ( (args[3].equals("ESP32")) || (args[5].contains("CSB1")) );
+
+                        String [] processorSplit =  responseStr.split("/");
+                        threaded_application.dccexProcessorString = processorSplit[1].trim();
 
                         String serverDesc = responseStr.substring(2, responseStr.length() - 1);
                         mainapp.setServerType("DCC-EX");

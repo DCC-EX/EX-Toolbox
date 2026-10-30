@@ -157,6 +157,11 @@ public class threaded_application extends Application {
 //    public static HashMap<String, String> jmriMetadata = null;  //metadata values (such as JMRIVERSION) retrieved from web server (null if not retrieved)
     public String power_state;
 
+    public String defaultWebViewURL;
+    public String defaultThrottleWebViewURL;
+    public boolean webMenuSelected = false;  // used as an override for the auto-web code when the web menu is selected.
+    public boolean firstWebActivity = false;
+
     public int getFastClockFormat() {
         return fastClockFormat;
     }
@@ -200,9 +205,12 @@ public class threaded_application extends Application {
     public boolean isUdp = false;
     public String dccexVersion = "";
     public double dccexVersionValue = 0.0;
+    public static String dccexProcessorString = "";
     public static final double DCCEX_MIN_VERSION_FOR_TRACK_MANAGER = 04.02007;
     public static final double DCCEX_MIN_VERSION_FOR_CURRENTS = 04.02019;
     public static final double DCCEX_MIN_VERSION_FOR_WIFI = 05.07000;
+    public static double DCCEX_VERSION_MINIMUM_FOR_WEB_SERVER = 5.05057;
+    public static double DCCEX_VERSION_MINIMUM_FOR_READ_CONSIST_ADDRESS = 5.04046;
     public int dccexListsRequested = -1;  // -1=not requested  0=requested  1,2,3= no. of lists received
 
     public boolean dccexScreenIsOpen = false;
@@ -274,6 +282,7 @@ public class threaded_application extends Application {
     public volatile Handler sensors_msg_handler;
     public volatile Handler currents_msg_handler;
     public volatile Handler neopixel_msg_handler;
+    public volatile Handler web_msg_handler;
     public volatile Handler locos_msg_handler;
     public volatile Handler roster_msg_handler;
     public volatile Handler speed_trap_msg_handler;
@@ -375,11 +384,12 @@ public class threaded_application extends Application {
     public static final int SCREEN_SWIPE_INDEX_SENSORS        = 7;
     public static final int SCREEN_SWIPE_INDEX_CURRENTS       = 8;
     public static final int SCREEN_SWIPE_INDEX_TRACK_MANGER   = 9;
-    public static final int SCREEN_SWIPE_INDEX_NEOPIXEL       = 10;
+    public static final int SCREEN_SWIPE_INDEX_NEOPIXEL      = 10;
+    public static final int SCREEN_SWIPE_INDEX_WEB           = 11;
 //    public static final int SCREEN_SWIPE_INDEX_TURNTABLE = 10;
 //    public static final int SCREEN_SWIPE_INDEX_DIAG = 11;
 
-    public static final int SCREEN_SWIPE_INDEX_LAST          = 10;
+    public static final int SCREEN_SWIPE_INDEX_LAST          = 11;
 
     public static final int ACTIVE_SCREEN_CV_PROGRAMMER  = 0;
     public static final int ACTIVE_SCREEN_WIFI           = 1;
@@ -832,12 +842,12 @@ public class threaded_application extends Application {
     /* handle server-specific settings here */
     public void setServerType(String serverType) {
         this.serverType = serverType;
-        if (serverType.equals("MRC")) {
-            web_server_port = 80; //hardcode web port for MRC
-        } else if (serverType.equals("Digitrax")) {
-            WiThrottle_Msg_Interval = 200; //increase the interval for LnWi
-        } else if ( (serverType.equals("DCC-EX")) && (isDccex) ) {
-            WiThrottle_Msg_Interval = 100; //increase the interval for DCC-EX
+        if ((getDccexVersionNumeric() >= threaded_application.DCCEX_VERSION_MINIMUM_FOR_WEB_SERVER)
+                && ((threaded_application.dccexProcessorString.equals("EXCSB1"))
+                || (threaded_application.dccexProcessorString.contains("ESP32"))
+                || (threaded_application.dccexProcessorString.contains("NUCLEO")))
+            ) {
+            web_server_port = 80; //hardcode web port for DCC-EX
         }
     }
 
@@ -1345,10 +1355,6 @@ public class threaded_application extends Application {
     public String createUrl(String defaultUrl) {
         String url = "";
         int port = web_server_port;
-        if (getServerType().equals("MRC")) {  //special case ignore any url passed-in if connected to MRC, as it does not forward
-            defaultUrl = "";
-            Log.d("EX_Toolbox", "t_a: ignoring web url for MRC");
-        }
         if (port > 0) {
             if (defaultUrl.startsWith("http")) { //if url starts with http, use it as is
                 url = defaultUrl;
@@ -1837,9 +1843,24 @@ public class threaded_application extends Application {
         return host_ip;
     }
 
-//    public Double getWithrottleVersion() {
-//        return withrottle_version;
-//    }
+    public void setDccexVersion(String version){
+        dccexVersion = version;
+        if (dccexVersion.isEmpty()) {
+            dccexVersionValue = 0;
+        } else {
+            dccexVersionValue = 4;
+            try {
+                dccexVersionValue = Double.parseDouble(dccexVersion);
+            } catch (Exception ignored) {
+            } // invalid version
+        }
+    }
+    public String getDccexVersionString() {
+        return dccexVersion;
+    }
+    public double getDccexVersionNumeric() {
+        return dccexVersionValue;
+    }
 
     public String getDccexVersion() {
         return dccexVersion;
@@ -2121,4 +2142,13 @@ public class threaded_application extends Application {
             threaded_application.toolbarButtonSizeToUse = toolbar_button_size_to_use_type.MEDIUM;
         }
     }
+
+    public int getToolbarHeight(Toolbar toolbar, LinearLayout statusLine,  LinearLayout screenNameLine) {
+        int rslt = 0;
+        if (toolbar!=null) rslt = toolbar.getHeight();
+        if (statusLine!=null) rslt = rslt + statusLine.getHeight();
+        if (screenNameLine!=null) rslt = rslt + screenNameLine.getHeight();
+        return rslt;
+    }
+
 }

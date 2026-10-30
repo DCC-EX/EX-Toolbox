@@ -94,6 +94,13 @@
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
 
+    <item android:id="@+id/toolbar_button_web"
+        app:actionLayout="@layout/toolbar_button_web"
+        android:title="@string/app_name_web"
+        android:visible="true"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
     <item android:id="@+id/cv_programmer_mnu" android:title="@string/app_name_cv_programmer" />
     <item android:id="@+id/wifi_mnu" android:title="@string/app_name_wifi" />
     <item android:id="@+id/locos_mnu" android:title="@string/app_name_locos" />
@@ -105,6 +112,7 @@
     <item android:id="@+id/currents_mnu" android:title="@string/app_name_currents" />
     <item android:id="@+id/track_manager_mnu" android:title="@string/app_name_track_manager" />
     <item android:id="@+id/neopixel_mnu" android:title="@string/app_name_neopixel" />
+    <item android:id="@+id/web_mnu" android:title="@string/app_name_web" />
 
     <item android:id="@+id/power_control_mnu" android:title="@string/app_name_power_control" />
 

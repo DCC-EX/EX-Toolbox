@@ -56,6 +56,7 @@
     <attr name="ed_toolbar_button_roster" format="reference" />
     <attr name="ed_toolbar_button_speed_trap" format="reference" />
     <attr name="ed_toolbar_button_neopixel" format="reference" />
+    <attr name="ed_toolbar_button_web" format="reference" />
 
     <attr name="ed_toolbar_button_preferences" format="reference" />
     <attr name="ed_toolbar_button_wizard" format="reference" />

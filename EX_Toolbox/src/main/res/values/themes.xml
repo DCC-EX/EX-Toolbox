@@ -110,6 +110,7 @@
         <item name="ed_toolbar_button_roster">@drawable/colorful_toolbar_button_roster</item>
         <item name="ed_toolbar_button_speed_trap">@drawable/colorful_toolbar_button_speed_trap</item>
         <item name="ed_toolbar_button_neopixel">@drawable/colorful_toolbar_button_neopixel</item>
+        <item name="ed_toolbar_button_web">@drawable/original_toolbar_button_web</item>
 
         <item name="ed_toolbar_button_preferences">@drawable/original_toolbar_button_preferences</item>
         <item name="ed_toolbar_button_wizard">@drawable/original_toolbar_button_wizard</item>
@@ -219,6 +220,7 @@
         <item name="ed_toolbar_button_roster">@drawable/original_toolbar_button_roster</item>
         <item name="ed_toolbar_button_speed_trap">@drawable/original_toolbar_button_speed_trap</item>
         <item name="ed_toolbar_button_neopixel">@drawable/original_toolbar_button_neopixel</item>
+        <item name="ed_toolbar_button_web">@drawable/original_toolbar_button_web</item>
 
         <item name="ed_toolbar_button_preferences">@drawable/outline_toolbar_button_preferences</item>
         <item name="ed_toolbar_button_wizard">@drawable/outline_toolbar_button_wizard</item>
@@ -326,6 +328,8 @@
         <item name="ed_toolbar_button_roster">@drawable/original_toolbar_button_roster</item>
         <item name="ed_toolbar_button_speed_trap">@drawable/original_toolbar_button_speed_trap</item>
         <item name="ed_toolbar_button_neopixel">@drawable/original_toolbar_button_neopixel</item>
+        <item name="ed_toolbar_button_web">@drawable/original_toolbar_button_web</item>
+
 
         <item name="ed_toolbar_button_preferences">@drawable/outline_toolbar_button_preferences</item>
         <item name="ed_toolbar_button_wizard">@drawable/outline_toolbar_button_wizard</item>
@@ -434,6 +438,8 @@
         <item name="ed_toolbar_button_roster">@drawable/ultra_toolbar_button_roster</item>
         <item name="ed_toolbar_button_speed_trap">@drawable/ultra_toolbar_button_speed_trap</item>
         <item name="ed_toolbar_button_neopixel">@drawable/ultra_toolbar_button_neopixel</item>
+        <item name="ed_toolbar_button_web">@drawable/ultra_toolbar_button_web</item>
+
 
         <item name="ed_toolbar_button_preferences">@drawable/ultra_toolbar_button_preferences</item>
         <item name="ed_toolbar_button_wizard">@drawable/ultra_toolbar_button_wizard</item>
@@ -546,6 +552,8 @@
         <item name="ed_toolbar_button_roster">@drawable/colorful_toolbar_button_roster</item>
         <item name="ed_toolbar_button_speed_trap">@drawable/colorful_toolbar_button_speed_trap</item>
         <item name="ed_toolbar_button_neopixel">@drawable/colorful_toolbar_button_neopixel</item>
+        <item name="ed_toolbar_button_web">@drawable/original_toolbar_button_web</item>
+
 
         <item name="ed_toolbar_button_preferences">@drawable/original_toolbar_button_preferences</item>
         <item name="ed_toolbar_button_wizard">@drawable/original_toolbar_button_wizard</item>
@@ -659,6 +667,8 @@
         <item name="ed_toolbar_button_roster">@drawable/neon_toolbar_button_roster</item>
         <item name="ed_toolbar_button_speed_trap">@drawable/neon_toolbar_button_speed_trap</item>
         <item name="ed_toolbar_button_neopixel">@drawable/neon_toolbar_button_neopixel</item>
+        <item name="ed_toolbar_button_web">@drawable/neon_toolbar_button_web</item>
+
 
         <item name="ed_toolbar_button_preferences">@drawable/neon_toolbar_button_preferences</item>
         <item name="ed_toolbar_button_wizard">@drawable/neon_toolbar_button_wizard</item>

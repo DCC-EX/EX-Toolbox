@@ -40,6 +40,7 @@ public interface message_type {
     int ROSTER_UPDATE = 23;     // ta -> ed  roster-related data updated in background
     int WIT_CON_RETRY = 24;     // ta -> ed  WiT connection lost and trying to reconnect
     int WIT_CON_RECONNECT = 25; // ta -> ed  WiT connection reestablished
+    int INITIAL_WEB_WEBPAGE = 26;   // pref -> web  user changed initial webpage
     int TIME_CHANGED = 28;      // ta -> activities  updates current time
     int CLOCK_DISPLAY_CHANGED = 29;     // pref -> ta  clock display preference changed
     int ESTOP = 30;             // ta(sendeStopMsg) -> ta  estop requested
